@@ -1,0 +1,240 @@
+# AERE 261 HW 4 Corrections
+
+Abhigyaan Deep
+
+Given:
+
+$$
+S_{wing}=22.9m^2
+$$
+
+$$
+h=7000ft
+$$
+
+$$
+\mu=1.7*10^{-5}\frac{kg}{m*s}
+$$
+
+$$
+\rho=0.993kg/m^3
+$$
+
+$$
+V_\infty=89.5m/s
+$$
+
+$$
+M=0.27
+$$
+
+## 1. (a)
+
+Given:
+
+$$
+S=36ft^2=3.345m^2
+$$
+
+$$
+t/c=0.08
+$$
+
+$$
+\Lambda=20\degree
+$$
+
+$$
+Q=1.05
+$$
+
+$$
+x/c=0.30
+$$
+
+$$
+c=3.45ft=1.052m
+$$
+
+Dependencies of $C_{D,0}$:
+
+$$
+l=c=1.052m
+$$
+
+$$
+R=\frac{\rho V_\infty l}{\mu}=\frac{0.993kg/m^3 * 89.5m/s * 1.052m}{1.7*10^{-5}\frac{kg}{m*s}}=5.5×10^6
+$$
+
+$$
+C_f=\frac{0.455}{(\log_{10}R)^{2.58}(1+0.144M^2)^{0.65}}=\frac{0.455}{(\log_{10}(5.5×10^6))^{2.58}(1+0.144(0.27)^2)^{0.65}}=0.003289
+$$
+
+$$
+FF=\left[1+\frac{0.6}{(x/c)_m}\left(\frac{t}{c}\right)+100\left(\frac{t}{c}\right)^4\right]\left[1.34M^{0.18}(cos\Lambda_m)^{0.28}\right]
+$$
+
+$$
+FF=\left[1+\frac{0.6}{0.30}\left(0.08\right)+100\left(0.08\right)^4\right]\left[1.34(0.27)^{0.18}(cos(20\degree))^{0.28}\right]=1.211
+$$
+
+$$
+S_{wet}=[1.977+0.52(t/c)]S_{exposed}=[1.977+0.52(0.08)]*3.345m^2=6.752m^2
+$$
+
+And finally $C_{D,0}$:
+
+$$
+C_{D,0}=C_f*FF*Q*\frac{S_{wet}}{S_{wing}}=0.003289*1.211*1.05*\frac{6.752m^2}{22.9m^2}=\boxed{0.001233}
+$$
+
+## 1. (b)
+
+Given:
+
+$$
+Q=1.3
+$$
+
+$$
+S_{wet}=0.88m^2
+$$
+
+Dependencies of $C_{D,0}$:
+
+$$
+l=0.9m
+$$
+
+$$
+R=\frac{\rho V_\infty l}{\mu}=\frac{0.993kg/m^3 * 89.5m/s * 0.9m}{1.7*10^{-5}\frac{kg}{m*s}}=4.705×10^6
+$$
+
+$$
+C_f=\frac{0.455}{(\log_{10}R)^{2.58}(1+0.144M^2)^{0.65}}=\frac{0.455}{(\log_{10}(4.705×10^6))^{2.58}(1+0.144(0.27)^2)^{0.65}}=0.003376
+$$
+
+$$
+A_{max}=\pi(0.5*0.3m)^2=0.071m^2
+$$
+
+$$
+f=\frac{l}{\sqrt{(4/\pi)A_{max}}}=\frac{0.9m}{\sqrt{(4/\pi)*0.071m^2}}=2.993
+$$
+
+$$
+FF=1+\frac{0.35}{f}=1+\frac{0.35}{2.993}=1.117
+$$
+
+And finally $C_{D,0}$:
+
+$$
+C_{D,0}=C_f*FF*Q*\frac{S_{wet}}{S_{wing}}=0.003376*1.117*1.3*\frac{0.88m^2}{22.9m^2}=\boxed{1.884×10^{-4}}
+$$
+
+## 1. (c)
+
+I will be doing calculations for just a single landing gear and will introduce the coefficient fo $3$ in the build up later summation.
+
+Given:
+
+$$
+\text{diameter}=14in=0.356m
+$$
+
+$$
+\text{width}=7in=0.178m
+$$
+
+$$
+C_{D,wheel}=0.25
+$$
+
+$$
+Q_{wheel}=1.2
+$$
+
+Dependency of $C_{D,0}$:
+
+$$
+S_{frontal}=\text{diameter}*\text{width}=0.356m*0.178m=0.0634m^2
+$$
+
+And finally $C_{D,0}$:
+
+$$
+C_{D,0}=C_D*\frac{S_{frontal}}{S_{wing}}*Q=0.25*\frac{0.0634m^2}{22.9m^2}*1.2=\boxed{8.306×10^{-4}}
+$$
+
+## 1. (d)
+
+Given:
+
+$$
+C_{D,0,\text{vertical tail}}=0.0006
+$$
+
+$$
+C_{D,0,\text{fuselage}}=0.0047
+$$
+
+$$
+C_{D,0,\text{wing}}=0.0076
+$$
+
+The final $C_{D,0}:$
+
+$$
+C_{D,0}=C_{D,0,\text{vertical tail}}+C_{D,0,\text{fuselage}}+C_{D,0,\text{wing}}+C_{D,0,\text{horizontal tail}}+C_{D,0,\text{weather radar}}+3C_{D,0,\text{landing gear}}
+$$
+
+$$
+C_{D,0}=0.0006+0.0047+0.0076+0.001233+1.884×10^{-4}+3*8.306×10^{-4}=\boxed{0.0168}
+$$
+
+## 2.
+
+Given:
+
+$$
+m=1680kg
+$$
+
+$$
+V_\infty=89.5m/s
+$$
+
+$$
+h=7000ft
+$$
+
+$$
+K=0.056
+$$
+
+Thrust required in steady level flight:
+
+$$
+q_\infty=\frac{1}{2}\rho_\infty V_\infty^2=\frac{1}{2}*0.993kg/m^3 * (89.5m/s)^2=3977Pa
+$$
+
+$$
+g=9.81m/s^2
+$$
+
+$$
+W=mg=1680kg*9.81m/s^2=16480N
+$$
+
+$$
+T_R=q_\infty S C_{D,0}+\frac{2KW^2}{q_\infty S}=3977Pa * 22.9m^2 * 0.0168+\frac{2 * 0.056 * (16480N)^2}{3977Pa * 22.9m^2}=\boxed{1864N}
+$$
+
+> [!IMPORTANT]
+> Seems like I forgot to complete the next step which is to evaluate power:
+>
+> $$
+> P_R=1864N*89.5m/s=\boxed{167kW}
+> $$
+>
+> It's a little off due to rounding errors along the way (I retained more precision.)
