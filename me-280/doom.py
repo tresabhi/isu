@@ -2,7 +2,47 @@ import os
 import time
 import math
 
+
 FRAMERATE = 30
+
+
+class Vector2:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+class Vector3(Vector2):
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+
+class Vector4:
+    def __init__(self, x, y, z, w):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+
+
+class Quaternion(Vector4):
+    def __init__(self, x, y, z, w):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+
+
+class PerspectiveCamera:
+    position = Vector3(0, 0, 0)
+    orientation = Quaternion(0, 0, 0, 1)
+
+    fov = math.pi / 2
+
+    near_clip = 2**0
+    far_clip = 2**10
 
 
 def fragment(u, v):
