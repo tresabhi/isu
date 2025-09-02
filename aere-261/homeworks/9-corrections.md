@@ -1,7 +1,5 @@
 # AERE 261 HW 9 Corrections
 
-Abhigyaan Deep
-
 ## 1.
 
 General givens:

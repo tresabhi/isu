@@ -1,7 +1,5 @@
 # AERE 310 HW 6
 
-Abhigyaan Deep
-
 ## Coefficients Plot
 
 ![](https://i.imgur.com/Lmg3ndS.png)
@@ -26,7 +24,6 @@ As expected, due to the 3D relieving effect, the slope of the airfoil is greater
 
 ```py
 # AERE 310 HW 6
-# Abhigyaan Deep
 
 import math
 import numpy as np

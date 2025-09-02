@@ -1,7 +1,5 @@
 # AERE 261 HW 7 Corrections
 
-Abhigyaan Deep
-
 Refer the adjacent Python file for the code. Refer to the provided CLI per section to run the script.
 
 ## 1. (a)

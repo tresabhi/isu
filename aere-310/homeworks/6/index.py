@@ -1,5 +1,4 @@
 # AERE 310 HW 6
-# Abhigyaan Deep
 
 import math
 import numpy as np

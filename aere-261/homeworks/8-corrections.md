@@ -1,7 +1,5 @@
 # AERE 261 HW 8 Corrections
 
-Abhigyaan Deep
-
 ## 1.
 
 $$

@@ -1,7 +1,5 @@
 # AERE 261 HW 4 Corrections
 
-Abhigyaan Deep
-
 Given:
 
 $$

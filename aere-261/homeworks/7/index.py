@@ -1,5 +1,4 @@
 # AERE 261 HW 7
-# Abhigyaan Deep
 
 import math
 import sys
