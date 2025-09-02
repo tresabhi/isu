@@ -1,0 +1,1 @@
+struct('area', 123, 'loc', 123, 'num', 1234) % create a struct object with proper key value pairs
