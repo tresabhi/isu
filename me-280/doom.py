@@ -1,6 +1,7 @@
 import os
 import time
 import math
+import random
 
 
 FRAMERATE = 30

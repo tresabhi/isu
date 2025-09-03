@@ -1,3 +1,14 @@
 {
-  "cSpell.words": ["AERE", "arccos", "binormal", "bmatrix", "vmatrix"]
+  "cSpell.words": [
+    "AERE",
+    "arccos",
+    "binormal",
+    "bmatrix",
+    "Kutta",
+    "linspace",
+    "Runge",
+    "vmatrix",
+    "xlabel",
+    "ylabel"
+  ]
 }
