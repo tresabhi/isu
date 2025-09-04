@@ -99,14 +99,19 @@ class PerspectiveCamera(WorldObject):
 
 
 class DebugTriangle2D:
-    def __init__(self, a, b, c):
+
+    def __init__(self, a, b, c, color=1):
         self.a = a
         self.b = b
         self.c = c
+        self.color = color
 
-        self.E1 = (b - a).rotate_90_cw()
-        self.E2 = (c - b).rotate_90_cw()
-        self.E3 = (a - c).rotate_90_cw()
+        self.define_edges()
+
+    def define_edges(self):
+        self.E1 = (self.b - self.a).rotate_90_cw()
+        self.E2 = (self.c - self.b).rotate_90_cw()
+        self.E3 = (self.a - self.c).rotate_90_cw()
 
     def contains(self, P):
         V1 = P - self.a
@@ -124,15 +129,21 @@ class DebugTriangle2D:
         return b1 == b2 == b3
 
 
-test_triangle = DebugTriangle2D(
-    Vector2(0.2, 0.2),
-    Vector2(0.7, 0.4),
-    Vector2(0.4, 0.8),
-)
+scene = []
+velocities = []
+
+for i in range(4):
+    a = Vector2(random.random(), random.random())
+    b = Vector2(random.random(), random.random())
+    c = Vector2(random.random(), random.random())
+
+    scene.append(DebugTriangle2D(a, b, c, (i + 1) / 4))
+
+    velocities.append(Vector2(random.random() - 0.5, random.random() - 0.5) * 0.01)
 
 
 class ConsoleRenderer:
-    framerate = 10
+    framerate = 30
 
     _shader_colors = ["  ", "░░", "▒▒", "▓▓", "██"]
     _shader_colors_len = len(_shader_colors)
@@ -140,7 +151,24 @@ class ConsoleRenderer:
     _fragment_position = Vector2(0, 0)
 
     def fragment(self, uv):
-        return 1 if test_triangle.contains(uv) else 0.5
+        color = 0
+
+        for triangle in scene:
+            if triangle.contains(uv):
+                color = max(color, triangle.color)
+
+        return color
+
+    def pre_frame(self):
+        i = 0
+        for triangle in scene:
+            triangle.a += velocities[i]
+            triangle.b += velocities[i]
+            triangle.c += velocities[i]
+
+            triangle.define_edges()
+
+            i += 1
 
     def shade(self, b):
         i = math.floor(b * self._shader_colors_len)
@@ -148,6 +176,8 @@ class ConsoleRenderer:
         return self._shader_colors[i]
 
     def frame(self):
+        self.pre_frame()
+
         terminal_size = os.get_terminal_size()
         width = math.floor(terminal_size.columns / 2)
         height = terminal_size.lines - 1
@@ -155,6 +185,7 @@ class ConsoleRenderer:
 
         for y in range(height):
             for x in range(width):
+
                 self._fragment_position.u = x / width
                 self._fragment_position.v = 1 - y / height
 
@@ -182,5 +213,4 @@ class ConsoleRenderer:
             time.sleep(wait)
 
 
-# ConsoleRenderer().frame()
-ConsoleRenderer().draw()
+ConsoleRenderer().loop()
