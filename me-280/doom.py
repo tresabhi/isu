@@ -14,6 +14,20 @@ def component_property(i):
 class Vector:
     components = []
 
+    def __init__(self, *components: float):
+        self.components = list(components)
+
+    def __str__(self):
+        return f"Vector{len(self.components)}({', '.join(str(c) for c in self.components)})"
+
+    def clone(self):
+        return self.__class__(*self.components)
+
+    def copy(self, other: "Vector"):
+        self.assert_dimension(other)
+        self.components = other.components[:]
+        return self
+
     def magnitude(self):
         return math.sqrt(sum(c * c for c in self.components))
 
@@ -27,34 +41,30 @@ class Vector:
 
         return self
 
-    def __str__(self):
-        return f"<{', '.join(str(c) for c in self.components)}>"
+    def assert_dimension(self, other: "Vector"):
+        if len(self.components) != len(other.components):
+            raise ValueError("Vector dimension mismatch")
 
-    def __add__(self, other):
-        return self.__class__(
-            *(a + b for a, b in zip(self.components, other.components))
-        )
+    def dot(self, other: "Vector"):
+        self.assert_dimension(other)
+        return sum(a * b for a, b in zip(self.components, other.components))
 
-    def __sub__(self, other):
-        return self.__class__(
-            *(a - b for a, b in zip(self.components, other.components))
-        )
+    def add(self, V: "Vector"):
+        self.assert_dimension(V)
+        self.components = [a + b for a, b in zip(self.components, V.components)]
+        return self
 
-    def __mul__(self, other):
-        if isinstance(other, (int, float)):
-            return self.__class__(*(c * other for c in self.components))
+    def subtract(self, V: "Vector"):
+        self.assert_dimension(V)
+        self.components = [a - b for a, b in zip(self.components, V.components)]
+        return self
 
-        elif isinstance(other, Vector):
-            return sum(a * b for a, b in zip(self.components, other.components))
-
-        else:
-            return NotImplemented
+    def multiply(self, s: float):
+        self.components = [c * s for c in self.components]
+        return self
 
 
 class Vector2(Vector):
-    def __init__(self, x, y):
-        self.components = [x, y]
-
     def rotate_90_cw(self):
         return self.__class__(self.y, -self.x)
 
@@ -65,24 +75,15 @@ class Vector2(Vector):
 
 
 class Vector3(Vector2):
-    def __init__(self, x, y, z):
-        super().__init__(x, y)
-        self.components.append(z)
-
     z = component_property(2)
 
 
 class Vector4(Vector3):
-    def __init__(self, x, y, z, w):
-        super().__init__(x, y, z)
-        self.components.append(w)
-
     w = component_property(3)
 
 
 class Quaternion(Vector4):
-    def __init__(self, x, y, z, w):
-        super().__init__(x, y, z, w)
+    pass
 
 
 class WorldObject:
@@ -98,109 +99,149 @@ class PerspectiveCamera(WorldObject):
     far_clip = 2**10
 
 
-class DebugTriangle2D:
+class Triangle:
+    E1 = Vector2(0, 0)
+    E2 = Vector2(0, 0)
+    E3 = Vector2(0, 0)
 
-    def __init__(self, a, b, c, color=1):
+    min = Vector2(0, 0)
+    max = Vector2(0, 0)
+
+    def __init__(self, a: Vector2, b: Vector2, c: Vector2):
         self.a = a
         self.b = b
         self.c = c
-        self.color = color
 
-        self.define_edges()
+        self.update_metadata()
 
-    def define_edges(self):
-        self.E1 = (self.b - self.a).rotate_90_cw()
-        self.E2 = (self.c - self.b).rotate_90_cw()
-        self.E3 = (self.a - self.c).rotate_90_cw()
+    def __str__(self):
+        return f"Triangle(\n  {self.a},\n  {self.b},\n  {self.c}\n)"
 
-    def contains(self, P):
-        V1 = P - self.a
-        V2 = P - self.b
-        V3 = P - self.c
+    def update_metadata(self):
+        self.E1.copy(self.b).subtract(self.a).rotate_90_cw()
+        self.E2.copy(self.c).subtract(self.b).rotate_90_cw()
+        self.E3.copy(self.a).subtract(self.c).rotate_90_cw()
 
-        d1 = self.E1 * V1
-        d2 = self.E2 * V2
-        d3 = self.E3 * V3
+        self.min.x = min(self.a.x, self.b.x, self.c.x)
+        self.min.y = min(self.a.y, self.b.y, self.c.y)
+        self.max.x = max(self.a.x, self.b.x, self.c.x)
+        self.max.y = max(self.a.y, self.b.y, self.c.y)
 
-        b1 = d1 >= 0
-        b2 = d2 >= 0
-        b3 = d3 >= 0
+    relative_point = Vector2(0, 0)
 
+    def contains(self, point: Vector2):
+        b1 = self.relative_point.copy(point).subtract(self.a).dot(self.E1) >= 0
+        b2 = self.relative_point.copy(point).subtract(self.b).dot(self.E2) >= 0
+        b3 = self.relative_point.copy(point).subtract(self.c).dot(self.E3) >= 0
         return b1 == b2 == b3
 
 
-scene = []
-velocities = []
+scene: list[Triangle] = [
+    Triangle(
+        Vector2(0, 0),
+        Vector2(1, 0.5),
+        Vector2(0.5, 1),
+    )
+]
+velocities: list[Vector2] = []
 
-for i in range(4):
-    a = Vector2(random.random(), random.random())
-    b = Vector2(random.random(), random.random())
-    c = Vector2(random.random(), random.random())
+# for i in range(1):
+#     a = Vector2(random.random(), random.random())
+#     b = Vector2(random.random(), random.random())
+#     c = Vector2(random.random(), random.random())
 
-    scene.append(DebugTriangle2D(a, b, c, (i + 1) / 4))
+#     scene.append(Triangle(a, b, c))
 
-    velocities.append(Vector2(random.random() - 0.5, random.random() - 0.5) * 0.01)
+#     velocities.append(
+#         Vector2(random.random() - 0.5, random.random() - 0.5).multiply(0.01)
+#     )
 
 
 class ConsoleRenderer:
     framerate = 30
 
+    def fragment(self, uv: Vector2, xy: Vector2):
+        return 1
+
+    def pre_frame(self):
+        pass
+
     _shader_colors = ["  ", "░░", "▒▒", "▓▓", "██"]
     _shader_colors_len = len(_shader_colors)
 
-    _fragment_position = Vector2(0, 0)
-
-    def fragment(self, uv):
-        color = 0
-
-        for triangle in scene:
-            if triangle.contains(uv):
-                color = max(color, triangle.color)
-
-        return color
-
-    def pre_frame(self):
-        i = 0
-        for triangle in scene:
-            triangle.a += velocities[i]
-            triangle.b += velocities[i]
-            triangle.c += velocities[i]
-
-            triangle.define_edges()
-
-            i += 1
-
-    def shade(self, b):
+    def shade(self, b: float):
         i = math.floor(b * self._shader_colors_len)
         i = max(0, min(i, self._shader_colors_len - 1))
         return self._shader_colors[i]
 
-    def frame(self):
-        self.pre_frame()
+    _image_buffer: list[float] = []
 
+    def target_resolution(self):
         terminal_size = os.get_terminal_size()
         width = math.floor(terminal_size.columns / 2)
         height = terminal_size.lines - 1
+
+        return width, height
+
+    def size_buffer(self):
+        width, height = self.target_resolution()
+
+        if len(self._image_buffer) != width * height:
+            self._image_buffer = [0] * width * height
+
+        return width, height
+
+    _fragment_xy = Vector2(0, 0)
+    _fragment_uv = Vector2(0, 0)
+
+    def frame(self):
+        self.pre_frame()
+        width, height = self.size_buffer()
+
+        for triangle in scene:
+            screen_min_x = int(max(0, math.floor(triangle.min.x * width)))
+            screen_max_x = int(min(width - 1, math.ceil(triangle.max.x * width)))
+            screen_min_y = int(max(0, math.floor(triangle.min.y * height)))
+            screen_max_y = int(min(height - 1, math.ceil(triangle.max.y * height)))
+
+            for y in range(screen_min_y, screen_max_y + 1):
+                for x in range(screen_min_x, screen_max_x + 1):
+                    self._fragment_xy.x = x
+                    self._fragment_xy.y = y
+                    self._fragment_uv.u = x / width
+                    self._fragment_uv.v = y / height
+
+                    if triangle.contains(self._fragment_uv):
+                        f = self.fragment(self._fragment_uv, self._fragment_xy)
+                        self._image_buffer[x + y * width] = f
+
+        # for y in range(height):
+        #     for x in range(width):
+        #         self._fragment_xy.x = x
+        #         self._fragment_xy.y = y
+        #         self._fragment_uv.u = x / width
+        #         self._fragment_uv.v = 1 - y / height
+
+        #         f = self.fragment(self._fragment_uv, self._fragment_xy)
+
+        #         self._image_buffer[x + y * width] = f
+
+        return width, height
+
+    def draw(self):
+        width, height = self.frame()
         image = ""
 
         for y in range(height):
+            row = ""
+
             for x in range(width):
+                fragment = self._image_buffer[x + y * width]
+                row += self.shade(fragment)
 
-                self._fragment_position.u = x / width
-                self._fragment_position.v = 1 - y / height
+            image += row + "\n"
 
-                f = self.fragment(self._fragment_position)
-                c = self.shade(f)
-
-                image += c
-
-            image += "\n"
-
-        return image
-
-    def draw(self):
-        image = self.frame()
-        print(image, end="")
+        print(image, end="\r")
 
     def loop(self):
         dt = 1 / self.framerate
@@ -213,4 +254,5 @@ class ConsoleRenderer:
             time.sleep(wait)
 
 
-ConsoleRenderer().loop()
+# ConsoleRenderer().loop()
+ConsoleRenderer().draw()
