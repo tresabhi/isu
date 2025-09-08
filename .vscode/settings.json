@@ -5,10 +5,12 @@
     "binormal",
     "bmatrix",
     "clabel",
+    "coeffs",
     "Kutta",
     "linspace",
     "meshgrid",
     "Runge",
+    "syms",
     "vmatrix",
     "xlabel",
     "ylabel"

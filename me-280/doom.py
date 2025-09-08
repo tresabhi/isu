@@ -16,6 +16,7 @@ class Vector:
 
     def __init__(self, *components: float):
         self.components = list(components)
+        self.dimension = len(self.components)
 
     def __str__(self):
         return f"Vector{len(self.components)}({', '.join(str(c) for c in self.components)})"
@@ -25,7 +26,10 @@ class Vector:
 
     def copy(self, other: "Vector"):
         self.assert_dimension(other)
-        self.components = other.components[:]
+
+        for i, c in enumerate(other.components):
+            self.components[i] = c
+
         return self
 
     def magnitude(self):
@@ -41,17 +45,27 @@ class Vector:
 
         return self
 
-    def assert_dimension(self, other: "Vector"):
-        if len(self.components) != len(other.components):
+    def assert_dimension(self, V: "Vector"):
+        if self.dimension != V.dimension:
             raise ValueError("Vector dimension mismatch")
 
-    def dot(self, other: "Vector"):
-        self.assert_dimension(other)
-        return sum(a * b for a, b in zip(self.components, other.components))
+    def dot(self, V: "Vector"):
+        self.assert_dimension(V)
+
+        sum = 0
+        for a, b in zip(self.components, V.components):
+            sum += a * b
+
+        return sum
 
     def add(self, V: "Vector"):
         self.assert_dimension(V)
-        self.components = [a + b for a, b in zip(self.components, V.components)]
+        # self.components = [a + b for a, b in zip(self.components, V.components)]
+        # return self
+
+        for i in range(self.dimension):
+            self.components[i] += V.components[i]
+
         return self
 
     def subtract(self, V: "Vector"):
@@ -111,7 +125,6 @@ class Triangle:
         self.a = a
         self.b = b
         self.c = c
-
         self.update_metadata()
 
     def __str__(self):
@@ -121,7 +134,6 @@ class Triangle:
         self.E1.copy(self.b).subtract(self.a).rotate_90_cw()
         self.E2.copy(self.c).subtract(self.b).rotate_90_cw()
         self.E3.copy(self.a).subtract(self.c).rotate_90_cw()
-
         self.min.x = min(self.a.x, self.b.x, self.c.x)
         self.min.y = min(self.a.y, self.b.y, self.c.y)
         self.max.x = max(self.a.x, self.b.x, self.c.x)
@@ -130,17 +142,24 @@ class Triangle:
     relative_point = Vector2(0, 0)
 
     def contains(self, point: Vector2):
-        b1 = self.relative_point.copy(point).subtract(self.a).dot(self.E1) >= 0
-        b2 = self.relative_point.copy(point).subtract(self.b).dot(self.E2) >= 0
-        b3 = self.relative_point.copy(point).subtract(self.c).dot(self.E3) >= 0
+        b1 = self.relative_point.copy(point).subtract(self.a).dot(self.E3) >= 0
+        b2 = self.relative_point.copy(point).subtract(self.b).dot(self.E1) >= 0
+        b3 = self.relative_point.copy(point).subtract(self.c).dot(self.E2) >= 0
         return b1 == b2 == b3
 
 
+# scene: list[Triangle] = [
+#     Triangle(
+#         Vector2(0, 0),
+#         Vector2(0.5, 0.5),
+#         Vector2(0.5, 1),
+#     )
+# ]
 scene: list[Triangle] = [
     Triangle(
         Vector2(0, 0),
-        Vector2(1, 0.5),
-        Vector2(0.5, 1),
+        Vector2(1, 0),
+        Vector2(1, 1),
     )
 ]
 velocities: list[Vector2] = []
