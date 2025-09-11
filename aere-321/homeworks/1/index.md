@@ -152,7 +152,7 @@ $$
 \implies \boxed{C = -2.63W}
 $$
 
-Here, $C_1$ is suspiciously large so I decided to plot it in Python. The code is fairly straight forward (I did have to define the Macaulay function which I was surprised to see not implemented already into a library):
+Here, $C_1$ is suspiciously large so I decided to plot it in Python. The code is fairly straight forward (I did have to define the Macaulay function which I was surprised to see not implemented already into a library). While I was at it, I also evaluated some "sanity check points", where the graphs must be $0$ in order to be physically accurate. I also calculated the minimum and maximum moments.
 
 ```py
 import numpy as np
@@ -190,17 +190,38 @@ def y(x):
     )
 
 
-x = np.linspace(0, L, 1000)
+xs = np.linspace(0, L, 1000)
+Ms = M(xs)
+ys = y(xs)
 
+min_M = np.min(Ms / W)
+min_M_x = xs[np.argmin(Ms / W)]
+max_M = np.max(Ms / W)
+max_M_x = xs[np.argmax(Ms / W)]
 
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(8, 6))
 
-ax1.plot(x, M(x) / W, color="tab:blue")
+ax1.plot(xs, Ms / W, color="tab:blue")
+ax1.annotate("End moment constraint", xy=(0, 0), color="tab:blue")
+ax1.annotate("End moment constraint", xy=(84, 0), color="tab:blue")
+ax1.annotate(
+    f"Max negative moment ({min_M_x: 0.2f}, {min_M: 0.2f})",
+    xy=(min_M_x, min_M),
+    color="tab:blue",
+)
+ax1.annotate(
+    f"Max positive moment ({max_M_x: 0.2f}, {max_M: 0.2f})",
+    xy=(max_M_x, max_M),
+    color="tab:blue",
+)
 ax1.set_ylabel("M(x) / W")
 ax1.axhline(0, color="k", lw=0.8)
 ax1.grid(True)
 
-ax2.plot(x, y(x) / W, color="tab:red")
+ax2.plot(xs, ys / W, color="tab:red")
+ax2.annotate("Pin constraint", xy=(0, 0), color="tab:red")
+ax2.annotate("Roller constraint", xy=(42, 0), color="tab:red")
+ax2.annotate("Roller constraint", xy=(84, 0), color="tab:red")
 ax2.set_xlabel("x")
 ax2.set_ylabel("y(x) / W")
 ax2.axhline(0, color="k", lw=0.8)
@@ -210,6 +231,275 @@ fig.tight_layout()
 plt.show()
 ```
 
-This results make intuitive sense in all manner:
+There were a few calculation mistakes like forgetting the integration constants but after fixing them, finally, I got a graph that makes sense. The moments at both ends is $0$. The offset $y$ is also $0$ at both rollers and the one pin. 100% worth it.
 
-![](https://i.imgur.com/4ed08Dz.png)
+![](https://i.imgur.com/mphpKoe.png)
+
+Moving on, I was able to glean the following information:
+
+$$
+M_{min} = -109.93W
+$$
+
+$$
+M_{max} = 168.91W
+$$
+
+This will be helpful when calculating the value for $W$ against the maximum allowable $\sigma = \sigma_{Y}$ at the very top and bottom surfaces. The shear however, I still need to calculate and graph. I can take the derivative of the moment but I choose to just reconstruct it from the static diagram.
+
+![](https://i.imgur.com/J2f2D7k.png)
+
+Here, I we can see that:
+
+$$
+|V|_{max} = 23.62W
+$$
+
+I don't have or need to know the value of $x_1$ for this problem but I'll calculate it anyway:
+
+$$
+\frac{18.83}{x_1} = \frac{23.62}{42 - x_1} \implies x_1 = 18.63"
+$$
+
+The value of $18.83$ in inches is suspiciously the same as $A = 18.83W$ but I shouldn't question is because of how symmetric the problem is about $x = 42"$.
+
+Weird tangents aside, it's almost time to calculate the potential values of $W$, I just need a few values, starting with $I$:
+
+![](https://i.imgur.com/yaTjdnr.png)
+
+$$
+A_1 = A_2 = bh = 6in^2
+$$
+
+$$
+y_1 = b + \frac{1}{2}h = 6.5"
+$$
+
+$$
+y_2 = \frac{1}{2} b = 3"
+$$
+
+$$
+\bar y = \frac{\cancel{A_1} y_1 + \cancel{A_2} y_2}{\cancel{A_1} + \cancel{A_2}} = \frac{y_1 + y_2}{2} = 4.75"
+$$
+
+$$
+d_1 = y_1 - \bar y = 6.5" - 4.75" = 1.75"
+$$
+
+$$
+d_2 = y_2 - \bar y = 3" - 4.75" = -1.75"
+$$
+
+$$
+I_1 = \frac{bh^3}{12} = \frac{6" * (1")^3}{12} = 0.5 in^4
+$$
+
+$$
+I_2 = \frac{hb^3}{12} = \frac{1" * (6")^3}{12} = 18 in^4
+$$
+
+$$
+I = I_1 + I_2 + A_1 d_1^2 + A_2 d_2^2
+$$
+
+$$
+I = 0.5 in^4 + 18 in^4 + 6in^2 * (1.75")^2 + 6in^2 * (-1.75")^2 = 55.25in^4
+$$
+
+And now for $Q$, a value I still don't understand. I apologize if my drawing looks like children's doodles, I don't have a pen, just a mouse and a mighty will.
+
+![](https://i.imgur.com/jzoHeTG.png)
+
+$$
+Q = bh(b - \bar y + \frac{1}{2}h) + (b - \bar y) h \frac{1}{2} (b - \bar y)
+$$
+
+$$
+Q = bh(b - \bar y + \frac{1}{2}h) + \frac{1}{2} (b - \bar y)^2 h
+$$
+
+$$
+Q = 6" * 1" * (6" - 4.75" + \frac{1}{2} * 1") + \frac{1}{2} (6" - 4.75")^2 * 1" = 11.28in^3
+$$
+
+Let's recover some $W$.
+
+$$
+M_{min} = -109.93W
+$$
+
+Thus, the top surface will be in tension:
+
+$$
+\sigma_Y = \frac{|M_{min}|b}{I}
+$$
+
+$$
+|M_{min}| = \frac{I \sigma_Y}{b} = \frac{55.25in^4 * 350 ksi}{6"} = 3222.92 = 109.93W
+$$
+
+$$
+\implies W = 29.32 kip/in
+$$
+
+The bottom:
+
+$$
+M_{max} = 168.91W
+$$
+
+$$
+\sigma_Y = \frac{|M_{max}| h}{I}
+$$
+
+$$
+|M_{max}| = \frac{I \sigma_Y}{h} = \frac{55.25in^4 * 350 ksi}{1"} = 19338 = 168.91W
+$$
+
+$$
+\implies W = 114.5 kip/in
+$$
+
+The shear:
+
+$$
+\tau_Y = \frac{|V|_{max} Q}{I (b - \bar y + h)}
+$$
+
+$$
+|V|_{max} = \frac{\tau_Y I (b - \bar y + h)}{Q} = \frac{190 ksi * 55.25in^4 * (6" - 4.75" + 1")}{11.28in^3} = 2094 = 23.62W
+$$
+
+$$
+\implies W = 88.65 kip/in
+$$
+
+I am going with the minimum of these values which should ensure no other cases fail:
+
+$$
+\boxed{W = 29.32 kip/in}
+$$
+
+When the top surface is under tension,
+
+$$
+x = 42"
+$$
+
+The x-axis is under the maximum allowable stress:
+
+$$
+\sigma_x = \sigma_Y = 350 ksi
+$$
+
+There's nothing happening on the other axis:
+
+$$
+\sigma_z = \sigma_y = 0
+$$
+
+As for the shear here:
+
+$$
+\tau_{xy} = -23.62W = -692.54 ksi
+$$
+
+All other perpendicular shears are zero. Thus, this results in a simple state of stress cube of the very top surface of the T-beam:
+
+![](https://i.imgur.com/NDuQ1GT.png)
+
+One last thing the problem asks for is the normal and shear stress profiles of the cross section of the T-beam as a function of y. This will be better done with code. Here's my solution:
+
+```py
+import numpy as np
+import pint
+import matplotlib.pyplot as plt
+import random
+
+ur = pint.UnitRegistry()
+
+b = 6 * ur.inch
+h = 1 * ur.inch
+
+A1 = b * h
+A2 = h * b
+
+y1 = b + (1 / 2) * h
+y2 = (1 / 2) * b
+y_bar = (A1 * y1 + A2 * y2) / (A1 + A2)
+
+d1 = y1 - y_bar
+d2 = y2 - y_bar
+
+I1 = (b * h**3) / 12
+I2 = (h * b**3) / 12
+I = I1 + A1 * d1**2 + I2 + A2 * d2**2
+
+
+ys = np.linspace(0, b.magnitude, 100) * ur.inch
+
+
+def sigma_over_M(c):
+    return c / I
+
+
+def Q(y):
+    y = y.magnitude
+    _h = h.magnitude
+    _b = b.magnitude
+    _y_bar = y_bar.magnitude
+
+    if y < 0:
+        y = -y
+        height_2 = _y_bar - y
+        _A2 = _h * height_2
+        _d2 = y + height_2 / 2
+        return _A2 * _d2
+    elif 0 <= y < _b - _y_bar:
+        height_2 = y
+        _A2 = _h * height_2
+        _d2 = height_2 / 2
+        height_1 = _h
+        _A1 = height_1 * _b
+        _d1 = height_2 + height_1 / 2
+        return _A2 * _d2 + _A1 * _d1
+    else:
+        height_1 = _h + _b - _y_bar - y
+        _A1 = height_1 * _b
+        _d1 = (height_1) / 2 + y
+        return _A1 * _d1
+
+
+def tau_over_V(y):
+    return Q(y) / (I * b)
+
+
+sigma_over_Ms = sigma_over_M(ys - y_bar)
+
+plt.plot(sigma_over_Ms.magnitude, ys.magnitude)
+plt.xlabel(r"$\sigma(x) / M$")
+plt.ylabel("y (inches)")
+plt.grid(axis="both")
+plt.show()
+
+plt.plot([Q(y - y_bar) for y in ys], ys - y_bar)
+plt.xlabel(r"$\tau(x) / V$")
+plt.ylabel("y (inches)")
+plt.grid(axis="both")
+plt.show()
+```
+
+The plot for $\sigma(x) / M$ is simple:
+
+![](https://i.imgur.com/TLsCQdt.png)
+
+But the plot of $\tau(x) / V$ is a bit more involved:
+
+![](https://i.imgur.com/qBJk8I1.png)
+
+I did anticipate the $\tau(x) / V$ to look a bit different but I have spent hours on the code and I am unsure what is going on. So, I just drew the lines by hand for what it should've looked like, no numbers.
+
+![](https://i.imgur.com/HQhIGRJ.png)
+
+Regardless, I believe that's all problems 1) through 7) done, wildly out of order. Sorry, TA!
