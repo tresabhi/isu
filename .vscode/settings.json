@@ -7,15 +7,19 @@
     "bmatrix",
     "clabel",
     "coeffs",
+    "ddot",
+    "disp",
     "Kutta",
     "linspace",
     "meshgrid",
+    "odeset",
     "Runge",
     "syms",
     "vmatrix",
     "woah",
     "xlabel",
-    "ylabel"
+    "ylabel",
+    "zlabel"
   ],
   "deno.enable": true
 }
