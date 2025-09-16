@@ -17,6 +17,8 @@ grid on;
 final_state = y(end, 1:3);
 disp(final_state);
 
+% ode45 gives the time in the first argument but my intellisense complains
+% if I put a t there and don't use it so I have used ~ here
 function dw_dt = orbit(~, w)
     % matlab complains if I declare this above like all other constants
     mu = 3.98 * 10 ^ 5;

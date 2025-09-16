@@ -2,8 +2,6 @@
 
 ## 1
 
-### a.
-
 Given:
 
 $$
@@ -126,8 +124,6 @@ $$
 \end{bmatrix}}
 $$
 
-### b.
-
 Given:
 
 $$
@@ -226,6 +222,8 @@ grid on;
 final_state = y(end, 1:3);
 disp(final_state);
 
+% ode45 gives the time in the first argument but my intellisense complains
+% if I put a t there and don't use it so I have used ~ here
 function dw_dt = orbit(~, w)
     % matlab complains if I declare this above like all other constants
     mu = 3.98 * 10 ^ 5;
@@ -250,3 +248,83 @@ Console output:
 1.0e+03 *
 -8.5505   -3.5230    0.4822
 ```
+
+## 3.
+
+$$
+m = 0.2kg
+$$
+
+$$
+l = 3m
+$$
+
+$$
+m_\text{beam} = 0
+$$
+
+$$
+c = 0.06
+$$
+
+$$
+g = 9.81m/s^2
+$$
+
+Free body diagram:
+
+![](https://i.imgur.com/VGMdU9R.png)
+
+Sum of forces:
+
+$$
+\sum F_x = cv + mg \sin \theta = -ma
+$$
+
+$$
+\frac{c}{m} v + g \sin \theta = -a
+$$
+
+And assuming things stay in radians, dividing the velocity and acceleration of the tangential component by the length of the beam will result in the angular velocity and acceleration respectively:
+
+$$
+\frac{c}{m} \dot \theta + \frac{g}{l} \sin \theta = -\ddot \theta
+$$
+
+Rearranging stuff recovers the target equation:
+
+$$
+\boxed{\ddot \theta + \frac{g}{l} \sin \theta + \frac{c}{m} \dot \theta = 0}
+$$
+
+However, this will be more useful for the matrix form:
+
+$$
+\ddot \theta = - \frac{g}{l} \sin \theta - \frac{c}{m} \dot \theta
+$$
+
+Matrix form:
+
+$$
+x_1 = \theta
+$$
+
+$$
+x_2 = \dot \theta = \dot x_1
+$$
+
+$$
+\dot x_2 = - \frac{g}{l} \sin x_1 - \frac{c}{m} x_2
+$$
+
+$$
+\boxed{w = \begin{bmatrix}
+  x_1 \\
+  x_2
+\end{bmatrix}, \quad
+
+\dot w = \begin{bmatrix}
+  x_2 \\
+  - \frac{g}{l} \sin x_1 - \frac{c}{m} x_2
+\end{bmatrix}}
+$$
