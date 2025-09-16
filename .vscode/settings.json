@@ -16,5 +16,6 @@
     "woah",
     "xlabel",
     "ylabel"
-  ]
+  ],
+  "deno.enable": true
 }
