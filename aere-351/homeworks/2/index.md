@@ -580,3 +580,49 @@ $$
 $$
 
 This is significant. I was not anticipating this! I was expecting it to be less than 1%.
+
+## 4.
+
+The force between the two upon each other:
+
+$$
+F_\text{gravity} = G \frac{m m}{d^2} = G \frac{m^2}{d^2}
+$$
+
+There exists an imaginary point in the middle about which both the object rotate with a radius $r$:
+
+$$
+r = \frac{1}{2}d
+$$
+
+The centrifugal force on one of the objects orbiting this imaginary center:
+
+$$
+F_\text{centrifugal} = m \omega^2 r = \frac{1}{2} m \omega^2 d
+$$
+
+Both the forces are opposite and equal:
+
+$$
+F_\text{gravity} - F_\text{centrifugal} = m a_\text{tangential}
+$$
+
+Since the planets never leave the orbit, they will never have a tangential acceleration.
+
+$$
+F_\text{gravity} - F_\text{centrifugal} = 0 \implies F_\text{centrifugal} = F_\text{gravity}
+$$
+
+$$
+\frac{1}{2} m \omega^2 d = G \frac{m^2}{d^2}
+$$
+
+The question asks for the angular velocity:
+
+$$
+\omega^2 = 2 G \frac{m^2}{d^2 m d} = 2 G \frac{m}{d^3}
+$$
+
+$$
+\boxed{\omega = \sqrt{\frac{2 G m}{d^3}}}
+$$
