@@ -1,6 +1,6 @@
 # AERE 351 HW 2
 
-## 1
+## 1.
 
 Given:
 
@@ -249,7 +249,7 @@ Console output:
 -8.5505   -3.5230    0.4822
 ```
 
-## 3.
+## 2.
 
 $$
 m = 0.2kg
@@ -446,3 +446,47 @@ end
 The plot:
 
 ![](https://i.imgur.com/cBWWiuz.png)
+
+## 3.
+
+Given:
+
+$$
+m_S = 2000kg
+$$
+
+$$
+r_S = 42200km
+$$
+
+$$
+m_E = 5.9636 * 10^{24} kg
+$$
+
+$$
+r_M = 384400kg
+$$
+
+$$
+\frac{g_E}{g_M} = 6
+$$
+
+$$
+\frac{R_M}{R_E} = 0.27
+$$
+
+From the Internet:
+
+$$
+G = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2}
+$$
+
+The force between the satellite and the Earth can be calculated right away:
+
+$$
+F = G \frac{m_1 m_2}{r^2} = G \frac{m_S m_E}{r_S^2}
+$$
+
+$$
+F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{2000kg * 5.9636 * 10^{24} kg}{42200km^2} = \boxed{1.8864 * 10^7 N}
+$$
