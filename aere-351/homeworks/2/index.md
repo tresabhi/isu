@@ -464,7 +464,7 @@ m_E = 5.9636 * 10^{24} kg
 $$
 
 $$
-r_M = 384400kg
+r_M = 384400km
 $$
 
 $$
@@ -481,12 +481,58 @@ $$
 G = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2}
 $$
 
+$$
+R_E = 6378 km
+$$
+
 The force between the satellite and the Earth can be calculated right away:
 
 $$
-F = G \frac{m_1 m_2}{r^2} = G \frac{m_S m_E}{r_S^2}
+F = G \frac{m_1 m_2}{r^2} = G \frac{m_S m_E}{(r_S + R_E)^2}
 $$
 
 $$
-F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{2000kg * 5.9636 * 10^{24} kg}{42200km^2} = \boxed{1.8864 * 10^7 N}
+F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{2000kg * 5.9636 * 10^{24} kg}{(6378km + 42200km)^2} = \boxed{337.34N}
+$$
+
+For the force between the Moon and Earth, I will need the mass of the Moon first. The force on an object of mass $m$ at the surface of a planet of mass $M$ and radius $R$ should be:
+
+$$
+F = G \frac{m M}{R^2}
+$$
+
+Newton's second law:
+
+$$
+F = ma = \cancel{m}g = G \frac{\cancel{m} M}{R^2}
+$$
+
+$$
+g = \frac{GM}{R^2}
+$$
+
+Applying this to the given ratio:
+
+$$
+\frac{g_E}{g_M} = 6 = \frac{\cancel{G} m_E}{R_E^2} \frac{R_M^2}{\cancel{G} m_M} = \frac{m_E}{m_M} \frac{R_M^2}{R_E^2}
+$$
+
+The mass of the Moon can be solved for now:
+
+$$
+m_M = m_E \frac{g_M}{g_E} \frac{R_M^2}{R_E^2}
+$$
+
+$$
+m_M = 5.9636 * 10^{24} kg * \frac{1}{6} * 0.27^2 = 7.246 * 10^{22} kg
+$$
+
+Now, the force between the two:
+
+$$
+F = G \frac{m_E m_M}{r_M^2}
+$$
+
+$$
+F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{5.9636 * 10^{24} kg * 7.246 * 10^{22} kg}{(384400km)^2} = \boxed{1.9518 * 10^{20} N}
 $$
