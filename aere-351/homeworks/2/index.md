@@ -492,7 +492,7 @@ F = G \frac{m_1 m_2}{r^2} = G \frac{m_S m_E}{(r_S + R_E)^2}
 $$
 
 $$
-F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{2000kg * 5.9636 * 10^{24} kg}{(6378km + 42200km)^2} = \boxed{337.34N}
+F_{ES} = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{2000kg * 5.9636 * 10^{24} kg}{(6378km + 42200km)^2} = \boxed{337.34N}
 $$
 
 For the force between the Moon and Earth, I will need the mass of the Moon first. The force on an object of mass $m$ at the surface of a planet of mass $M$ and radius $R$ should be:
@@ -534,5 +534,49 @@ F = G \frac{m_E m_M}{r_M^2}
 $$
 
 $$
-F = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{5.9636 * 10^{24} kg * 7.246 * 10^{22} kg}{(384400km)^2} = \boxed{1.9518 * 10^{20} N}
+F_{EM} = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{5.9636 * 10^{24} kg * 7.246 * 10^{22} kg}{(384400km)^2} = \boxed{1.9518 * 10^{20} N}
 $$
+
+The force on the satellite from the Moon:
+
+$$
+F_{MS} = G \frac{m_M m_S}{(r_M - r_S)^2}
+$$
+
+$$
+F_{MS} = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{7.246 * 10^{22} kg * 2000kg}{(384400km - 42200km)^2} = 0.0826N
+$$
+
+And as for the percentage comparing the Moon's effect on the satellite vs. the Earth's:
+
+$$
+\gamma_{EM} = \frac{F_{MS}}{F_{ES}} * 100\% = \frac{0.0826N}{337.34N} * 100\% = \boxed{0.0245\%}
+$$
+
+Safe to say, the Moon can be ignored in this orbit for low fidelity calculations. Now it's time to evaluate the Sun's effect on the moon vs Earth's. Given:
+
+$$
+m_{Su} = 1.9891 * 10^{30} kg
+$$
+
+From the Internet:
+
+$$
+r_{Su} = 149.6 * 10^6 km
+$$
+
+Because of how far away the Sun is, the Earth's radius is practically the average radius of the moon around the Sun:
+
+$$
+F_{SuM} = G \frac{m_{Su} m_M}{r_{Su}^2}
+$$
+
+$$
+F_{SuM} = 6.67430 * 10^{-11} \frac{N * m^2}{kg^2} * \frac{1.9891 * 10^{30} kg * 7.246 * 10^{22} kg}{(149.6 * 10^6 km)^2} = \boxed{4.298 * 10^{20} N}
+$$
+
+$$
+\gamma_{SuE} = \frac{F_{SuM}}{F_{EM}} = \frac{4.298 * 10^20 N}{1.9518 * 10^{20} N} = \boxed{2.2 = 220\%}
+$$
+
+This is significant. I was not anticipating this! I was expecting it to be less than 1%.
