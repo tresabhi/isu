@@ -583,6 +583,8 @@ This is significant. I was not anticipating this! I was expecting it to be less 
 
 ## 4.
 
+![](https://i.imgur.com/hjtr4SKm.png)
+
 The force between the two upon each other:
 
 $$
@@ -625,4 +627,75 @@ $$
 
 $$
 \boxed{\omega = \sqrt{\frac{2 G m}{d^3}}}
+$$
+
+## 5.
+
+![](https://i.imgur.com/h8XD53sm.png)
+
+This problem seems to be identical to the one before, but just with trigonometry now. The contribution of object $1$ on object $3$:
+
+$$
+F_1 = G \frac{m^2}{d_0^2} \begin{bmatrix}
+  - \sin 30 \degree \\
+  - \cos 30 \degree
+\end{bmatrix}
+$$
+
+Object $2$ applies a similar force on object $3$:
+
+$$
+F_2 = G \frac{m^2}{d_0^2} \begin{bmatrix}
+  \sin 30 \degree \\
+  - \cos 30 \degree
+\end{bmatrix}
+$$
+
+The sum of the forces on object $3$:
+
+$$
+F = F_1 + F_2 = G \frac{m^2}{d_0^2} \begin{bmatrix}
+  0 \\
+  - 2 \cos 30 \degree
+\end{bmatrix}
+$$
+
+For simplicity sake, since object $3$ is vertically aligned with the center of mass and the only component of the force is in the $y$ axis, it's okay to omit the $x$ component and just worry about the happenings of the $y$ components now:
+
+$$
+F_\text{gravity} = -2 G \frac{m^2}{d_0^2} \cos 30 \degree
+$$
+
+Meanwhile, the centrifugal force is similar to what I used in the previous problem:
+
+$$
+F_\text{centrifugal} = m \omega^2 r = \frac{2}{3} m \omega^2 h
+$$
+
+The positive sign here means up. The sum of the forces is $0$ again for the same reason as before, but this time the signs are built into the forces so I haven't added them again here:
+
+$$
+F_\text{gravity} + F_\text{centrifugal} = 0
+$$
+
+$$
+-2 G \frac{m^2}{d_0^2} \cos 30 \degree + \frac{2}{3} m \omega^2 h = 0
+$$
+
+$$
+\frac{2}{3} m \omega^2 h = 2 G \frac{m^2}{d_0^2} \cos 30 \degree
+$$
+
+$$
+\omega^2 = 3 G \frac{m}{d_0^2 h} \cos 30 \degree
+$$
+
+$$
+\omega = \sqrt{3 G \frac{m}{d_0^2 h} \cos 30 \degree}
+$$
+
+Oh, and I almost forgot, the $\cos$ is analytically simplifiable:
+
+$$
+\boxed{\omega = \sqrt{\frac{3 \sqrt{3}}{2} G \frac{m}{d_0^2 h}}}
 $$
