@@ -16,6 +16,8 @@
     "Runge",
     "simplifiable",
     "syms",
+    "tril",
+    "triu",
     "upcard",
     "vmatrix",
     "woah",
