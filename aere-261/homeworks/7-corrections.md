@@ -1,4 +1,4 @@
-# AERE 261 HW 7 Corrections
+# AERE 261 Homework 7 Corrections
 
 Refer the adjacent Python file for the code. Refer to the provided CLI per section to run the script.
 

@@ -1,4 +1,4 @@
-# AERE 261 HW 7
+# AERE 261 Homework 7
 
 import math
 import sys

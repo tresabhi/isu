@@ -1,4 +1,4 @@
-# AERE 321 HW 1
+# AERE 321 Homework 1
 
 A faithful recreation of the beam in question:
 

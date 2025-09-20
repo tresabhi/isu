@@ -1,4 +1,4 @@
-# AERE 261 HW 4 Corrections
+# AERE 261 Homework 4 Corrections
 
 Given:
 

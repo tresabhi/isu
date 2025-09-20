@@ -1,4 +1,4 @@
-# AERE 310 HW 6
+# AERE 310 Homework 6
 
 import math
 import numpy as np

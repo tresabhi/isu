@@ -1,4 +1,4 @@
-# AERE 310 HW 6
+# AERE 310 Homework 6
 
 ## Coefficients Plot
 
@@ -23,7 +23,7 @@ As expected, due to the 3D relieving effect, the slope of the airfoil is greater
 ## Source Code
 
 ```py
-# AERE 310 HW 6
+# AERE 310 Homework 6
 
 import math
 import numpy as np
