@@ -511,3 +511,163 @@ And this can be rewritten to the final form:
 $$
 \boxed{v = \frac{A(L^2 - x^2 - \nu y^2)}{2 E}}
 $$
+
+Onto the comparison of my derivation with what we learned in Mechanics of Materials. Since in Mechanics of Materials we did not concern ourselves with the displacement in the $x$ axis and only bothered with calculating the displacement of the neutral axis in the $y$ axis where $y = 0$, I, thereby declare:
+
+$$
+v_{321} = \frac{A(L^2 - x^2 - \cancel{\nu y^2})}{2 E}
+$$
+
+$$
+v_{321}(x) = \frac{A(L^2 - x^2)}{2 E}
+$$
+
+Note that I am using the course numbers for ME 324 and AERE 321 as the subscripts. As for the equation for the displacement according to Mechanics of Materials:
+
+![](https://i.imgur.com/i0FNuRS.png)
+
+Superposition is dead simple:
+
+$$
+M_{324}(x) = -M_0 \lang x + L \rangle^0
+$$
+
+$$
+\theta_{324}(x) = -\frac{M_0}{E I} \lang x + L \rangle^1 + C_2
+$$
+
+$$
+v_{324}(x) = -\frac{2 M_0}{E I} \lang x + L \rangle^2 + C_2 x + C_1
+$$
+
+This would be an appropriate time to address $I$:
+
+$$
+I = \frac{1}{12} w h^3
+$$
+
+Here, $w$ is some unit value.
+
+$$
+I = \frac{1}{12} h^3
+$$
+
+$$
+v_{324}(x) = -\frac{24 M_0}{E h^3} \lang x + L \rangle^2 + C_2 x + C_1
+$$
+
+Boundary condition:
+
+$$
+v_{324}(-L) = 0
+$$
+
+$$
+v_{324}(-L) = 0 = - C_2 L + C_1
+$$
+
+$$
+C_2 L = C_1
+$$
+
+$$
+v_{324}(x) = -\frac{24 M_0}{E h^3} \lang x + L \rangle^2 + C_2 x + C_2 L
+$$
+
+$$
+v_{324}(x) = -\frac{24 M_0}{E h^3} \lang x + L \rangle^2 + C_2 (x + L)
+$$
+
+The other boundary condition:
+
+$$
+v_{324}(L) = 0
+$$
+
+$$
+0 = -\frac{24 M_0}{E h^3} (2 L)^2 + 2 C_2 L
+$$
+
+$$
+0 = -\frac{24 M_0}{E h^3} 2 L 2 L + 2 C_2 L
+$$
+
+$$
+0 = -\frac{24 M_0}{E h^3} 2 L \cancel{2 L} + \cancel{2 L} C_2
+$$
+
+$$
+0 = -\frac{24 M_0}{E h^3} 2 L + C_2
+$$
+
+$$
+\frac{24 M_0}{E h^3} 2 L = C_2
+$$
+
+$$
+C_2 = \frac{48 M_0 L}{E h^3}
+$$
+
+$$
+v_{324}(x) = \frac{24 M_0}{E h^3} \lang x + L \rangle^2 + \frac{48 M_0 L}{E h^3} (x + L)
+$$
+
+And since $x + L$ will never be negative, we can ignore the Macaulay brackets:
+
+$$
+v_{324}(x) = \frac{24 M_0}{E h^3} (x + L)^2 + \frac{48 M_0 L}{E h^3} (x + L)
+$$
+
+And since I plan to plot this just for quick eyeball comparison, I am normalizing $v$ by removing coefficients:
+
+$$
+V_{324}(x) = 2 L (x + L) - (x + L)^2
+$$
+
+Same for the $v$ I calculate using this course's methods:
+
+$$
+V_{321}(x) = L^2 - x^2
+$$
+
+This is so obviously different but I shall plot it with $L = 1$ (unitless). The Python code:
+
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+L = 1
+
+
+def v_324(x):
+    return 2 * L * (x + L) - (x + L) ** 2
+
+
+def v_321(x):
+    return L**2 - x**2
+
+
+x = np.linspace(-L, L, 400)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 8))
+
+ax1.plot(x, v_324(x), color="tab:red")
+ax1.set_title("v_324(x)")
+ax1.set_ylabel("v_324(x)")
+ax1.grid(True)
+
+ax2.plot(x, v_321(x), color="tab:blue")
+ax2.set_title("v_321(x)")
+ax2.set_xlabel("x")
+ax2.set_ylabel("v_321(x)")
+ax2.grid(True)
+
+plt.tight_layout()
+plt.show()
+```
+
+The plot:
+
+![](https://i.imgur.com/QsBbZZg.png)
+
+That is undoubtedly the same shape. But it is for certain that including the values for $M_0$, $E$, $h$ (or $I$ directly) will result in subtle differences. Moreover, the simpler Mechanics of Materials method doesn't predict deformation in the $x$ axis and anything on the $y$ axis but the neutral surface.
