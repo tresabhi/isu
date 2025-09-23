@@ -24,7 +24,8 @@ Refer the adjacent Python file for the code. Refer to the provided CLI per secti
 
 `py index.py --plot=v_stall`
 
-> [!IMPORTANT] Stall velocity is far too high, reaching almost Mach 2 by 25km! This error propagates throughout the rest of this document but everything else is fine.
+> [!IMPORTANT]
+> Stall velocity is far too high, reaching almost Mach 2 by 25km! This error propagates throughout the rest of this document but everything else is fine.
 
 ![](https://i.imgur.com/tXf3J3g.png)
 
