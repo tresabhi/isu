@@ -2,6 +2,8 @@
   "cSpell.words": [
     "AERE",
     "arccos",
+    "arrowprops",
+    "arrowstyle",
     "axhline",
     "axvline",
     "biharmonic",
@@ -13,8 +15,11 @@
     "disp",
     "figsize",
     "haha",
+    "hlines",
     "infty",
     "Kutta",
+    "labelcolor",
+    "linestyle",
     "linspace",
     "meshgrid",
     "odeset",
@@ -23,13 +28,16 @@
     "syms",
     "tril",
     "triu",
+    "twinx",
     "unitless",
     "upcard",
     "vmatrix",
     "woah",
     "xlabel",
+    "xytext",
     "ylabel",
-    "zlabel"
+    "zlabel",
+    "zorder"
   ],
   "deno.enable": true
 }
