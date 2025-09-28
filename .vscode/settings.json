@@ -23,6 +23,7 @@
     "linspace",
     "meshgrid",
     "odeset",
+    "Prelab",
     "Runge",
     "simplifiable",
     "syms",
