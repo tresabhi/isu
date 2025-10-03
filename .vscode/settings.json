@@ -21,6 +21,7 @@
     "labelcolor",
     "linestyle",
     "linspace",
+    "markerfacecolor",
     "meshgrid",
     "odeset",
     "Prelab",
@@ -35,8 +36,10 @@
     "vmatrix",
     "woah",
     "xlabel",
+    "xlim",
     "xytext",
     "ylabel",
+    "ylim",
     "zlabel",
     "zorder"
   ],
