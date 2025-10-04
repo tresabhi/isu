@@ -171,3 +171,11 @@ $$
 $$
 \boxed{y(L) = - \frac{L^3}{EI} \left( \frac{5 w_2}{162} - \frac{w_1}{216} \right)}
 $$
+
+$$
+I = \frac{1}{12} (12.8mm) (6.4mm)^3 = 280 mm^4
+$$
+
+$$
+y = - \frac{(90cm)^3}{68.9 GPa * 280 mm^4} \left( \frac{5 * 200g * 9.81m/s^2}{162} - \frac{2500g * 9.81m/s^2}{216} \right) = \boxed{2.002mm}
+$$
