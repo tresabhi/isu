@@ -28,6 +28,10 @@ $$
 0 = M - \frac{2}{3} A L + \frac{1}{3} w_1 L - \frac{1}{3} w_2 L
 $$
 
+$$
+M = \frac{2}{3} A L - \frac{1}{3} w_1 L + \frac{1}{3} w_2 L
+$$
+
 Superposition:
 
 $$
@@ -128,6 +132,20 @@ $$
 B = \frac{5}{16} w_1 + \frac{7}{4} w_2
 $$
 
+Final statics recall:
+
+$$
+M = \frac{2}{3} \left ( \frac{11}{16} w_1 - \frac{3}{4} w_2 \right) L - \frac{1}{3} w_1 L + \frac{1}{3} w_2 L
+$$
+
+$$
+M = \frac{11}{24} w_1 L - \frac{1}{2} w_2 L - \frac{1}{3} w_1 L + \frac{1}{3} w_2 L
+$$
+
+$$
+M = \frac{1}{8} w_1 L - \frac{1}{6} w_2 L
+$$
+
 Deflection at $x = L$:
 
 $$
@@ -139,5 +157,17 @@ y(L) = \frac{1}{EI} \left[ -\frac{1}{2} M L^2 + \frac{1}{6} A L^3 - \frac{1}{6} 
 $$
 
 $$
-y(L) = \frac{1}{EI} \left[ -\frac{1}{2} M L^2 + \frac{1}{6} A L^3 - \frac{1}{6} w_1 \frac{8}{27} L^3 + \frac{1}{6} B \frac{1}{27} L^3 \right]
+y(L) = \frac{1}{EI} \left[ -\frac{1}{2} \left( \frac{1}{8} w_1 L - \frac{1}{6} w_2 L \right) L^2 + \frac{1}{6} \left( \frac{11}{16} w_1 - \frac{3}{4} w_2 \right) L^3 - \frac{1}{6} w_1 \frac{8}{27} L^3 + \frac{1}{6} \left( \frac{5}{16} w_1 + \frac{7}{4} w_2 \right) \frac{1}{27} L^3 \right]
+$$
+
+$$
+y(L) = \frac{1}{EI} \left[ \left( \frac{1}{12} w_2 - \frac{1}{16} w_1 \right) L^3 + \left( \frac{11}{96} w_1 - \frac{1}{8} w_2 \right) L^3 - \frac{4}{81} w_1 L^3 + \left( \frac{5}{96} w_1 + \frac{7}{24} w_2 \right) \frac{1}{27} L^3 \right]
+$$
+
+$$
+y(L) = \frac{L^3}{EI} \left( \frac{w_1}{216} - \frac{5 w_2}{162} \right)
+$$
+
+$$
+\boxed{y(L) = - \frac{L^3}{EI} \left( \frac{5 w_2}{162} - \frac{w_1}{216} \right)}
 $$
