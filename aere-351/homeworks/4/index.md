@@ -556,6 +556,30 @@ function [x, y, z, x_dot, y_dot, z_dot] = kepl_to_cart(a, ecc, argp, raan, inc, 
 end
 ```
 
+Implementation of `rot_313`:
+
+```m
+function R = rot_313(raan, inc, argp)
+    Omega = raan;
+    i = inc;
+    omega = argp;
+
+    R11 = cos(omega) * cos(Omega) - sin(omega) * cos(i) * sin(Omega);
+    R12 = -sin(omega) * cos(Omega) - cos(omega) * cos(i) * sin(Omega);
+    R13 = sin(i) * sin(Omega);
+
+    R21 = cos(omega) * sin(Omega) + sin(omega) * cos(i) * cos(Omega);
+    R22 = -sin(omega) * sin(Omega) + cos(omega) * cos(i) * cos(Omega);
+    R23 = -sin(i) * cos(Omega);
+
+    R31 = sin(omega) * sin(i);
+    R32 = cos(omega) * sin(i);
+    R33 = cos(i);
+
+    R = [R11 R12 R13; R21 R22 R23; R31 R32 R33];
+end
+```
+
 And the script that plots the orbit:
 
 ```m
@@ -594,4 +618,139 @@ The plot:
 
 ![](https://i.imgur.com/Sqyr8o8.png)
 
-This is undeniably the exact same orbit. Onto the second sub-question which requires the inverse of `cart_to_kepl` called `kepl_to_cart`:
+This is undeniably the exact same orbit which is obvious when you overlap the two images and compare the axis which have the same bounds. I am just so glad `rot_313` worked first try because that is not a very riveting function to debug.
+
+Onto the second sub-question which requires the inverse of `kepl_to_cart` called `cart_to_kepl`:
+
+```m
+function [a, ecc, argp, raan, inc, theta] = cart_to_kepl(x, y, z, x_dot, y_dot, z_dot, mu)
+    r = [x; y; z];
+    v = [x_dot; y_dot; z_dot];
+
+    r_norm = norm(r);
+    v_norm = norm(v);
+
+    h = cross(r, v);
+    h_norm = norm(h);
+
+    inc = acos(h(3) / h_norm);
+
+    N = cross([0; 0; 1], h);
+    N_norm = norm(N);
+
+    e_vec = (1 / mu) * ((v_norm ^ 2 - mu / r_norm) * r - dot(r, v) * v);
+    ecc = norm(e_vec);
+
+    a = 1 / (2 / r_norm - v_norm ^ 2 / mu);
+
+    if N_norm ~= 0
+        raan = acos(N(1) / N_norm);
+
+        if N(2) < 0
+            raan = 2 * pi - raan;
+        end
+
+    else
+        raan = 0;
+    end
+
+    if N_norm ~= 0
+        argp = acos(dot(N, e_vec) / (N_norm * ecc));
+
+        if e_vec(3) < 0
+            argp = 2 * pi - argp;
+        end
+
+    else
+        argp = 0;
+    end
+
+    theta = acos(dot(e_vec, r) / (ecc * r_norm));
+
+    if dot(r, v) < 0
+        theta = 2 * pi - theta;
+    end
+
+end
+```
+
+The script to plot Q2 is a fork of Q1:
+
+```m
+mu = 3.98600 * 10 ^ 5;
+
+a = 12000;
+ecc = 0.4;
+argp = deg2rad(200);
+raan = deg2rad(45);
+inc = deg2rad(25);
+
+theta_0 = 0;
+theta_1 = deg2rad(360);
+d_theta = deg2rad(1);
+
+theta = theta_0:d_theta:theta_1;
+
+N = numel(theta);
+y2 = zeros(N, 6);
+
+for i = 1:N
+    th = theta(i);
+    [x, y, z, x_dot, y_dot, z_dot] = kepl_to_cart(a, ecc, argp, raan, inc, th, mu);
+
+    y2(i, :) = [x, y, z, x_dot, y_dot, z_dot];
+end
+
+y3 = zeros(N, 6);
+
+for i = 1:N
+    [a_i, ecc_i, argp_i, raan_i, inc_i, theta_kepl] = cart_to_kepl( ...
+        y2(i, 1), y2(i, 2), y2(i, 3), y2(i, 4), y2(i, 5), y2(i, 6), mu);
+
+    y3(i, :) = [a_i, ecc_i, argp_i, raan_i, inc_i, theta_kepl];
+end
+
+figure;
+
+subplot(3, 2, 1);
+plot(rad2deg(theta), y3(:, 1));
+xlabel('True anomaly (deg)');
+ylabel('a (km)');
+title('Semi-major axis');
+
+subplot(3, 2, 2);
+plot(rad2deg(theta), y3(:, 2));
+xlabel('True anomaly (deg)');
+ylabel('Eccentricity');
+title('Eccentricity');
+
+subplot(3, 2, 3);
+plot(rad2deg(theta), rad2deg(y3(:, 3)));
+xlabel('True anomaly (deg)');
+ylabel('Argument of perigee (deg)');
+title('Argument of Perigee');
+
+subplot(3, 2, 4);
+plot(rad2deg(theta), rad2deg(y3(:, 4)));
+xlabel('True anomaly (deg)');
+ylabel('RAAN (deg)');
+title('Right Ascension of Ascending Node');
+
+subplot(3, 2, 5);
+plot(rad2deg(theta), rad2deg(y3(:, 5)));
+xlabel('True anomaly (deg)');
+ylabel('Inclination (deg)');
+title('Inclination');
+
+subplot(3, 2, 6);
+plot(rad2deg(theta), rad2deg(y3(:, 6)));
+xlabel('True anomaly (deg)');
+ylabel('True anomaly (deg)');
+title('True Anomaly');
+```
+
+The plots:
+
+![](https://i.imgur.com/d0lkeyT.png)
+
+At first I panicked I made a mistake but I realized that Keplerian is just a function of just $\theta$ and a lot of constants. Thus, it makes sense most graphs are flat constants and $\theta$ vs $\theta$ is just a line. The small vibrations are probably due to floating point errors in computers.
