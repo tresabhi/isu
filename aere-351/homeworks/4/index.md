@@ -753,4 +753,4 @@ The plots:
 
 ![](https://i.imgur.com/d0lkeyT.png)
 
-At first I panicked I made a mistake but I realized that Keplerian is just a function of just $\theta$ and a lot of constants. Thus, it makes sense most graphs are flat constants and $\theta$ vs $\theta$ is just a line. The small vibrations are probably due to floating point errors in computers.
+At first I panicked I made a mistake but I realized that Keplerian is a function of just $\theta$ and a lot of constants. Thus, it makes sense most graphs are flat constants and $\theta$ vs $\theta$ is just a line. The small vibrations are probably due to floating point errors in computers.
