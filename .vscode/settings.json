@@ -28,6 +28,7 @@
     "meshgrid",
     "odeset",
     "Prelab",
+    "Raphson",
     "Runge",
     "simplifiable",
     "syms",
