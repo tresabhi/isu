@@ -501,9 +501,9 @@ N = 361;
 y0 = [r_0; r_dot_0];
 t_space = linspace(0, T, N);
 
-[t, y] = ode45(@orbit, t_space, y0);
+[t, y1] = ode45(@orbit, t_space, y0);
 
-plot3(y(:, 1), y(:, 2), y(:, 3));
+plot3(y1(:, 1), y1(:, 2), y1(:, 3));
 xlabel('x (km)');
 ylabel('y (km)');
 zlabel('z (km)');
@@ -525,3 +525,73 @@ end
 The plot:
 
 ![](https://i.imgur.com/dBou8Jp.png)
+
+As for the first sub-question, this is my implementation for `kepl_to_cart`:
+
+```m
+function [x, y, z, x_dot, y_dot, z_dot] = kepl_to_cart(a, ecc, argp, raan, inc, theta, mu)
+    e = ecc;
+
+    p = a * (1 - e ^ 2);
+    r_abs = p / (1 + e * cos(theta));
+
+    r_e = r_abs * cos(theta);
+    r_p = r_abs * sin(theta);
+    r_k = 0;
+
+    v_e = -sqrt(mu / p) * sin(theta);
+    v_p = sqrt(mu / p) * (e + cos(theta));
+    v_k = 0;
+
+    R = rot_313(raan, inc, argp);
+    r = R * [r_e; r_p; r_k];
+    v = R * [v_e; v_p; v_k];
+
+    x = r(1);
+    y = r(2);
+    z = r(3);
+    x_dot = v(1);
+    y_dot = v(2);
+    z_dot = v(3);
+end
+```
+
+And the script that plots the orbit:
+
+```m
+mu = 3.98600 * 10 ^ 5;
+
+a = 12000;
+ecc = 0.4;
+argp = deg2rad(200);
+raan = deg2rad(45);
+inc = deg2rad(25);
+
+theta_0 = 0;
+theta_1 = deg2rad(360);
+d_theta = deg2rad(1);
+
+theta = theta_0:d_theta:theta_1;
+
+N = numel(theta);
+y2 = zeros(N, 6);
+
+for i = 1:N
+    th = theta(i);
+    [x, y, z, x_dot, y_dot, z_dot] = kepl_to_cart(a, ecc, argp, raan, inc, th, mu);
+
+    y2(i, :) = [x, y, z, x_dot, y_dot, z_dot];
+end
+
+plot3(y2(:, 1), y2(:, 2), y2(:, 3));
+xlabel('x (km)');
+ylabel('y (km)');
+zlabel('z (km)');
+grid on;
+```
+
+The plot:
+
+![](https://i.imgur.com/Sqyr8o8.png)
+
+This is undeniably the exact same orbit. Onto the second sub-question which requires the inverse of `cart_to_kepl` called `kepl_to_cart`:

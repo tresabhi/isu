@@ -6,9 +6,9 @@ N = 361;
 y0 = [r_0; r_dot_0];
 t_space = linspace(0, T, N);
 
-[t, y] = ode45(@orbit, t_space, y0);
+[t, y1] = ode45(@orbit, t_space, y0);
 
-plot3(y(:, 1), y(:, 2), y(:, 3));
+plot3(y1(:, 1), y1(:, 2), y1(:, 3));
 xlabel('x (km)');
 ylabel('y (km)');
 zlabel('z (km)');
