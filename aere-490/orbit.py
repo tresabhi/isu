@@ -33,15 +33,12 @@ sample_N = 100
 gravity_points = []
 gravity_vectors = []
 
-for i in range(sample_N):
-    frac = i / sample_N
-    theta = 2 * math.pi * frac
-    pos = np.array((0, math.cos(theta) * sampler_r, math.sin(theta) * sampler_r))
-    gravity_points.append(pos)
-    gravity_vectors.append(a(pos))
-
-gravity_points = np.array(gravity_points)
-gravity_vectors = np.array(gravity_vectors)
+# for i in range(sample_N):
+#     frac = i / sample_N
+#     theta = 2 * math.pi * frac
+#     pos = np.array((0, math.cos(theta) * sampler_r, math.sin(theta) * sampler_r))
+#     gravity_points.append(pos)
+#     gravity_vectors.append(a(pos))
 
 
 v = np.array((54, 54, 0))
@@ -54,12 +51,17 @@ for i in range(2000):
     v = v + accel * dt
     p = p + v * dt
     orbiter_points.append(p)
+    gravity_points.append(p)
+    gravity_vectors.append(accel)
 
+gravity_points = np.array(gravity_points)
+gravity_vectors = np.array(gravity_vectors)
 orbiter_points = np.array(orbiter_points)
 
 gravity_cloud = pv.PolyData(gravity_points)
 gravity_cloud["vectors"] = gravity_vectors
 orbiter_cloud = pv.PolyData(orbiter_points)
+
 
 arrows = gravity_cloud.glyph(orient="vectors", scale=False, factor=0.25)
 points = orbiter_cloud.glyph(orient=False, scale=False, factor=0.25)
