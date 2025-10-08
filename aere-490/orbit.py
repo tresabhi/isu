@@ -46,7 +46,7 @@ p = np.array((0, 0, 3))
 dt = 0.01
 orbiter_points = [p]
 
-for i in range(2000):
+for i in range(10000):
     accel = a(p)
     v = v + accel * dt
     p = p + v * dt
