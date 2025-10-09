@@ -3,13 +3,21 @@ A = G R M
 $$
 
 $$
-A \in \R^{N \times 1 \times d}
+a_{in} = G \frac{r_{inj}}{r_{nj}^3} m_j
 $$
 
 $$
-R \in \R^{N \times Nd \times d}
+N' = \frac{1}{d} \left\lfloor (Nd)^\frac{1}{d} \right\rfloor^d
 $$
 
 $$
-M \in \R^{Nd \times 1}
+i \in [1, d]
+$$
+
+$$
+n \in [1, N]
+$$
+
+$$
+j \in [1, Nd]
 $$
