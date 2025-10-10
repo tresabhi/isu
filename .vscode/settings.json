@@ -39,6 +39,7 @@
     "randn",
     "Raphson",
     "Runge",
+    "Sidewash",
     "simplifiable",
     "syms",
     "tril",
