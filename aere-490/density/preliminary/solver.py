@@ -1,104 +1,42 @@
 import numpy as np
+import pyvista as pv
+import torch
 import math
 import random
-import tabulate
-
-G = 6.674e-11
-
-d = 3
-n = 100
-mu = d * n
-
-L = 100
 
 
-def m_v(r: np.array):
-    return r[0] + 1
+N = 100_000  # sample count
+d = 3  # dimension of the universe
+l = math.floor((N * d) ** (1 / d))  # max side length of a perfect cube
+N = round(
+    (1 / d) * l**d
+)  # sample count adjusted to fit a perfect cube in the dimensioned universe
 
 
-class TrueVoxel:
-    def __init__(self, r: np.array, m: float):
-        self.r = r
-        self.m = m
+r_asteroid = 30  # radius of the random asteroid
+M_true = torch.zeros(*[l] * d, device="cuda")  # empty asteroid density tensor
 
-    def __str__(self):
-        return f"{m}@{r}"
+for i in range(l):
+    x = i - (l - 1) / 2
 
+    for j in range(l):
+        y = j - (l - 1) / 2
 
-true_voxels: list[TrueVoxel] = []
+        for k in range(l):
+            z = k - (l - 1) / 2
+            r = math.sqrt(x**2 + y**2 + z**2)
 
+            if r < r_asteroid:
+                # a good test bench distribution
+                M_true[i][j][k] = (1 - r / r_asteroid) * random.uniform(0.5, 1.5)
 
-def r_v(i: int):
-    x = L * i / mu
-    y = 0
-    z = 0
+x = y = z = np.arange(l)
+X, Y, Z = np.meshgrid(x, y, z, indexing="ij")
+grid = pv.StructuredGrid(X, Y, Z)
 
-    return np.array([x, y, z])
+grid["density"] = M_true.cpu().flatten()
+clipped = grid.clip(normal="x", origin=grid.center)
 
-
-for i in range(mu):
-    r = r_v(i)
-    m = m_v(r)
-
-    true_voxel = TrueVoxel(r, m)
-    true_voxels.append(true_voxel)
-
-
-def a(r: np.array):
-    a = np.array([0.0, 0.0, 0.0])
-
-    for true_voxel in true_voxels:
-        dr = true_voxel.r - r
-        a += (G * true_voxel.m * dr) / np.linalg.norm(dr) ** 3
-
-    return a
-
-
-A = []
-R = []
-
-
-for i in range(n):
-    x = i + random.random() - 2
-    y = random.random() - 2
-    z = random.random() + 1
-    a_ = a(np.array([x, y, z]))
-    r = np.array([x, y, z])
-
-    A.append([a_[0]])
-    A.append([a_[1]])
-    A.append([a_[2]])
-
-    x_row = []
-    y_row = []
-    z_row = []
-
-    for j in range(mu):
-        r_v_ = r_v(j)
-        dr = r_v_ - r
-        dir = dr / (np.linalg.norm(dr) ** 3)
-
-        x_row.append(dir[0])
-        y_row.append(dir[1])
-        z_row.append(dir[2])
-
-    R.append(x_row)
-    R.append(y_row)
-    R.append(z_row)
-
-
-A = np.matrix(A)
-R = np.matrix(R)
-M = (np.linalg.pinv(R) @ A) / G
-M = np.asarray(M)
-
-table = []
-
-for i, true_voxel in enumerate(true_voxels):
-    true_val = true_voxel.m
-    rec_val = M[i][0]
-    error = f"{round(100 * abs(true_val - rec_val) / true_val)}%"
-
-    table.append([i, true_val, rec_val, error])
-
-print(tabulate.tabulate(table))
+plotter = pv.Plotter()
+plotter.add_volume(clipped, opacity="foreground", cmap="copper_r")
+plotter.show()
