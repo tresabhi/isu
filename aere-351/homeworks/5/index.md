@@ -23,3 +23,17 @@ function E = true_to_ecc(e, theta)
     E = 2 * atan(sqrt((1 - e) / (1 + e) * tan(theta / 2)));
 end
 ```
+
+Now for $E$ and $e$ to $M$:
+
+$$
+M = E - e \sin E
+$$
+
+It think it'll be cleaner to not substitute in the equation for $E$ so I am leaving $M$ as is. My `ecc_to_mean` implementation:
+
+```m
+function M = ecc_to_mean(e, E)
+    M = E - e * sin(E);
+end
+```
