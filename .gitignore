@@ -1,3 +1,6 @@
 *.html
 test.*
 *.zip
+me-280/perception/dataset/*/images/*.jpg
+me-280/perception/dataset/*/labels/*.txt
+*.cache
