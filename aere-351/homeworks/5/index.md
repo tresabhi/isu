@@ -20,7 +20,7 @@ $$
 
 ```m
 function E = true_to_ecc(e, theta)
-    E = 2 * atan(sqrt((1 - e) / (1 + e) * tan(theta / 2)));
+    E = 2 * atan(sqrt((1 - e) / (1 + e)) * tan(theta / 2));
 end
 ```
 
@@ -37,3 +37,37 @@ function M = ecc_to_mean(e, E)
     M = E - e * sin(E);
 end
 ```
+
+Finally, the script for plotting:
+
+```m
+es = 0:0.05:0.95;
+thetas = deg2rad(0:1:359);
+
+figure(1); hold on; grid on;
+title('E vs M');
+xlabel('M (rad)');
+ylabel('E (rad)');
+
+figure(2); hold on; grid on;
+title('θ vs M');
+xlabel('M (rad)');
+ylabel('\theta (deg)');
+
+for e = es
+    Es = true_to_ecc(e, thetas);
+    Ms = ecc_to_mean(e, Es);
+
+    figure(1);
+    plot(Ms, Es, "DisplayName", sprintf("e = %.2f", e));
+
+    figure(2);
+    plot(rad2deg(thetas), rad2deg(Es), "DisplayName", sprintf("e = %.2f", e));
+end
+```
+
+This leads to the following plots:
+
+![](https://i.imgur.com/7juEUNW.png)
+
+![](https://i.imgur.com/xxaYl3g.png)
