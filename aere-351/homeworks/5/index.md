@@ -225,3 +225,81 @@ The plots:
 ![](https://i.imgur.com/HdDT2Fa.png)
 
 ![](https://i.imgur.com/gxnKA5S.png)
+
+## 3.
+
+Given:
+
+$$
+R = 6378km
+$$
+
+$$
+h_a = 278km
+$$
+
+$$
+h_p = -196km
+$$
+
+From the Internet:
+
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
+Actual radii:
+
+$$
+r_a = R + h_a = 6378km + 278km = 6656km
+$$
+
+$$
+r_p = R + h_p = 6378km - 196km = 6182km
+$$
+
+Current velocity at the apogee:
+
+$$
+a = \frac{r_a + r_p}{2} = \frac{6656km + 6182km}{2} = 6419km
+$$
+
+$$
+e = \frac{r_a - r_p}{r_a + r_p} = \frac{6656km - 6182km}{6656km + 6182km} = 0.03692
+$$
+
+$$
+p = a (1 - e^2) = 6419km (1 - 0.03692^2) = 6410km
+$$
+
+$$
+v_a = \sqrt{\frac{\mu}{p}} (1 - e) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{6410km}} (1 - 0.03692) = 7.595km/s
+$$
+
+Target velocity at apogee for a circular orbit:
+
+$$
+r_p' = r_a
+$$
+
+$$
+a' = \frac{r_a + r_p}{2} = \frac{2r_a}{2} = r_a = 6656km
+$$
+
+$$
+e' = 0
+$$
+
+$$
+p' = a (1 - e^2) = a = 6656km
+$$
+
+$$
+v_a' = \sqrt{\frac{\mu}{p'}} (1 - e') = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{6656km}} = 7.739km/s
+$$
+
+Delta velocity:
+
+$$
+\Delta v = v_a' - v_a = 7.739km/s - 7.595km/s = \boxed{0.144km/s}
+$$
