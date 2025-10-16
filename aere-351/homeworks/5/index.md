@@ -123,3 +123,61 @@ This gives the following plots:
 ![](https://i.imgur.com/ZuYxliS.png)
 
 The plots make sense since the axis are subject to the logarithmic scaling of `semilogy` so we see good resolution at low values of $E$ but the points get more discrete (and somewhat nonsensical due to precision issues) as $E$ gets larger.
+
+## 2.
+
+For `mean_to_ecc`, I tried to calculate the residue and stop when reaching a residue of below $10^{-4}$ and even $10^{-8}$ but it always seemed to stop after like 1 or 2 iterations. So I went for a fixed $50% iterations. My implementation for `mean_to_ecc`
+
+```m
+function E = mean_to_ecc(e, M)
+    E = M;
+
+    for i = 1:50
+        E_next = E - ((E - e .* sin(E) - M) ./ (1 - e .* cos(E)));
+        E = E_next;
+    end
+
+end
+```
+
+And `ecc_to_true`:
+
+```m
+function theta = ecc_to_true(E, e)
+    theta = 2 * atan(sqrt((1 + e) / (1 - e)) * tan(E / 2));
+end
+```
+
+The plot script is a simple fork from the previous question:
+
+```m
+Ms = deg2rad(0:1:359);
+es = 0:0.05:0.95;
+
+figure(1); hold on; grid on;
+title('E vs M');
+xlabel('M (rad)');
+ylabel('E (rad)');
+
+figure(2); hold on; grid on;
+title('θ vs M');
+xlabel('M (rad)');
+ylabel('\theta (deg)');
+
+for e = es
+    Es = mean_to_ecc(e, Ms);
+    thetas = ecc_to_true(Es, e);
+
+    figure(1);
+    plot(Ms, Es, "DisplayName", sprintf("e = %.2f", e));
+
+    figure(2);
+    plot(Ms, rad2deg(thetas), "DisplayName", sprintf("e = %.2f", e));
+end
+```
+
+The plots:
+
+![](https://i.imgur.com/nZ0x8td.png)
+
+![](https://i.imgur.com/XHWQsVU.png)
