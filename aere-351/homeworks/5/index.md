@@ -520,6 +520,18 @@ $$
 \Delta v = v_p' - v_p + v_a'' - v_a' = 10.30 km/s - 8.604 km/s + 1.441 km/s - 0.7512 km/s = \boxed{2.386 km/s}
 $$
 
+$$
+M = \sqrt{\frac{\mu}{a^3}} t \implies t = M \sqrt{\frac{a^3}{\mu}}
+$$
+
+$$
+M_a = 0, ~ M_b = \pi
+$$
+
+$$
+\Delta t = t_b - t_a = M_b \sqrt{\frac{a'^3}{\mu}} - \cancel{M_a \sqrt{\frac{a'^3}{\mu}}} = \pi \sqrt{\frac{(51500km)^3}{3.98600 * 10^5 km^3/s^2}} = \boxed{16.15 hrs}
+$$
+
 Solution 4:
 
 $$
@@ -565,3 +577,13 @@ $$
 $$
 \Delta v = v_p' - v_a + v_p'' - v_a' = 6.604 km/s - 4.633 km/s + 4.323 km/s - 2.683 km/s = \boxed{3.611 km/s}
 $$
+
+$$
+M_a = 0, ~ M_b = \pi
+$$
+
+$$
+\Delta t = M_b \sqrt{\frac{a'^3}{\mu}} = \pi \sqrt{\frac{(22500km)^3}{3.98600 * 10^5 km^3/s^2}} = \boxed{4.665 hrs}
+$$
+
+Yeah, these two sound about right. From Kerbal Space Program, I recall that raising the apogee while at the perigee is the most efficient way to do it, thus solution 3 had a lower delta v. And of course with solution 4 being so aggressive and expensive, it makes sense its transit time is far lower.
