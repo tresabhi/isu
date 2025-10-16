@@ -397,3 +397,125 @@ $$
 $$
 \Delta v = v_a' - v_a = | 7.4215km/s - 7.613km/s | = \boxed{0.192km/s}
 $$
+
+## 5.
+
+![](https://i.imgur.com/8X6bHV2.png)
+
+Given:
+
+$$
+e_1 = 0.3
+$$
+
+$$
+e_2 = 0.5
+$$
+
+$$
+r_{p1} = 7000km
+$$
+
+$$
+r_{p2} = 32000km
+$$
+
+Once again, there is no indication of what planet this question is referring to so I am assuming this is Earth. This leads the to following property:
+
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
+Properties of orbit 1:
+
+$$
+e_1 = \frac{r_{a1} - r_{p1}}{r_{a1} + r_{p1}}
+$$
+
+$$
+e_1 r_{a1} + e_1 r_{p1} = r_{a1} - r_{p1}
+$$
+
+$$
+r_{a1} - e_1 r_{a1} = r_{p1} + e_1 r_{p1} = r_{a1} (1 - e_1)
+$$
+
+$$
+r_{a1} = \frac{r_{p1} + e_1 r_{p1}}{1 - e_1} = \frac{7000km + 0.3 * 7000km}{1 - 0.3} = 13000km
+$$
+
+$$
+p_1 = a_1 (1 - e_1^2) = \frac{r_{a1} + r_{p1}}{2} (1 - e_1^2) = \frac{13000km + 7000km}{2} (1 - 0.3^2) = 9100km
+$$
+
+$$
+v_{p1} = \sqrt{\frac{\mu}{p_1}} (1 + e_1) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{9100km}} (1 + 0.3) = 8.604 km/s
+$$
+
+$$
+v_{a1} = \sqrt{\frac{\mu}{p_1}} (1 - e_1) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{9100km}} (1 - 0.3) = 4.633 km/s
+$$
+
+Properties of orbit 2:
+
+$$
+r_{a2} = \frac{r_{p2} + e_1 r_{p2}}{1 - e_1} = \frac{32000km + 0.5 * 32000km}{1 - 0.5} = 96000km
+$$
+
+$$
+p_2 = \frac{r_{a2} + r_{p2}}{2} (1 - e_2^2) = \frac{96000km + 32000km}{2} (1 - 0.5^2) = 48000km
+$$
+
+$$
+v_{p2} = \sqrt{\frac{\mu}{p_2}} (1 + e_2) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{48000km}} (1 + 0.5) = 4.323 km/s
+$$
+
+$$
+v_{a2} = \sqrt{\frac{\mu}{p_2}} (1 - e_2) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{48000km}} (1 - 0.5) = 1.441 km/s
+$$
+
+Solution 3:
+
+$$
+r_p = r_{p1} = 7000km \quad r_a = r_{a1} = 13000km
+$$
+
+$$
+r_p' = r_{p1} = 7000km \quad r_a' = r_{a2} = 96000km
+$$
+
+$$
+r_p'' = r_{p2} = 32000km \quad r_a'' = r_{a2} = 96000km
+$$
+
+$$
+e' = \frac{r_a' - r_p'}{r_a' + r_p'} = \frac{96000km - 7000km}{96000km + 7000km} = 0.8641
+$$
+
+$$
+a' = \frac{r_a' + r_p'}{2} = \frac{96000km + 7000km}{2} = 51500km
+$$
+
+$$
+p' = a' (1 - e'^2) = 51500km * (1 - 0.8641^2) = 13047km
+$$
+
+$$
+v_p = v_{p1} = 8.604 km/s
+$$
+
+$$
+v_p' = \sqrt{\frac{\mu}{p'}} (1 + e') = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13047km}} (1 + 0.8641) = 10.30 km/s
+$$
+
+$$
+v_a' = \sqrt{\frac{\mu}{p'}} (1 - e') = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13047km}} (1 - 0.8641) = 0.7512 km/s
+$$
+
+$$
+v_a'' = v_{a2} = 1.441 km/s
+$$
+
+$$
+\Delta v = v_p' - v_p + v_a'' - v_a' = 10.30 km/s - 8.604 km/s + 1.441 km/s - 0.7512 km/s = \boxed{2.386 km/s}
+$$
