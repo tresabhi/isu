@@ -133,8 +133,7 @@ function E = mean_to_ecc(e, M)
     E = M;
 
     for i = 1:50
-        E_next = E - ((E - e .* sin(E) - M) ./ (1 - e .* cos(E)));
-        E = E_next;
+        E = E - ((E - e .* sin(E) - M) ./ (1 - e .* cos(E)));
     end
 
 end
@@ -181,3 +180,48 @@ The plots:
 ![](https://i.imgur.com/nZ0x8td.png)
 
 ![](https://i.imgur.com/XHWQsVU.png)
+
+For the next part, once again, I patched `mean_to_ecc` to work with hyperbolic orbits:
+
+```m
+function E = mean_to_ecc(e, M)
+    E = M;
+
+    if e == 1
+        return
+    end
+
+    for i = 1:50
+
+        if e < 1
+            E = E - ((E - e .* sin(E) - M) ./ (1 - e .* cos(E)));
+        else
+            E = E - ((e .* sinh(E) - E - M) ./ (e .* cosh(E) - 1));
+        end
+
+    end
+
+end
+```
+
+And `ecc_to_true`:
+
+```m
+function theta = ecc_to_true(E, e)
+
+    if e < 1
+        theta = 2 * atan(sqrt((1 + e) / (1 - e)) * tan(E / 2));
+    elseif e == 1
+        theta = E;
+    else
+        theta = 2 * atan(sqrt((e + 1) / (e - 1)) * tanh(E / 2));
+    end
+
+end
+```
+
+The plots:
+
+![](https://i.imgur.com/HdDT2Fa.png)
+
+![](https://i.imgur.com/gxnKA5S.png)
