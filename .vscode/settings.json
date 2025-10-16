@@ -42,6 +42,7 @@
     "randn",
     "Raphson",
     "Runge",
+    "semilogy",
     "Sidewash",
     "simplifiable",
     "sprintf",
