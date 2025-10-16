@@ -303,3 +303,97 @@ Delta velocity:
 $$
 \Delta v = v_a' - v_a = 7.739km/s - 7.595km/s = \boxed{0.144km/s}
 $$
+
+## 4.
+
+This is similar to the last question, but backwards.
+
+![](https://i.imgur.com/KEFFS9zm.png)
+
+Implications from the question statement and diagram:
+
+$$
+h_a = h_p = h_a' = 500km
+$$
+
+$$
+\theta = 180\degree - 60\degree = 2.094rad \implies h = 0
+$$
+
+From the Internet:
+
+$$
+R = 6378km
+$$
+
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
+Initial orbit:
+
+$$
+r_a = r_p = r_a' = R + h_a = 6378km + 500km = 6878km
+$$
+
+$$
+a = r_a = r_p = 6878km
+$$
+
+$$
+e = 0
+$$
+
+$$
+p = a (1 - \cancel{e^2}) = a = 6878km
+$$
+
+$$
+v = \sqrt{\frac{\mu}{p}} (1 + \cancel{e \cos \theta}) = \sqrt{\frac{\mu}{p}} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{6878km}} = 7.613km/s
+$$
+
+Final orbit:
+
+$$
+r_a' = r_a = 6878km
+$$
+
+$$
+\theta_2 = -60\deg = -1.047 rad \implies r = R = 6378km
+$$
+
+$$
+r = \frac{p}{1 + e \cos \theta}
+$$
+
+$$
+r_a' = r_a = \frac{p}{1 + e \cos \pi} = \frac{p}{1 - e}
+$$
+
+$$
+r = R = \frac{p}{1 + e \cos \theta_2}
+$$
+
+$$
+\frac{R}{r_a} = \frac{\frac{p}{1 + e \cos \theta_2}}{\frac{p}{1 - e}} = \frac{1 - e}{1 + e \cos \theta_2}
+$$
+
+$$
+\frac{6378km}{6878km} = \frac{1 - e}{1 + e \cos (-1.047 rad)} \implies e = 0.04966
+$$
+
+$$
+r_a = \frac{p}{1 - e}
+$$
+
+$$
+p = r_a (1 - e) = 6878km * (1 - 0.04966) = 6536km
+$$
+
+$$
+v_a' = v_\theta = \sqrt{\frac{\mu}{p}} (1 + e \cos \pi) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{6536km}} (1 - 0.04966) = 7.4215km/s
+$$
+
+$$
+\Delta v = v_a' - v_a = | 7.4215km/s - 7.613km/s | = \boxed{0.192km/s}
+$$
