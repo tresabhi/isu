@@ -587,3 +587,33 @@ $$
 $$
 
 Yeah, these two sound about right. From Kerbal Space Program, I recall that raising the apogee while at the perigee is the most efficient way to do it, thus solution 3 had a lower delta v. And of course with solution 4 being so aggressive and expensive, it makes sense its transit time is far lower.
+
+## 6.
+
+$$
+\Delta \theta = 180\degree = \pi
+$$
+
+$$
+T_c = 2 \pi \sqrt{\frac{r^3}{\mu}}
+$$
+
+$$
+T_p = T_c - \frac{\Delta \theta}{2 \pi} T_c = T_c - \frac{\pi}{2 \pi} T_c = T_c - \frac{1}{2} T_c = \frac{1}{2} T_c
+$$
+
+$$
+T_p = 2 \pi \sqrt{\frac{a^3}{\mu}}
+$$
+
+$$
+\left( \frac{T_p}{2 \pi} \right)^2 = \frac{a^3}{\mu}
+$$
+
+$$
+\frac{T_p^2 \mu}{4 \pi^2} = a^3
+$$
+
+$$
+a = \left( \frac{T_p^2 \mu}{4 \pi^2} \right)^{1/3} = \left( \frac{\pi^2 (r^3 / \mu) \mu}{4 \pi^2} \right)^{1/3} = \boxed{\left( \frac{r^3}{4} \right)^{1/3}}
+$$
