@@ -1,0 +1,41 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 259.52;
+
+boundaryField
+{
+    "(wing.*)"
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+        blended         true;
+    }
+    symmetry1
+    {
+        type            symmetry;
+    }
+    symmetry2
+    {
+        type            symmetry;
+    }
+    inout
+    {
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+    }
+}
+
+
+
+// ************************************************************************* //
