@@ -1,8 +1,10 @@
-clear, close
+clc
+close
+clear
 
-A = [6, 2, 1; 2, 5, 2; 1, 1, 5];
-b = [1; 3; 1];
+x0 = [-4, 4];
+d0 = [0.64, -0.768];
+% d0 = [0.1, 0];
+alphaOpt = 6;
 
-x = A \ b;
-
-disp(x);
+plotLS(x0, d0, alphaOpt);
