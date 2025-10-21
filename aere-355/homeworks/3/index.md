@@ -283,3 +283,95 @@ $$
 $$
 C_{n_r} = -2 * 1 * 0.08196 * \frac{18.5ft}{36ft} * 4.32 = \boxed{-0.3639 rad^{-1}}
 $$
+
+## 3.
+
+Given:
+
+$$
+C_{L_{\alpha_v}} = 0.1 \deg^{-1} \quad \text{(2D)}
+$$
+
+$$
+S_v = 900ft^2
+$$
+
+$$
+b_v / 2 = 32.6ft
+$$
+
+$$
+l_v = 105ft
+$$
+
+$$
+AR_w = 6.96
+$$
+
+$$
+\Lambda_{c/4_w} = 35\deg
+$$
+
+$$
+z_w/d = 0.3
+$$
+
+$$
+l_f = 230ft
+$$
+
+$$
+S_{fs} = 5075 ft^2
+$$
+
+$$
+x_m = 95ft
+$$
+
+$$
+w_f = 22ft
+$$
+
+$$
+h_1 = 24ft
+$$
+
+$$
+h_2 = 17ft
+$$
+
+$$
+h = 28ft
+$$
+
+$$
+\eta_v = 1
+$$
+
+$$
+\text{Sea level conditions}
+$$
+
+$$
+V = \text{Mach} ~ 0.25
+$$
+
+![](https://i.imgur.com/Kc8dV2l.png)
+
+![](https://i.imgur.com/iYqbo7C.png)
+
+Find:
+
+$$
+C_{y_\beta} = ~ ?
+$$
+
+$$
+C_{n_\beta} = ~ ?
+$$
+
+$$
+C_{n_r} = ~ ?
+$$
+
+Derivation:
