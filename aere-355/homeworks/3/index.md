@@ -207,3 +207,79 @@ V_f' \approx \begin{bmatrix*}
   0
 \end{bmatrix*} \frac{ft}{s}
 $$
+
+## 2.
+
+![](https://i.imgur.com/quJgF10.png)
+
+![](https://i.imgur.com/XXt5TlE.png)
+
+Given:
+
+$$
+C_{l_p} = ~ ?
+$$
+
+$$
+C_{n_r} = ~ ?
+$$
+
+$$
+C_{L_{\alpha_w}} = C_{L_{\alpha_v}} = 0.1 \deg^{-1} \quad \text{(2D)}
+$$
+
+$$
+c_t = 4.4 ft
+$$
+
+$$
+c_r = 9 ft
+$$
+
+$$
+\eta_v = 1
+$$
+
+Some preliminaries:
+
+$$
+AR = \frac{b^2}{S} = \frac{(36ft)^2}{232ft^2} = 5.586
+$$
+
+$$
+\lambda = \frac{c_t}{c_r} = \frac{4.4}{9} = 0.4889
+$$
+
+$$
+V_v = \frac{S_v l_v}{S b} = \frac{37ft^2 * 18.5ft}{232ft^2 * 36ft} = 0.08196
+$$
+
+2D slope from degrees to radians:
+
+$$
+C_{L_{\alpha_w}} = C_{L_{\alpha_v}} = 0.1 \deg^{-1} = 5.73 rad^{-1} \quad \text{(2D)}
+$$
+
+2D to 3D:
+
+$$
+C_{L_{\alpha_w}} = C_{L_{\alpha_v}} = \frac{5.73}{1 + \frac{5.73}{\pi 5.586}} = 4.32 rad^{-1} \quad \text{(3D)}
+$$
+
+Estimation:
+
+$$
+C_{l_p} = - \frac{C_{L_\alpha}}{12} \frac{1 + 3 \lambda}{1 + \lambda}
+$$
+
+$$
+C_{l_p} = - \frac{4.32}{12} \frac{1 + 3 * 0.4889}{1 + 0.4889} = \boxed{-0.5964 rad^{-1}}
+$$
+
+$$
+C_{n_r} = -2 \eta_v V_v \frac{l_v}{b} C_{L_{\alpha_v}}
+$$
+
+$$
+C_{n_r} = -2 * 1 * 0.08196 * \frac{18.5ft}{36ft} * 4.32 = \boxed{-0.3639 rad^{-1}}
+$$
