@@ -385,5 +385,21 @@ $$
 $$
 
 $$
+\eta_v \left( 1 + \frac{d \sigma}{d \beta} \right) = 0.724 + 3.06 \frac{\frac{900ft^2}{5500ft^2}}{1 + \cos 35\deg} + 0.4 * 0.3 + 0.009 * 6.96 = 1.182
+$$
+
+$$
+C_{L_{\alpha_v}} = 0.1 \deg^{-1} = 5.73 rad^{-1} \quad \text{(2D)}
+$$
+
+$$
+C_{L_{\alpha_v}} = \frac{5.73}{1 + \frac{5.73}{\pi 5.586}} = 4.32 rad^{-1} \quad \text{(3D)}
+$$
+
+$$
 C_{y_\beta} = -\eta \frac{S_v}{S} C_{L_{\alpha_v}} \left( 1 + \frac{d \sigma}{d \beta} \right)
+$$
+
+$$
+C_{y_\beta} = - \frac{900ft^2}{5500ft^2} * 4.32 * 1.182 = -0.8356
 $$
