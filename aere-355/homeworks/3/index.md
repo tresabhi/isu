@@ -1,5 +1,9 @@
 # AERE 355 Homework 3
 
+My main source of equations for the latter problems:
+
+![](https://i.imgur.com/pkv9kkQ.png)
+
 ## 1.
 
 ![](https://i.imgur.com/eV1c0y2.png)
@@ -375,3 +379,11 @@ C_{n_r} = ~ ?
 $$
 
 Derivation:
+
+$$
+\eta_v \left( 1 + \frac{d \sigma}{d \beta} \right) = 0.724 + 3.06 \frac{S_v / S}{1 + \cos \Lambda_{c/4_w}} + 0.4 \frac{z_w}{d} + 0.009 AR_w
+$$
+
+$$
+C_{y_\beta} = -\eta \frac{S_v}{S} C_{L_{\alpha_v}} \left( 1 + \frac{d \sigma}{d \beta} \right)
+$$
