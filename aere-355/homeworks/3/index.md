@@ -401,5 +401,73 @@ C_{y_\beta} = -\eta \frac{S_v}{S} C_{L_{\alpha_v}} \left( 1 + \frac{d \sigma}{d 
 $$
 
 $$
-C_{y_\beta} = - \frac{900ft^2}{5500ft^2} * 4.32 * 1.182 = -0.8356
+C_{y_\beta} = - \frac{900ft^2}{5500ft^2} * 4.32 * 1.182 = \boxed{-0.8356}
+$$
+
+$$
+a = 1116.45 ft/s
+$$
+
+$$
+v = 1.5723 * 10^{-4} ft^2/s
+$$
+
+$$
+V = 0.25a = 0.25 * 1116.45 ft/s = 279.11 ft/s
+$$
+
+$$
+R_{l_f} = V \frac{l_f}{v}
+$$
+
+$$
+R_{l_f} = 279.11 ft/s * \frac{230ft}{1.5723 * 10^{-4} ft^2/s} = 4.083*10^8 = 408.3*10^6
+$$
+
+![](https://i.imgur.com/ejcLsKE.png)
+
+$$
+k_{Rl} \approx 2.3
+$$
+
+$$
+\frac{x_m}{l_f} = \frac{95ft}{230ft} = 0.413
+$$
+
+$$
+\frac{l_f^2}{S_{fs}} = \frac{(230ft)^2}{5075 ft^2} = 10.42 \approx 10
+$$
+
+$$
+\sqrt{\frac{h_1}{h_2}} = \sqrt{\frac{24ft}{17ft}} = 1.188 \approx 1.2
+$$
+
+$$
+\frac{h}{w_f} = \frac{28ft}{22ft} = 1.273 \approx 1
+$$
+
+![](https://i.imgur.com/0KQ2lzl.png)
+
+$$
+k_n \approx 0.0011
+$$
+
+$$
+C_{n_{\beta_{wf}}} = -k_n k_{Rl} \frac{S_{fs} l_f}{S b} \quad (\text{in} ~ \deg^{-1})
+$$
+
+$$
+C_{n_{\beta_{wf}}} = -0.0011 * 2.3 * \frac{5075 ft^2 * 230ft}{5500ft^2 * 195.68ft} = -0.002744\deg^{-1} = -0.15722 rad^{-1}
+$$
+
+$$
+V_v = \frac{S_v l_v}{S b} = \frac{900ft^2 * 105ft}{5500ft^2 * 195.68ft} = 0.08781
+$$
+
+$$
+C_{n_\beta} = C_{n_{\beta_{wf}}} + \eta_v V_v C_{L_{\alpha_v}} \left( 1 + \frac{d \sigma}{d \beta} \right)
+$$
+
+$$
+C_{n_\beta} = -0.15722 + 0.08781 * 4.32 * 1.182 = \boxed{0.2912 rad^{-1}}
 $$
