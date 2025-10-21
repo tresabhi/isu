@@ -94,9 +94,116 @@ $$
   \frac{dx}{dt} \\
   \frac{dy}{dt} \\
   \frac{dz}{dt}
-\end{bmatrix*} = \begin{bmatrix*}
+\end{bmatrix*} \approx \begin{bmatrix*}
   267.4 \\
   -54.76 \\
+  0
+\end{bmatrix*} \frac{ft}{s}
+$$
+
+### b.
+
+With wind of $40 ft/s$ from the Southeast, the readings on board the airplane will need to be compensated for. The coordinate system is a bit goofy so I drew it out:
+
+![](https://i.imgur.com/ZNlvuMC.png)
+
+Thus, the wind in the fixed frame is:
+
+$$
+W_f = -40 \sqrt{2} x_f - 40 \sqrt{2} y_f ~ ft/s
+$$
+
+And the wind in the inertial frame:
+
+$$
+W_i = R^{-1} W_f
+$$
+
+The adjusted wind readings in inertial frame:
+
+$$
+V' = V + W_i
+$$
+
+And finally, the adjusted velocity in fixed frame:
+
+$$
+V_f' = R V'
+$$
+
+Python code for all that is just a fork from the last question:
+
+```py
+import numpy as np
+import math
+
+psi = np.deg2rad(-20)
+theta = np.deg2rad(7)
+phi = np.deg2rad(0)
+
+C_psi = math.cos(psi)
+C_theta = math.cos(theta)
+C_phi = math.cos(phi)
+
+S_psi = math.sin(psi)
+S_theta = math.sin(theta)
+S_phi = math.sin(phi)
+
+R = np.matrix(
+    [
+        [
+            C_theta * C_psi,
+            S_phi * S_theta * C_psi - C_phi * S_psi,
+            C_phi * S_theta * C_psi + S_phi * S_psi,
+        ],
+        [
+            C_theta * S_psi,
+            S_phi * S_theta * S_psi + C_phi * C_psi,
+            C_phi * S_theta * S_psi - S_phi * C_psi,
+        ],
+        [-S_theta, S_phi * C_theta, C_phi * C_theta],
+    ]
+)
+
+V = np.matrix(
+    [
+        [267.987],
+        [40],
+        [32.905],
+    ]
+)
+
+W_f = np.matrix(
+    [
+        [-40 * math.sqrt(2)],
+        [-40 * math.sqrt(2)],
+        [0],
+    ]
+)
+
+W_i = R**-1 * W_f
+
+V_prime = V + W_i
+
+V_f_prime = R * V_prime
+
+print(V_f_prime)
+```
+
+The output:
+
+```
+[[ 2.10828873e+02]
+ [-1.11326131e+02]
+ [ 3.31388642e-04]]
+```
+
+This makes sense since the $z$ component is unchanged and the other values are lower in magnitude since we're now compensation for the fact the wind gives us a "fake velocity" because the sensors are relative to the wind.
+
+$$
+V_f' \approx \begin{bmatrix*}
+  210.8 \\
+  -111.3 \\
   0
 \end{bmatrix*} \frac{ft}{s}
 $$
