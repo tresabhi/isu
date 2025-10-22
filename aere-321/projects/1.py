@@ -46,16 +46,24 @@ class External:
 
 
 class Joint:
-    def __init__(self, x: float, support: Support, externals: list[External]):
-        self.x = x
+    def __init__(self, support: Support, externals: list[External]):
         self.support = support
-        self.externals = externals
+
+        external_forces = [
+            external for external in externals if external.type == ExternalType.FORCE
+        ]
+        external_moments = [
+            external for external in externals if external.type == ExternalType.MOMENT
+        ]
+
+        self.external_force = sum([external.value for external in external_forces])
+        self.external_moment = sum([external.value for external in external_moments])
 
         self.free_displacement = support.type == SupportType.NONE
         self.free_rotation = support.type != SupportType.FIXED
 
     def __str__(self):
-        return f"Joint(x={self.x}, support={self.support}, externals={self.externals})"
+        return f"Joint(force={self.external_force}, moment={self.external_moment})"
 
 
 class Member:
@@ -145,11 +153,10 @@ class Beam:
                 raise ValueError("More than 1 support found")
 
             left = Joint(
-                x,
                 supports[0] if supports_length == 1 else Support(x, SupportType.NONE),
                 externals,
             )
-            right = Joint(x, Support(x, SupportType.NONE), [])
+            right = Joint(Support(x, SupportType.NONE), [])
 
             if not is_last:
                 x_next = break_points[member_id]
@@ -167,10 +174,49 @@ class Beam:
 
         return members
 
-    def s(self):
-        members = self.segment_members()
+    def S(self, members: list[Member]):
         max_id = members[-1].id
         return sum([member.k_padded(max_id) for member in members])
+
+    def P(self, members: list[Member]):
+        rows: list[list[float]] = []
+
+        for member in members:
+            rows.append([member.left.external_force])
+            rows.append([member.left.external_moment])
+
+        rows.append([members[-1].right.external_force])
+        rows.append([members[-1].right.external_moment])
+
+        return np.matrix(rows)
+
+    def free_indices(self, members: list[Member]):
+        ids: list[int] = []
+        length = len(members)
+
+        for member in members:
+            if member.left.free_displacement:
+                ids.append((member.id - 1) * 2)
+
+            if member.left.free_rotation:
+                ids.append((member.id - 1) * 2 + 1)
+
+        if members[-1].right.free_displacement:
+            ids.append(length * 2)
+
+        if members[-1].right.free_rotation:
+            ids.append(length * 2 + 1)
+
+        return ids
+
+    def solve(self):
+        members = self.segment_members()
+        indices = self.free_indices(members)
+
+        S = self.S(members)[np.ix_(indices, indices)]
+        P = self.P(members)[np.ix_(indices)]
+
+        return np.linalg.solve(S, P)
 
 
 supports = [
@@ -188,8 +234,4 @@ beam = Beam(
 
 members = beam.segment_members()
 
-print(np.round(members[0].k_padded(members[-1].id)))
-print()
-print(np.round(members[1].k_padded(members[-1].id)))
-print()
-print(np.round(beam.s()))
+print(beam.solve())
