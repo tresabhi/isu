@@ -8,28 +8,16 @@ class SupportType(Enum):
     PINNED = 3
     ROLLER = 4
 
-    def __str__(self):
-        return self.name
-
 
 class Support:
     def __init__(self, x: float, type: SupportType):
         self.type = type
         self.x = x
 
-    def __str__(self):
-        return f"Support(x={self.x}, type={self.type})"
-
-    def __repr__(self):
-        return self.__str__()
-
 
 class ExternalType(Enum):
     FORCE = 1
     MOMENT = 2
-
-    def __str__(self):
-        return self.name
 
 
 class External:
@@ -37,12 +25,6 @@ class External:
         self.x = x
         self.type = type
         self.value = value
-
-    def __str__(self):
-        return f"External(x={self.x}, type={self.type}, value={self.value})"
-
-    def __repr__(self):
-        return self.__str__()
 
 
 class Joint:
@@ -62,8 +44,20 @@ class Joint:
         self.free_displacement = support.type == SupportType.NONE
         self.free_rotation = support.type != SupportType.FIXED
 
-    def __str__(self):
-        return f"Joint(force={self.external_force}, moment={self.external_moment})"
+    def render(self):
+        icon = " |"
+
+        if self.support.type == SupportType.FIXED:
+            icon = "░░"
+        elif self.support.type == SupportType.PINNED:
+            icon = "△|"
+        elif self.support.type == SupportType.ROLLER:
+            icon = "◯|"
+
+        print(
+            f"{icon} Joint {self.support.type} ↑ {self.external_force} ⭯ {self.external_moment}",
+            end="\n",
+        )
 
 
 class Member:
@@ -107,11 +101,12 @@ class Member:
             ),
         )
 
-    def __str__(self):
-        return f"Member#{self.id}(x={self.x}, L={self.L}, left={self.left}, right={self.right})"
+    def render(self):
+        self.left.render()
 
-    def __repr__(self):
-        return self.__str__()
+        print(" |")
+        print(f" | Member #{self.id} @ x={self.x} L={self.L}")
+        print(" |")
 
 
 class Beam:
@@ -218,20 +213,19 @@ class Beam:
 
         return np.linalg.solve(S, P)
 
+    def render(self):
+        members = self.segment_members()
 
-supports = [
-    Support(0, SupportType.FIXED),
-    Support(8, SupportType.ROLLER),
-]
+        for member in members:
+            member.render()
+
+        members[-1].right.render()
+
+
+supports = [Support(0, SupportType.FIXED), Support(8, SupportType.ROLLER)]
 externals = [External(8 + 4, ExternalType.FORCE, -85)]
-beam = Beam(
-    200 * 10**6,  # kN/m^2
-    700 * 10**-6,  # m^4
-    8 + 4,  # m
-    supports,
-    externals,
-)
+beam = Beam(200 * 10**6, 700 * 10**-6, 8 + 4, supports, externals)
 
-members = beam.segment_members()
-
+beam.render()
+print()
 print(beam.solve())
