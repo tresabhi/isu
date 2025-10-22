@@ -223,10 +223,7 @@ class Beam:
             i += 1
 
         for id in range(max_id + 2):
-            id_shifted = id + 1
-            print(
-                f"d_{id_shifted} = {sorted[id_shifted] if id_shifted in sorted else 0}"
-            )
+            print(f"d_{id + 1} = {sorted[id] if id in sorted else 0}")
 
         print()
 
