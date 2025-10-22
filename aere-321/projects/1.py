@@ -1,10 +1,9 @@
-import pint
 import numpy as np
 from enum import Enum
 
 
 class SupportType(Enum):
-    FREE = 1
+    NONE = 1
     FIXED = 2
     PINNED = 3
     ROLLER = 4
@@ -52,13 +51,11 @@ class Joint:
         self.support = support
         self.externals = externals
 
-        self.fixed_displacement = supports.type != SupportType.FREE
-        self.fixed_rotation = support.type == SupportType.FIXED
+        self.free_displacement = support.type == SupportType.NONE
+        self.free_rotation = support.type != SupportType.FIXED
 
     def __str__(self):
-        return (
-            f"Joint(x={self.x}, supports={self.supports}, externals={self.externals})"
-        )
+        return f"Joint(x={self.x}, support={self.support}, externals={self.externals})"
 
 
 class Member:
@@ -76,13 +73,30 @@ class Member:
         self.left = left
         self.right = right
 
-        self.k = ((E * I) / L**3) * np.matrix(
+    def k(self):
+        E = self.E
+        I = self.I
+        L = self.L
+
+        return ((E * I) / L**3) * np.matrix(
             [
                 [12, 6 * L, -12, 6 * L],
                 [6 * L, 4 * L * L, -6 * L, 2 * L * L],
                 [-12, -6 * L, 12, -6 * L],
                 [6 * L, 2 * L * L, -6 * L, 4 * L * L],
             ]
+        )
+
+    def k_padded(self, max_id: int):
+        top_left_padding = 2 * (self.id - 1)
+        bottom_right_padding = 2 * (max_id - self.id)
+
+        return np.pad(
+            self.k(),
+            pad_width=(
+                (top_left_padding, bottom_right_padding),
+                (top_left_padding, bottom_right_padding),
+            ),
         )
 
     def __str__(self):
@@ -115,7 +129,7 @@ class Beam:
     def segment_members(self):
         break_points = self.break_points()
         member_id = 1
-        members = []
+        members: list[Member] = []
         length = len(break_points)
 
         for x in break_points:
@@ -132,15 +146,15 @@ class Beam:
 
             left = Joint(
                 x,
-                supports[0] if supports_length == 1 else Support(x, SupportType.FREE),
+                supports[0] if supports_length == 1 else Support(x, SupportType.NONE),
                 externals,
             )
-            right = Joint(x, [], [])
+            right = Joint(x, Support(x, SupportType.NONE), [])
 
             if not is_last:
                 x_next = break_points[member_id]
                 L = x_next - x
-                segment = Member(member_id, x, E, I, L, left, right)
+                segment = Member(member_id, x, self.E, self.I, L, left, right)
 
             if not is_first:
                 last_member = members[-1]
@@ -153,22 +167,29 @@ class Beam:
 
         return members
 
-    def solve(self):
-        segments = self.segment_members()
+    def s(self):
+        members = self.segment_members()
+        max_id = members[-1].id
+        return sum([member.k_padded(max_id) for member in members])
 
-
-ur = pint.UnitRegistry()
-
-# stripping units for now to improve performance
-E = (200 * 10**6 * ur.kN / ur.m**2).to_base_units().magnitude
-I = (700 * 10**-6 * ur.m**4).to_base_units().magnitude
-L = 8 + 4
 
 supports = [
     Support(0, SupportType.FIXED),
     Support(8, SupportType.ROLLER),
 ]
-externals = [External(8 + 4, ExternalType.FORCE, -85 * 1000)]
-beam = Beam(E, I, L, supports, externals)
+externals = [External(8 + 4, ExternalType.FORCE, -85)]
+beam = Beam(
+    200 * 10**6,  # kN/m^2
+    700 * 10**-6,  # m^4
+    8 + 4,  # m
+    supports,
+    externals,
+)
 
-print(beam.segment_members())
+members = beam.segment_members()
+
+print(np.round(members[0].k_padded(members[-1].id)))
+print()
+print(np.round(members[1].k_padded(members[-1].id)))
+print()
+print(np.round(beam.s()))
