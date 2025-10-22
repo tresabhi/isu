@@ -5,8 +5,7 @@ from enum import Enum
 class SupportType(Enum):
     NONE = 1
     FIXED = 2
-    PINNED = 3
-    ROLLER = 4
+    ROLLER = 3
 
 
 class Support:
@@ -49,8 +48,6 @@ class Joint:
 
         if self.support.type == SupportType.FIXED:
             icon = "░░"
-        elif self.support.type == SupportType.PINNED:
-            icon = "△|"
         elif self.support.type == SupportType.ROLLER:
             icon = "◯|"
 
@@ -231,6 +228,8 @@ class Beam:
                 f"d_{id_shifted} = {sorted[id_shifted] if id_shifted in sorted else 0}"
             )
 
+        print()
+
     def render(self):
         members = self.segment_members()
 
@@ -241,13 +240,37 @@ class Beam:
         print()
 
 
-lecture_test_beam = Beam(
+lecture_beam = Beam(
     200 * 10**6,
     700 * 10**-6,
     8 + 4,
-    [Support(0, SupportType.FIXED), Support(8, SupportType.ROLLER)],
-    [External(8 + 4, ExternalType.FORCE, -85)],
+    [
+        Support(0, SupportType.FIXED),
+        Support(8, SupportType.ROLLER),
+    ],
+    [
+        External(8 + 4, ExternalType.FORCE, -85),
+    ],
 )
+lecture_beam.render()
+lecture_beam.print_and_solve()
 
-lecture_test_beam.render()
-lecture_test_beam.print_and_solve()
+project_beam = Beam(
+    150 * 10**6,
+    500 * 10**-6,
+    20,
+    [
+        Support(20 * (0 / 5), SupportType.FIXED),
+        Support(20 * (1 / 5), SupportType.ROLLER),
+        Support(20 * (3 / 5), SupportType.ROLLER),
+        Support(20 * (4 / 5), SupportType.ROLLER),
+    ],
+    [
+        External(20 * (1 / 5), ExternalType.MOMENT, 100),
+        External(20 * (2 / 5), ExternalType.FORCE, -350),
+        External(20 * (3 / 5), ExternalType.MOMENT, -100),
+        External(20 * (5 / 5), ExternalType.FORCE, -200),
+    ],
+)
+project_beam.render()
+project_beam.print_and_solve()
