@@ -52,7 +52,7 @@ class Joint:
             icon = "◯|"
 
         print(
-            f"{icon} Joint {self.support.type} ↑ {self.external_force} ⭯ {self.external_moment}",
+            f"{icon} ↑ {self.external_force} ⭯ {self.external_moment}",
             end="\n",
         )
 
@@ -102,7 +102,7 @@ class Member:
         self.left.render()
 
         print(" |")
-        print(f" | Member #{self.id} @ x={self.x} L={self.L}")
+        print(f" | #{self.id} x={self.x} L={self.L}")
         print(" |")
 
 
@@ -210,7 +210,7 @@ class Beam:
 
         return np.linalg.solve(S, P)
 
-    def print_and_solve(self):
+    def solve_and_print(self):
         members = self.segment_members()
         indices = self.free_indices(members)
         solved = self.solve()
@@ -253,7 +253,7 @@ lecture_beam = Beam(
     ],
 )
 lecture_beam.render()
-lecture_beam.print_and_solve()
+lecture_beam.solve_and_print()
 
 project_beam = Beam(
     150 * 10**6,
@@ -273,4 +273,4 @@ project_beam = Beam(
     ],
 )
 project_beam.render()
-project_beam.print_and_solve()
+project_beam.solve_and_print()
