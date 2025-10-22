@@ -204,7 +204,7 @@ class Beam:
 
         return ids
 
-    def solve(self):
+    def solve(self) -> np.matrix:
         members = self.segment_members()
         indices = self.free_indices(members)
 
@@ -213,6 +213,24 @@ class Beam:
 
         return np.linalg.solve(S, P)
 
+    def print_and_solve(self):
+        members = self.segment_members()
+        indices = self.free_indices(members)
+        solved = self.solve()
+        max_id = (members[-1].id) * 2
+        sorted = dict()
+
+        i = 0
+        for d in solved:
+            sorted[indices[i]] = d.item()
+            i += 1
+
+        for id in range(max_id + 2):
+            id_shifted = id + 1
+            print(
+                f"d_{id_shifted} = {sorted[id_shifted] if id_shifted in sorted else 0}"
+            )
+
     def render(self):
         members = self.segment_members()
 
@@ -220,12 +238,16 @@ class Beam:
             member.render()
 
         members[-1].right.render()
+        print()
 
 
-supports = [Support(0, SupportType.FIXED), Support(8, SupportType.ROLLER)]
-externals = [External(8 + 4, ExternalType.FORCE, -85)]
-beam = Beam(200 * 10**6, 700 * 10**-6, 8 + 4, supports, externals)
+lecture_test_beam = Beam(
+    200 * 10**6,
+    700 * 10**-6,
+    8 + 4,
+    [Support(0, SupportType.FIXED), Support(8, SupportType.ROLLER)],
+    [External(8 + 4, ExternalType.FORCE, -85)],
+)
 
-beam.render()
-print()
-print(beam.solve())
+lecture_test_beam.render()
+lecture_test_beam.print_and_solve()
