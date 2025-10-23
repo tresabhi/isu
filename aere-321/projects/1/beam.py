@@ -225,51 +225,42 @@ class Beam:
         self.supports = supports
         self.externals = externals
 
-    # This is a clever function because I found out Python has sets much like
-    # Set<number>() in TypeScript. This lets me collect all candidates for
-    # where I can split the beam into members.
-    def break_points(self):
-
-        # The points of interest include the start and end of the beam as a
-        # default in the off case the beam has literally no supports or
-        # externals.
-        points = {0, self.L}
+        # Break points is clever because I found out Python has sets much
+        # like Set<number>() in TypeScript. This lets me collect all candidates
+        # for where I can split the beam into members. The points of interest
+        # include the start and end of the beam as a default in the off case
+        # the beam has literally no supports or externals.
+        break_points_pool = {0, self.L}
 
         # Loop though all supports, regardless of type, and add it to the set.
         # And since sets in Python work much like Set() from TypeScript, any
         # duplicates will be ignored. So we end up with a unique set of points.
         for support in self.supports:
-            points.add(support.x)
+            break_points_pool.add(support.x)
 
         # Same deal with externals.
         for external in self.externals:
-            points.add(external.x)
+            break_points_pool.add(external.x)
 
         # The points will likely be out of order so I sort them into a proper
         # list.
-        return sorted(list(points))
+        self.break_points = sorted(list(break_points_pool))
 
-    # This is the juicy function that's tricky to get right. Thankfully,
-    # 0-based indexing makes it trivial.
-    def segment_members(self):
-
-        # First I collect the points of interest, also known as the break
-        # points in my implementation.
-        break_points = self.break_points()
-
+        # This is the juicy function that's tricky to get right. Thankfully,
+        # 0-based indexing makes it trivial.
         # The first member id is 0.
         member_id = 0
 
         # An empty list to hold the members.
-        members: list[Member] = []
+        self.members: list[Member] = []
 
         # Loop through the break points which represent the position of the
         # left side of the members (thus, by extension, the left joints).
-        for x in break_points:
+        for x in self.break_points:
 
             # Store this info since I will use it multiple times.
             is_first = member_id == 0
-            is_last = member_id == len(break_points) - 1
+            is_last = member_id == len(self.break_points) - 1
 
             # Filter supports and externals that act on the left side of this
             # beam.
@@ -283,7 +274,7 @@ class Beam:
             # Throw an error (or as it's called in Python, raise and error) if
             # there are more than 1 support.
             if supports_length > 1:
-                raise ValueError("More than 1 support found")
+                raise ValueError(f"More than 1 support found at x={x}")
 
             # Create the left joint with the appropriate support if available
             # or create a nominal NONE type joint.
@@ -303,176 +294,167 @@ class Beam:
             if not is_last:
 
                 # Get the next break point to get the length of this member.
-                x_next = break_points[member_id + 1]
+                x_next = self.break_points[member_id + 1]
 
                 # Create the segment with the correct values.
                 segment = Member(member_id, x, self.E, self.I, x_next - x, left, right)
-
-                # Throw it into the list.
-                members.append(segment)
 
             # If this is anything but the first member, there exists another
             # member to the left of this one which is awaiting a right side
             # joint. So, I donate the left side of this member to the right
             # side of the previous member.
             if not is_first:
-                last_member = members[-2]
+                last_member = self.members[-1]
                 last_member.right = left
+
+            if not is_last:
+                # Throw it into the list.
+                self.members.append(segment)
 
             # Increment the member id.
             member_id += 1
 
-        return members
+        self.free_indices: list[int] = []
+        length = len(self.members)
 
-    def S(self, members: list[Member]):
-        max_id = members[-1].id
-        return sum([member.k_padded(max_id) for member in members])
+        for member in self.members:
+            if member.left.free_displacement:
+                self.free_indices.append(member.id * 2)
 
-    def P(self, members: list[Member]):
+            if member.left.free_rotation:
+                self.free_indices.append(member.id * 2 + 1)
+
+        if self.members[-1].right.free_displacement:
+            self.free_indices.append(length * 2)
+
+        if self.members[-1].right.free_rotation:
+            self.free_indices.append(length * 2 + 1)
+
+        self.free_indices = self.free_indices
+
+    # The S, by default, is the sum of all the padded stiffness matrices.
+    def S_padded(self):
+        max_id = len(self.members) - 1
+        return sum([member.k_padded(max_id) for member in self.members])
+
+    def S(self):
+        S_padded = self.S_padded()
+        return S_padded[np.ix_(self.free_indices, self.free_indices)]
+
+    def P_padded(self):
         rows: list[list[float]] = []
 
-        for member in members:
+        for member in self.members:
             rows.append([member.left.external_force])
             rows.append([member.left.external_moment])
 
-        rows.append([members[-1].right.external_force])
-        rows.append([members[-1].right.external_moment])
+        rows.append([self.members[-1].right.external_force])
+        rows.append([self.members[-1].right.external_moment])
 
         return np.matrix(rows)
 
-    def free_indices(self, members: list[Member]):
-        ids: list[int] = []
-        length = len(members)
+    def P(self):
+        P_padded = self.P_padded()
+        return P_padded[np.ix_(self.free_indices)]
 
-        for member in members:
-            if member.left.free_displacement:
-                ids.append(member.id * 2)
+    def d(self):
+        return np.linalg.solve(self.S(), self.P())
 
-            if member.left.free_rotation:
-                ids.append(member.id * 2 + 1)
-
-        if members[-1].right.free_displacement:
-            ids.append(length * 2)
-
-        if members[-1].right.free_rotation:
-            ids.append(length * 2 + 1)
-
-        return ids
-
-    def print_all(self) -> np.matrix:
-        members = self.segment_members()
-
-        for member in members:
-            member.print_k()
-
-        for member in members:
-            member.left.print_loads(member.id * 2)
-
-        members[-1].right.print_loads(members[-1].id * 2 + 1)
-        print()
-
-        free_indices = self.free_indices(members)
-
-        S = self.S(members)
-
-        print(f"S_untrimmed =")
-        print(S, end="\n\n")
-
-        S = S[np.ix_(free_indices, free_indices)]
-
-        print(f"S =")
-        print(S, end="\n\n")
-
-        P = self.P(members)
-
-        print("P_untrimmed =")
-        print(P, end="\n\n")
-
-        P = P[np.ix_(free_indices)]
-
-        print("P =")
-        print(P, end="\n\n")
-
-        d = np.linalg.solve(S, P)
-
-        print("d =")
-        print(d, end="\n\n")
-
+    def d_padded(self):
+        d = self.d()
         d_sorted = dict()
 
         index = 0
-        for free_index in free_indices:
+        for free_index in self.free_indices:
             d_sorted[free_index] = d[index].item()
             index += 1
 
-        d_untrimmed = []
+        d_padded = []
 
-        for index in range(members[-1].id * 2 + 4):
-            d_untrimmed.append([d_sorted[index] if index in d_sorted else 0])
+        for index in range(len(self.members) * 2 + 2):
+            d_padded.append([d_sorted[index] if index in d_sorted else 0])
 
-        d_untrimmed = np.matrix(d_untrimmed)
+        return np.matrix(d_padded)
 
-        print("d_untrimmed =")
-        print(d_untrimmed, end="\n\n")
+    def R_padded(self):
+        d_padded = self.d_padded()
 
-        for member in members:
-            member.print_u(d_untrimmed)
-
-        for member in members:
-            member.print_Q(d_untrimmed)
-
-        R_untrimmed = sum(
-            [member.Q_padded(d_untrimmed, members[-1].id) for member in members]
+        return sum(
+            [
+                member.Q_padded(d_padded, len(self.members) - 1)
+                for member in self.members
+            ]
         )
 
-        for index in range(members[-1].id * 2 + 4):
-            if index in free_indices:
-                continue
+    def solve(self) -> np.matrix:
+        for member in self.members:
+            member.print_k()
 
-            print(f"R_{index} = {R_untrimmed[index].item()}")
+        for member in self.members:
+            member.left.print_loads(member.id * 2)
+
+        self.members[-1].right.print_loads(2 * len(self.members) - 1)
+        print()
+
+        print(f"S =\n{self.S()}\n\n")
+        print(f"P =\n{self.P()}\n\n")
+        print(f"d =\n{self.d()}\n\n")
+
+        d_padded = self.d_padded()
+
+        for member in self.members:
+            member.print_u(d_padded)
+
+        for member in self.members:
+            member.print_Q(d_padded)
+
+        R_padded = self.R_padded()
+
+        for index in range(len(self.members) * 2 + 2):
+            print(f"R_{index} = {R_padded[index].item()}")
+
+        print()
 
     def render(self):
-        members = self.segment_members()
-
-        for member in members:
+        for member in self.members:
             member.render()
 
-        members[-1].right.render()
+        self.members[-1].right.render()
         print()
 
 
-# lecture_beam = Beam(
-#     200 * 10**6,
-#     700 * 10**-6,
-#     8 + 4,
-#     [
-#         Support(0, SupportType.FIXED),
-#         Support(8, SupportType.ROLLER),
-#     ],
-#     [
-#         External(8 + 4, ExternalType.FORCE, -85),
-#     ],
-# )
-# lecture_beam.render()
-# lecture_beam.print_all()
-
-beam = Beam(
-    150 * 10**6,
-    500 * 10**-6,
-    20,
+lecture_example_1 = Beam(
+    200 * 10**6,
+    700 * 10**-6,
+    8 + 4,
     [
-        Support(20 * (0 / 5), SupportType.FIXED),
-        Support(20 * (1 / 5), SupportType.ROLLER),
-        Support(20 * (3 / 5), SupportType.ROLLER),
-        Support(20 * (4 / 5), SupportType.ROLLER),
+        Support(0, SupportType.FIXED),
+        Support(8, SupportType.ROLLER),
     ],
     [
-        External(20 * (1 / 5), ExternalType.MOMENT, 100),
-        External(20 * (2 / 5), ExternalType.FORCE, -350),
-        External(20 * (3 / 5), ExternalType.MOMENT, -100),
-        External(20 * (5 / 5), ExternalType.FORCE, -200),
+        External(8 + 4, ExternalType.FORCE, -85),
     ],
 )
+lecture_example_1.render()
+lecture_example_1.solve()
 
-beam.render()
-beam.print_all()
+# beam = Beam(
+#     150 * 10**6,
+#     500 * 10**-6,
+#     20,
+#     [
+#         Support(20 * (0 / 5), SupportType.FIXED),
+#         Support(20 * (1 / 5), SupportType.ROLLER),
+#         Support(20 * (3 / 5), SupportType.ROLLER),
+#         Support(20 * (4 / 5), SupportType.ROLLER),
+#     ],
+#     [
+#         External(20 * (1 / 5), ExternalType.MOMENT, 100),
+#         External(20 * (2 / 5), ExternalType.FORCE, -350),
+#         External(20 * (3 / 5), ExternalType.MOMENT, -100),
+#         External(20 * (5 / 5), ExternalType.FORCE, -200),
+#     ],
+# )
+
+# beam.render()
+# beam.solve()
