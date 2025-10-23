@@ -13,7 +13,7 @@ And of course, here is the figure with the external forces and moments:
 I have create the following classes for describing the structure of the beam, solving the matrices, rendering the intermediate representations, and printing the final results, all commented to the best of my abilities:
 
 > [!NOTE]
-> These are just the abstractions! You won't see anything if you run this file. Refer to the rest of this document to see how I designed these classes to be used.
+> These are just the abstractions! You won't see anything if you run this file. Refer to the rest of this document to see how I designed these classes to be used. For the full runnable code, please use file from my GitHub repo: https://github.com/tresabhi/isu/blob/main/aere-321/projects/1/beam.py
 
 ```py
 # I am using numpy to handle matrices; there's no need for me to make my own
