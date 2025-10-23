@@ -60,12 +60,10 @@ class Joint:
 
     def print_loads(self, id: int):
         print(f"Join external force P_{id} = {self.external_force}")
-        print(f"Join external moment P_{id + 1} = {self.external_moment}")
-        print()
+        print(f"Join external moment P_{id + 1} = {self.external_moment}", end="\n\n")
 
 
 class Member:
-
     def __init__(
         self, id: int, x: float, E: float, I: float, L: float, left: Joint, right: Joint
     ):
@@ -105,6 +103,15 @@ class Member:
             ),
         )
 
+    def Q(self, d: np.matrix):
+        slice = [self.id * 2 + index for index in range(4)]
+        d_sliced = d[np.ix_(slice)]
+        return self.k() * d_sliced
+
+    def print_Q(self, d: np.matrix):
+        print(f"Member end displacement and forces Q_{self.id} =")
+        print(self.Q(d), end="\n\n")
+
     def render(self):
         self.left.render()
 
@@ -114,8 +121,7 @@ class Member:
 
     def print_k(self):
         print(f"Member stiffness matrix k_{self.id} =")
-        print(self.k())
-        print()
+        print(self.k(), end="\n\n")
 
 
 class Beam:
@@ -211,7 +217,7 @@ class Beam:
 
         return ids
 
-    def solve(self) -> np.matrix:
+    def print_all(self) -> np.matrix:
         members = self.segment_members()
 
         for member in members:
@@ -247,7 +253,25 @@ class Beam:
         print("Solved displacements d=")
         print(d, end="\n\n")
 
-        return d
+        d_sorted = dict()
+
+        index = 0
+        for free_index in free:
+            d_sorted[free_index] = d[index].item()
+            index += 1
+
+        d_untrimmed = []
+
+        for index in range(members[-1].id * 2 + 4):
+            d_untrimmed.append([d_sorted[index] if index in d_sorted else 0])
+
+        d_untrimmed = np.matrix(d_untrimmed)
+
+        print("Untrimmed displacements d_untrimmed=")
+        print(d_untrimmed, end="\n\n")
+
+        for member in members:
+            member.print_Q(d_untrimmed)
 
     def render(self):
         members = self.segment_members()
@@ -259,37 +283,38 @@ class Beam:
         print()
 
 
-# lecture_beam = Beam(
-#     200 * 10**6,
-#     700 * 10**-6,
-#     8 + 4,
-#     [
-#         Support(0, SupportType.FIXED),
-#         Support(8, SupportType.ROLLER),
-#     ],
-#     [
-#         External(8 + 4, ExternalType.FORCE, -85),
-#     ],
-# )
-# lecture_beam.render()
-
-beam = Beam(
-    150 * 10**6,
-    500 * 10**-6,
-    20,
+lecture_beam = Beam(
+    200 * 10**6,
+    700 * 10**-6,
+    8 + 4,
     [
-        Support(20 * (0 / 5), SupportType.FIXED),
-        Support(20 * (1 / 5), SupportType.ROLLER),
-        Support(20 * (3 / 5), SupportType.ROLLER),
-        Support(20 * (4 / 5), SupportType.ROLLER),
+        Support(0, SupportType.FIXED),
+        Support(8, SupportType.ROLLER),
     ],
     [
-        External(20 * (1 / 5), ExternalType.MOMENT, 100),
-        External(20 * (2 / 5), ExternalType.FORCE, -350),
-        External(20 * (3 / 5), ExternalType.MOMENT, -100),
-        External(20 * (5 / 5), ExternalType.FORCE, -200),
+        External(8 + 4, ExternalType.FORCE, -85),
     ],
 )
+lecture_beam.render()
+lecture_beam.print_all()
 
-beam.render()
-beam.solve()
+# beam = Beam(
+#     150 * 10**6,
+#     500 * 10**-6,
+#     20,
+#     [
+#         Support(20 * (0 / 5), SupportType.FIXED),
+#         Support(20 * (1 / 5), SupportType.ROLLER),
+#         Support(20 * (3 / 5), SupportType.ROLLER),
+#         Support(20 * (4 / 5), SupportType.ROLLER),
+#     ],
+#     [
+#         External(20 * (1 / 5), ExternalType.MOMENT, 100),
+#         External(20 * (2 / 5), ExternalType.FORCE, -350),
+#         External(20 * (3 / 5), ExternalType.MOMENT, -100),
+#         External(20 * (5 / 5), ExternalType.FORCE, -200),
+#     ],
+# )
+
+# beam.render()
+# beam.print_all()
