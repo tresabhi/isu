@@ -198,9 +198,6 @@ class Member:
         self.print_indices()
         print(self.Q(d), end="\n\n")
 
-    def print_Q_f(self, externals: list[External]):
-        self.Q_f(externals)
-
     # Renders the intermediate pipe (|) symbols between the joint along with
     # the id, x position, and length of the member.
     def render(self):
@@ -323,9 +320,11 @@ class Beam:
             # Increment the member id.
             member_id += 1
 
+        # Initialize the set of free indices.
         self.free_indices: list[int] = []
         length = len(self.members)
 
+        # Check the left joint of members to see if they are free.
         for member in self.members:
             if member.left.free_displacement:
                 self.free_indices.append(member.id * 2)
@@ -333,13 +332,18 @@ class Beam:
             if member.left.free_rotation:
                 self.free_indices.append(member.id * 2 + 1)
 
+        # Now check the right joint of the last member to finish up.
         if self.members[-1].right.free_displacement:
             self.free_indices.append(length * 2)
 
         if self.members[-1].right.free_rotation:
             self.free_indices.append(length * 2 + 1)
 
+        # Store the generated list. These should be in order already so no need
+        # to sort.
         self.free_indices = self.free_indices
+
+        # Invert the list to get the fixed indices.
         self.fixed_indices = [
             index
             for index in range(len(self.members) * 2 + 2)
@@ -351,43 +355,79 @@ class Beam:
         max_id = len(self.members) - 1
         return sum([member.k_padded(max_id) for member in self.members])
 
+    # The but padded s is unnecessarily large and can be trimmed down to only
+    # include the rows and columns associated with the free indices.
     def s(self):
         return self.s_padded()[np.ix_(self.free_indices, self.free_indices)]
 
+    # P is the sum of all the padded external loads, but stored as a column
+    # vector.
     def P_padded(self):
+
+        # The matrix starts off as a list of lists with a single item in them,
+        # causing numpy to generate a 1 wide column vector.
         rows: list[list[float]] = []
 
+        # Append forces and then moments for all the left joint of the members.
         for member in self.members:
             rows.append([member.left.external_force])
             rows.append([member.left.external_moment])
 
+        # Same for the right joint of the last member.
         rows.append([self.members[-1].right.external_force])
         rows.append([self.members[-1].right.external_moment])
 
+        # Turn that into a column vector, or technically a matrix.
         return np.matrix(rows)
 
+    # Once again, P_padded includes the fixed indices too so I remove them by
+    # pulling out the rows and columns associated with the free indices.
     def P(self):
         return self.P_padded()[np.ix_(self.free_indices)]
 
+    # I use numpy's numerical methods to solve for d because it's faster but
+    # for matrices this small, you can also get away with an analytical
+    # solution obtained by inverting the s matrix. Also, my code has no support
+    # for P_f because I split the beam into members and create joints on all
+    # forces, leaving no force to act in the middle of the beam. P_f, this way,
+    # is always 0.
     def d(self):
         return np.linalg.solve(self.s(), self.P())
 
+    # When you use the function above, you actually get the d column vector
+    # with only columns associated with free indices. I created a method here
+    # to re-pad the d vector to include the fixed indices. Of course I insert a
+    # 0 for the fixed indices because they are... well... fixed.
     def d_padded(self):
+
+        # I start off with the trimmed d vector.
         d = self.d()
+
+        # And I create a new dictionary to hold the values from the d vector
+        # with keys relating to the free indices.
         d_sorted = dict()
 
+        # I then sort the keys into the dictionary.
         index = 0
         for free_index in self.free_indices:
             d_sorted[free_index] = d[index].item()
             index += 1
 
-        d_padded = []
+        # Now, I create a vector, this time with 0s for the fixed indices.
+        d_padded: list[list[float]] = []
 
+        # I go through and populate the new inflated column vector, filling it
+        # in with 0s if there is no value from the d column vector associated
+        # with that fixed index.
         for index in range(len(self.members) * 2 + 2):
             d_padded.append([d_sorted[index] if index in d_sorted else 0])
 
+        # Convert the list to a matrix.
         return np.matrix(d_padded)
 
+    # The reaction forces, R, is the sum of all the Q's from all the members.
+    # These Q's come padded with a bunch of 0's by default so that they line
+    # up perfectly with one another dimension wise when adding.
     def R_padded(self):
         d_padded = self.d_padded()
 
@@ -398,51 +438,69 @@ class Beam:
             ]
         )
 
+    # All values relating to the free indices will be useless, so we remove
+    # them.
     def R(self):
-        R: list[list[float]] = []
+        return self.R_padded()[np.ix_(self.fixed_indices)]
 
-        R_padded = self.R_padded()
-
-        for index in range(len(self.members) * 2 + 2):
-            if index not in self.free_indices:
-                R.append([R_padded[index].item()])
-
-        return np.matrix(R)
-
+    # These two methods below are just for the project assignment. They remain
+    # unused if I ever intend to use this code for personal applications.
     def print_free_indices(self):
         print(f"(indices: {", ".join([str(i) for i in self.free_indices])})")
 
     def print_fixed_indices(self):
         print(f"(indices: {", ".join([str(i) for i in self.fixed_indices])})")
 
+    # This is the bread and butter of the project. This method used to be huge
+    # just yesterday, but I abstracted away a lot of the logic into other
+    # methods.
     def solve(self) -> np.matrix:
+
+        # As per the requirements of this assignment, I begin by printing all
+        # the k matrices for all the members.
         for member in self.members:
             member.print_k()
 
+        # Then the s matrix.
         print("s =")
         self.print_free_indices()
         print(self.s(), end="\n\n")
 
+        # And then the P. As you can see, the code here is really simple
+        # because I moved so much of the logic into other methods.
         print("P =")
         self.print_free_indices()
         print(self.P(), end="\n\n")
 
+        # And finally the d vector.
         print("d =")
         self.print_free_indices()
         print(self.d(), end="\n\n")
 
+        # Now I recreate the d_padded vector with all its extra 0s. This of
+        # course is a waste of compute since d_padded was already computed
+        # somewhere when calling the d() method, but I only recreate d_padded
+        # again for the purposes of logging the values, which is required for
+        # the assignment. I will be deleting most of the prints after I turn in
+        # the assignment.
         d_padded = self.d_padded()
 
+        # Printing the u and Q matrices actually require a solved solution for
+        # the d vector in its padded form.
         for member in self.members:
             member.print_u(d_padded)
 
         for member in self.members:
             member.print_Q(d_padded)
 
+        # And, finally, the reaction forces.
         print("R =")
         self.print_fixed_indices()
         print(self.R(), end="\n\n")
 
+    # Now, the master renderer. I render all the members one by one which
+    # renders their respective left joints and the beam in between, and then I
+    # handle the remaining right joint.
     def render(self):
         for member in self.members:
             member.render()
