@@ -103,13 +103,20 @@ class Member:
             ),
         )
 
-    def Q(self, d: np.matrix):
+    def u(self, d: np.matrix):
         slice = [self.id * 2 + index for index in range(4)]
-        d_sliced = d[np.ix_(slice)]
-        return self.k() * d_sliced
+        return d[np.ix_(slice)]
+
+    def print_u(self, d: np.matrix):
+        print(f"Member unknown displacements u_{self.id} =")
+        print(self.u(d), end="\n\n")
+
+    def Q(self, d: np.matrix):
+        u = self.u(d)
+        return self.k() * u
 
     def print_Q(self, d: np.matrix):
-        print(f"Member end displacement and forces Q_{self.id} =")
+        print(f"Member loads Q_{self.id} =")
         print(self.Q(d), end="\n\n")
 
     def render(self):
@@ -221,8 +228,10 @@ class Beam:
         members = self.segment_members()
 
         for member in members:
-            member.left.print_loads(member.id * 2)
             member.print_k()
+
+        for member in members:
+            member.left.print_loads(member.id * 2)
 
         members[-1].right.print_loads(members[-1].id * 2 + 1)
 
@@ -250,7 +259,7 @@ class Beam:
 
         d = np.linalg.solve(S, P)
 
-        print("Solved displacements d=")
+        print("Unknown displacements d=")
         print(d, end="\n\n")
 
         d_sorted = dict()
@@ -267,8 +276,11 @@ class Beam:
 
         d_untrimmed = np.matrix(d_untrimmed)
 
-        print("Untrimmed displacements d_untrimmed=")
+        print("Untrimmed unknown displacements d_untrimmed=")
         print(d_untrimmed, end="\n\n")
+
+        for member in members:
+            member.print_u(d_untrimmed)
 
         for member in members:
             member.print_Q(d_untrimmed)
