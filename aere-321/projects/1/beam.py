@@ -332,14 +332,13 @@ class Beam:
 
         self.free_indices = self.free_indices
 
-    # The S, by default, is the sum of all the padded stiffness matrices.
-    def S_padded(self):
+    # The s, by default, is the sum of all the padded stiffness matrices.
+    def s_padded(self):
         max_id = len(self.members) - 1
         return sum([member.k_padded(max_id) for member in self.members])
 
-    def S(self):
-        S_padded = self.S_padded()
-        return S_padded[np.ix_(self.free_indices, self.free_indices)]
+    def s(self):
+        return self.s_padded()[np.ix_(self.free_indices, self.free_indices)]
 
     def P_padded(self):
         rows: list[list[float]] = []
@@ -354,11 +353,10 @@ class Beam:
         return np.matrix(rows)
 
     def P(self):
-        P_padded = self.P_padded()
-        return P_padded[np.ix_(self.free_indices)]
+        return self.P_padded()[np.ix_(self.free_indices)]
 
     def d(self):
-        return np.linalg.solve(self.S(), self.P())
+        return np.linalg.solve(self.s(), self.P())
 
     def d_padded(self):
         d = self.d()
@@ -386,19 +384,24 @@ class Beam:
             ]
         )
 
+    def R(self):
+        R: list[list[float]] = []
+
+        R_padded = self.R_padded()
+
+        for index in range(len(self.members) * 2 + 2):
+            if index not in self.free_indices:
+                R.append([R_padded[index].item()])
+
+        return np.matrix(R)
+
     def solve(self) -> np.matrix:
         for member in self.members:
             member.print_k()
 
-        for member in self.members:
-            member.left.print_loads(member.id * 2)
-
-        self.members[-1].right.print_loads(2 * len(self.members) - 1)
-        print()
-
-        print(f"S =\n{self.S()}\n\n")
-        print(f"P =\n{self.P()}\n\n")
-        print(f"d =\n{self.d()}\n\n")
+        print(f"s =\n{self.s()}\n")
+        print(f"P =\n{self.P()}\n")
+        print(f"d =\n{self.d()}\n")
 
         d_padded = self.d_padded()
 
@@ -408,12 +411,7 @@ class Beam:
         for member in self.members:
             member.print_Q(d_padded)
 
-        R_padded = self.R_padded()
-
-        for index in range(len(self.members) * 2 + 2):
-            print(f"R_{index} = {R_padded[index].item()}")
-
-        print()
+        print(f"R =\n{self.R()}\n")
 
     def render(self):
         for member in self.members:
@@ -437,6 +435,39 @@ lecture_example_1 = Beam(
 )
 lecture_example_1.render()
 lecture_example_1.solve()
+
+lecture_example_2 = Beam(
+    29000 * 10**3,
+    310,
+    (40 + 60) * 12,
+    [
+        Support(0, SupportType.FIXED),
+        Support((40 + 60) * 12, SupportType.FIXED),
+    ],
+    [
+        External(40 * 12, ExternalType.FORCE, -1000),
+        External(40 * 12, ExternalType.MOMENT, -15000),
+    ],
+)
+lecture_example_2.render()
+lecture_example_2.solve()
+
+lecture_example_3 = Beam(
+    29000 * 10**3,
+    310,
+    (40 + 60) * 12,
+    [
+        Support(0, SupportType.FIXED),
+        Support((40 + 60) * 12, SupportType.FIXED),
+    ],
+    [
+        External(40 * 12, ExternalType.FORCE, -1000),
+        External(40 * 12, ExternalType.MOMENT, -15000),
+        External((40 + 60 - 30) * 12, ExternalType.FORCE, -1000),
+    ],
+)
+lecture_example_3.render()
+lecture_example_3.solve()
 
 # beam = Beam(
 #     150 * 10**6,
