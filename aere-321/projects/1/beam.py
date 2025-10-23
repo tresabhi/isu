@@ -43,7 +43,7 @@ class Joint:
         self.free_displacement = support.type == SupportType.NONE
         self.free_rotation = support.type != SupportType.FIXED
 
-    def print(self):
+    def render(self):
         icon = " |"
 
         if self.support.type == SupportType.FIXED:
@@ -52,7 +52,7 @@ class Joint:
             icon = "◯|"
 
         print(
-            f"{icon} ↑ {self.external_force} ⭯ {self.external_moment}",
+            f"{icon} → {self.external_force} ⭯ {self.external_moment}",
             end="\n",
         )
 
@@ -98,8 +98,8 @@ class Member:
             ),
         )
 
-    def print(self):
-        self.left.print()
+    def render(self):
+        self.left.render()
 
         print(" |")
         print(f" | #{self.id} x={self.x} L={self.L}")
@@ -208,49 +208,31 @@ class Beam:
 
         return np.linalg.solve(S, P)
 
-    def solve_and_print(self):
-        members = self.segment_members()
-        free = self.free_indices(members)
-        solution = self.solve()
-        max_id = len(members) * 2 + 1
-        sorted = dict()
-
-        i = 0
-        for d in solution:
-            sorted[free[i]] = d.item()
-            i += 1
-
-        for id in range(max_id + 1):
-            print(f"d_{id} = {sorted[id] if id in sorted else 0}")
-
-        print()
-
-    def print(self):
+    def render(self):
         members = self.segment_members()
 
         for member in members:
-            member.print()
+            member.render()
 
-        members[-1].right.print()
+        members[-1].right.render()
         print()
 
 
-lecture_beam = Beam(
-    200 * 10**6,
-    700 * 10**-6,
-    8 + 4,
-    [
-        Support(0, SupportType.FIXED),
-        Support(8, SupportType.ROLLER),
-    ],
-    [
-        External(8 + 4, ExternalType.FORCE, -85),
-    ],
-)
-lecture_beam.print()
-lecture_beam.solve_and_print()
+# lecture_beam = Beam(
+#     200 * 10**6,
+#     700 * 10**-6,
+#     8 + 4,
+#     [
+#         Support(0, SupportType.FIXED),
+#         Support(8, SupportType.ROLLER),
+#     ],
+#     [
+#         External(8 + 4, ExternalType.FORCE, -85),
+#     ],
+# )
+# lecture_beam.render()
 
-project_beam = Beam(
+beam = Beam(
     150 * 10**6,
     500 * 10**-6,
     20,
@@ -267,5 +249,5 @@ project_beam = Beam(
         External(20 * (5 / 5), ExternalType.FORCE, -200),
     ],
 )
-project_beam.print()
-project_beam.solve_and_print()
+
+beam.render()
