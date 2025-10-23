@@ -574,6 +574,5 @@ beam = Beam(
         External(20 * (5 / 5), ExternalType.FORCE, -200),
     ],
 )
-
 beam.render()
 beam.solve()
