@@ -196,6 +196,9 @@ class Member:
         print(f"Q_{self.id} =")
         print(self.Q(d), end="\n\n")
 
+    def print_Q_f(self, externals: list[External]):
+        self.Q_f(externals)
+
     # Renders the intermediate pipe (|) symbols between the joint along with
     # the id, x position, and length of the member.
     def render(self):
@@ -238,7 +241,7 @@ class Beam:
         for support in self.supports:
             break_points_pool.add(support.x)
 
-        # Same deal with externals.
+        # Same deal for externals.
         for external in self.externals:
             break_points_pool.add(external.x)
 
@@ -274,7 +277,7 @@ class Beam:
             # Throw an error (or as it's called in Python, raise and error) if
             # there are more than 1 support.
             if supports_length > 1:
-                raise ValueError(f"More than 1 support found at x={x}")
+                raise ValueError(f"More than 1 support found at x = {x}")
 
             # Create the left joint with the appropriate support if available
             # or create a nominal NONE type joint.
@@ -399,9 +402,14 @@ class Beam:
         for member in self.members:
             member.print_k()
 
-        print(f"s =\n{self.s()}\n")
-        print(f"P =\n{self.P()}\n")
-        print(f"d =\n{self.d()}\n")
+        print("s =")
+        print(self.s(), end="\n\n")
+
+        print("P =")
+        print(self.P(), end="\n\n")
+
+        print("d =")
+        print(self.d(), end="\n\n")
 
         d_padded = self.d_padded()
 
@@ -411,7 +419,11 @@ class Beam:
         for member in self.members:
             member.print_Q(d_padded)
 
-        print(f"R =\n{self.R()}\n")
+        # for member in self.members:
+        #     member.print_Q_f(self.externals)
+
+        print("R =")
+        print(self.R(), end="\n\n")
 
     def render(self):
         for member in self.members:
@@ -421,36 +433,36 @@ class Beam:
         print()
 
 
-lecture_example_1 = Beam(
-    200 * 10**6,
-    700 * 10**-6,
-    8 + 4,
-    [
-        Support(0, SupportType.FIXED),
-        Support(8, SupportType.ROLLER),
-    ],
-    [
-        External(8 + 4, ExternalType.FORCE, -85),
-    ],
-)
-lecture_example_1.render()
-lecture_example_1.solve()
+# lecture_example_1 = Beam(
+#     200 * 10**6,
+#     700 * 10**-6,
+#     8 + 4,
+#     [
+#         Support(0, SupportType.FIXED),
+#         Support(8, SupportType.ROLLER),
+#     ],
+#     [
+#         External(8 + 4, ExternalType.FORCE, -85),
+#     ],
+# )
+# lecture_example_1.render()
+# lecture_example_1.solve()
 
-lecture_example_2 = Beam(
-    29000 * 10**3,
-    310,
-    (40 + 60) * 12,
-    [
-        Support(0, SupportType.FIXED),
-        Support((40 + 60) * 12, SupportType.FIXED),
-    ],
-    [
-        External(40 * 12, ExternalType.FORCE, -1000),
-        External(40 * 12, ExternalType.MOMENT, -15000),
-    ],
-)
-lecture_example_2.render()
-lecture_example_2.solve()
+# lecture_example_2 = Beam(
+#     29000 * 10**3,
+#     310,
+#     (40 + 60) * 12,
+#     [
+#         Support(0, SupportType.FIXED),
+#         Support((40 + 60) * 12, SupportType.FIXED),
+#     ],
+#     [
+#         External(40 * 12, ExternalType.FORCE, -1000),
+#         External(40 * 12, ExternalType.MOMENT, -15000),
+#     ],
+# )
+# lecture_example_2.render()
+# lecture_example_2.solve()
 
 lecture_example_3 = Beam(
     29000 * 10**3,
