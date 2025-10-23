@@ -169,6 +169,7 @@ class Member:
     # matrix.
     def print_u(self, d: np.matrix):
         print(f"u_{self.id} =")
+        self.print_indices()
         print(self.u(d), end="\n\n")
 
     # Q is as simple as k * u. Not much to say here.
@@ -194,6 +195,7 @@ class Member:
     # Same deal. Prints Q with a label of the correct subscript.
     def print_Q(self, d: np.matrix):
         print(f"Q_{self.id} =")
+        self.print_indices()
         print(self.Q(d), end="\n\n")
 
     def print_Q_f(self, externals: list[External]):
@@ -208,9 +210,13 @@ class Member:
         print(f" | #{self.id} x={self.x} L={self.L}")
         print(" |")
 
+    def print_indices(self):
+        print(f"(indices: {", ".join([str(i + self.id * 2) for i in range(4)])})")
+
     # The k matrix is printed for each member with the correct label.
     def print_k(self):
         print(f"k_{self.id} =")
+        self.print_indices()
         print(self.k(), end="\n\n")
 
 
@@ -334,6 +340,11 @@ class Beam:
             self.free_indices.append(length * 2 + 1)
 
         self.free_indices = self.free_indices
+        self.fixed_indices = [
+            index
+            for index in range(len(self.members) * 2 + 2)
+            if index not in self.free_indices
+        ]
 
     # The s, by default, is the sum of all the padded stiffness matrices.
     def s_padded(self):
@@ -398,17 +409,26 @@ class Beam:
 
         return np.matrix(R)
 
+    def print_free_indices(self):
+        print(f"(indices: {", ".join([str(i) for i in self.free_indices])})")
+
+    def print_fixed_indices(self):
+        print(f"(indices: {", ".join([str(i) for i in self.fixed_indices])})")
+
     def solve(self) -> np.matrix:
         for member in self.members:
             member.print_k()
 
         print("s =")
+        self.print_free_indices()
         print(self.s(), end="\n\n")
 
         print("P =")
+        self.print_free_indices()
         print(self.P(), end="\n\n")
 
         print("d =")
+        self.print_free_indices()
         print(self.d(), end="\n\n")
 
         d_padded = self.d_padded()
@@ -419,10 +439,8 @@ class Beam:
         for member in self.members:
             member.print_Q(d_padded)
 
-        # for member in self.members:
-        #     member.print_Q_f(self.externals)
-
         print("R =")
+        self.print_fixed_indices()
         print(self.R(), end="\n\n")
 
     def render(self):
@@ -464,40 +482,40 @@ class Beam:
 # lecture_example_2.render()
 # lecture_example_2.solve()
 
-lecture_example_3 = Beam(
-    29000 * 10**3,
-    310,
-    (40 + 60) * 12,
-    [
-        Support(0, SupportType.FIXED),
-        Support((40 + 60) * 12, SupportType.FIXED),
-    ],
-    [
-        External(40 * 12, ExternalType.FORCE, -1000),
-        External(40 * 12, ExternalType.MOMENT, -15000),
-        External((40 + 60 - 30) * 12, ExternalType.FORCE, -1000),
-    ],
-)
-lecture_example_3.render()
-lecture_example_3.solve()
-
-# beam = Beam(
-#     150 * 10**6,
-#     500 * 10**-6,
-#     20,
+# lecture_example_3 = Beam(
+#     29000 * 10**3,
+#     310,
+#     (40 + 60) * 12,
 #     [
-#         Support(20 * (0 / 5), SupportType.FIXED),
-#         Support(20 * (1 / 5), SupportType.ROLLER),
-#         Support(20 * (3 / 5), SupportType.ROLLER),
-#         Support(20 * (4 / 5), SupportType.ROLLER),
+#         Support(0, SupportType.FIXED),
+#         Support((40 + 60) * 12, SupportType.FIXED),
 #     ],
 #     [
-#         External(20 * (1 / 5), ExternalType.MOMENT, 100),
-#         External(20 * (2 / 5), ExternalType.FORCE, -350),
-#         External(20 * (3 / 5), ExternalType.MOMENT, -100),
-#         External(20 * (5 / 5), ExternalType.FORCE, -200),
+#         External(40 * 12, ExternalType.FORCE, -1000),
+#         External(40 * 12, ExternalType.MOMENT, -15000),
+#         External((40 + 60 - 30) * 12, ExternalType.FORCE, -1000),
 #     ],
 # )
+# lecture_example_3.render()
+# lecture_example_3.solve()
 
-# beam.render()
-# beam.solve()
+beam = Beam(
+    150 * 10**6,
+    500 * 10**-6,
+    20,
+    [
+        Support(20 * (0 / 5), SupportType.FIXED),
+        Support(20 * (1 / 5), SupportType.ROLLER),
+        Support(20 * (3 / 5), SupportType.ROLLER),
+        Support(20 * (4 / 5), SupportType.ROLLER),
+    ],
+    [
+        External(20 * (1 / 5), ExternalType.MOMENT, 100),
+        External(20 * (2 / 5), ExternalType.FORCE, -350),
+        External(20 * (3 / 5), ExternalType.MOMENT, -100),
+        External(20 * (5 / 5), ExternalType.FORCE, -200),
+    ],
+)
+
+beam.render()
+beam.solve()
