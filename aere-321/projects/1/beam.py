@@ -47,6 +47,7 @@ class Joint:
     # A joint can only have 1 support, but any number of external moments and
     # forces.
     def __init__(self, support: Support, externals: list[External]):
+
         # Store the support.
         self.support = support
 
@@ -71,6 +72,7 @@ class Joint:
     # fixed block (░░) or a roller (◯|). In the case of a free joint, the pipe
     # us left alone.
     def render(self):
+
         # Default to a pipe.
         icon = " |"
 
@@ -115,6 +117,7 @@ class Member:
     # the beam which is later replaced with a real joint when the left joint of
     # the next member is initialized.
     def k(self):
+
         # Declare local variables for ease of reading.
         E = self.E
         I = self.I
@@ -134,6 +137,7 @@ class Member:
     # a joint of displacement id 3 will have the 3rd id in the first two (index
     # of 0). So, we need to pad.
     def k_padded(self, max_id: int):
+
         # Rows and columns to pad above and below was an interesting algebraic
         # problem. Fortunately, when I switched to 0-based indexing, it became
         # much easier.
@@ -151,6 +155,7 @@ class Member:
 
     # The u matrix is a subset of the full d column vector.
     def u(self, d: np.matrix):
+
         # This is the most clever thing I have come up with Python by far. The
         # range(4) produces values from 0 to 3 (inclusive). Then, I just add it
         # to the double of the member id, which turns out is the first id of the
@@ -206,8 +211,13 @@ class Member:
         print(self.k(), end="\n\n")
 
 
+# The beam is a collection of members.
 class Beam:
+    # The beam accepts material properties and a list of supports and external
+    # forces and moments.
     def __init__(self, E, I, L, supports: list[Support], externals: list[External]):
+
+        # Simply store the values.
         self.E = E
         self.I = I
         self.L = L
@@ -215,51 +225,101 @@ class Beam:
         self.supports = supports
         self.externals = externals
 
+    # This is a clever function because I found out Python has sets much like
+    # Set<number>() in TypeScript. This lets me collect all candidates for
+    # where I can split the beam into members.
     def break_points(self):
+
+        # The points of interest include the start and end of the beam as a
+        # default in the off case the beam has literally no supports or
+        # externals.
         points = {0, self.L}
 
+        # Loop though all supports, regardless of type, and add it to the set.
+        # And since sets in Python work much like Set() from TypeScript, any
+        # duplicates will be ignored. So we end up with a unique set of points.
         for support in self.supports:
             points.add(support.x)
 
+        # Same deal with externals.
         for external in self.externals:
             points.add(external.x)
 
+        # The points will likely be out of order so I sort them into a proper
+        # list.
         return sorted(list(points))
 
+    # This is the juicy function that's tricky to get right. Thankfully,
+    # 0-based indexing makes it trivial.
     def segment_members(self):
+
+        # First I collect the points of interest, also known as the break
+        # points in my implementation.
         break_points = self.break_points()
+
+        # The first member id is 0.
         member_id = 0
+
+        # An empty list to hold the members.
         members: list[Member] = []
 
+        # Loop through the break points which represent the position of the
+        # left side of the members (thus, by extension, the left joints).
         for x in break_points:
+
+            # Store this info since I will use it multiple times.
             is_first = member_id == 0
             is_last = member_id == len(break_points) - 1
 
+            # Filter supports and externals that act on the left side of this
+            # beam.
             supports = [support for support in self.supports if support.x == x]
             externals = [external for external in self.externals if external.x == x]
 
+            # It makes no physical sense to have more than 1 support on the
+            # same point. So I record the length for future consideration.
             supports_length = len(supports)
 
+            # Throw an error (or as it's called in Python, raise and error) if
+            # there are more than 1 support.
             if supports_length > 1:
                 raise ValueError("More than 1 support found")
 
+            # Create the left joint with the appropriate support if available
+            # or create a nominal NONE type joint.
             left = Joint(
                 supports[0] if supports_length == 1 else Support(x, SupportType.NONE),
                 externals,
             )
+
+            # The right hand side is a dummy awaiting to be replaced by the
+            # left hand side of the next member.
             right = Joint(Support(x, SupportType.NONE), [])
 
+            # If this is the last index, we are actually dealing with a member
+            # beyond the length of the beam. In other words, the left side of
+            # this member would at the very right end of the whole beam. So we
+            # never create a member if this is the last index.
             if not is_last:
+
+                # Get the next break point to get the length of this member.
                 x_next = break_points[member_id + 1]
+
+                # Create the segment with the correct values.
                 segment = Member(member_id, x, self.E, self.I, x_next - x, left, right)
 
-            if not is_first:
-                last_member = members[-1]
-                last_member.right = left
-
-            if not is_last:
+                # Throw it into the list.
                 members.append(segment)
 
+            # If this is anything but the first member, there exists another
+            # member to the left of this one which is awaiting a right side
+            # joint. So, I donate the left side of this member to the right
+            # side of the previous member.
+            if not is_first:
+                last_member = members[-2]
+                last_member.right = left
+
+            # Increment the member id.
             member_id += 1
 
         return members
@@ -415,5 +475,4 @@ beam = Beam(
 )
 
 beam.render()
-beam.print_all
-()
+beam.print_all()
