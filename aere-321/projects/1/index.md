@@ -7,3 +7,5 @@ I chose to do this project in Python since it guarantees I won't pull my hair ou
 And of course, here is the figure with the external forces and moments:
 
 ![](https://i.imgur.com/rZ0rYBe.png)
+
+I do a lot of OOP with TypeScript as a hobby, so you'll see my taste in programming transferred into Python here in the form of a lot of classes and methods:

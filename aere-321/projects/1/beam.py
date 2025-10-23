@@ -1,26 +1,39 @@
+# I am using numpy to handle matrices; there's no need for me to make my own
+# implementation.
 import numpy as np
+
+# Enums are great for discrimination in TypeScript and Rust. Python doesn't
+# have them out of the box, but there's a class.
 from enum import Enum
 
+# Numpy's print width was too narrow to fit big matrices so I changed it.
 np.set_printoptions(linewidth=200)
 
 
+# The support type discriminator. Logic later uses this to figure out what's
+# fixed and free.
 class SupportType(Enum):
     NONE = 1
     FIXED = 2
     ROLLER = 3
 
 
+# This is a purely nominal class that I use for interfacing with the Beam class
+# later.
 class Support:
     def __init__(self, x: float, type: SupportType):
         self.type = type
         self.x = x
 
 
+# Another enum, this time for the external force or moment type.
 class ExternalType(Enum):
     FORCE = 1
     MOMENT = 2
 
 
+# Another nominal class without methods. The held values here will be used in
+# logic below.
 class External:
     def __init__(self, x: float, type: ExternalType, value: float):
         self.x = x
@@ -28,10 +41,16 @@ class External:
         self.value = value
 
 
+# Finally, a class with methods! This class represents the joint between two
+# members.
 class Joint:
+    # A joint can only have 1 support, but any number of external moments and
+    # forces.
     def __init__(self, support: Support, externals: list[External]):
+        # Store the support.
         self.support = support
 
+        # Filter forces and moments into separate lists.
         external_forces = [
             external for external in externals if external.type == ExternalType.FORCE
         ]
@@ -39,34 +58,48 @@ class Joint:
             external for external in externals if external.type == ExternalType.MOMENT
         ]
 
+        # Find resultants and store them.
         self.external_force = sum([external.value for external in external_forces])
         self.external_moment = sum([external.value for external in external_moments])
 
+        # Also cache the freedoms of the joint to avoid recomputing them.
         self.free_displacement = support.type == SupportType.NONE
         self.free_rotation = support.type != SupportType.FIXED
 
+    # This is a part of the debug renderer which draws the beam in the console.
+    # The joint renders a pipe ( |) and the support type which can either be a
+    # fixed block (░░) or a roller (◯|). In the case of a free joint, the pipe
+    # us left alone.
     def render(self):
+        # Default to a pipe.
         icon = " |"
 
+        # Turn pipe into a fixed support.
         if self.support.type == SupportType.FIXED:
             icon = "░░"
         elif self.support.type == SupportType.ROLLER:
             icon = "◯|"
 
-        print(
-            f"{icon} → {self.external_force} ⭯ {self.external_moment}",
-            end="\n",
-        )
+        # Print the joint type and external forces and moments.
+        print(f"{icon} → {self.external_force} ⭯ {self.external_moment}")
 
+    # Print P_i and P_i+1.
     def print_loads(self, id: int):
         print(f"P_{id} = {self.external_force}")
         print(f"P_{id + 1} = {self.external_moment}")
 
 
+# This class represents members that sit between two joints.
 class Member:
+    # Members accept an id, starting from 0 because it's Python, the x position
+    # of the left end of the member, E and I of the material, L of the member
+    # (not the whole beam, that was a nasty bug!), and the left and right
+    # joints. The left joint is the same as the right joint for the last member
+    # and vice versa.
     def __init__(
         self, id: int, x: float, E: float, I: float, L: float, left: Joint, right: Joint
     ):
+        # Store the values.
         self.id = id
         self.x = x
 
@@ -77,11 +110,17 @@ class Member:
         self.left = left
         self.right = right
 
+    # Computing the k value is a method here and not a part of __init__ because
+    # this class is always initialized with a dummy joint for the right side of
+    # the beam which is later replaced with a real joint when the left joint of
+    # the next member is initialized.
     def k(self):
+        # Declare local variables for ease of reading.
         E = self.E
         I = self.I
         L = self.L
 
+        # The goofy matrix from lecture.
         return ((E * I) / L**3) * np.matrix(
             [
                 [12, 6 * L, -12, 6 * L],
@@ -91,10 +130,17 @@ class Member:
             ]
         )
 
+    # The k matrix is normally trimmed. For instance, the k matrix of member
+    # a joint of displacement id 3 will have the 3rd id in the first two (index
+    # of 0). So, we need to pad.
     def k_padded(self, max_id: int):
+        # Rows and columns to pad above and below was an interesting algebraic
+        # problem. Fortunately, when I switched to 0-based indexing, it became
+        # much easier.
         top_left_padding = 2 * self.id
         bottom_right_padding = 2 * (max_id - self.id)
 
+        # Numpy has a built-in function for padding matrices.
         return np.pad(
             self.k(),
             pad_width=(
@@ -318,38 +364,39 @@ class Beam:
         print()
 
 
-lecture_beam = Beam(
-    200 * 10**6,
-    700 * 10**-6,
-    8 + 4,
-    [
-        Support(0, SupportType.FIXED),
-        Support(8, SupportType.ROLLER),
-    ],
-    [
-        External(8 + 4, ExternalType.FORCE, -85),
-    ],
-)
-lecture_beam.render()
-lecture_beam.print_all()
-
-# beam = Beam(
-#     150 * 10**6,
-#     500 * 10**-6,
-#     20,
+# lecture_beam = Beam(
+#     200 * 10**6,
+#     700 * 10**-6,
+#     8 + 4,
 #     [
-#         Support(20 * (0 / 5), SupportType.FIXED),
-#         Support(20 * (1 / 5), SupportType.ROLLER),
-#         Support(20 * (3 / 5), SupportType.ROLLER),
-#         Support(20 * (4 / 5), SupportType.ROLLER),
+#         Support(0, SupportType.FIXED),
+#         Support(8, SupportType.ROLLER),
 #     ],
 #     [
-#         External(20 * (1 / 5), ExternalType.MOMENT, 100),
-#         External(20 * (2 / 5), ExternalType.FORCE, -350),
-#         External(20 * (3 / 5), ExternalType.MOMENT, -100),
-#         External(20 * (5 / 5), ExternalType.FORCE, -200),
+#         External(8 + 4, ExternalType.FORCE, -85),
 #     ],
 # )
+# lecture_beam.render()
+# lecture_beam.print_all()
 
-# beam.render()
-# beam.print_all()
+beam = Beam(
+    150 * 10**6,
+    500 * 10**-6,
+    20,
+    [
+        Support(20 * (0 / 5), SupportType.FIXED),
+        Support(20 * (1 / 5), SupportType.ROLLER),
+        Support(20 * (3 / 5), SupportType.ROLLER),
+        Support(20 * (4 / 5), SupportType.ROLLER),
+    ],
+    [
+        External(20 * (1 / 5), ExternalType.MOMENT, 100),
+        External(20 * (2 / 5), ExternalType.FORCE, -350),
+        External(20 * (3 / 5), ExternalType.MOMENT, -100),
+        External(20 * (5 / 5), ExternalType.FORCE, -200),
+    ],
+)
+
+beam.render()
+beam.print_all
+()
