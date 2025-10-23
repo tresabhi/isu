@@ -1,6 +1,8 @@
 import numpy as np
 from enum import Enum
 
+np.set_printoptions(linewidth=200)
+
 
 class SupportType(Enum):
     NONE = 1
@@ -56,6 +58,11 @@ class Joint:
             end="\n",
         )
 
+    def print_loads(self, id: int):
+        print(f"Join external force P_{id} = {self.external_force}")
+        print(f"Join external moment P_{id + 1} = {self.external_moment}")
+        print()
+
 
 class Member:
 
@@ -104,6 +111,11 @@ class Member:
         print(" |")
         print(f" | #{self.id} x={self.x} L={self.L}")
         print(" |")
+
+    def print_k(self):
+        print(f"Member stiffness matrix k_{self.id} =")
+        print(self.k())
+        print()
 
 
 class Beam:
@@ -201,12 +213,41 @@ class Beam:
 
     def solve(self) -> np.matrix:
         members = self.segment_members()
+
+        for member in members:
+            member.left.print_loads(member.id * 2)
+            member.print_k()
+
+        members[-1].right.print_loads(members[-1].id * 2 + 1)
+
         free = self.free_indices(members)
 
-        S = self.S(members)[np.ix_(free, free)]
-        P = self.P(members)[np.ix_(free)]
+        S = self.S(members)
 
-        return np.linalg.solve(S, P)
+        print(f"Global untrimmed stiffness matrix S_untrimmed =")
+        print(S, end="\n\n")
+
+        S = S[np.ix_(free, free)]
+
+        print(f"Global trimmed stiffness matrix S =")
+        print(S, end="\n\n")
+
+        P = self.P(members)
+
+        print("Joint untrimmed load column vector P =")
+        print(P, end="\n\n")
+
+        P = P[np.ix_(free)]
+
+        print("Joint trimmed load column vector P =")
+        print(P, end="\n\n")
+
+        d = np.linalg.solve(S, P)
+
+        print("Solved displacements d=")
+        print(d, end="\n\n")
+
+        return d
 
     def render(self):
         members = self.segment_members()
@@ -251,3 +292,4 @@ beam = Beam(
 )
 
 beam.render()
+beam.solve()
