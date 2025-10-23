@@ -43,7 +43,7 @@ class Joint:
         self.free_displacement = support.type == SupportType.NONE
         self.free_rotation = support.type != SupportType.FIXED
 
-    def render(self):
+    def print(self):
         icon = " |"
 
         if self.support.type == SupportType.FIXED:
@@ -87,7 +87,7 @@ class Member:
         )
 
     def k_padded(self, max_id: int):
-        top_left_padding = 2 * (self.id - 1)
+        top_left_padding = 2 * self.id
         bottom_right_padding = 2 * (max_id - self.id)
 
         return np.pad(
@@ -98,8 +98,8 @@ class Member:
             ),
         )
 
-    def render(self):
-        self.left.render()
+    def print(self):
+        self.left.print()
 
         print(" |")
         print(f" | #{self.id} x={self.x} L={self.L}")
@@ -128,13 +128,12 @@ class Beam:
 
     def segment_members(self):
         break_points = self.break_points()
-        member_id = 1
+        member_id = 0
         members: list[Member] = []
-        length = len(break_points)
 
         for x in break_points:
-            is_first = member_id == 1
-            is_last = member_id == length
+            is_first = member_id == 0
+            is_last = member_id == len(break_points) - 1
 
             supports = [support for support in self.supports if support.x == x]
             externals = [external for external in self.externals if external.x == x]
@@ -151,9 +150,8 @@ class Beam:
             right = Joint(Support(x, SupportType.NONE), [])
 
             if not is_last:
-                x_next = break_points[member_id]
-                L = x_next - x
-                segment = Member(member_id, x, self.E, self.I, L, left, right)
+                x_next = break_points[member_id + 1]
+                segment = Member(member_id, x, self.E, self.I, x_next - x, left, right)
 
             if not is_first:
                 last_member = members[-1]
@@ -188,10 +186,10 @@ class Beam:
 
         for member in members:
             if member.left.free_displacement:
-                ids.append((member.id - 1) * 2)
+                ids.append(member.id * 2)
 
             if member.left.free_rotation:
-                ids.append((member.id - 1) * 2 + 1)
+                ids.append(member.id * 2 + 1)
 
         if members[-1].right.free_displacement:
             ids.append(length * 2)
@@ -203,37 +201,37 @@ class Beam:
 
     def solve(self) -> np.matrix:
         members = self.segment_members()
-        indices = self.free_indices(members)
+        free = self.free_indices(members)
 
-        S = self.S(members)[np.ix_(indices, indices)]
-        P = self.P(members)[np.ix_(indices)]
+        S = self.S(members)[np.ix_(free, free)]
+        P = self.P(members)[np.ix_(free)]
 
         return np.linalg.solve(S, P)
 
     def solve_and_print(self):
         members = self.segment_members()
-        indices = self.free_indices(members)
-        solved = self.solve()
-        max_id = (members[-1].id) * 2
+        free = self.free_indices(members)
+        solution = self.solve()
+        max_id = len(members) * 2 + 1
         sorted = dict()
 
         i = 0
-        for d in solved:
-            sorted[indices[i]] = d.item()
+        for d in solution:
+            sorted[free[i]] = d.item()
             i += 1
 
-        for id in range(max_id + 2):
-            print(f"d_{id + 1} = {sorted[id] if id in sorted else 0}")
+        for id in range(max_id + 1):
+            print(f"d_{id} = {sorted[id] if id in sorted else 0}")
 
         print()
 
-    def render(self):
+    def print(self):
         members = self.segment_members()
 
         for member in members:
-            member.render()
+            member.print()
 
-        members[-1].right.render()
+        members[-1].right.print()
         print()
 
 
@@ -249,7 +247,7 @@ lecture_beam = Beam(
         External(8 + 4, ExternalType.FORCE, -85),
     ],
 )
-lecture_beam.render()
+lecture_beam.print()
 lecture_beam.solve_and_print()
 
 project_beam = Beam(
@@ -269,5 +267,5 @@ project_beam = Beam(
         External(20 * (5 / 5), ExternalType.FORCE, -200),
     ],
 )
-project_beam.render()
+project_beam.print()
 project_beam.solve_and_print()
