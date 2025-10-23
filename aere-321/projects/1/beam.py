@@ -149,18 +149,31 @@ class Member:
             ),
         )
 
+    # The u matrix is a subset of the full d column vector.
     def u(self, d: np.matrix):
+        # This is the most clever thing I have come up with Python by far. The
+        # range(4) produces values from 0 to 3 (inclusive). Then, I just add it
+        # to the double of the member id, which turns out is the first id of the
+        # left joint since we are using 0-based indexing.
         slice = [self.id * 2 + index for index in range(4)]
+
+        # Numpy has a built-in function for slicing matrices.
         return d[np.ix_(slice)]
 
+    # Printed for the u matrix just denotes the subscript and prints the raw
+    # matrix.
     def print_u(self, d: np.matrix):
         print(f"u_{self.id} =")
         print(self.u(d), end="\n\n")
 
+    # Q is as simple as k * u. Not much to say here.
     def Q(self, d: np.matrix):
         u = self.u(d)
         return self.k() * u
 
+    # Before Q can be globally manipulated, it needs to be padded. It uses the
+    # same padding as k_padded but with some simplification since its a column
+    # vector.
     def Q_padded(self, d: np.matrix, max_id: int):
         top_padding = 2 * self.id
         bottom_padding = 2 * (max_id - self.id)
@@ -173,10 +186,13 @@ class Member:
             ),
         )
 
+    # Same deal. Prints Q with a label of the correct subscript.
     def print_Q(self, d: np.matrix):
         print(f"Q_{self.id} =")
         print(self.Q(d), end="\n\n")
 
+    # Renders the intermediate pipe (|) symbols between the joint along with
+    # the id, x position, and length of the member.
     def render(self):
         self.left.render()
 
@@ -184,6 +200,7 @@ class Member:
         print(f" | #{self.id} x={self.x} L={self.L}")
         print(" |")
 
+    # The k matrix is printed for each member with the correct label.
     def print_k(self):
         print(f"k_{self.id} =")
         print(self.k(), end="\n\n")
