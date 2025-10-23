@@ -738,3 +738,26 @@ I have also printed the associate indices for all the matrices. Interpreting the
 A similar logic holds for matrices:
 
 ![](https://i.imgur.com/o1M9bDD.png)
+
+## How the Algorithm Works
+
+1. Declare material properties, external forces and moments, supports, and the length of the beam.
+2. Collect points of interest for the beam which includes $x = 0$, $x = L$, positions of supports, and positions of externals.
+3. De-duplicate the points of interest (only keep unique ones) and sort them into a list of $x$ values called the break points.
+4. Create members from the break points with joints to the left of the individual members, encoding the moments and forces at the joints.
+5. Donate the left joints to the right joint of the previous member for all members except the first one.
+6. Compute the stiffness matrix $K$ for all members.
+7. Pad the stiffness matrix $K$ for all members so that all members have matrices of the same dimensions with their respective values at the correct indices.
+8. Add all stiffness matrices into a global stiffness matrix $s$.
+9. Sum all external forces and moments on all joints.
+10. Arrange all external forces and moments into a column vector $P_i$.
+11. Pad the external forces and moments for all members so that all members have vectors of the same dimensions with their respective values at the correct indices.
+12. Sum all the padded external forces and moments into a column vector $P$.
+13. Trim the global stiffness matrix $s$ and $P$ to only include the free indices.
+14. Solve for $d$.
+15. Re-pad $d$ to include $0$ for the fixed indices and pass it back to all the members.
+16. Let each member compute its $u$ vector as a subsection of the newly padded $d$ vector.
+17. Compute $Q$ for each member.
+18. Pad $Q$ for each member so that all members have matrices of the same dimensions with their respective values at the correct indices.
+19. Add all padded $Q$ matrices into a global $R$ matrix.
+20. Trim the $R$ matrix to only include the fixed indices since the free indices cannot have reaction forces.
