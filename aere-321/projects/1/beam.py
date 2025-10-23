@@ -59,8 +59,8 @@ class Joint:
         )
 
     def print_loads(self, id: int):
-        print(f"Join external force P_{id} = {self.external_force}")
-        print(f"Join external moment P_{id + 1} = {self.external_moment}", end="\n\n")
+        print(f"P_{id} = {self.external_force}")
+        print(f"P_{id + 1} = {self.external_moment}")
 
 
 class Member:
@@ -108,15 +108,27 @@ class Member:
         return d[np.ix_(slice)]
 
     def print_u(self, d: np.matrix):
-        print(f"Member unknown displacements u_{self.id} =")
+        print(f"u_{self.id} =")
         print(self.u(d), end="\n\n")
 
     def Q(self, d: np.matrix):
         u = self.u(d)
         return self.k() * u
 
+    def Q_padded(self, d: np.matrix, max_id: int):
+        top_padding = 2 * self.id
+        bottom_padding = 2 * (max_id - self.id)
+
+        return np.pad(
+            self.Q(d),
+            pad_width=(
+                (top_padding, bottom_padding),
+                (0, 0),
+            ),
+        )
+
     def print_Q(self, d: np.matrix):
-        print(f"Member loads Q_{self.id} =")
+        print(f"Q_{self.id} =")
         print(self.Q(d), end="\n\n")
 
     def render(self):
@@ -127,7 +139,7 @@ class Member:
         print(" |")
 
     def print_k(self):
-        print(f"Member stiffness matrix k_{self.id} =")
+        print(f"k_{self.id} =")
         print(self.k(), end="\n\n")
 
 
@@ -234,38 +246,39 @@ class Beam:
             member.left.print_loads(member.id * 2)
 
         members[-1].right.print_loads(members[-1].id * 2 + 1)
+        print()
 
-        free = self.free_indices(members)
+        free_indices = self.free_indices(members)
 
         S = self.S(members)
 
-        print(f"Global untrimmed stiffness matrix S_untrimmed =")
+        print(f"S_untrimmed =")
         print(S, end="\n\n")
 
-        S = S[np.ix_(free, free)]
+        S = S[np.ix_(free_indices, free_indices)]
 
-        print(f"Global trimmed stiffness matrix S =")
+        print(f"S =")
         print(S, end="\n\n")
 
         P = self.P(members)
 
-        print("Joint untrimmed load column vector P =")
+        print("P_untrimmed =")
         print(P, end="\n\n")
 
-        P = P[np.ix_(free)]
+        P = P[np.ix_(free_indices)]
 
-        print("Joint trimmed load column vector P =")
+        print("P =")
         print(P, end="\n\n")
 
         d = np.linalg.solve(S, P)
 
-        print("Unknown displacements d=")
+        print("d =")
         print(d, end="\n\n")
 
         d_sorted = dict()
 
         index = 0
-        for free_index in free:
+        for free_index in free_indices:
             d_sorted[free_index] = d[index].item()
             index += 1
 
@@ -276,7 +289,7 @@ class Beam:
 
         d_untrimmed = np.matrix(d_untrimmed)
 
-        print("Untrimmed unknown displacements d_untrimmed=")
+        print("d_untrimmed =")
         print(d_untrimmed, end="\n\n")
 
         for member in members:
@@ -284,6 +297,16 @@ class Beam:
 
         for member in members:
             member.print_Q(d_untrimmed)
+
+        R_untrimmed = sum(
+            [member.Q_padded(d_untrimmed, members[-1].id) for member in members]
+        )
+
+        for index in range(members[-1].id * 2 + 4):
+            if index in free_indices:
+                continue
+
+            print(f"R_{index} = {R_untrimmed[index].item()}")
 
     def render(self):
         members = self.segment_members()
