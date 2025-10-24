@@ -42,6 +42,7 @@
     "numel",
     "odeset",
     "optimoptions",
+    "OTSU",
     "Perlin",
     "Prelab",
     "printoptions",
