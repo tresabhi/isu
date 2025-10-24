@@ -1,4 +1,4 @@
 train: ./dataset/smalltrain/images
 val: ./dataset/smallvalid/images
 nc: 2
-names: ['Person', 'Face']
+names: ["Person", "Face"]
