@@ -27,7 +27,7 @@ Time   : 17:53:18
 Host   : nova22-21
 PID    : 1732890
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 1
 trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
 fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
@@ -337,7 +337,7 @@ Overriding DebugSwitches according to controlDict
 End
 
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 16
 Hosts  :
 (
@@ -356,7 +356,7 @@ Overriding DebugSwitches according to controlDict
 Create mesh for time = 0
 Initializing mesh and runtime for DASolver
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 16
 Hosts  :
 (
@@ -703,7 +703,7 @@ DAFoam option dictionary:
 
 Reading OpenFOAM mesh information...
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 16
 Hosts  :
 (
@@ -724,7 +724,7 @@ Checking if we need to compress the mesh files
 Checking if we need to compress the mesh files
 pyDAFoam initialization done!
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 16
 Hosts  :
 (
@@ -756,7 +756,7 @@ I/O    : uncollated
  'errTol': 0.0005,
  'evalMode': 'fast',
  'fileType': 'openfoam',
- 'gridFile': '/home/[REDACTED]/NACA0012',
+ 'gridFile': '/home/abhi457/NACA0012',
  'restartFile': None,
  'specifiedSurfaces': None,
  'symmTol': 1e-06,
@@ -1736,7 +1736,7 @@ Time   : 17:53:21
 Host   : nova22-21
 PID    : 1732898
 I/O    : uncollated
-Case   : /home/[REDACTED]/NACA0012
+Case   : /home/abhi457/NACA0012
 nProcs : 1
 trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
 fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)

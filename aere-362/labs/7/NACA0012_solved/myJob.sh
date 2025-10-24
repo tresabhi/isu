@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=16     # CPU cores per node 
 #SBATCH --output="log-%j.txt"    # simulation log file name
 #SBATCH --partition=instruction  # node type
-#SBATCH --account=[REDACTED]
+#SBATCH --account=f2025.aere.3620.01
 #SBATCH --constraint=intel
 
 . /work/class-faculty/phe/dafoam/loadDAFoam.sh
