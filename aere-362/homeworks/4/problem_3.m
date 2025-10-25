@@ -1,32 +1,54 @@
 rng default
 
-global Mt
-global Rt
-global Dt
-
 x = lhsdesign(10, 2, 'smooth', 'off');
-x = round(x, 3);
-
 Mt = x(:, 1);
 Rt = x(:, 2);
 Dt = (Mt - 0.3) .^ 2 + (Rt - 0.5) .^ 2 + 1;
 
-figure(1)
-plot(Mt, Rt, 'ko')
+samples = table(Mt, Rt, Dt);
 
-options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp');
+disp('Samples:')
+disp(samples)
 
-x0 = zeros(12, 1);
+X = [Mt Rt];
+Y = Dt;
 
-[xOpt, fOpt] = fmincon("objFunc", x0, [], [], [], [], [], [], [], options);
+net_1 = fitrnet(X, Y, "LayerSizes", 3, "Activations", "sigmoid");
+predictions_1 = predict(net_1, X);
+mean_1 = mean((predictions_1 - Y) .^ 2);
 
-w = zeros(9);
-b = zeros(3);
+disp('Mean (1 layer, 3 neurons):')
+disp(mean_1)
 
-for i = 1:9
-    w(i) = xOpt(i);
+net_2 = fitrnet(X, Y, "LayerSizes", [5 8], "Activations", "sigmoid");
+predictions_2 = predict(net_2, X);
+mean_2 = mean((predictions_2 - Y) .^ 2);
+
+disp('Mean (2 layers, 5 + 8 neurons):')
+disp(mean_2)
+
+fprintf('\nMSE (1 layer, 3 neurons): %f\n', mean_1);
+fprintf('MSE (2 layers, 5+8 neurons): %f\n', mean_2);
+
+if mean_2 < mean_1
+    disp('Net 2 (deeper) rocks!')
+else
+    disp('Net 1 (shallow) rocks!')
 end
 
-b(1) = xOpt(10);
-b(2) = xOpt(11);
-b(3) = xOpt(12);
+[Ms, Rs] = meshgrid(linspace(0, 1, 50), linspace(0, 1, 50));
+
+grid_x = [Ms(:) Rs(:)];
+grid_y = predict(net_2, grid_x);
+grid_y = reshape(grid_y, size(Ms));
+
+figure(1)
+
+contourf(Ms, Rs, grid_y, 20); hold on;
+plot(Mt, Rt, 'ko', 'MarkerFaceColor', 'k')
+
+xlabel('M')
+ylabel('R')
+title('Predicted Dt Contours with LHS Sample Points')
+
+grid on
