@@ -3,4 +3,6 @@ test.*
 *.zip
 me-280/perception/dataset/*/images/*.jpg
 me-280/perception/dataset/*/labels/*.txt
+me-280/homeworks/2/runs/
 *.cache
+*.pt
