@@ -145,7 +145,7 @@ cases = [
     (
         E_al,
         "rectangle",
-        ((1 / 4) * ur.inch, 1 * ur.inch),
+        (1 * ur.inch, (1 / 4) * ur.inch),  # this is backwards to make h = 1/4"
         30 * ur.inch,
         "pinned_pinned",
     ),
