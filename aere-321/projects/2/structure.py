@@ -48,53 +48,39 @@ class Member:
     def __init__(
         self, id: int, material: Material, joint_0: Joint, joint_1: Joint, max_id: int
     ):
+        self.id = id
+
         theta, L = joint_1.relative_to(joint_0)
         c, s = math.cos(theta), math.sin(theta)
 
         E, I, A = material.E, material.I, material.A
-        K = self.K = ((E * I) / L**3) * np.matrix(
+
+        T = self.T = np.matrix(
             [
-                [
-                    (A * L**2 / I) * c**2 + 12 * s**2,
-                    ((A * L**2 / I) - 12) * c * s,
-                    -6 * L * s,
-                    -((A * L**2 / I) * c**2 + 12 * s**2),
-                    -((A * L**2 / I) - 12) * c * s,
-                    -6 * L * s,
-                ],
-                [
-                    ((A * L**2 / I) - 12) * c * s,
-                    (A * L**2 / I) * s**2 + 12 * c**2,
-                    6 * L * c,
-                    -((A * L**2 / I) - 12) * c * s,
-                    -((A * L**2 / I) * s**2 + 12 * c**2),
-                    6 * L * c,
-                ],
-                [-6 * L * s, 6 * L * c, 4 * L**2, 6 * L * s, -6 * L * c, 2 * L**2],
-                [
-                    -((A * L**2 / I) * c**2 + 12 * s**2),
-                    -((A * L**2 / I) - 12) * c * s,
-                    6 * L * s,
-                    (A * L**2 / I) * c**2 + 12 * s**2,
-                    ((A * L**2 / I) - 12) * c * s,
-                    6 * L * s,
-                ],
-                [
-                    -((A * L**2 / I) - 12) * c * s,
-                    -((A * L**2 / I) * s**2 + 12 * c**2),
-                    -6 * L * c,
-                    ((A * L**2 / I) - 12) * c * s,
-                    (A * L**2 / I) * s**2 + 12 * c**2,
-                    -6 * L * c,
-                ],
-                [-6 * L * s, 6 * L * c, 2 * L**2, 6 * L * s, -6 * L * c, 4 * L**2],
+                [c, s, 0, 0, 0, 0],
+                [-s, c, 0, 0, 0, 0],
+                [0, 0, 1, 0, 0, 0],
+                [0, 0, 0, c, s, 0],
+                [0, 0, 0, -s, c, 0],
+                [0, 0, 0, 0, 0, 1],
             ]
         )
+        k = self.k = ((E * I) / L**3) * np.matrix(
+            [
+                [(A * L**2) / I, 0, 0, -(A * L**2) / I, 0, 0],
+                [0, 12, 6 * L, 0, -12, 6 * L],
+                [0, 6 * L, 4 * L**2, 0, -6 * L, 2 * L**2],
+                [-(A * L**2) / I, 0, 0, (A * L**2) / I, 0, 0],
+                [0, -12, -6 * L, 0, 12, -6 * L],
+                [0, 6 * L, 2 * L**2, 0, -6 * L, 4 * L**2],
+            ]
+        )
+        K = self.K = T.T * k * T
 
         top_left_padding = 3 * id
         bottom_right_padding = 3 * (max_id - id)
 
-        K_padded = self.K_padded = np.pad(
+        self.K_padded = np.pad(
             K,
             pad_width=(
                 (top_left_padding, bottom_right_padding),
@@ -107,20 +93,22 @@ class Structure:
     def __init__(
         self, material: Material, joints: list[Joint], members: list[tuple[int, int]]
     ):
-        member_id = 0
         joints_count = len(joints)
         max_joint_id = joints_count - 1
         max_member_id = max_joint_id - 1
 
-        S_padded = np.zeros((3 * joints_count, 3 * joints_count))
+        members: list[Member] = [
+            Member(
+                member_id,
+                material,
+                joints[joint_id_0],
+                joints[joint_id_1],
+                max_member_id,
+            )
+            for member_id, (joint_id_0, joint_id_1) in enumerate(members)
+        ]
 
-        for joint_id_0, joint_id_1 in members:
-            joint_0 = joints[joint_id_0]
-            joint_1 = joints[joint_id_1]
-            member = Member(member_id, material, joint_0, joint_1, max_member_id)
-
-            S_padded += member.K_padded
-            member_id += 1
+        S_padded = sum(member.K_padded for member in members)
 
         free_indices: list[int] = []
         fixed_indices: list[int] = []
@@ -144,6 +132,14 @@ class Structure:
 
         d_padded = np.zeros((3 * joints_count, 1))
         d_padded[np.ix_(free_indices)] = d
+
+        for member in members:
+            joint_indices = [member.id * 3 + i for i in range(6)]
+            v = d_padded[np.ix_(joint_indices)]
+            u = member.T * v
+            Q = member.k * u
+
+            print(Q)
 
 
 lecture_example_1 = Structure(
