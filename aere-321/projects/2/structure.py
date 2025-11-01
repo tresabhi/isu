@@ -60,8 +60,11 @@ class Member:
         self.joint_0 = joint_0
         self.joint_1 = joint_1
 
-        theta, L = joint_1.relative_to(joint_0)
-        c, s = math.cos(theta), math.sin(theta)
+        self.dx = joint_1.x - joint_0.x
+        self.dy = joint_1.y - joint_0.y
+
+        theta, L = self.theta, self.L = joint_1.relative_to(joint_0)
+        c, s = self.c, self.s = math.cos(theta), math.sin(theta)
 
         E, I, A = material.E, material.I, material.A
 
@@ -113,7 +116,6 @@ class Structure:
         self.joints = joints
 
         max_joint_id = len(joints) - 1
-        max_member_id = len(_members) - 1
 
         members: list[Member] = []
         member_id = 0
@@ -170,6 +172,57 @@ class Structure:
             epsilon_a = sigma_a / material.E
 
 
+def plot_deformed_structure_smooth(structure: Structure, exaggeration=1.0, n_points=20):
+    _, ax = plt.subplots()
+
+    for member in structure.members:
+        ax.plot(
+            [member.joint_0.x, member.joint_1.x],
+            [member.joint_0.y, member.joint_1.y],
+            "--",
+            color=(0.75, 0.75, 0.75),
+            label="Original" if member.id == 0 else "",
+        )
+
+        u_0 = structure.d_padded[member.joint_0.id * 3, 0] * exaggeration
+        v_0 = structure.d_padded[member.joint_0.id * 3 + 1, 0] * exaggeration
+        theta_0 = structure.d_padded[member.joint_0.id * 3 + 2, 0] * exaggeration
+        u_1 = structure.d_padded[member.joint_1.id * 3, 0] * exaggeration
+        v_1 = structure.d_padded[member.joint_1.id * 3 + 1, 0] * exaggeration
+        theta_1 = structure.d_padded[member.joint_1.id * 3 + 2, 0] * exaggeration
+
+        ul_0 = member.c * u_0 + member.s * v_0
+        vl_0 = -member.s * u_0 + member.c * v_0
+        ul_1 = member.c * u_1 + member.s * v_1
+        vl_1 = -member.s * u_1 + member.c * v_1
+
+        xs = np.linspace(0, 1, n_points)
+        N1 = 1 - 3 * xs**2 + 2 * xs**3
+        N2 = member.L * (xs - 2 * xs**2 + xs**3)
+        N3 = 3 * xs**2 - 2 * xs**3
+        N4 = member.L * (-(xs**2) + xs**3)
+
+        v_local = N1 * vl_0 + N2 * theta_0 + N3 * vl_1 + N4 * theta_1
+        u_local = N1 * ul_0 + N3 * ul_1
+
+        sx = member.joint_0.x + xs * member.dx - member.s * v_local + member.c * u_local
+        ys = member.joint_0.y + xs * member.dy + member.c * v_local + member.s * u_local
+
+        ax.plot(
+            sx,
+            ys,
+            "k-",
+            linewidth=2,
+            label=f"Deformed (x{exaggeration} exaggeration)" if member.id == 0 else "",
+        )
+
+    ax.set_aspect("equal")
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.legend()
+    plt.show()
+
+
 # lecture_example_1 = Structure(
 #     Material(29000, 310, 11.8),
 #     [
@@ -182,6 +235,7 @@ class Structure:
 #         (1, 2),
 #     ],
 # )
+
 
 structure = Structure(
     Material(10200, (1 * 0.25**3) / 12, 1 * 0.25),
@@ -202,3 +256,5 @@ structure = Structure(
         (2, 5),
     ],
 )
+
+plot_deformed_structure_smooth(structure, exaggeration=100, n_points=50)
