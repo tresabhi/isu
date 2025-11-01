@@ -135,11 +135,13 @@ class Structure:
 
         for member in members:
             joint_indices = [member.id * 3 + i for i in range(6)]
+
             v = d_padded[np.ix_(joint_indices)]
             u = member.T * v
             Q = member.k * u
 
-            print(Q)
+            sigma_a = Q[3].item() / material.A
+            epsilon_a = sigma_a / material.E
 
 
 lecture_example_1 = Structure(
