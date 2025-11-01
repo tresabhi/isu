@@ -94,18 +94,29 @@ class Member:
             shape=(3 * (max_joint_id + 1), 3 * (max_joint_id + 1))
         )
 
-        indices = [
-            joint_0.id * 3,
-            joint_0.id * 3 + 1,
-            joint_0.id * 3 + 2,
-            joint_1.id * 3,
-            joint_1.id * 3 + 1,
-            joint_1.id * 3 + 2,
+        self.joint_indices = [
+            *[self.joint_0.id * 3 + i for i in range(3)],
+            *[self.joint_1.id * 3 + i for i in range(3)],
         ]
 
-        for u, i in enumerate(indices):
-            for v, j in enumerate(indices):
+        for u, i in enumerate(self.joint_indices):
+            for v, j in enumerate(self.joint_indices):
                 K_padded[i, j] += K[u, v]
+
+    def v(self, d_padded: np.matrix):
+        return d_padded[np.ix_(self.joint_indices)]
+
+    def u(self, d_padded: np.matrix):
+        return self.T * self.v(d_padded)
+
+    def Q(self, d_padded: np.matrix):
+        return self.k * self.u(d_padded)
+
+    def sigma_a(self, d_padded: np.matrix):
+        return self.Q(d_padded)[3].item() / self.material.A
+
+    def epsilon_a(self, d_padded: np.matrix):
+        return self.sigma_a(d_padded) / self.material.E
 
 
 class Structure:
@@ -150,26 +161,13 @@ class Structure:
             elif joint.type == JointType.FIXED:
                 fixed_indices += external_indices
 
-        s = s_padded[np.ix_(free_indices, free_indices)]
+        s = self.s = s_padded[np.ix_(free_indices, free_indices)]
         P_padded = np.matrix(P_padded)
-        P = P_padded[np.ix_(free_indices)]
-        d = np.linalg.solve(s, P)
+        P = self.P = P_padded[np.ix_(free_indices)]
+        d = self.d = np.linalg.solve(s, P)
 
         d_padded = self.d_padded = np.zeros((3 * (max_joint_id + 1), 1))
         d_padded[np.ix_(free_indices)] = d
-
-        for member in members:
-            joint_indices = [
-                *[member.joint_0.id * 3 + i for i in range(3)],
-                *[member.joint_1.id * 3 + i for i in range(3)],
-            ]
-
-            v = d_padded[np.ix_(joint_indices)]
-            u = member.T * v
-            Q = member.k * u
-
-            sigma_a = Q[3].item() / material.A
-            epsilon_a = sigma_a / material.E
 
     def render(self, exaggeration=100.0, points=2**4):
         _, ax = plt.subplots()
@@ -231,10 +229,25 @@ class Structure:
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
         ax.legend()
-        plt.show()
 
     def solve(self):
-        pass
+        for member in self.members:
+            print(f"k_{member.id} =\n{member.k}\n")
+
+        for member in self.members:
+            print(f"K_{member.id} =\n{member.K}\n")
+
+        print(f"P =\n{self.P}\n")
+
+        print(f"s =\n{self.s}\n")
+
+        print(f"d =\n{self.d}\n")
+
+        for member in self.members:
+            print(f"u_{member.id} =\n{member.u(self.d_padded)}\n")
+
+        for member in self.members:
+            print(f"Q_{member.id} =\n{member.Q(self.d_padded)}\n")
 
 
 # lecture_example_1 = Structure(
@@ -249,9 +262,8 @@ class Structure:
 #         (1, 2),
 #     ],
 # )
-
-# lecture_example_1.render()
 # lecture_example_1.solve()
+# lecture_example_1.render()
 
 
 structure = Structure(
@@ -273,6 +285,5 @@ structure = Structure(
         (2, 5),
     ],
 )
-
-structure.render()
 structure.solve()
+structure.render()
