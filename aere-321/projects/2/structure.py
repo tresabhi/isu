@@ -47,9 +47,18 @@ class Joint:
 
 class Member:
     def __init__(
-        self, id: int, material: Material, joint_0: Joint, joint_1: Joint, max_id: int
+        self,
+        id: int,
+        left: int,
+        right: int,
+        material: Material,
+        joint_0: Joint,
+        joint_1: Joint,
+        max_id: int,
     ):
         self.id = id
+        self.left = left
+        self.right = right
 
         theta, L = joint_1.relative_to(joint_0)
         c, s = math.cos(theta), math.sin(theta)
@@ -97,13 +106,15 @@ class Structure:
         self.material = material
         self.joints = joints
 
-        joints_count = len(joints)
-        max_joint_id = joints_count - 1
-        max_member_id = max_joint_id - 1
+        max_joint_id = len(joints) - 1
+        max_member_id = len(members) - 1
 
-        members: list[Member] = [
+        members: list[Member]
+        self.members = members = [
             Member(
                 member_id,
+                joint_id_0,
+                joint_id_1,
                 material,
                 joints[joint_id_0],
                 joints[joint_id_1],
@@ -118,7 +129,7 @@ class Structure:
         fixed_indices: list[int] = []
         P_padded: list[list[float]] = []
 
-        for joint_id in range(joints_count):
+        for joint_id in range(max_joint_id + 1):
             joint = joints[joint_id]
             external_indices = [joint_id * 3, joint_id * 3 + 1, joint_id * 3 + 2]
 
@@ -134,11 +145,14 @@ class Structure:
         P = P_padded[np.ix_(free_indices)]
         d = np.linalg.solve(S, P)
 
-        d_padded = self.d_padded = np.zeros((3 * joints_count, 1))
+        d_padded = self.d_padded = np.zeros((3 * (max_joint_id + 1), 1))
         d_padded[np.ix_(free_indices)] = d
 
         for member in members:
-            joint_indices = [member.id * 3 + i for i in range(6)]
+            joint_indices = [
+                *[member.left * 3 + i for i in range(3)],
+                *[member.right * 3 + i for i in range(3)],
+            ]
 
             v = d_padded[np.ix_(joint_indices)]
             u = member.T * v
@@ -161,34 +175,22 @@ lecture_example_1 = Structure(
     ],
 )
 
-
-def plot_structure(joints, d_padded=None, scale=1.0):
-    _, axis = plt.subplots()
-
-    for i in range(len(joints) - 1):
-        x = [joints[i].x, joints[i + 1].x]
-        y = [joints[i].y, joints[i + 1].y]
-        axis.plot(x, y, "k--", label="Undeformed" if i == 0 else "")
-
-    if d_padded is not None:
-        for i in range(len(joints) - 1):
-            x_def = [
-                joints[i].x + scale * d_padded[i * 3, 0],
-                joints[i + 1].x + scale * d_padded[(i + 1) * 3, 0],
-            ]
-            y_def = [
-                joints[i].y + scale * d_padded[i * 3 + 1, 0],
-                joints[i + 1].y + scale * d_padded[(i + 1) * 3 + 1, 0],
-            ]
-            axis.plot(
-                x_def, y_def, "r", linewidth=2, label="Deformed" if i == 0 else ""
-            )
-
-    axis.set_aspect("equal")
-    axis.legend()
-    axis.set_xlabel("X")
-    axis.set_ylabel("Y")
-    plt.show()
-
-
-plot_structure(lecture_example_1.joints, d_padded=lecture_example_1.d_padded, scale=500)
+structure = Structure(
+    Material(29000, 310, 11.8),
+    [
+        Joint(JointType.FIXED, 0, 0),
+        Joint(JointType.FREE, 0, 8, 0, 0, 100),
+        Joint(JointType.FREE, 0, 8 + 8),
+        Joint(JointType.FIXED, 16.25, 0),
+        Joint(JointType.FIXED, 16.25, 8),
+        Joint(JointType.FIXED, 16.25, 8 + 8),
+    ],
+    [
+        (0, 1),
+        (1, 2),
+        (3, 4),
+        (4, 5),
+        (1, 4),
+        (2, 5),
+    ],
+)
