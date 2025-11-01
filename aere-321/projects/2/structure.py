@@ -7,10 +7,11 @@ np.set_printoptions(linewidth=1600)
 
 
 class Material:
-    def __init__(self, E: float, I: float, A: float):
+    def __init__(self, E: float, I: float, A: float, h: float):
         self.E = E
         self.I = I
         self.A = A
+        self.h = h
 
 
 class JointType(Enum):
@@ -121,6 +122,35 @@ class Member:
 
     def epsilon_a(self, d_padded: np.matrix):
         return self.sigma_a(d_padded) / self.material.E
+
+    def sigma_b(self, d_padded: np.matrix, c: float, x: float):
+        Q = self.Q(d_padded)
+        return c * (Q[1].item() * x - Q[2].item()) / self.material.I
+
+    def plot_strain(self, d_padded: np.matrix, points=2**4):
+        E = self.material.E
+        L = self.L
+        c = self.material.h / 2
+
+        xs = np.linspace(0, L, points)
+
+        sigma_a = self.sigma_a(d_padded)
+        sigma_b_top = self.sigma_b(d_padded, c, xs)
+        sigma_b_bottom = self.sigma_b(d_padded, -c, xs)
+        sigma_top = sigma_a + sigma_b_top
+        sigma_bottom = sigma_a + sigma_b_bottom
+
+        epsilon_top = sigma_top / E
+        epsilon_bottom = sigma_bottom / E
+
+        plt.plot(xs, epsilon_top, label=f"Member {self.id} Top")
+        plt.plot(xs, epsilon_bottom, label=f"Member {self.id} Bottom")
+        plt.title(f"Member {self.id} Strain")
+        plt.legend()
+        plt.xlabel("x (in)")
+        plt.ylabel("epsilon (in/in)")
+        plt.tight_layout()
+        plt.show()
 
 
 class Structure:
@@ -235,6 +265,8 @@ class Structure:
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
         ax.legend()
+
+        plt.title("Deformed Structure")
         plt.show()
 
     def solve(self):
@@ -274,7 +306,7 @@ class Structure:
 
 
 # lecture_example_1 = Structure(
-#     Material(29000, 310, 11.8),
+#     Material(29000, 310, 11.8, -1),
 #     [
 #         Joint(JointType.FIXED, 0, 0),
 #         Joint(JointType.FREE, 10 * 12, 20 * 12, 50, 0, -125 * 12),
@@ -285,12 +317,10 @@ class Structure:
 #         (1, 2),
 #     ],
 # )
-# lecture_example_1.solve()
-# lecture_example_1.render()
 
 
 structure = Structure(
-    Material(10200, (1 * 0.25**3) / 12, 1 * 0.25),
+    Material(10200, (1 * 0.25**3) / 12, 1 * 0.25, 0.25),
     [
         Joint(JointType.FIXED, 0, 0),
         Joint(JointType.FREE, 0, 8, 0, 0, 100 * 1e-3),
@@ -308,5 +338,9 @@ structure = Structure(
         (2, 5),
     ],
 )
+
 structure.solve()
 structure.render()
+
+for member in structure.members:
+    member.plot_strain(structure.d_padded)
