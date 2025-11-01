@@ -66,6 +66,7 @@ class Member:
         theta, L = self.theta, self.L = joint_1.relative_to(joint_0)
         c, s = self.c, self.s = math.cos(theta), math.sin(theta)
 
+        self.material = material
         E, I, A = material.E, material.I, material.A
 
         T = self.T = np.matrix(
@@ -111,6 +112,9 @@ class Member:
 
     def Q(self, d_padded: np.matrix):
         return self.k * self.u(d_padded)
+
+    def F(self, d_padded: np.matrix):
+        return self.T.T * self.Q(d_padded)
 
     def sigma_a(self, d_padded: np.matrix):
         return self.Q(d_padded)[3].item() / self.material.A
@@ -229,6 +233,7 @@ class Structure:
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
         ax.legend()
+        plt.show()
 
     def solve(self):
         for member in self.members:
@@ -248,6 +253,13 @@ class Structure:
 
         for member in self.members:
             print(f"Q_{member.id} =\n{member.Q(self.d_padded)}\n")
+
+        for member in self.members:
+            print(f"F_{member.id} =\n{member.F(self.d_padded)}\n")
+
+        for member in self.members:
+            print(f"sigma_a_{member.id} = {member.sigma_a(self.d_padded)}")
+            print(f"epsilon_a_{member.id} = {member.epsilon_a(self.d_padded)}\n")
 
 
 # lecture_example_1 = Structure(
