@@ -185,12 +185,14 @@ class Structure:
                 label="Original" if member.id == 0 else "",
             )
 
-            u_0 = self.d_padded[member.joint_0.id * 3, 0] * exaggeration
-            v_0 = self.d_padded[member.joint_0.id * 3 + 1, 0] * exaggeration
-            theta_0 = self.d_padded[member.joint_0.id * 3 + 2, 0] * exaggeration
-            u_1 = self.d_padded[member.joint_1.id * 3, 0] * exaggeration
-            v_1 = self.d_padded[member.joint_1.id * 3 + 1, 0] * exaggeration
-            theta_1 = self.d_padded[member.joint_1.id * 3 + 2, 0] * exaggeration
+            [u_0, v_0, theta_0] = [
+                self.d_padded[member.joint_0.id * 3 + i, 0] * exaggeration
+                for i in range(3)
+            ]
+            [u_1, v_1, theta_1] = [
+                self.d_padded[member.joint_1.id * 3 + i, 0] * exaggeration
+                for i in range(3)
+            ]
 
             ul_0 = member.c * u_0 + member.s * v_0
             vl_0 = -member.s * u_0 + member.c * v_0
