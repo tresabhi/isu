@@ -1,6 +1,7 @@
 import math
 import numpy as np
 from enum import Enum
+import matplotlib.pyplot as plt
 
 np.set_printoptions(linewidth=200)
 
@@ -93,6 +94,9 @@ class Structure:
     def __init__(
         self, material: Material, joints: list[Joint], members: list[tuple[int, int]]
     ):
+        self.material = material
+        self.joints = joints
+
         joints_count = len(joints)
         max_joint_id = joints_count - 1
         max_member_id = max_joint_id - 1
@@ -130,7 +134,7 @@ class Structure:
         P = P_padded[np.ix_(free_indices)]
         d = np.linalg.solve(S, P)
 
-        d_padded = np.zeros((3 * joints_count, 1))
+        d_padded = self.d_padded = np.zeros((3 * joints_count, 1))
         d_padded[np.ix_(free_indices)] = d
 
         for member in members:
@@ -156,3 +160,35 @@ lecture_example_1 = Structure(
         (1, 2),
     ],
 )
+
+
+def plot_structure(joints, d_padded=None, scale=1.0):
+    _, axis = plt.subplots()
+
+    for i in range(len(joints) - 1):
+        x = [joints[i].x, joints[i + 1].x]
+        y = [joints[i].y, joints[i + 1].y]
+        axis.plot(x, y, "k--", label="Undeformed" if i == 0 else "")
+
+    if d_padded is not None:
+        for i in range(len(joints) - 1):
+            x_def = [
+                joints[i].x + scale * d_padded[i * 3, 0],
+                joints[i + 1].x + scale * d_padded[(i + 1) * 3, 0],
+            ]
+            y_def = [
+                joints[i].y + scale * d_padded[i * 3 + 1, 0],
+                joints[i + 1].y + scale * d_padded[(i + 1) * 3 + 1, 0],
+            ]
+            axis.plot(
+                x_def, y_def, "r", linewidth=2, label="Deformed" if i == 0 else ""
+            )
+
+    axis.set_aspect("equal")
+    axis.legend()
+    axis.set_xlabel("X")
+    axis.set_ylabel("Y")
+    plt.show()
+
+
+plot_structure(lecture_example_1.joints, d_padded=lecture_example_1.d_padded, scale=500)
