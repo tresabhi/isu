@@ -158,8 +158,8 @@ class Structure:
 
         for member in members:
             joint_indices = [
-                *[member.left * 3 + i for i in range(3)],
-                *[member.right * 3 + i for i in range(3)],
+                *[member.joint_0.id * 3 + i for i in range(3)],
+                *[member.joint_1.id * 3 + i for i in range(3)],
             ]
 
             v = d_padded[np.ix_(joint_indices)]
