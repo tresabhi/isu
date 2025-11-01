@@ -3,7 +3,7 @@ import numpy as np
 from enum import Enum
 import matplotlib.pyplot as plt
 
-np.set_printoptions(linewidth=200)
+np.set_printoptions(linewidth=1600)
 
 
 class Material:
@@ -19,6 +19,8 @@ class JointType(Enum):
 
 
 class Joint:
+    id = -1
+
     def __init__(
         self,
         type: JointType,
@@ -49,16 +51,14 @@ class Member:
     def __init__(
         self,
         id: int,
-        left: int,
-        right: int,
         material: Material,
         joint_0: Joint,
         joint_1: Joint,
-        max_id: int,
+        max_joint_id: int,
     ):
         self.id = id
-        self.left = left
-        self.right = right
+        self.joint_0 = joint_0
+        self.joint_1 = joint_1
 
         theta, L = joint_1.relative_to(joint_0)
         c, s = math.cos(theta), math.sin(theta)
@@ -87,43 +87,51 @@ class Member:
         )
         K = self.K = T.T * k * T
 
-        top_left_padding = 3 * id
-        bottom_right_padding = 3 * (max_id - id)
-
-        self.K_padded = np.pad(
-            K,
-            pad_width=(
-                (top_left_padding, bottom_right_padding),
-                (top_left_padding, bottom_right_padding),
-            ),
+        K_padded = self.K_padded = np.zeros(
+            shape=(3 * (max_joint_id + 1), 3 * (max_joint_id + 1))
         )
+
+        indices = [
+            joint_0.id * 3,
+            joint_0.id * 3 + 1,
+            joint_0.id * 3 + 2,
+            joint_1.id * 3,
+            joint_1.id * 3 + 1,
+            joint_1.id * 3 + 2,
+        ]
+
+        for u, i in enumerate(indices):
+            for v, j in enumerate(indices):
+                K_padded[i, j] += K[u, v]
 
 
 class Structure:
     def __init__(
-        self, material: Material, joints: list[Joint], members: list[tuple[int, int]]
+        self, material: Material, joints: list[Joint], _members: list[tuple[int, int]]
     ):
         self.material = material
         self.joints = joints
 
         max_joint_id = len(joints) - 1
-        max_member_id = len(members) - 1
+        max_member_id = len(_members) - 1
 
-        members: list[Member]
-        self.members = members = [
-            Member(
-                member_id,
-                joint_id_0,
-                joint_id_1,
-                material,
-                joints[joint_id_0],
-                joints[joint_id_1],
-                max_member_id,
-            )
-            for member_id, (joint_id_0, joint_id_1) in enumerate(members)
-        ]
+        members: list[Member] = []
+        member_id = 0
+        for joint_id_0, joint_id_1 in _members:
+            joint_0 = joints[joint_id_0]
+            joint_1 = joints[joint_id_1]
 
-        S_padded = sum(member.K_padded for member in members)
+            joint_0.id = joint_id_0
+            joint_1.id = joint_id_1
+
+            member = Member(member_id, material, joint_0, joint_1, max_joint_id)
+
+            members.append(member)
+            member_id += 1
+
+        self.members = members
+
+        s_padded = sum(member.K_padded for member in members)
 
         free_indices: list[int] = []
         fixed_indices: list[int] = []
@@ -140,10 +148,10 @@ class Structure:
             elif joint.type == JointType.FIXED:
                 fixed_indices += external_indices
 
-        S = S_padded[np.ix_(free_indices, free_indices)]
+        s = s_padded[np.ix_(free_indices, free_indices)]
         P_padded = np.matrix(P_padded)
         P = P_padded[np.ix_(free_indices)]
-        d = np.linalg.solve(S, P)
+        d = np.linalg.solve(s, P)
 
         d_padded = self.d_padded = np.zeros((3 * (max_joint_id + 1), 1))
         d_padded[np.ix_(free_indices)] = d
@@ -162,28 +170,28 @@ class Structure:
             epsilon_a = sigma_a / material.E
 
 
-lecture_example_1 = Structure(
-    Material(29000, 310, 11.8),
-    [
-        Joint(JointType.FIXED, 0, 0),
-        Joint(JointType.FREE, 10 * 12, 20 * 12, 50, 0, -125 * 12),
-        Joint(JointType.FIXED, (10 + 20) * 12, 20 * 12),
-    ],
-    [
-        (0, 1),
-        (1, 2),
-    ],
-)
+# lecture_example_1 = Structure(
+#     Material(29000, 310, 11.8),
+#     [
+#         Joint(JointType.FIXED, 0, 0),
+#         Joint(JointType.FREE, 10 * 12, 20 * 12, 50, 0, -125 * 12),
+#         Joint(JointType.FIXED, (10 + 20) * 12, 20 * 12),
+#     ],
+#     [
+#         (0, 1),
+#         (1, 2),
+#     ],
+# )
 
 structure = Structure(
-    Material(29000, 310, 11.8),
+    Material(10200, (1 * 0.25**3) / 12, 1 * 0.25),
     [
         Joint(JointType.FIXED, 0, 0),
-        Joint(JointType.FREE, 0, 8, 0, 0, 100),
+        Joint(JointType.FREE, 0, 8, 0, 0, 100 * 1e-3),
         Joint(JointType.FREE, 0, 8 + 8),
         Joint(JointType.FIXED, 16.25, 0),
-        Joint(JointType.FIXED, 16.25, 8),
-        Joint(JointType.FIXED, 16.25, 8 + 8),
+        Joint(JointType.FREE, 16.25, 8),
+        Joint(JointType.FREE, 16.25, 8 + 8, 10 * 1e-3, 0, 0),
     ],
     [
         (0, 1),
