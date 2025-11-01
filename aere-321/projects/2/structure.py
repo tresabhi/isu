@@ -171,7 +171,7 @@ class Structure:
             sigma_a = Q[3].item() / material.A
             epsilon_a = sigma_a / material.E
 
-    def plot(self, exaggeration=100.0, n_points=20):
+    def render(self, exaggeration=100.0, points=2**4):
         _, ax = plt.subplots()
 
         for member in self.members:
@@ -195,7 +195,7 @@ class Structure:
             ul_1 = member.c * u_1 + member.s * v_1
             vl_1 = -member.s * u_1 + member.c * v_1
 
-            xs = np.linspace(0, 1, n_points)
+            xs = np.linspace(0, 1, points)
             N1 = 1 - 3 * xs**2 + 2 * xs**3
             N2 = member.L * (xs - 2 * xs**2 + xs**3)
             N3 = 3 * xs**2 - 2 * xs**3
@@ -233,21 +233,25 @@ class Structure:
         ax.legend()
         plt.show()
 
+    def solve(self):
+        pass
 
-lecture_example_1 = Structure(
-    Material(29000, 310, 11.8),
-    [
-        Joint(JointType.FIXED, 0, 0),
-        Joint(JointType.FREE, 10 * 12, 20 * 12, 50, 0, -125 * 12),
-        Joint(JointType.FIXED, (10 + 20) * 12, 20 * 12),
-    ],
-    [
-        (0, 1),
-        (1, 2),
-    ],
-)
 
-lecture_example_1.plot()
+# lecture_example_1 = Structure(
+#     Material(29000, 310, 11.8),
+#     [
+#         Joint(JointType.FIXED, 0, 0),
+#         Joint(JointType.FREE, 10 * 12, 20 * 12, 50, 0, -125 * 12),
+#         Joint(JointType.FIXED, (10 + 20) * 12, 20 * 12),
+#     ],
+#     [
+#         (0, 1),
+#         (1, 2),
+#     ],
+# )
+
+# lecture_example_1.render()
+# lecture_example_1.solve()
 
 
 structure = Structure(
@@ -270,4 +274,5 @@ structure = Structure(
     ],
 )
 
-structure.plot()
+structure.render()
+structure.solve()
