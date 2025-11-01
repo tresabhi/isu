@@ -261,6 +261,15 @@ class Structure:
             print(f"sigma_a_{member.id} = {member.sigma_a(self.d_padded)}")
             print(f"epsilon_a_{member.id} = {member.epsilon_a(self.d_padded)}\n")
 
+        for member in self.members:
+            if member.joint_0.type == JointType.FIXED:
+                print(f"Reaction forces at joint {member.joint_0.id} =")
+                print(member.F(self.d_padded)[np.ix_([0, 1, 2])], end="\n\n")
+
+            if member.joint_1.type == JointType.FIXED:
+                print(f"Reaction forces at joint {member.joint_1.id} =")
+                print(member.F(self.d_padded)[np.ix_([3, 4, 5])], end="\n\n")
+
 
 # lecture_example_1 = Structure(
 #     Material(29000, 310, 11.8),
