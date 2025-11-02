@@ -101,7 +101,7 @@ $$
 
 ## The Code
 
-467 lines of pure Python, less than the 579 lines for project 1 haha. See [this code on git GitHub repo](https://github.com/tresabhi/isu/blob/main/aere-321/projects/2/structure.py) if you want to copy paste my code because I know PDF will destroy my indentation.
+467 lines of pure Python, less than the 579 lines for project 1 surprisingly. See [this code on GitHub repo](https://github.com/tresabhi/isu/blob/main/aere-321/projects/2/structure.py) if you want to copy paste my code because I know PDF will destroy my indentation.
 
 ```py
 import math
