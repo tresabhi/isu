@@ -280,10 +280,9 @@ class Structure:
         d_padded = self.d_padded = np.zeros((3 * (max_joint_id + 1), 1))
         d_padded[np.ix_(free_indices)] = d
 
-    # This part I understand the least but I tried my best to follow ACS
-    # College of Engineering's guide. This accepts just exaggeration and
-    # the default amount of points that I chose is good enough for most
-    # cases.
+    # This part I understand the least but I tried my best to follow the video.
+    # This accepts just exaggeration and the default amount of points that I
+    # chose is good enough for most cases.
     def render(self, exaggeration=100.0, points=2**4):
         # There's going to be a bunch of plots overlaid on top of each other
         # giving the illusion that it's one image.

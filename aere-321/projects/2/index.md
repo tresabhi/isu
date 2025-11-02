@@ -1,6 +1,10 @@
 # AERE 321 Project 2
 
-Much like project 1, I chose Python to solve the problem due to its $0$ based indexing and better syntax compared to MATLAB. Please note that all ids are off by $1$ compared to the in-class naming system. This is an inherent quirk of the language but in my experience it actually makes a lot of the algebra a lot easier like the padding.
+Much like project 1, I chose Python to solve the problem due to its 0 based indexing and better syntax compared to MATLAB. Please note that all ids are off by 1 compared to the in-class naming system. This is an inherent quirk of the language but in my experience it actually makes a lot of the algebra a lot easier like the padding.
+
+Once again, like last time, since I am using 0-based indexing, I have taken the time to edit the original figure to use my indexing:
+
+![](https://i.imgur.com/4FN6R7J.png)
 
 ## Flowchart
 
@@ -50,7 +54,7 @@ $$
 y(x) = -\frac{3x^2}{L^2} + \frac{2x^3}{L^3} + 1
 $$
 
-Now, at this point, I will be totally honest, I do not understand how Hermite shape functions come to play here but I followed [ACS College of Engineering's guide to beam analysis](https://www.acsce.edu.in/acsce/wp-content/uploads/2020/03/Beam-analysis-Module-3.pdf) which rewrites the equation above as:
+Now, at this point, I will be totally honest, I do not understand how Hermite shape functions come to play here but I followed [Shape Functions for Beam elements | Hermite Shape Functions for Beam element](https://www.youtube.com/watch?v=aA_VwF5lud8) which rewrites the equation above as:
 
 $$
 y(x) = N_1(x) v_1 + N_2(x) \theta_1 + N_3(x) v_2 + N_4(x) \theta_2
@@ -382,10 +386,9 @@ class Structure:
         d_padded = self.d_padded = np.zeros((3 * (max_joint_id + 1), 1))
         d_padded[np.ix_(free_indices)] = d
 
-    # This part I understand the least but I tried my best to follow ACS
-    # College of Engineering's guide. This accepts just exaggeration and
-    # the default amount of points that I chose is good enough for most
-    # cases.
+    # This part I understand the least but I tried my best to follow the video.
+    # This accepts just exaggeration and the default amount of points that I
+    # chose is good enough for most cases.
     def render(self, exaggeration=100.0, points=2**4):
         # There's going to be a bunch of plots overlaid on top of each other
         # giving the illusion that it's one image.
@@ -570,6 +573,23 @@ for member in structure.members:
 ```
 
 ## Plots
+
+The deformed structure plot turned out correctly on my second try after following the video. In my first attempt, I did not implement moments so all deformed beams were linear.
+
+![](https://i.imgur.com/ddbxbGl.png)
+
+Here's the plot from the lecture slides for comparison's sake:
+
+![](https://i.imgur.com/7OaFTFu.png)
+
+Anyway, here are the strain plots for the top and bottom faces of each of the members. Once again, please remember that I am using 0-based indexing, it's simply superior.
+
+![](https://i.imgur.com/AbfE4We.png)
+![](https://i.imgur.com/7wYW85P.png)
+![](https://i.imgur.com/EGKRMZL.png)
+![](https://i.imgur.com/R4lKIFb.png)
+![](https://i.imgur.com/d5AUNlE.png)
+![](https://i.imgur.com/Sh85wue.png)
 
 ## Output
 
