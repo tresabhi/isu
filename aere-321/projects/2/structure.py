@@ -339,7 +339,7 @@ class Structure:
             # The same thing as above, but offset by the joints' original
             # positions and the real displacements, but this time in global
             # coordinates.
-            xs = (
+            sx = (
                 member.joint_0.x
                 + xs * member.dx
                 - member.s * v_local
@@ -354,7 +354,7 @@ class Structure:
 
             # Plot 'em!
             ax.plot(
-                xs,
+                sx,
                 ys,
                 "k-",
                 linewidth=2,
