@@ -238,7 +238,7 @@ class Structure:
             v_local = N1 * vl_0 + N2 * theta_0 + N3 * vl_1 + N4 * theta_1
             u_local = N1 * ul_0 + N3 * ul_1
 
-            sx = (
+            xs = (
                 member.joint_0.x
                 + xs * member.dx
                 - member.s * v_local
@@ -252,7 +252,7 @@ class Structure:
             )
 
             ax.plot(
-                sx,
+                xs,
                 ys,
                 "k-",
                 linewidth=2,
