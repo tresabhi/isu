@@ -1,6 +1,6 @@
 # AERE 321 Project 2
 
-Much like project 1, I chose Python to solve the problem due to its $0$ based indexing and better syntax compared to MATLAB.
+Much like project 1, I chose Python to solve the problem due to its $0$ based indexing and better syntax compared to MATLAB. Please note that all ids are off by $1$ compared to the in-class naming system. This is an inherent quirk of the language but in my experience it actually makes a lot of the algebra a lot easier like the padding.
 
 ## Flowchart
 
