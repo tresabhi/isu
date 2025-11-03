@@ -18,7 +18,7 @@ PlotJuggler:
 
 > Why does the turtle move randomly in part 2? Supply a narrative about what source of code does this, where it is in the code base, etc.
 
-It moves randomly because that's what `VelPublisher` makes it do. More specifically, in the `timer_callback` method, using the `random.uniform` function from the Python `random` library, the message is assigned random values:
+It moves randomly because that's what `VelPublisher` in `publish_velocity.py` makes it do. More specifically, in the `timer_callback` method, using the `random.uniform` function from the Python `random` library, the message is assigned random values:
 
 ```py
         vel_msg = Twist()
