@@ -1,0 +1,35 @@
+from launch import LaunchDescription
+from launch_ros.actions import Node
+# load launch capabilities from launch package
+
+# this method needds to be here to be recognized by colcon
+def generate_launch_description():
+
+    # create empty launch description
+    ld = LaunchDescription()
+   
+    # create a reference to the simulator
+    sim_node = Node(
+        package='turtlesim',
+        executable='turtlesim_node',
+    )
+
+    # refer to nodes that publish velocity to turtle cmd
+    # note the difference in what package this is in from above
+    pub_node = Node(
+        package='my_turtle',
+        executable='publish_vel',
+    )
+
+    sub_node = Node(
+        package='my_turtle',
+        executable='subscribe_pose',
+    )
+
+    # add the above nodes to the launch description
+    ld.add_action(sim_node)
+    ld.add_action(pub_node)
+    ld.add_action(sub_node)
+
+    # return the launch description whenever this function is called
+    return ld
