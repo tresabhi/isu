@@ -6,3 +6,6 @@ me-280/perception/dataset/*/labels/*.txt
 me-280/homeworks/2/runs/
 *.cache
 *.pt
+me-280/homeworks/3/build/
+me-280/homeworks/3/install/
+me-280/homeworks/3/log/
