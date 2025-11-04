@@ -14,7 +14,7 @@ PlotJuggler:
 
 ![](https://i.imgur.com/XfPi9gi.png)
 
-## 2.
+## 2.1
 
 > Why does the turtle move randomly in part 2? Supply a narrative about what source of code does this, where it is in the code base, etc.
 
@@ -31,3 +31,28 @@ And after `vel_msg` is constructed, it's published immediately:
 ```py
 self.publisher_.publish(vel_msg)
 ```
+
+## 2.2
+
+> Modify the code such that the turtle moves around in a circle. (this may require a re-build and sourcing again) Describe or even paste the code in your narrative.
+
+In `publish_velocity.py`, I simply made the angular velocity a constant and gave linear velocity in the x direction since that's relative to the current rotation of the turtle:
+
+```
+vel_msg.linear.x = 1.0
+vel_msg.angular.z = 1.0
+```
+
+This made the turtle spin a circle offset from the origin:
+
+![](https://i.imgur.com/6o7SWEw.png)
+
+## 2.3
+
+> Include a screenshot of the launch file running (and the various outputs being spit out in the terminal).
+
+![](https://i.imgur.com/ykGBqGz.png)
+
+## 2.4
+
+> Describe, in your own words, what the launch file is doing.

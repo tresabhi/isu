@@ -14,8 +14,8 @@ class VelPublisher(Node):
         # initialize (could initialize angular values to numpy random numbers)
         vel_msg = Twist()
         # tell the turtle to do random things
-        vel_msg.linear.x = np.random.uniform(low=-1, high=1)
-        vel_msg.angular.z = np.random.uniform(low=-1, high=1)
+        vel_msg.linear.x = 1.0
+        vel_msg.angular.z = 1.0
         self.publisher_.publish(vel_msg)
         self.get_logger().info(
             "Publish turtle velocity command: {:0.3f} m/s, {:0.3f} rad/s".format(
