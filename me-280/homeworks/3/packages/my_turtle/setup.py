@@ -28,6 +28,8 @@ setup(
         "console_scripts": [
             "publish_vel = my_turtle.publish_velocity:main",
             "subscribe_pose = my_turtle.pose_subscriber:main",
+            "turtle_owner = my_turtle.turtle_owner:main",
+            "turtle_renter = my_turtle.turtle_renter:main",
         ],
     },
 )

@@ -91,3 +91,17 @@ Please see `rosbag2_2025_11_04-01_50_38` in `bags.zip` on Canvas or [on GitHub](
 The graph checks out since we see the `x` increase first since the angle initially is 0 so all the speed's going into `x`:
 
 ![](https://i.imgur.com/jKnD69X.png)
+
+## 3.1
+
+> First, run the turtlesim with the launch file you created, then run the owner and renter files in two separate new tabs. Include screen grabs of the terminal output, and update the code such that it outputs your name and age instead of the stock answer given.
+
+Here's the terminal output for the owner:
+
+![](https://i.imgur.com/knBY7M9.png)
+
+And the renter:
+
+![](https://i.imgur.com/ne9uYhQ.png)
+
+My modified owner:
