@@ -82,4 +82,12 @@ sim_node = Node(
 
 > Start a rosbag recording and run the launch file, and submit this rosbag as a separate file in your zip.
 
-Please see `rosbag2_2025_11_04-01_50_38` in `bags.zip` on Canvas or [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/3/bags/rosbag2_2025_11_04-01_50_38/).
+Please see `rosbag2_2025_11_04-01_50_38` in `bags.zip` on Canvas or [on GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/3/bags/rosbag2_2025_11_04-01_50_38/).
+
+## 2.6
+
+> Visualize the trajectory of the turtlesim using rqt_graph and rqt_plot (or plotjuggler) and include screenshots in the narrative.
+
+The graph checks out since we see the `x` increase first since the angle initially is 0 so all the speed's going into `x`:
+
+![](https://i.imgur.com/jKnD69X.png)
