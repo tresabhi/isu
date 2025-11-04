@@ -77,3 +77,9 @@ sim_node = Node(
     executable='turtlesim_node',
 )
 ```
+
+## 2.5
+
+> Start a rosbag recording and run the launch file, and submit this rosbag as a separate file in your zip.
+
+Please see `rosbag2_2025_11_04-01_50_38` in `bags.zip` on Canvas or [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/3/bags/rosbag2_2025_11_04-01_50_38/).
