@@ -105,3 +105,7 @@ And the renter:
 ![](https://i.imgur.com/ne9uYhQ.png)
 
 My modified owner:
+
+![](https://i.imgur.com/KK5dCoi.png)
+
+![](https://i.imgur.com/KvzqhA7.png)
