@@ -109,3 +109,18 @@ My modified owner:
 ![](https://i.imgur.com/KK5dCoi.png)
 
 ![](https://i.imgur.com/KvzqhA7.png)
+
+## 3.2
+
+> Describe in your own words what you did to get this to work.
+
+I tried to run `turtle_renter` before `turtle_owner` and noticed how it never logged anything to the console without `turtle_owner` already running which means `turtle_renter` borrows data from `turtle_owner` for its string templates.
+
+Thus, to modify both `turtle_owner` and `turtle_renter` to output my name instead, I only needed to modify `turtle_owner`. I noticed `"Tom"` and `18` which I promptly replaced with my information:
+
+```py
+msg.name = "Abhi"
+msg.age = 20
+```
+
+After rebuilding and restarting the nodes, I got the last two images above.
