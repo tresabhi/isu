@@ -56,3 +56,24 @@ This made the turtle spin a circle offset from the origin:
 ## 2.4
 
 > Describe, in your own words, what the launch file is doing.
+
+The launch file upon inspection is surprisingly just Python. I was expecting a Bash script that runs all the required commands, but Python here's doing something similar, but with just a lot more boilerplate.
+
+Working backwards, you can see the script appending nodes as actions to an instance of `ld = LaunchDescription()` which is then returned:
+
+```py
+ld.add_action(sim_node)
+ld.add_action(pub_node)
+ld.add_action(sub_node)
+
+return ld
+```
+
+And nodes seem to contain the package name and the other command parameters used by the relevant package:
+
+```py
+sim_node = Node(
+    package='turtlesim',
+    executable='turtlesim_node',
+)
+```
