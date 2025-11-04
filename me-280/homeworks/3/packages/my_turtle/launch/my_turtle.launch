@@ -26,10 +26,22 @@ def generate_launch_description():
         executable='subscribe_pose',
     )
 
+    owner_node = Node(
+        package='my_turtle',
+        executable='turtle_owner',
+    )
+    renter_node = Node(
+        package='my_turtle',
+        executable='turtle_renter',
+    )
+
     # add the above nodes to the launch description
     ld.add_action(sim_node)
     ld.add_action(pub_node)
     ld.add_action(sub_node)
+
+    ld.add_action(owner_node)
+    ld.add_action(renter_node)
 
     # return the launch description whenever this function is called
     return ld

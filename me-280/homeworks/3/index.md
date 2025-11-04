@@ -124,3 +124,85 @@ msg.age = 20
 ```
 
 After rebuilding and restarting the nodes, I got the last two images above.
+
+## 3.3
+
+> Update the launch file such that everything can be run at once (the sim, the velocity command, the pose message, the turtle owner, and the turtle renter).
+
+This was insanely difficult to screenshot because of how much `turtlesim_node` pollutes the console, requiring me to use my inner ninja skills to take a screenshot as soon as `turtle_owner` or `turtle_renter` logs.
+
+Regardless, I caught a screenshot of my launch file running showing that both `turtle_renter` and `turtle_owner` work:
+
+![](https://i.imgur.com/BfVl8en.png)
+
+To achieve this, I modified `my_turtle.launch` where I added two new nodes:
+
+```py
+owner_node = Node(
+    package='my_turtle',
+    executable='turtle_owner',
+)
+renter_node = Node(
+    package='my_turtle',
+    executable='turtle_renter',
+)
+```
+
+And then I added them:
+
+```
+ld.add_action(owner_node)
+ld.add_action(renter_node)
+```
+
+The whole file now looks like:
+
+```py
+from launch import LaunchDescription
+from launch_ros.actions import Node
+# load launch capabilities from launch package
+
+# this method needds to be here to be recognized by colcon
+def generate_launch_description():
+
+    # create empty launch description
+    ld = LaunchDescription()
+
+    # create a reference to the simulator
+    sim_node = Node(
+        package='turtlesim',
+        executable='turtlesim_node',
+    )
+
+    # refer to nodes that publish velocity to turtle cmd
+    # note the difference in what package this is in from above
+    pub_node = Node(
+        package='my_turtle',
+        executable='publish_vel',
+    )
+
+    sub_node = Node(
+        package='my_turtle',
+        executable='subscribe_pose',
+    )
+
+    owner_node = Node(
+        package='my_turtle',
+        executable='turtle_owner',
+    )
+    renter_node = Node(
+        package='my_turtle',
+        executable='turtle_renter',
+    )
+
+    # add the above nodes to the launch description
+    ld.add_action(sim_node)
+    ld.add_action(pub_node)
+    ld.add_action(sub_node)
+
+    ld.add_action(owner_node)
+    ld.add_action(renter_node)
+
+    # return the launch description whenever this function is called
+    return ld
+```
