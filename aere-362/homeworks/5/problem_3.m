@@ -24,6 +24,15 @@ disp(fOpt);
 disp("Baseline objective f0 =");
 disp(objFunc(x0));
 
+disp("eqlin for equality constraints:");
+disp(lambda.eqlin);
+
+disp("Lambda for inequality constraints:");
+disp(lambda.ineqlin);
+
+disp("nlCon at x* =");
+disp(nlCon(xOpt));
+
 function [c, ceq] = nlCon(x)
     c(1) = x(1) ^ 3 + x(2) ^ 2 - 2 * x(1) * x(3);
     ceq = [];
