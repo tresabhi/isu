@@ -15,6 +15,15 @@ beq = 6;
 options = optimoptions("fmincon", "Display", "iter", "Algorithm", "sqp");
 [xOpt, fOpt, exitFlag, output, lambda] = fmincon(@objFunc, x0, A, b, Aeq, beq, [], [], @nlCon, options);
 
+disp("Optimal point x* =");
+disp(xOpt);
+
+disp("Optimal objective f* =");
+disp(fOpt);
+
+disp("Baseline objective f0 =");
+disp(objFunc(x0));
+
 function [c, ceq] = nlCon(x)
     c(1) = x(1) ^ 3 + x(2) ^ 2 - 2 * x(1) * x(3);
     ceq = [];
