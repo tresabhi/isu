@@ -103,6 +103,7 @@ for specimen in specimens:
     xs = []
     thetas = []
 
+    j = 0
     for experiment in experiments[i]:
         (read_direction, x_raw, l, r) = experiment
 
@@ -115,16 +116,20 @@ for specimen in specimens:
             r_inner = r_outer - t
             x = x_raw - r_inner if read_direction == "to_right" else -x_raw - r_outer
 
+        print(f"x_{id}_{j + 1} = {x}")
+
         theta = angle(l, r) + theta_0
 
         xs.append(x.to(ur.inch).magnitude)
         thetas.append(theta.to(ur.rad).magnitude)
 
+        j += 1
+
     a, b = np.polyfit(xs, thetas, 1)
     root = -(b / a) * inch
     e_experimental = -root
 
-    print(f"e_theoretical_{id}  = {e_theoretical}")
+    print(f"\ne_theoretical_{id}  = {e_theoretical}")
     print(f"e_experimental_{id} = {e_experimental}\n")
 
     i += 1
