@@ -4,6 +4,8 @@ import pint
 ur = pint.UnitRegistry()
 
 i = ur.inch
+flipped_ruler_length = 6 * i
+blue_ruler_padding = (1 / 16) * i
 
 specimens = [
     ("c_channel", 2.43 * i, 1.456 * i, 0.08 * i, None, None),
@@ -23,9 +25,19 @@ experiment_setups = [
 
 torsion_experiments = [
     [
-        ("R", 2 * i, (3 + 9 / 16) * i, (6 + 1 / 8) * i),
+        (
+            "R",
+            2 * i,
+            (3 + 9 / 16) * i,
+            flipped_ruler_length - (6 + 1 / 8) * i + blue_ruler_padding,
+        ),
         ("L", (4 + 1 / 4) * i, (1 + 6 / 8) * i, (1 + 1 / 8) * i),
-        ("L", (7 + 7 / 16) * i, (2 + 9 / 16) * i, 0),
+        (
+            "L",
+            flipped_ruler_length - (7 + 7 / 16) * i + blue_ruler_padding,
+            (2 + 9 / 16) * i,
+            0,
+        ),
     ],
     [
         ("L", 3 * i, (2 + 6 / 8) * i, (11 / 16) * i),
@@ -48,6 +60,9 @@ torsion_experiments = [
         ("R", (3 + 3 / 10) * i, 0, (2 + 7 / 10) * i),
     ],
 ]
+
+for side, x, h_l, h_r in torsion_experiments[3]:
+    torsion_experiments[3] = ("L" if side == "R" else "R", x, h_r, h_l)
 
 index = 0
 for specimen in specimens:
