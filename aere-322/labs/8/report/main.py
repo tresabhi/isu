@@ -106,8 +106,16 @@ for specimen in specimens:
     for experiment in experiments[i]:
         (read_direction, x_raw, l, r) = experiment
 
-        x = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
-        theta = angle(l, r) - theta_0
+        x = None
+
+        if type == "c_channel":
+            x = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
+        elif type == "circular_open":
+            r_outer = d / 2
+            r_inner = r_outer - t
+            x = x_raw - r_inner if read_direction == "to_right" else -x_raw - r_outer
+
+        theta = angle(l, r) + theta_0
 
         xs.append(x.to(ur.inch).magnitude)
         thetas.append(theta.to(ur.rad).magnitude)
