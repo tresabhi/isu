@@ -59,7 +59,7 @@ for setup in setups:
     (m, l, r, open_side) = setup
 
     if open_side == "open_left":
-        setups[i] = (m, l, r, "open_right")
+        setups[i] = (m, r, l, "open_right")
 
         j = 0
         for experiment in experiments[i]:
