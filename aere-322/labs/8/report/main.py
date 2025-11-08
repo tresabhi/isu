@@ -1,5 +1,6 @@
 import math
 import pint
+import numpy as np
 
 ur = pint.UnitRegistry()
 
@@ -72,7 +73,7 @@ for setup in setups:
     i += 1
 
 
-def theta(l_inverted, r_inverted):
+def angle(l_inverted, r_inverted):
     l = flipped_ruler - l_inverted
     r = flipped_ruler - r_inverted
 
@@ -100,18 +101,25 @@ for specimen in specimens:
     else:
         raise ValueError(f"Unknown cross-section type: {type}")
 
-    theta_0 = theta(l_0, r_0)
+    theta_0 = angle(l_0, r_0)
+    xs = []
+    thetas = []
 
     for experiment in experiments[i]:
         (read_direction, x_raw, l, r) = experiment
 
-        x_shifted = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
-        x = x_shifted + e
+        x = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
+        theta = angle(l, r)
 
-        print(x.to(ur.inch))
+        xs.append(x.to(ur.inch).magnitude)
+        thetas.append(theta.to(ur.deg).magnitude)
 
-        theta_i = theta(l, r)
+        print(f"({xs[-1]}, {thetas[-1]})")
 
+    a, b = np.polyfit(xs, thetas, 1)
+    e_experimental = -b / a
+
+    print(e, e_experimental)
     print()
 
     i += 1
