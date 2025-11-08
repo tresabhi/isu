@@ -21,7 +21,7 @@ setups = [
     (0.1 * ur.kg, 7 * ur.mm, 6.8 * ur.mm, "open_right"),
     (0.2 * ur.kg, (1 + 9 / 16) * inch, (1 + 3 / 8) * inch, "open_left"),
     (0.1 * ur.kg, (1 + 1 / 4) * inch, 1 * inch, "open_left"),
-    (0.1 * ur.kg, (1 + 7 / 16) * inch, 2 * inch, "open_right"),
+    (0.1 * ur.kg, (1 + 7 / 16) * inch, (1 + 3 / 8) * inch, "open_right"),
     (0.1 * ur.kg, (1 + 2 / 5) * inch, (1 + 2 / 5) * inch, "open_left"),
 ]
 
@@ -54,7 +54,6 @@ experiments = [
 ]
 
 # convert all to open_right to match diagram
-
 i = 0
 for setup in setups:
     (m, l, r, open_side) = setup
@@ -66,8 +65,7 @@ for setup in setups:
         for experiment in experiments[i]:
             (read_direction, x_raw, l, r) = experiment
             read_direction = "to_left" if read_direction == "to_right" else "to_right"
-            l, r = r, l
-            experiments[i][j] = (read_direction, x_raw, l, r)
+            experiments[i][j] = (read_direction, x_raw, r, l)
             j += 1
 
     i += 1
@@ -108,25 +106,17 @@ for specimen in specimens:
     for experiment in experiments[i]:
         (read_direction, x_raw, l, r) = experiment
 
-        # going to the left is positive as is e
-        x = x_raw + t / 2 if read_direction == "to_left" else -x_raw - t / 2
+        x = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
         theta = angle(l, r) - theta_0
 
         xs.append(x.to(ur.inch).magnitude)
         thetas.append(theta.to(ur.rad).magnitude)
 
-        print(f"({xs[-1]:.4f}, {theta.to(ur.deg).magnitude:.4f})")
-
     a, b = np.polyfit(xs, thetas, 1)
-    e_experimental = (-b / a) * inch
+    root = -(b / a) * inch
+    e_experimental = -root
 
-    print()
-
-    print("slope (rad/in) =", a)
-    print("intercept (rad) =", b)
-    print("e (experimental) =", e_experimental)
-    print("e (theoretical)  =", e)
-
-    print()
+    print(f"e_{id} = {e}")
+    print(f"e_experimental_{id} = {e_experimental}\n")
 
     i += 1
