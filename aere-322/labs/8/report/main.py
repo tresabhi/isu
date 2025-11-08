@@ -4,52 +4,52 @@ import numpy as np
 
 ur = pint.UnitRegistry()
 
-I = ur.inch
-flipped_ruler = 6 * I
-ruler_padding = (1 / 16) * I
+inch = ur.inch
+flipped_ruler = 6 * inch
+ruler_padding = (1 / 16) * inch
 crossbar_length = 44 * ur.cm
 
 specimens = [
-    ("c_channel", 2.43 * I, 1.456 * I, 0.08 * I, None, None),
-    ("c_channel", 0.84 * I, 0.56 * I, 0.055 * I, None, None),
-    ("circular_open", None, None, 0.071 * I, 1.66 * I, 3.1 * ur.deg),
-    ("circular_open", None, None, 0.071 * I, 1.66 * I, 36.3 * ur.deg),
-    ("circular_open", None, None, 0.071 * I, 1.66 * I, 103.7 * ur.deg),
+    ("c_channel", 2.43 * inch, 1.456 * inch, 0.08 * inch, None, None),
+    ("c_channel", 0.84 * inch, 0.56 * inch, 0.055 * inch, None, None),
+    ("circular_open", None, None, 0.071 * inch, 1.66 * inch, 3.1 * ur.deg),
+    ("circular_open", None, None, 0.071 * inch, 1.66 * inch, 36.3 * ur.deg),
+    ("circular_open", None, None, 0.071 * inch, 1.66 * inch, 103.7 * ur.deg),
 ]
 
 setups = [
     (0.1 * ur.kg, 7 * ur.mm, 6.8 * ur.mm, "open_right"),
-    (0.2 * ur.kg, (1 + 9 / 16) * I, (1 + 3 / 8) * I, "open_left"),
-    (0.1 * ur.kg, (1 + 1 / 4) * I, 1 * I, "open_left"),
-    (0.1 * ur.kg, (1 + 7 / 16) * I, (1 + 3 / 8) * I, "open_right"),
-    (0.1 * ur.kg, (1 + 2 / 5) * I, (1 + 2 / 5) * I, "open_left"),
+    (0.2 * ur.kg, (1 + 9 / 16) * inch, (1 + 3 / 8) * inch, "open_left"),
+    (0.1 * ur.kg, (1 + 1 / 4) * inch, 1 * inch, "open_left"),
+    (0.1 * ur.kg, (1 + 7 / 16) * inch, (1 + 3 / 8) * inch, "open_right"),
+    (0.1 * ur.kg, (1 + 2 / 5) * inch, (1 + 2 / 5) * inch, "open_left"),
 ]
 
 experiments = [
     [
-        ("to_right", 2 * I, (3 + 9 / 16) * I, (6 + 1 / 8) * I),
-        ("to_left", (4 + 1 / 4) * I, (1 + 6 / 8) * I, (1 + 1 / 8) * I),
-        ("to_left", (7 + 7 / 16) * I + ruler_padding, (2 + 9 / 16) * I, 0),
+        ("to_right", 2 * inch, (3 + 9 / 16) * inch, (6 + 1 / 8) * inch),
+        ("to_left", (4 + 1 / 4) * inch, (1 + 6 / 8) * inch, (1 + 1 / 8) * inch),
+        ("to_left", (7 + 7 / 16) * inch + ruler_padding, (2 + 9 / 16) * inch, 0),
     ],
     [
-        ("to_left", 3 * I, (2 + 6 / 8) * I, (11 / 16) * I),
-        ("to_right", 3 * I, (15 / 16) * I, (2 + 1 / 4) * I),
-        ("to_right", 4.5 * I, (7 / 16) * I, (2 + 3 / 4) * I),
+        ("to_left", 3 * inch, (2 + 6 / 8) * inch, (11 / 16) * inch),
+        ("to_right", 3 * inch, (15 / 16) * inch, (2 + 1 / 4) * inch),
+        ("to_right", 4.5 * inch, (7 / 16) * inch, (2 + 3 / 4) * inch),
     ],
     [
-        ("to_left", 1.5 * I, (2 + 1 / 8) * I, (3 / 8) * I),
-        ("to_right", 4 * I, (1 / 4) * I, (2 + 5 / 8) * I),
-        ("to_left", 3 * I, (2 + 3 / 8) * I, (1 / 4) * I),
+        ("to_left", 1.5 * inch, (2 + 1 / 8) * inch, (3 / 8) * inch),
+        ("to_right", 4 * inch, (1 / 4) * inch, (2 + 5 / 8) * inch),
+        ("to_left", 3 * inch, (2 + 3 / 8) * inch, (1 / 4) * inch),
     ],
     [
-        ("to_right", 4 * I, 1 * I, (3 + 3 / 8) * I),
-        ("to_left", (3 + 1 / 4) * I, (2 + 9 / 16) * I, (1 + 3 / 8) * I),
-        ("to_left", 2.5 * I, (2 + 7 / 16) * I, (1 + 9 / 16) * I),
+        ("to_right", 4 * inch, 1 * inch, (3 + 3 / 8) * inch),
+        ("to_left", (3 + 1 / 4) * inch, (2 + 9 / 16) * inch, (1 + 3 / 8) * inch),
+        ("to_left", 2.5 * inch, (2 + 7 / 16) * inch, (1 + 9 / 16) * inch),
     ],
     [
-        ("to_right", (2 + 3 / 10) * I, (3 / 10) * I, (2 + 3 / 10) * I),
-        ("to_left", 2 * I, (2 + 7 / 10) * I, (3 / 10) * I),
-        ("to_right", (3 + 3 / 10) * I, 0, (2 + 7 / 10) * I),
+        ("to_right", (2 + 3 / 10) * inch, (3 / 10) * inch, (2 + 3 / 10) * inch),
+        ("to_left", 2 * inch, (2 + 7 / 10) * inch, (3 / 10) * inch),
+        ("to_right", (3 + 3 / 10) * inch, 0, (2 + 7 / 10) * inch),
     ],
 ]
 
@@ -113,7 +113,7 @@ for specimen in specimens:
         thetas.append(theta.to(ur.rad).magnitude)
 
     a, b = np.polyfit(xs, thetas, 1)
-    root = -(b / a) * I
+    root = -(b / a) * inch
     e_experimental = -root
 
     print(f"e_{id} = {e}")
