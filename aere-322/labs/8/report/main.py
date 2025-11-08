@@ -19,8 +19,8 @@ specimens = [
 
 setups = [
     (0.1 * ur.kg, 7 * ur.mm, 6.8 * ur.mm, "open_right"),
-    (0.2 * ur.kg, (1 + 9 / 16) * inch, (1 + 3 / 8) * inch, "open_left"),
-    (0.1 * ur.kg, (1 + 1 / 4) * inch, 1 * inch, "open_left"),
+    (0.2 * ur.kg, (1 + 9 / 16) * inch, (1 + 3 / 4) * inch, "open_left"),
+    (0.1 * ur.kg, (1 + 1 / 4) * inch, (1 + 3 / 8) * inch, "open_left"),
     (0.1 * ur.kg, (1 + 7 / 16) * inch, (1 + 3 / 8) * inch, "open_right"),
     (0.1 * ur.kg, (1 + 2 / 5) * inch, (1 + 2 / 5) * inch, "open_left"),
 ]
@@ -71,13 +71,6 @@ for setup in setups:
     i += 1
 
 
-def angle(l_inverted, r_inverted):
-    l = flipped_ruler - l_inverted
-    r = flipped_ruler - r_inverted
-
-    return math.asin((r - l) / crossbar_length) * ur.rad
-
-
 i = 0
 for specimen in specimens:
     id = i + 1
@@ -99,7 +92,6 @@ for specimen in specimens:
     else:
         raise ValueError(f"Unknown cross-section type: {type}")
 
-    theta_0 = angle(l_0, r_0)
     xs = []
     thetas = []
 
@@ -116,12 +108,23 @@ for specimen in specimens:
             r_inner = r_outer - t
             x = x_raw - r_inner if read_direction == "to_right" else -x_raw - r_outer
 
-        print(f"x_{id}_{j + 1} = {x}")
-
-        theta = angle(l, r) + theta_0
+        d_l = l - l_0
+        d_r = r - r_0
+        theta = math.asin((d_l - d_r) / crossbar_length) * ur.rad
 
         xs.append(x.to(ur.inch).magnitude)
         thetas.append(theta.to(ur.rad).magnitude)
+
+        d_l = d_l.to(ur.inch)
+        d_r = d_r.to(ur.inch)
+        theta = theta.to(ur.deg)
+
+        print(f"x_{id}_{j + 1} = {x}\n")
+
+        print(f"d_l_{id}_{j + 1} = {d_l:.2f}")
+        print(f"d_r_{id}_{j + 1} = {d_r:.2f}\n")
+
+        print(f"theta_experimental_{id}_{j + 1} = {theta:.2f}\n")
 
         j += 1
 
@@ -129,7 +132,7 @@ for specimen in specimens:
     root = -(b / a) * inch
     e_experimental = -root
 
-    print(f"\ne_theoretical_{id}  = {e_theoretical}")
-    print(f"e_experimental_{id} = {e_experimental}\n")
+    print(f"\ne_theoretical_{id}  = {e_theoretical:.2f}")
+    print(f"e_experimental_{id} = {e_experimental:.2f}\n")
 
     i += 1
