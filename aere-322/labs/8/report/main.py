@@ -26,19 +26,9 @@ setups = [
 
 experiments = [
     [
-        (
-            "to_right",
-            2 * i,
-            (3 + 9 / 16) * i,
-            flipped_ruler - (6 + 1 / 8) * i + ruler_padding,
-        ),
+        ("to_right", 2 * i, (3 + 9 / 16) * i, flipped_ruler - (6 + 1 / 8) * i),
         ("to_left", (4 + 1 / 4) * i, (1 + 6 / 8) * i, (1 + 1 / 8) * i),
-        (
-            "to_left",
-            flipped_ruler - (7 + 7 / 16) * i + ruler_padding,
-            (2 + 9 / 16) * i,
-            0,
-        ),
+        ("to_left", (7 + 7 / 16) * i + ruler_padding, (2 + 9 / 16) * i, 0),
     ],
     [
         ("to_left", 3 * i, (2 + 6 / 8) * i, (11 / 16) * i),
@@ -73,10 +63,10 @@ for setup in setups:
 
         j = 0
         for experiment in experiments[i]:
-            (read_direction, x, l, r) = experiment
+            (read_direction, x_raw, l, r) = experiment
             read_direction = "to_left" if read_direction == "to_right" else "to_right"
             l, r = r, l
-            experiments[i][j] = (read_direction, x, l, r)
+            experiments[i][j] = (read_direction, x_raw, l, r)
             j += 1
 
     i += 1
@@ -96,10 +86,32 @@ for specimen in specimens:
     (type, h, b, t, d, two_theta) = specimen
     (m, l_0, r_0, open_side) = setups[i]
 
+    e = None
+
+    if type == "c_channel":
+        I = (1 / 2) * b * h**2 * t + (1 / 6) * b * t**3 + (1 / 12) * t * (h - t) ** 3
+        e = (h**2 * b**2 * t) / (4 * I)
+    elif type == "circular_open":
+        theta = two_theta / 2
+        r = d / 2 - t / 2
+        e = (
+            2 * r * (math.cos(theta) * (2 * math.pi - 2 * theta) + 2 * math.sin(theta))
+        ) / (2 * math.pi - 2 * theta + math.sin(2 * theta))
+    else:
+        raise ValueError(f"Unknown cross-section type: {type}")
+
     theta_0 = theta(l_0, r_0)
 
     for experiment in experiments[i]:
-        (read_direction, x, l, r) = experiment
+        (read_direction, x_raw, l, r) = experiment
+
+        x_shifted = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
+        x = x_shifted + e
+
+        print(x.to(ur.inch))
+
         theta_i = theta(l, r)
+
+    print()
 
     i += 1
