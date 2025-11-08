@@ -85,15 +85,15 @@ for specimen in specimens:
     (type, h, b, t, d, two_theta) = specimen
     (m, l_0, r_0, open_side) = setups[i]
 
-    e = None
+    e_theoretical = None
 
     if type == "c_channel":
         I = (1 / 2) * b * h**2 * t + (1 / 6) * b * t**3 + (1 / 12) * t * (h - t) ** 3
-        e = (h**2 * b**2 * t) / (4 * I)
+        e_theoretical = (h**2 * b**2 * t) / I
     elif type == "circular_open":
         theta = two_theta / 2
         r = d / 2 - t / 2
-        e = (
+        e_theoretical = (
             2 * r * (math.cos(theta) * (2 * math.pi - 2 * theta) + 2 * math.sin(theta))
         ) / (2 * math.pi - 2 * theta + math.sin(2 * theta))
     else:
@@ -124,7 +124,7 @@ for specimen in specimens:
     root = -(b / a) * inch
     e_experimental = -root
 
-    print(f"e_{id} = {e}")
+    print(f"e_theoretical_{id}  = {e_theoretical}")
     print(f"e_experimental_{id} = {e_experimental}\n")
 
     i += 1
