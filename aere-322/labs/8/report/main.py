@@ -108,16 +108,14 @@ for specimen in specimens:
     for experiment in experiments[i]:
         (read_direction, x_raw, l, r) = experiment
 
-        x = x_raw + t / 2 if read_direction == "to_right" else -x_raw - t / 2
+        # going to the left is positive as is e
+        x = x_raw + t / 2 if read_direction == "to_left" else -x_raw - t / 2
         theta = angle(l, r) - theta_0
 
         xs.append(x.to(ur.inch).magnitude)
         thetas.append(theta.to(ur.rad).magnitude)
 
-        print(
-            f"x = {xs[-1]:.4f} in, theta = {theta.to(ur.deg).magnitude:.4f} deg, "
-            f"theta_rel = {theta.to(ur.deg)}"
-        )
+        print(f"({xs[-1]:.4f}, {theta.to(ur.deg).magnitude:.4f})")
 
     a, b = np.polyfit(xs, thetas, 1)
     e_experimental = (-b / a) * inch
