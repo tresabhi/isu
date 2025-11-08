@@ -4,7 +4,6 @@ import pint
 ur = pint.UnitRegistry()
 
 i = ur.inch
-g = 9.81 * ur.m / ur.s**2
 
 specimens = [
     ("c_channel", 2.43 * i, 1.456 * i, 0.08 * i, None, None),
@@ -14,15 +13,13 @@ specimens = [
     ("circular_open", None, None, 0.071 * i, 1.66 * i, 103.7 * ur.deg),
 ]
 
-experiment_masses = [
-    0.1 * ur.kg,
-    0.2 * ur.kg,
-    0.1 * ur.kg,
-    0.1 * ur.kg,
-    0.1 * ur.kg,
+experiment_setups = [
+    (0.1 * ur.kg, 7 * ur.mm, 6.8 * ur.mm),
+    (0.2 * ur.kg, (1 + 9 / 16) * i, (1 + 3 / 8) * i),
+    (0.1 * ur.kg, (1 + 1 / 4) * i, 1 * i),
+    (0.1 * ur.kg, (1 + 7 / 16) * 2 * i),
+    (0.1 * ur.kg, (1 + 2 / 5) * i, (1 + 2 / 5) * i),
 ]
-
-experiment_weights = [g * m for m in experiment_masses]
 
 torsion_experiments = [
     [
@@ -52,12 +49,15 @@ torsion_experiments = [
     ],
 ]
 
-
 index = 0
 for specimen in specimens:
     id = index + 1
 
     (type, h, b, t, d, two_theta) = specimen
+    (m) = experiment_setups[index]
+    w = m * 9.81 * ur.m / ur.s**2
+    w = w.to(ur.lbf)
+
     e: float
 
     if type == "c_channel":
@@ -74,4 +74,7 @@ for specimen in specimens:
         raise ValueError(f"Unknown type: {type}")
 
     print(f"e_{id} = {e}")
-    id += 1
+    print(f"w_{id} = {w}")
+    print()
+
+    index += 1
