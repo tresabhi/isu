@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, sqrt
 import pint
 
 ur = pint.UnitRegistry()
@@ -16,10 +16,9 @@ delta_i = abs(i_2 - i_1)
 
 v_inf = 3 * km / s
 
-a_elliptical = (r_p + r_a) / 2
-e_elliptical = (r_a - r_p) / (r_a + r_p)
-
-a_hyperbolic = -mu / (v_inf**2)
+a_0 = (r_p + r_a) / 2
+e_0 = (r_a - r_p) / (r_a + r_p)
+a_1 = -mu / (v_inf**2)
 
 
 def vis_viva(r, a):
@@ -40,11 +39,10 @@ def delta_v_combined(v_0, v_1, delta_i):
     return (delta_v_y**2 + delta_v_z**2) ** (1 / 2)
 
 
-v_p_0 = vis_viva(r_p, a_elliptical)
-v_a_0 = vis_viva(r_a, a_elliptical)
-v_p_1 = vis_viva(r_p, a_hyperbolic)
-v_a_1 = vis_viva(r_a, a_hyperbolic)
-
+v_p_0 = vis_viva(r_p, a_0)
+v_a_0 = vis_viva(r_a, a_0)
+v_p_1 = vis_viva(r_p, a_1)
+v_a_1 = vis_viva(r_a, a_1)
 
 delta_v_case_1_order_1 = abs(v_p_1 - v_p_0) + delta_v_plane_change(v_p_1, delta_i)
 delta_v_case_1_order_2 = delta_v_plane_change(v_p_0, delta_i) + abs(v_p_1 - v_p_0)

@@ -44,4 +44,8 @@ $$
 a_1 = -\frac{\mu}{v_\infty^2}
 $$
 
+$$
+v_{a1} = \sqrt{v_\infty^2 - 2\frac{\mu}{r_a}}
+$$
+
 Because this problem has so many repeating parts, I abstracted away a lot of the complexity into Python functions and wrote a script to solve this problem:
