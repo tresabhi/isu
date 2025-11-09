@@ -30,13 +30,7 @@ def delta_v_plane_change(v, delta_i):
 
 
 def delta_v_combined(v_0, v_1, delta_i):
-    v_y = v_1 * cos(delta_i)
-    v_z = v_1 * sin(delta_i)
-
-    delta_v_y = v_y - v_0
-    delta_v_z = v_z
-
-    return (delta_v_y**2 + delta_v_z**2) ** (1 / 2)
+    return (v_0**2 + v_1**2 - 2 * v_0 * v_1 * cos(delta_i)) ** (1 / 2)
 
 
 v_p_0 = vis_viva(r_p, a_0)
