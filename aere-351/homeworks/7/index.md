@@ -199,3 +199,67 @@ delta_v (case 2, order 1): 6.546654590197828 kilometer / second
 delta_v (case 2, order 2): 5.320593015623034 kilometer / second
 delta_v (case 2, order 3): 4.226486101561274 kilometer / second
 ```
+
+## 2.
+
+Given:
+
+$$
+\omega_1 = 20\degree
+$$
+
+$$
+r_{a1} = 11000km
+$$
+
+$$
+r_{p1} = 10000km
+$$
+
+$$
+\omega_2 = 80\degree
+$$
+
+$$
+e_2 = 0.4
+$$
+
+$$
+r_{p2} = 8000km
+$$
+
+From the Internet:
+
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
+To reach orbit 3 from 1:
+
+$$
+\Delta \omega = \omega_2 - \omega_1 = 60\degree
+$$
+
+$$
+e_3 = e_1
+$$
+
+$$
+a_3 = a_1
+$$
+
+The smallest intersection:
+
+$$
+\theta_1 = \frac{\Delta \omega}{2} = \frac{60\degree}{2} = 30\degree
+$$
+
+$\Delta v$ from orbit 3 to 1:
+
+$$
+\Delta v_a = 2 \sqrt{\frac{\mu}{p}} e \sin \frac{\Delta \omega}{2}
+$$
+
+$$
+\Delta v_a = 2 \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13047km}} * 0.4 * \sin \frac{30\degree}{2} = 1.144 km/s
+$$
