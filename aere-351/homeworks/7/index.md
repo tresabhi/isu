@@ -58,6 +58,8 @@ $$
 
 Finally, the combined equation for $\Delta v$ when doing an inclination change with a push to hyperbolic (cosine law):
 
+![](https://i.imgur.com/wOqiofK.png)
+
 $$
 (\Delta v)^2 = v_0^2 + v_1^2 - 2 v_0 v_1 \cos \Delta i
 $$
@@ -254,6 +256,18 @@ $$
 \theta_1 = \frac{\Delta \omega}{2} = \frac{60\degree}{2} = 30\degree
 $$
 
+$$
+a_1 = \frac{r_{a1} + r_{p1}}{2} = \frac{11000km + 10000km}{2} = 10500km
+$$
+
+$$
+e_1 = \frac{r_{a1} - r_{p1}}{r_{a1} + r_{p1}} = \frac{11000km - 10000km}{11000km + 10000km} = 0.04762
+$$
+
+$$
+p_1 = a_1 (1 - e_1^2) = 10500km (1 - 0.04762^2) = 10476km
+$$
+
 $\Delta v$ from orbit 3 to 1:
 
 $$
@@ -261,5 +275,31 @@ $$
 $$
 
 $$
-\Delta v_a = 2 \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13047km}} * 0.4 * \sin \frac{30\degree}{2} = 1.144 km/s
+\Delta v_a = 2 \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} * 0.04762 * \sin \frac{30\degree}{2} = 0.1521 km/s
+$$
+
+Hohmann transfer:
+
+$$
+a_2 = \frac{r_{p2}}{1 - e_2} = \frac{8000km}{1 - 0.4} = 13333.33km
+$$
+
+$$
+r_{a2} = a_2 (1 + e_2) = 13333.33km (1 + 0.4) = 18666.7km
+$$
+
+$$
+r_{p4} = r_{p3} = r_{p1} = 10000km
+$$
+
+$$
+r_{a4} = r_{a2} = 18666.7km
+$$
+
+$$
+a_4 = \frac{r_{a4} + r_{p4}}{2} = \frac{18666.7km + 10000km}{2} = 14333.4km
+$$
+
+$$
+v_{p3} = \sqrt{\mu \left( \frac{2}{r} - \frac{1}{a} \right)} = \sqrt{3.98600 * 10^5 km^3/s^2 \left( \frac{2}{10000km} - \frac{1}{14333.4km} \right)} = 7.2049km/s
 $$
