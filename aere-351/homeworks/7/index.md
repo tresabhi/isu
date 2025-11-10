@@ -440,3 +440,59 @@ Finally:
 $$
 \Delta v = \Delta v_a + \Delta v_b + \Delta v_c = 0.2938 km/s + 0.743 km/s + 0.281 km/s = \boxed{1.318 km/s}
 $$
+
+And now for the total time elapsed. Since the first burn was a direct hop from orbit 1 to 3, there will be no term for that:
+
+$$
+\Delta t_a = 0
+$$
+
+Times for transfer within orbits 3 and 4:
+
+$$
+\theta_3 = -30\degree
+$$
+
+$$
+\theta_3' = 0
+$$
+
+$$
+E = 2 \arctan \left( \sqrt{\frac{1 - e}{1 + e}} \tan \frac{\theta}{2} \right)
+$$
+
+$$
+E_3 = 2 \arctan \left( \sqrt{\frac{1 - 0.04762}{1 + 0.04762}} \tan \frac{-30\degree}{2} \right) = -0.5003 rad
+$$
+
+$$
+E_3' = 0
+$$
+
+$$
+M_3 = E_3 - e_3 \sin E_3 = -0.5003 - 0.04762 \sin (-0.5003) = -0.4775
+$$
+
+$$
+M_3' = 0
+$$
+
+$$
+M = \sqrt{\frac{\mu}{a^3}} t
+$$
+
+$$
+t = \sqrt{\frac{a^3}{\mu}} M
+$$
+
+$$
+t_3 = \sqrt{\frac{a_3^3}{\mu}} M_3 = \sqrt{\frac{(10500km)^3}{3.98600 * 10^5 km^3/s^2}} (-0.4775) = -813.75s
+$$
+
+$$
+t_3' = 0
+$$
+
+$$
+\Delta t_b = t_3' - t_3 = 813.75s
+$$
