@@ -370,3 +370,73 @@ The difference:
 $$
 \Delta v_a = |v_1' - v_3'| = \sqrt{(-4.826 - (-5.015))^2 + (4.241 - 4.016)^2} = 0.2938 km/s
 $$
+
+Now we turn raise our apogee to that of orbit 2 while keeping the perigee of orbit 3, creating an intermediate orbit 4:
+
+$$
+v_{p3} = v_{p1} = \sqrt{\frac{\mu}{p_1}} (1 + e_1) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} (1 + 0.04762) = 6.462km/s
+$$
+
+$$
+r_{p4} = r_{p3} = r_{p1} = 10000km
+$$
+
+$$
+e_2 = \frac{r_{a2} - r_{p2}}{r_{a2} + r_{p2}}
+$$
+
+$$
+e_2 = 0.4 = \frac{r_{a2} - 8000km}{r_{a2} + 8000km} \implies r_{a2} = 18667km
+$$
+
+$$
+a_2 = \frac{r_{a2} + r_{p2}}{2} = \frac{18667km + 8000km}{2} = 13334km
+$$
+
+$$
+p_2 = a_2 (1 - e_2^2) = 13334km (1 - 0.4^2) = 11201 km
+$$
+
+$$
+r_{a4} = r_{a2} = 18667km
+$$
+
+$$
+a_4 = \frac{r_{a4} + r_{p4}}{2} = \frac{18667km + 10000km}{2} = 14334km
+$$
+
+$$
+e_4 = \frac{r_{a4} - r_{p4}}{r_{a4} + r_{p4}} = \frac{18667km - 10000km}{18667km + 10000km} = 0.3023
+$$
+
+$$
+p_4 = a_4 (1 - e_4^2) = 14334km (1 - 0.3023^2) = 13024km
+$$
+
+$$
+v_{p4} = \sqrt{\frac{\mu}{p_4}} (1 + e_4) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13024km}} (1 + 0.3023) = 7.205 km/s
+$$
+
+$$
+\Delta v_b = v_{p4} - v_{p3} = 7.205 km/s - 6.462 km/s = 0.743 km/s
+$$
+
+Finally, the perigee raises from orbit 4 to match orbit 2:
+
+$$
+v_{a4} = \sqrt{\frac{\mu}{p_4}} (1 - e_4) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{13024km}} (1 - 0.3023) = 3.860 km/s
+$$
+
+$$
+v_{a2} = \sqrt{\frac{\mu}{p_2}} (1 - e_2) = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{11201km}} (1 - 0.4) = 3.579 km/s
+$$
+
+$$
+\Delta v_c = v_{a4} - v_{a2} = 3.860 km/s - 3.579 km/s = 0.281 km/s
+$$
+
+Finally:
+
+$$
+\Delta v = \Delta v_a + \Delta v_b + \Delta v_c = 0.2938 km/s + 0.743 km/s + 0.281 km/s = \boxed{1.318 km/s}
+$$
