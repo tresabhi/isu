@@ -243,6 +243,14 @@ $$
 $$
 
 $$
+r_{p3} = r_{p1}
+$$
+
+$$
+r_{a3} = r_{a1}
+$$
+
+$$
 e_3 = e_1
 $$
 
@@ -257,7 +265,7 @@ $$
 $$
 
 $$
-a_1 = \frac{r_{a1} + r_{p1}}{2} = \frac{11000km + 10000km}{2} = 10500km
+\theta_3 = \theta_1 - \Delta \omega = 30\degree - 60\degree = -30\degree
 $$
 
 $$
@@ -265,41 +273,77 @@ e_1 = \frac{r_{a1} - r_{p1}}{r_{a1} + r_{p1}} = \frac{11000km - 10000km}{11000km
 $$
 
 $$
-p_1 = a_1 (1 - e_1^2) = 10500km (1 - 0.04762^2) = 10476km
-$$
-
-$\Delta v$ from orbit 3 to 1:
-
-$$
-\Delta v_a = 2 \sqrt{\frac{\mu}{p}} e \sin \frac{\Delta \omega}{2}
+a_1 = \frac{r_{a1} + r_{p1}}{2} = \frac{11000km + 10000km}{2} = 10500km
 $$
 
 $$
-\Delta v_a = 2 \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} * 0.04762 * \sin \frac{30\degree}{2} = 0.1521 km/s
+p_1 = a_1 (1 - e_1^2) = 10500km * (1 - 0.04762^2) = 10476km
 $$
 
-Hohmann transfer:
+Velocity as a column vectors:
 
 $$
-a_2 = \frac{r_{p2}}{1 - e_2} = \frac{8000km}{1 - 0.4} = 13333.33km
-$$
-
-$$
-r_{a2} = a_2 (1 + e_2) = 13333.33km (1 + 0.4) = 18666.7km
-$$
-
-$$
-r_{p4} = r_{p3} = r_{p1} = 10000km
+v_1 = \sqrt{\frac{\mu}{p_1}} \begin{bmatrix}
+  -\sin \theta_1 \\
+  e_1 + \cos \theta_1
+\end{bmatrix}
 $$
 
 $$
-r_{a4} = r_{a2} = 18666.7km
+v_1 = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} \begin{bmatrix}
+  -\sin 30\degree \\
+  0.04762 + \cos 30\degree
+\end{bmatrix} = \begin{bmatrix}
+  -3.084 \\
+  5.636
+\end{bmatrix} km/s
 $$
 
 $$
-a_4 = \frac{r_{a4} + r_{p4}}{2} = \frac{18666.7km + 10000km}{2} = 14333.4km
+v_3 = \sqrt{\frac{\mu}{p_3}} \begin{bmatrix}
+  -\sin \theta_3 \\
+  e_3 + \cos \theta_3
+\end{bmatrix} = \sqrt{\frac{\mu}{p_1}} \begin{bmatrix}
+  -\sin \theta_3 \\
+  e_1 + \cos \theta_3
+\end{bmatrix}
 $$
 
 $$
-v_{p3} = \sqrt{\mu \left( \frac{2}{r} - \frac{1}{a} \right)} = \sqrt{3.98600 * 10^5 km^3/s^2 \left( \frac{2}{10000km} - \frac{1}{14333.4km} \right)} = 7.2049km/s
+v_3 = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} \begin{bmatrix}
+  -\sin -30\degree \\
+  0.04762 + \cos -30\degree
+\end{bmatrix} = \begin{bmatrix}
+  3.084 \\
+  5.636
+\end{bmatrix} km/s
+$$
+
+Transforming the velocities to a common coordinate system:
+
+$$
+v_1' = R_1 v_1 = \begin{bmatrix}
+  \cos \omega_1 & -\sin \omega_1 \\
+  \sin \omega_1 & \cos \omega_1
+\end{bmatrix} v_1
+$$
+
+$$
+v_1' = \begin{bmatrix}
+  \cos 20\degree & -\sin 20\degree \\
+  \sin 20\degree & \cos 20\degree
+\end{bmatrix} \begin{bmatrix}
+  -3.084 \\
+  5.636
+\end{bmatrix} = \begin{bmatrix}
+  -4.826 \\
+  4.241
+\end{bmatrix} km/s
+$$
+
+$$
+v_3' = R_3 v_3 = \begin{bmatrix}
+  \cos \omega_3 & -\sin \omega_3 \\
+  \sin \omega_3 & \cos \omega_3
+\end{bmatrix}
 $$
