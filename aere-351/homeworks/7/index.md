@@ -496,3 +496,15 @@ $$
 $$
 \Delta t_b = t_3' - t_3 = 813.75s
 $$
+
+The other transfer orbit goes from the perigee to the apogee, so that's half the revolution:
+
+$$
+\Delta t_c = \frac{1}{2} T_4 = \frac{1}{2} 2 \pi \sqrt{\frac{a^3}{\mu}} = \pi \sqrt{\frac{(a_4^3)}{\mu}} = \pi \sqrt{\frac{(14334km)^3}{3.98600 * 10^5 km^3/s^2}} = 8539.5s
+$$
+
+Finally:
+
+$$
+\Delta t = \Delta t_a + \Delta t_b + \Delta t_c = 0 + 813.75s + 8539.5s = \boxed{9353.25s}
+$$
