@@ -345,5 +345,28 @@ $$
 v_3' = R_3 v_3 = \begin{bmatrix}
   \cos \omega_3 & -\sin \omega_3 \\
   \sin \omega_3 & \cos \omega_3
-\end{bmatrix}
+\end{bmatrix} v_3
+$$
+
+$$
+\omega_3 = \omega_2 = 80\degree
+$$
+
+$$
+v_3' = \begin{bmatrix}
+  \cos 80\degree & -\sin 80\degree \\
+  \sin 80\degree & \cos 80\degree
+\end{bmatrix} \begin{bmatrix}
+  3.084 \\
+  5.636
+\end{bmatrix} = \begin{bmatrix}
+  -5.015 \\
+  4.016
+\end{bmatrix} km/s
+$$
+
+The difference:
+
+$$
+\Delta v_a = |v_1' - v_3'| = \sqrt{(-4.826 - (-5.015))^2 + (4.241 - 4.016)^2} = 0.2938 km/s
 $$
