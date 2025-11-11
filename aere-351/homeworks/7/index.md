@@ -1,4 +1,4 @@
-# AERE 351 Homework 5
+# AERE 351 Homework 7
 
 ## 1.
 
