@@ -546,3 +546,51 @@ $$
 $$
 \omega_1 + \theta_1 = \omega_2 + \theta_2
 $$
+
+Rewritten in a format that works with Wolfram Alpha:
+
+$$
+\frac{10476}{1 + 0.04762 * \cos x} = \frac{11201}{1 + 0.4 * \cos y}
+$$
+
+$$
+20 * \frac{\pi}{180} + x = 80 * \frac{\pi}{180} + y
+$$
+
+Result:
+
+$$
+\theta_1 = -0.2219rad
+$$
+
+$$
+\theta_2 = -1.269rad
+$$
+
+The corresponding velocities:
+
+$$
+v_1 = \sqrt{\frac{\mu}{p_1}} \begin{bmatrix}
+    1 + e_1 \cos \theta_1 \\
+    e_1 \sin \theta_1
+\end{bmatrix} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} \begin{bmatrix}
+    1 + 0.04762 * \cos (-0.2219rad) \\
+    0.04762 * \sin (-0.2219rad)
+\end{bmatrix} = \begin{bmatrix}
+    6.455
+    -0.06465
+\end{bmatrix} km/s
+$$
+
+$$
+v_2 = \sqrt{\frac{\mu}{p_2}} \begin{bmatrix}
+    1 + e_2 \cos \theta_2 \\
+    e_2 \sin \theta_2
+\end{bmatrix} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{11201km}} \begin{bmatrix}
+    1 + 0.4 * \cos (-1.269rad) \\
+    0.4 * \sin (-1.269rad)
+\end{bmatrix} = \begin{bmatrix}
+    6.675
+    -2.278
+\end{bmatrix} km/s
+$$
