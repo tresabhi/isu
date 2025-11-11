@@ -16,13 +16,13 @@ function v_2 = gibbs(r_1, r_2, r_3, mu)
     C_31 = cross(r_3, r_1);
 
     % I'd say 1 * 10^-5 is close enough to zero
-    if norm(cross(r_1, C_23)) < 1e-5
+    if dot(r_1, C_23) < 1e-5
         error("Vectors are coplanar");
     end
 
-    N_1 = dot(r_1, cross(r_2, r_3));
-    N_2 = dot(r_2, cross(r_3, r_1));
-    N_3 = dot(r_3, cross(r_1, r_2));
+    N_1 = norm(r_1) * C_23;
+    N_2 = norm(r_2) * C_31;
+    N_3 = norm(r_3) * C_12;
 
     S_1 = r_1 * (norm(r_2) - norm(r_3));
     S_2 = r_2 * (norm(r_3) - norm(r_1));
@@ -32,5 +32,9 @@ function v_2 = gibbs(r_1, r_2, r_3, mu)
     D = C_12 + C_23 + C_31;
     S = S_1 + S_2 + S_3;
 
-    v_2 = sqrt(mu / (N * norm(D))) * (cross(D, r_2) / norm(r_2) + S);
+    disp(N)
+    disp(D)
+    disp(S)
+
+    v_2 = sqrt(mu / (norm(N) * norm(D))) * (cross(D, r_2) / norm(r_2) + S);
 end

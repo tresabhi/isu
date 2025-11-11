@@ -641,6 +641,8 @@ $$
 
 Speaking in terms of convenience, this secondary solution is the easiest to wrap your head around and the lease complex to both solve and execute and faster in terms of transit time. However, of course, the price you pay is an increased $\Delta v$ for the transfer burn.
 
+2.2264 is the right answer
+
 ## 4.
 
 This question is once again very prone to error, even using LaTeX and being able to copy paste from Wolfram Alpha. So, I am choosing to program the solution in Python. Perhaps I should've done the same for problem 3, oh well.
@@ -732,13 +734,13 @@ function v_2 = gibbs(r_1, r_2, r_3, mu)
     C_31 = cross(r_3, r_1);
 
     % I'd say 1 * 10^-5 is close enough to zero
-    if norm(cross(r_1, C_23)) < 1e-5
+    if dot(r_1, C_23) < 1e-5
         error("Vectors are coplanar");
     end
 
-    N_1 = dot(r_1, cross(r_2, r_3));
-    N_2 = dot(r_2, cross(r_3, r_1));
-    N_3 = dot(r_3, cross(r_1, r_2));
+    N_1 = norm(r_1) * C_23;
+    N_2 = norm(r_2) * C_31;
+    N_3 = norm(r_3) * C_12;
 
     S_1 = r_1 * (norm(r_2) - norm(r_3));
     S_2 = r_2 * (norm(r_3) - norm(r_1));
@@ -748,7 +750,7 @@ function v_2 = gibbs(r_1, r_2, r_3, mu)
     D = C_12 + C_23 + C_31;
     S = S_1 + S_2 + S_3;
 
-    v_2 = sqrt(mu / (N * norm(D))) * (cross(D, r_2) / norm(r_2) + S);
+    v_2 = sqrt(mu / (norm(N) * norm(D))) * (cross(D, r_2) / norm(r_2) + S);
 end
 ```
 
@@ -756,10 +758,10 @@ The output:
 
 ```
 v_2 =
-  -30.2795
-    8.7509
-  -86.2846
+   -2.5025
+    0.7232
+   -7.1313
 
 |v_2| =
-   91.8611
+    7.5921
 ```
