@@ -571,26 +571,70 @@ The corresponding velocities:
 
 $$
 v_1 = \sqrt{\frac{\mu}{p_1}} \begin{bmatrix}
-    1 + e_1 \cos \theta_1 \\
-    e_1 \sin \theta_1
+  1 + e_1 \cos \theta_1 \\
+  e_1 \sin \theta_1
 \end{bmatrix} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{10476km}} \begin{bmatrix}
-    1 + 0.04762 * \cos (-0.2219rad) \\
-    0.04762 * \sin (-0.2219rad)
+  1 + 0.04762 * \cos (-0.2219rad) \\
+  0.04762 * \sin (-0.2219rad)
 \end{bmatrix} = \begin{bmatrix}
-    6.455
-    -0.06465
+  6.455 \\
+  -0.06465
 \end{bmatrix} km/s
 $$
 
 $$
 v_2 = \sqrt{\frac{\mu}{p_2}} \begin{bmatrix}
-    1 + e_2 \cos \theta_2 \\
-    e_2 \sin \theta_2
+  1 + e_2 \cos \theta_2 \\
+  e_2 \sin \theta_2
 \end{bmatrix} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{11201km}} \begin{bmatrix}
-    1 + 0.4 * \cos (-1.269rad) \\
-    0.4 * \sin (-1.269rad)
+  1 + 0.4 * \cos (-1.269rad) \\
+  0.4 * \sin (-1.269rad)
 \end{bmatrix} = \begin{bmatrix}
-    6.675
-    -2.278
+  6.675 \\
+  -2.278
 \end{bmatrix} km/s
+$$
+
+Globalized:
+
+$$
+v_1' = \begin{bmatrix}
+  \cos \omega_1 & -\sin \omega_1 \\
+  \sin \omega_1 & \cos \omega_1
+\end{bmatrix} v_1 = \begin{bmatrix}
+  \cos 20\degree & -\sin 20\degree \\
+  \sin 20\degree & \cos 20\degree
+\end{bmatrix} \begin{bmatrix}
+  6.455 \\
+  -0.06465
+\end{bmatrix} = \begin{bmatrix}
+  6.0878 \\
+  2.147 \\
+\end{bmatrix} km/s
+$$
+
+$$
+v_2' = \begin{bmatrix}
+  \cos \omega_2 & -\sin \omega_2 \\
+  \sin \omega_2 & \cos \omega_2
+\end{bmatrix} v_2 = \begin{bmatrix}
+  \cos 80\degree & -\sin 80\degree \\
+  \sin 80\degree & \cos 80\degree
+\end{bmatrix} \begin{bmatrix}
+  6.675 \\
+  -2.278
+\end{bmatrix} = \begin{bmatrix}
+  3.402 \\
+  6.178
+\end{bmatrix} km/s
+$$
+
+$$
+\Delta v = |v_1' - v_2'| = \sqrt{(6.0878 - 3.402)^2 + (2.147 - 6.178)^2} = \boxed{4.844 km/s}
+$$
+
+The transit time is trivial since this is an instantaneous jump:
+
+$$
+\boxed{\Delta t = 0}
 $$
