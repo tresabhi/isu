@@ -1,4 +1,4 @@
-from math import sin, cos, sqrt, asin, acos, pi, atan2
+from math import sin, cos, sqrt, asin, acos, atan2, pi
 import pint
 
 ur = pint.UnitRegistry()
@@ -15,7 +15,6 @@ omega_1 = 15 * deg
 i_1 = 120 * deg
 Omega_1 = 45 * deg
 
-omega_2 = omega_1
 i_2 = 85 * deg
 Omega_2 = 130 * deg
 
@@ -24,11 +23,9 @@ delta_i = i_2 - i_1
 
 if (delta_Omega > 0 and delta_i > 0) or (delta_Omega < 0 and delta_i < 0):
     # Concordant
-
-    raise NotImplementedError()
+    raise NotImplementedError("Case A not implemented")
 else:
     # Discordant
-
     alpha = acos(cos(i_1) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))
 
     u_1_c = acos((cos(alpha) * cos(i_1) - cos(i_2)) / (sin(alpha) * sin(i_1)))
@@ -39,11 +36,15 @@ else:
     u_1 = atan2(u_1_s, u_1_c)
     u_2 = atan2(u_2_s, u_2_c)
 
-    theta_1 = u_1 - omega_1
-    theta_2 = u_2 - omega_2
+    theta_1 = 2 * pi - u_1 - omega_1
+    theta_2 = theta_1
+    omega_2 = 2 * pi - u_2 - theta_2
 
     p = a * (1 - e**2)
     v_theta = ((mu / p) ** (1 / 2)) * (1 + e * cos(theta_1))
     delta_v = 2 * v_theta * sin(alpha / 2)
 
-    print(delta_v)
+    print(f"theta_1 = {theta_1.to(deg)}")
+    print(f"theta_2 = {theta_2.to(deg)}")
+    print(f"delta_v = {delta_v}")
+    print(f"omega_2 = {omega_2.to(deg)}")
