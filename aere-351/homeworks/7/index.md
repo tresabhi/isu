@@ -657,11 +657,13 @@ ur = pint.UnitRegistry()
 km = ur.kilometer
 s = ur.second
 deg = ur.degree
+rad = ur.radian
 
 mu = 3.98600e5 * (km**3) / (s**2)
 
 a = 12000 * km
 e = 0.2
+p = a * (1 - e**2)
 
 omega_1 = 15 * deg
 i_1 = 120 * deg
@@ -675,24 +677,25 @@ delta_i = i_2 - i_1
 
 if (delta_Omega > 0 and delta_i > 0) or (delta_Omega < 0 and delta_i < 0):
     # Concordant
+
     raise NotImplementedError("I don't have the willpower")
 else:
     # Discordant
+
     alpha = acos(cos(i_1) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))
 
-    u_1_c = acos((cos(alpha) * cos(i_1) - cos(i_2)) / (sin(alpha) * sin(i_1)))
-    u_2_c = acos((cos(alpha) * cos(i_2) - cos(i_1)) / (sin(alpha) * sin(i_2)))
-    u_1_s = asin((sin(delta_Omega) * sin(i_2)) / sin(alpha))
-    u_2_s = asin((sin(delta_Omega) * sin(i_1)) / sin(alpha))
+    cos_u_1 = (cos(i_2) - cos(alpha) * cos(i_1)) / (sin(alpha) * sin(i_1))
+    cos_u_2 = (cos(alpha) * cos(i_2) - cos(i_1)) / (sin(alpha) * sin(i_2))
+    sin_u_1 = (sin(delta_Omega) * sin(i_2)) / sin(alpha)
+    sin_u_2 = (sin(delta_Omega) * sin(i_1)) / sin(alpha)
 
-    u_1 = atan2(u_1_s, u_1_c)
-    u_2 = atan2(u_2_s, u_2_c)
+    u_1 = atan2(sin_u_1, cos_u_1)
+    u_2 = atan2(sin_u_2, cos_u_2)
 
     theta_1 = 2 * pi - u_1 - omega_1
     theta_2 = theta_1
     omega_2 = 2 * pi - u_2 - theta_2
 
-    p = a * (1 - e**2)
     v_theta = ((mu / p) ** (1 / 2)) * (1 + e * cos(theta_1))
     delta_v = 2 * v_theta * sin(alpha / 2)
 
@@ -705,10 +708,10 @@ else:
 And the output is:
 
 ```
-theta_1 = 304.3407706845272 degree
-theta_2 = 304.3407706845272 degree
-delta_v = 9.109775044735224 kilometer / second
-omega_2 = 10.659229315472835 degree
+theta_1 = 261.8315419613319 degree
+theta_2 = 261.8315419613319 degree
+delta_v = 7.9535616486924985 kilometer / second
+omega_2 = 38.495042411171106 degree
 ```
 
 ## 5.
