@@ -23,7 +23,7 @@ delta_i = i_2 - i_1
 
 if (delta_Omega > 0 and delta_i > 0) or (delta_Omega < 0 and delta_i < 0):
     # Concordant
-    raise NotImplementedError("Case A not implemented")
+    raise NotImplementedError("I don't have the willpower")
 else:
     # Discordant
     alpha = acos(cos(i_1) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))

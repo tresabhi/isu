@@ -643,4 +643,68 @@ Speaking in terms of convenience, this secondary solution is the easiest to wrap
 
 ## 4.
 
-This question is once again very prone to error, even using LaTeX and being able to copy paste from Wolfram Alpha. So, I am choosing to program the solution in Python. Perhaps I should've done the same for problem 3, oh well. Nevertheless, here's my solution for problem 4:
+This question is once again very prone to error, even using LaTeX and being able to copy paste from Wolfram Alpha. So, I am choosing to program the solution in Python. Perhaps I should've done the same for problem 3, oh well.
+
+Solving for $u_1$ and $u_2$ across the laws of sine and cosine and $\theta_1$ and $\theta_2$ were pretty trivial so I just did it in my mind and put it down in the code directly:
+
+```py
+from math import sin, cos, sqrt, asin, acos, atan2, pi
+import pint
+
+ur = pint.UnitRegistry()
+km = ur.kilometer
+s = ur.second
+deg = ur.degree
+
+mu = 3.98600e5 * (km**3) / (s**2)
+
+a = 12000 * km
+e = 0.2
+
+omega_1 = 15 * deg
+i_1 = 120 * deg
+Omega_1 = 45 * deg
+
+i_2 = 85 * deg
+Omega_2 = 130 * deg
+
+delta_Omega = Omega_2 - Omega_1
+delta_i = i_2 - i_1
+
+if (delta_Omega > 0 and delta_i > 0) or (delta_Omega < 0 and delta_i < 0):
+    # Concordant
+    raise NotImplementedError("I don't have the willpower")
+else:
+    # Discordant
+    alpha = acos(cos(i_1) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))
+
+    u_1_c = acos((cos(alpha) * cos(i_1) - cos(i_2)) / (sin(alpha) * sin(i_1)))
+    u_2_c = acos((cos(alpha) * cos(i_2) - cos(i_1)) / (sin(alpha) * sin(i_2)))
+    u_1_s = asin((sin(delta_Omega) * sin(i_2)) / sin(alpha))
+    u_2_s = asin((sin(delta_Omega) * sin(i_1)) / sin(alpha))
+
+    u_1 = atan2(u_1_s, u_1_c)
+    u_2 = atan2(u_2_s, u_2_c)
+
+    theta_1 = 2 * pi - u_1 - omega_1
+    theta_2 = theta_1
+    omega_2 = 2 * pi - u_2 - theta_2
+
+    p = a * (1 - e**2)
+    v_theta = ((mu / p) ** (1 / 2)) * (1 + e * cos(theta_1))
+    delta_v = 2 * v_theta * sin(alpha / 2)
+
+    print(f"theta_1 = {theta_1.to(deg)}")
+    print(f"theta_2 = {theta_2.to(deg)}")
+    print(f"delta_v = {delta_v}")
+    print(f"omega_2 = {omega_2.to(deg)}")
+```
+
+And the output is:
+
+```
+theta_1 = 304.3407706845272 degree
+theta_2 = 304.3407706845272 degree
+delta_v = 9.109775044735224 kilometer / second
+omega_2 = 10.659229315472835 degree
+```
