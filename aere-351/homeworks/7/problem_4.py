@@ -1,4 +1,4 @@
-from math import sin, cos, sqrt, asin, acos, pi
+from math import sin, cos, sqrt, asin, acos, pi, atan2
 import pint
 
 ur = pint.UnitRegistry()
@@ -29,20 +29,21 @@ if (delta_Omega > 0 and delta_i > 0) or (delta_Omega < 0 and delta_i < 0):
 else:
     # Discordant
 
-    alpha = acos(cos(i_2) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))
+    alpha = acos(cos(i_1) * cos(i_2) + sin(i_1) * sin(i_2) * cos(delta_Omega))
 
-    u_1_from_cos = acos((cos(alpha) * cos(i_1) - cos(i_2)) / sin(alpha) * sin(i_1))
-    u_2_from_cos = acos((cos(i_1) - cos(alpha) * cos(i_2)) / (sin(alpha) * sin(i_2)))
-    u_1_from_sin = asin((sin(delta_Omega) / sin(alpha)) * sin(i_2))
-    u_2_from_sin = asin((sin)(delta_Omega) / sin(alpha) * sin(i_1))
+    u_1_c = acos((cos(alpha) * cos(i_1) - cos(i_2)) / (sin(alpha) * sin(i_1)))
+    u_2_c = acos((cos(alpha) * cos(i_2) - cos(i_1)) / (sin(alpha) * sin(i_2)))
+    u_1_s = asin((sin(delta_Omega) * sin(i_2)) / sin(alpha))
+    u_2_s = asin((sin(delta_Omega) * sin(i_1)) / sin(alpha))
 
-    theta_1 = u_1 / (2 * pi) - omega_1
-    theta_2 = u_2 / (2 * pi) - omega_2
+    u_1 = atan2(u_1_s, u_1_c)
+    u_2 = atan2(u_2_s, u_2_c)
 
     theta_1 = u_1 - omega_1
-    theta_2 = theta_1
-    omega_2 = u_2 - theta_2
+    theta_2 = u_2 - omega_2
 
     p = a * (1 - e**2)
-    v_theta = sqrt(mu / p) * (1 + e * cos(theta_1))
-    delta_v = abs(2 * v_theta * sin(alpha / 2))
+    v_theta = ((mu / p) ** (1 / 2)) * (1 + e * cos(theta_1))
+    delta_v = 2 * v_theta * sin(alpha / 2)
+
+    print(delta_v)
