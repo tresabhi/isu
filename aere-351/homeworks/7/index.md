@@ -645,7 +645,7 @@ Speaking in terms of convenience, this secondary solution is the easiest to wrap
 
 This question is once again very prone to error, even using LaTeX and being able to copy paste from Wolfram Alpha. So, I am choosing to program the solution in Python. Perhaps I should've done the same for problem 3, oh well.
 
-Solving for $u_1$ and $u_2$ across the laws of sine and cosine and $\theta_1$ and $\theta_2$ were pretty trivial so I just did it in my mind and put it down in the code directly:
+Solving for $u_1$ and $u_2$ across the laws of sine and cosine and $\theta_1$ and $\theta_2$ were pretty trivial so I just did it in my mind and put it down in the code directly. I refereed to the `Lecture 11_ Plane Change Transfers.pdf` file in the "Written Lecture Notes" folder on Canvas.
 
 ```py
 from math import sin, cos, sqrt, asin, acos, atan2, pi
@@ -708,3 +708,7 @@ theta_2 = 304.3407706845272 degree
 delta_v = 9.109775044735224 kilometer / second
 omega_2 = 10.659229315472835 degree
 ```
+
+## 5.
+
+Back to programming!
