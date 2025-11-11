@@ -640,3 +640,7 @@ $$
 $$
 
 Speaking in terms of convenience, this secondary solution is the easiest to wrap your head around and the lease complex to both solve and execute and faster in terms of transit time. However, of course, the price you pay is an increased $\Delta v$ for the transfer burn.
+
+## 4.
+
+This question is once again very prone to error, even using LaTeX and being able to copy paste from Wolfram Alpha. So, I am choosing to program the solution in Python. Perhaps I should've done the same for problem 3, oh well. Nevertheless, here's my solution for problem 4:
