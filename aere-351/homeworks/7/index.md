@@ -638,3 +638,5 @@ The transit time is trivial since this is an instantaneous jump:
 $$
 \boxed{\Delta t = 0}
 $$
+
+Speaking in terms of convenience, this secondary solution is the easiest to wrap your head around and the lease complex to both solve and execute and faster in terms of transit time. However, of course, the price you pay is an increased $\Delta v$ for the transfer burn.
