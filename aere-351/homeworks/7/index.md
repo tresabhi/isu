@@ -508,3 +508,41 @@ Finally:
 $$
 \Delta t = \Delta t_a + \Delta t_b + \Delta t_c = 0 + 813.75s + 8539.5s = \boxed{9353.25s}
 $$
+
+## 3.
+
+From the last problem:
+
+$$
+p_1 = 10476km
+$$
+
+$$
+p_2 = 11201km
+$$
+
+$$
+e_1 = 0.04762
+$$
+
+$$
+e_2 = 0.4
+$$
+
+$$
+\omega_1 = 20\degree
+$$
+
+$$
+\omega_2 = 80\degree
+$$
+
+System of equations:
+
+$$
+r_1 = \frac{p_1}{1 + e_1 \cos \theta_1} = r_2 = \frac{p_2}{1 + e_2 \cos \theta_2}
+$$
+
+$$
+\omega_1 + \theta_1 = \omega_2 + \theta_2
+$$
