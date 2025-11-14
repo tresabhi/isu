@@ -96,3 +96,39 @@ $$
   -150
 \end{bmatrix}}
 $$
+
+Eigenvalues, courtesy of MATLAB:
+
+```m
+A = [
+     -2, 0, 0;
+     0, 0, 1;
+     -10, 0, 0;
+     ];
+
+eigenvalues = eig(A);
+
+disp(eigenvalues)
+```
+
+Output:
+
+```
+     0
+     0
+    -2
+```
+
+Eigenvalues:
+
+$$
+\lambda_1 = 0
+$$
+
+$$
+\lambda_2 = 0
+$$
+
+$$
+\lambda_3 = -2
+$$
