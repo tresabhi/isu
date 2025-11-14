@@ -9,7 +9,7 @@ $$
 $$
 
 $$
-\ddot{\theta} + 10 \alpha + 150 = -5 \delta
+\ddot{\theta} + 10 \alpha + 15 \theta = -5 \delta
 $$
 
 Substitutions:
@@ -41,11 +41,11 @@ $$
 $$
 
 $$
-\dot{x}_3 + 10 x_1 + 150 = -5 \delta
+\dot{x}_3 + 10 x_1 + 15 x_2 = -5 \delta
 $$
 
 $$
-\dot{x}_3 = -10 x_1 - 150 - 5 \delta
+\dot{x}_3 = -10 x_1 - 15 x_2 - 5 \delta
 $$
 
 Vectors:
@@ -73,28 +73,24 @@ $$
 \end{bmatrix} = \begin{bmatrix}
   -2 x_1 + q \\
   x_3 \\
-  -10 x_1 - 150 - 5 \delta
+  -10 x_1 - 15 x_2 - 5 \delta
 \end{bmatrix}
 $$
 
 $$
-\dot{X} = AX + BU + C
+\dot{X} = AX + BU
 $$
 
 $$
-\boxed{\dot{X} = \begin{bmatrix}
+\dot{X} = \begin{bmatrix}
   -2 & 0 & 0 \\
   0 & 0 & 1 \\
-  -10 & 0 & 0
+  -10 & -15 & 0
 \end{bmatrix} X + \begin{bmatrix}
   1 & 0 \\
   0 & 0 \\
   0 & -5
-\end{bmatrix} U + \begin{bmatrix}
-  0 \\
-  0 \\
-  -150
-\end{bmatrix}}
+\end{bmatrix} U
 $$
 
 Eigenvalues, courtesy of MATLAB:
@@ -103,7 +99,7 @@ Eigenvalues, courtesy of MATLAB:
 A = [
      -2, 0, 0;
      0, 0, 1;
-     -10, 0, 0;
+     -10, -15, 0;
      ];
 
 eigenvalues = eig(A);
@@ -114,21 +110,17 @@ disp(eigenvalues)
 Output:
 
 ```
-     0
-     0
-    -2
+   0.0000 + 3.8730i
+   0.0000 - 3.8730i
+  -2.0000 + 0.0000i
 ```
 
 Eigenvalues:
 
 $$
-\lambda_1 = 0
+\lambda_{1,2} = \pm 3.8730i
 $$
 
 $$
-\lambda_2 = 0
-$$
-
-$$
-\lambda_3 = -2
+\lambda_2 = -2
 $$
