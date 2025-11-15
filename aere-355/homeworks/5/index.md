@@ -166,7 +166,11 @@ C_{D_0} = 0.095
 $$
 
 $$
-C_{D_u} = 0
+C_{L_0} = 0.737
+$$
+
+$$
+C_{D_u} = C_{L_u} = 0
 $$
 
 Preliminaries:
@@ -191,69 +195,22 @@ $$
 X_u = \frac{-(C_{D_u} + 2 C_{D_0}) Q S}{m u_0} = \frac{-(0 + 2 * 0.095) * 0.4115psi * 542.5ft^2}{742.7slug * 223.29ft/s} = -0.03683s^{-1}
 $$
 
+$$
+Z_u = \frac{-(C_{L_u} + 2 C_{L_0}) Q S}{u_0 m} = \frac{-(0 + 2 * 0.737) * 0.4115psi * 542.5ft^2}{223.29ft/s * 742.7slug} = -0.2857s^{-1}
+$$
+
+$$
+\omega_{n_p} = \sqrt{\frac{-Z_u g}{u_0}} = \sqrt{\frac{0.2857s^{-1} * 9.81m/s^2}{223.29ft/s}} = 0.2029s^{-1}
+$$
+
 Long period (Phugoid approximation):
 
 $$
-\zeta_p = \frac{-X_u}{2 \omega_{n_p}}
+\zeta_p = \frac{-X_u}{2 \omega_{n_p}} = \frac{0.03683s^{-1}}{2 * 0.2029s^{-1}} = \boxed{0.09076}
 $$
 
 Short period:
 
 $$
 \zeta_{sp} = -\frac{M_q + M_{\dot{\alpha}} + \frac{Z_\alpha}{u_0}}{2 \omega_{n_{sp}}}
-$$
-
----
-
-$$
-s_{1,2} = \frac{1}{2} \left( X_u + \sqrt{X_u^2 + \frac{4 g Z_u}{u_0}} \right)
-$$
-
----
-
-Airplane longitudinal variation dynamics:
-
-$$
-\begin{bmatrix}
-  \dot{u} \\
-  \dot{w} \\
-  \dot{q} \\
-  \dot{\theta}
-\end{bmatrix} = \begin{bmatrix}
- X_u & X_w & 0 & -g \\
- Z_u & Z_w & u_0 & 0 \\
- M_u + M_{\dot{w}} Z_u & M_w + M_{\dot{w}} Z_w & M_{\dot{w}} u_0 + M_q & 0 \\
- 0 & 0 & 1 & 0
-\end{bmatrix} \begin{bmatrix}
-  u \\
-  w \\
-  q \\
-  \theta
-\end{bmatrix} + \begin{bmatrix}
-  X_{\delta_e} & X_{\delta_T} \\
-  Z_{\delta_e} & Z_{\delta_T} \\
-  M_{\delta_e} + M_{\dot{w}} Z_{\delta_e} & M_{\delta_T} + M_{\dot{w}} Z_{\delta_T} \\
-  0 & 0
-\end{bmatrix} \begin{bmatrix}
-  \delta_e \\
-  \delta_T
-\end{bmatrix}
-$$
-
-Given:
-
-$$
-a = 1116.45ft/s
-$$
-
-$$
-W = 23904lb
-$$
-
-$$
-I_y = 126099 slug * ft^2
-$$
-
-$$
-V = 0.20 * 1116.45ft/s = 223.29ft/s
 $$
