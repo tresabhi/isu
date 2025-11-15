@@ -139,6 +139,78 @@ The question was very ambiguous on what's being stepped to I just did all three.
 
 ## 2.
 
+Given:
+
+$$
+a = 1116.45ft/s
+$$
+
+$$
+W = 23904lb
+$$
+
+$$
+I_y = 126099 slug * ft^2
+$$
+
+$$
+\rho = 2.3769 * 10^{-3} slug/ft^3
+$$
+
+$$
+S = 542.5ft^2
+$$
+
+$$
+C_{D_0} = 0.095
+$$
+
+$$
+C_{D_u} = 0
+$$
+
+Preliminaries:
+
+$$
+u_0 = 0.20 * 1116.45ft/s = 223.29ft/s
+$$
+
+$$
+g = 9.81m/s^2
+$$
+
+$$
+m = W / g = 23904lb / 9.81m/s^2 = 742.7slug
+$$
+
+$$
+Q = \frac{1}{2} \rho u_0^2 = \frac{1}{2} * 2.3769 * 10^{-3} slug/ft^3 * (223.29ft/s)^2 = 0.4115psi
+$$
+
+$$
+X_u = \frac{-(C_{D_u} + 2 C_{D_0}) Q S}{m u_0} = \frac{-(0 + 2 * 0.095) * 0.4115psi * 542.5ft^2}{742.7slug * 223.29ft/s} = -0.03683s^{-1}
+$$
+
+Long period (Phugoid approximation):
+
+$$
+\zeta_p = \frac{-X_u}{2 \omega_{n_p}}
+$$
+
+Short period:
+
+$$
+\zeta_{sp} = -\frac{M_q + M_{\dot{\alpha}} + \frac{Z_\alpha}{u_0}}{2 \omega_{n_{sp}}}
+$$
+
+---
+
+$$
+s_{1,2} = \frac{1}{2} \left( X_u + \sqrt{X_u^2 + \frac{4 g Z_u}{u_0}} \right)
+$$
+
+---
+
 Airplane longitudinal variation dynamics:
 
 $$
