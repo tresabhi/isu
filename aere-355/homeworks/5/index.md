@@ -173,6 +173,26 @@ $$
 C_{D_u} = C_{L_u} = 0
 $$
 
+$$
+\bar{c} = 10.93ft
+$$
+
+$$
+C_{m_q} = -8.0
+$$
+
+$$
+C_{m_\alpha} = -0.80
+$$
+
+$$
+C_{m_{\dot{\alpha}}} = -3.0
+$$
+
+$$
+C_{L_\alpha} = 5.0
+$$
+
 Preliminaries:
 
 $$
@@ -203,6 +223,38 @@ $$
 \omega_{n_p} = \sqrt{\frac{-Z_u g}{u_0}} = \sqrt{\frac{0.2857s^{-1} * 9.81m/s^2}{223.29ft/s}} = 0.2029s^{-1}
 $$
 
+$$
+M_q = C_{m_q} \frac{\bar{c}}{2 u_0} Q S \frac{\bar{c}}{I_y} = -8.0 \frac{10.93ft}{2 * 223.29ft/s} * 0.4115psi * 542.5ft^2 * \frac{10.93ft}{126099 slug * ft^2} = -0.5456s^{-1}
+$$
+
+$$
+M_w = C_{m_\alpha} \frac{Q S \bar{c}}{u_0 I_y} = -0.80 \frac{0.4115psi * 542.5ft^2 * 10.93ft}{223.29ft/s * 126099 slug * ft^2} = -0.03275 m^{-1} s^{-1}
+$$
+
+$$
+M_\alpha = u_0 M_w = 223.29ft/s * -0.03275 m^{-1} s^{-1} = -2.229 s^{-2}
+$$
+
+$$
+Z_w = -(C_{L_\alpha} + C_{D_0}) \frac{Q S}{u_0 m} = -(5.0 + 0.095) * \frac{0.4115psi * 542.5ft^2}{223.29ft/s * 742.7slug} = -0.9876s^{-1}
+$$
+
+$$
+Z_\alpha = u_0 Z_w = 223.29ft/s * -0.9876s^{-1} = -220.5 ft/s^2
+$$
+
+$$
+\omega_{n_{sp}} = \sqrt{\frac{Z_\alpha M_q}{u_0} - M_\alpha} = \sqrt{\frac{-220.5 ft/s^2 * -0.5456s^{-1}}{223.29ft/s} - (-2.229 s^{-2})} = 1.6637s^{-1}
+$$
+
+$$
+M_{\dot{w}} = C_{m_{\dot{\alpha}}} \frac{\bar{c}}{2 u_0} \frac{Q S \bar{c}}{u_0 I_y} = -3.0 \frac{10.93ft}{2 * 223.29ft/s} * \frac{0.4115psi * 542.5ft^2 * 10.93ft}{223.29ft/s * 126099 slug * ft^2} = -0.003006 m^{-1}
+$$
+
+$$
+M_{\dot{\alpha}} = u_0 M_{\dot{w}} = 223.29ft/s * -0.003006 m^{-1} = -0.2046 s^{-1}
+$$
+
 Long period (Phugoid approximation):
 
 $$
@@ -212,5 +264,5 @@ $$
 Short period:
 
 $$
-\zeta_{sp} = -\frac{M_q + M_{\dot{\alpha}} + \frac{Z_\alpha}{u_0}}{2 \omega_{n_{sp}}}
+\zeta_{sp} = -\frac{M_q + M_{\dot{\alpha}} + \frac{Z_\alpha}{u_0}}{2 \omega_{n_{sp}}} = -\frac{-0.5456s^{-1} + -0.2046s^{-1} + \frac{-220.5 ft/s^2}{223.29ft/s}}{2 * 1.6637s^{-1}} = \boxed{0.5222}
 $$
