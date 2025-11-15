@@ -136,3 +136,52 @@ And a `U = [1; 1]` shows what would happen if we had a unit step in both `q` and
 ![](https://i.imgur.com/wADtJX0.png)
 
 The question was very ambiguous on what's being stepped to I just did all three.
+
+## 2.
+
+Airplane longitudinal variation dynamics:
+
+$$
+\begin{bmatrix}
+  \dot{u} \\
+  \dot{w} \\
+  \dot{q} \\
+  \dot{\theta}
+\end{bmatrix} = \begin{bmatrix}
+ X_u & X_w & 0 & -g \\
+ Z_u & Z_w & u_0 & 0 \\
+ M_u + M_{\dot{w}} Z_u & M_w + M_{\dot{w}} Z_w & M_{\dot{w}} u_0 + M_q & 0 \\
+ 0 & 0 & 1 & 0
+\end{bmatrix} \begin{bmatrix}
+  u \\
+  w \\
+  q \\
+  \theta
+\end{bmatrix} + \begin{bmatrix}
+  X_{\delta_e} & X_{\delta_T} \\
+  Z_{\delta_e} & Z_{\delta_T} \\
+  M_{\delta_e} + M_{\dot{w}} Z_{\delta_e} & M_{\delta_T} + M_{\dot{w}} Z_{\delta_T} \\
+  0 & 0
+\end{bmatrix} \begin{bmatrix}
+  \delta_e \\
+  \delta_T
+\end{bmatrix}
+$$
+
+Given:
+
+$$
+a = 1116.45ft/s
+$$
+
+$$
+W = 23904lb
+$$
+
+$$
+I_y = 126099 slug * ft^2
+$$
+
+$$
+V = 0.20 * 1116.45ft/s = 223.29ft/s
+$$
