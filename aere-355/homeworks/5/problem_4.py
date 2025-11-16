@@ -21,6 +21,7 @@ C_D_alpha = 0.75
 C_D_u = 0
 C_m_alpha = -0.80
 C_m_alpha_dot = -3.0
+C_m_q = -8.0
 
 m = W / g
 u_0 = Mach * a
@@ -42,13 +43,5 @@ A = np.matrix(
         [Z_u, Z_w, u_0, 0],
         [M_u + M_w_dot * Z_u, M_w + M_w_dot * Z_w, M_w_dot * u_0 + M_q, 0],
         [0, 0, 1, 0],
-    ]
-)
-B = np.matrix(
-    [
-        [X_delta_e, X_delta_T],
-        [Z_delta_e, Z_delta_T],
-        [M_delta_e + M_w_dot * Z_delta_e, M_delta_T + M_w_dot * Z_delta_T],
-        [0, 0],
     ]
 )
