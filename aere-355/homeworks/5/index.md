@@ -266,3 +266,43 @@ Short period:
 $$
 \zeta_{sp} = -\frac{M_q + M_{\dot{\alpha}} + \frac{Z_\alpha}{u_0}}{2 \omega_{n_{sp}}} = -\frac{-0.5456s^{-1} + -0.2046s^{-1} + \frac{-220.5 ft/s^2}{223.29ft/s}}{2 * 1.6637s^{-1}} = \boxed{0.5222}
 $$
+
+## 3.
+
+Given:
+
+$$
+\lambda_{1,2} = -0.1 \pm 0.25i
+$$
+
+$$
+\lambda_{3,4} = -1.2 \pm 2i
+$$
+
+Halving time:
+
+$$
+t_h = \frac{\ln 2}{-\sigma}
+$$
+
+$$
+t_{h_{1,2}} = \frac{\ln 2}{0.1} = \boxed{6.931s}
+$$
+
+$$
+t_{h_{3,4}} = \frac{\ln 2}{1.2} = \boxed{0.5776s}
+$$
+
+Cycles:
+
+$$
+N = \frac{\omega_d}{2 \pi} t_h
+$$
+
+$$
+N_{1,2} = \frac{0.25s^{-1}}{2 \pi} * 6.931s = \boxed{0.276}
+$$
+
+$$
+N_{3,4} = \frac{2s^{-1}}{2 \pi} * 0.5776s = \boxed{0.1839}
+$$
