@@ -377,3 +377,37 @@ disp(zeta_p)
 disp("zeta_sp =")
 disp(zeta_sp)
 ```
+
+The output is very well labeled:
+
+```
+A =
+   -0.0368   -0.0025         0  -32.1740
+   -0.2856   -0.9873  223.2900         0
+    0.0003   -0.0091   -0.7501         0
+         0         0    1.0000         0
+
+lambda =
+  -0.8778 + 1.4122i
+  -0.8778 - 1.4122i
+  -0.0093 + 0.1819i
+  -0.0093 - 0.1819i
+
+zeta_p =
+    0.0513
+
+zeta_sp =
+    0.5279
+```
+
+For comparison's sake, here's the zetas from the second problem:
+
+$$
+\zeta_p = 0.09076
+$$
+
+$$
+\zeta_{sp} = 0.5222
+$$
+
+$\zeta_{sp}$ is in the ballpark of the computed value, differing just by $1\%$, that's pretty good! However, I am disappointed to see such a missive difference in $\zeta_p$. I don't think this is an issue of all the simplifications we made along the way, I think there's an error in the manually computed value. With an error close to $50\%$, the only win I can claim is that at least the decimal places down $0$ are correct.
