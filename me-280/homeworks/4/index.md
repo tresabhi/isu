@@ -1,6 +1,6 @@
 # ME 280 Homework 3
 
-## 1.1
+## 1.
 
 I set and scaled all values by the same number, which revealed all that really did was dictate the speed. In other words, if you simply scale the coefficients all together the same, all that changes is the simulation speed. And since the goal is the get the shorted time possible, I tried high values.
 
@@ -60,3 +60,5 @@ Here's what I observed changing the values of `K` did:
 - `K_p`: this buffed the pull towards the target, or the aggressiveness of its correction, relative to the target which is why overshoots kep happening back when I was tinkering with all values of the same magnitude.
 - `K_d`: this was the dampening factor which makes sense since the dampening factor is usually a coefficient of the first derivative which helped smooth out the motion and kill the oscillations over time.
 - `K_i`: this acted like the memory, or the wisdom of the system where it helped eliminate cases where the turtle was just ever so slightly away from the target, delaying convergence.
+
+## 2.
