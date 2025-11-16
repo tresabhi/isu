@@ -10,3 +10,7 @@
 	path = me-280/homeworks/4/src/turtlebot3
 	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
 	branch = humble
+[submodule "me-280/homeworks/4/src/turtlebot3_simulations"]
+	path = me-280/homeworks/4/src/turtlebot3_simulations
+	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+	branch = humble
