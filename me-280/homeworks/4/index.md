@@ -88,7 +88,7 @@ fname = (
 
 To get a basic understanding of how the bot performs, I set all values to `1.0`:
 
-```
+```yaml
 turtlebot3_controller:
   ros__parameters:
     # controller gains (in terms of linear distance first)
@@ -159,81 +159,20 @@ ros2 service call /delete_entity gazebo_msgs/srv/DeleteEntity "{name: 'waffle_pi
 ros2 launch pid_turtlebot3 launch_sim_and_control.launch
 ```
 
-And then I realized I don't actually know how to write Bash beyond just batching commands together, so I wrote the following Python script instead. Note that there's a peculiar `ANG_FACTOR` variable in there, allow me to explain.
+This resulted a bunch of files:
 
-The original idea was I would go through all possible combinations of $[0.1, 0.5, 1.0, 5.0, 10.0]$. That's a lot of combinations and I plan to finish this assignment before I graduate so I tried setting both angular and linear gains equally but that has an inherit flaw: angles are radians, displacements is a distance. So I approximated the playground to be around 8 by 8 units large and then scaled the dist gain by $8 / 2\pi$ to get the angular gains. This is either really clever, or really really naive and I am betting on the latter.
+![](https://i.imgur.com/2g9p7zH.png)
 
-```py
-import itertools
-import yaml
-import subprocess
-import time
-import os
-import signal
-from math import pi
+After cd-ing into the `times` dir, I merged all the files using:
 
-PARAMS_FILE = "src/me2800_hw4/pid_turtlebot3/config/params.yaml"
-ROS_LAUNCH_CMD = ["ros2", "launch", "pid_turtlebot3", "launch_sim_and_control.launch"]
-DELETE_CMD = [
-    "ros2",
-    "service",
-    "call",
-    "/delete_entity",
-    "gazebo_msgs/srv/DeleteEntity",
-    "{name: 'waffle_pi'}",
-]
-TIMES_DIR = "times"
-
-gain_values = [0.1, 0.5, 1.0, 5.0, 10.0]
-dist_keys = ["kp_dist_parm", "ki_dist_parm", "kd_dist_parm"]
-ang_keys = ["kp_ang_parm", "ki_ang_parm", "kd_ang_parm"]
-
-ANG_FACTOR = 8 / (2 * pi)
-
-
-def snapshot_times():
-    if os.path.exists(TIMES_DIR):
-        return set(os.listdir(TIMES_DIR))
-    else:
-        return set()
-
-
-for combo in itertools.product(gain_values, repeat=len(dist_keys)):
-    with open(PARAMS_FILE, "r") as f:
-        data = yaml.safe_load(f)
-
-    for key, value in zip(dist_keys, combo):
-        data["turtlebot3_controller"]["ros__parameters"][key] = value
-
-    for key, value in zip(ang_keys, combo):
-        data["turtlebot3_controller"]["ros__parameters"][key] = value * ANG_FACTOR
-
-    with open(PARAMS_FILE, "w") as f:
-        yaml.dump(data, f)
-
-    before_files = snapshot_times()
-
-    subprocess.run(DELETE_CMD, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-    proc = subprocess.Popen(ROS_LAUNCH_CMD)
-
-    start_time = time.time()
-    new_file_found = False
-    while time.time() - start_time < 10:
-        time.sleep(0.1)
-        after_files = snapshot_times()
-        new_files = after_files - before_files
-        if new_files:
-            new_file_found = True
-            break
-
-    proc.send_signal(signal.SIGINT)
-    try:
-        proc.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-
-    print(f"Combo {combo} -> New file found: {new_file_found}")
-
-print("All combinations completed.")
+```bash
+for f in *.txt; do
+    cat "$f"
+    # echo -e "\n"
+done > ../merged_times.txt
 ```
+
+And here's that table:
+
+| Time | x,y | K_p_dist | K_i_dist | K_d_dist | K_p_ang | K_i_ang | K_d_ang |
+| ---- | --- | -------- | -------- | -------- | ------- | ------- | ------- |
