@@ -1,0 +1,4 @@
+Total time to goal: 659.80 seconds 
+Location of goal, (x,y)=(2.0,2.0) 
+Linear gains: Kp=1.0, Ki=1.0, Kd=1.0 
+Angular gains: Kp=1.0, Ki=1.0, Kd=1.0 

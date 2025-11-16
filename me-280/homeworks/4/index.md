@@ -62,3 +62,26 @@ Here's what I observed changing the values of `K` did:
 - `K_i`: this acted like the memory, or the wisdom of the system where it helped eliminate cases where the turtle was just ever so slightly away from the target, delaying convergence.
 
 ## 2.
+
+The `time_to_goal_*` files were polluting my workspace directory so I modified Dr. Fleming's code to write to the `times/` directory by modifying `turtlebot3_PID_controller.py`:
+
+```py
+            fname = (
+                "time/"
+                + str(total_seconds)
+                + "sec"
+                + "_kpl"
+                + str(self.get_parameter("kp_dist_parm").value)
+                + "_kil"
+                + str(self.get_parameter("ki_dist_parm").value)
+                + "_kdl"
+                + str(self.get_parameter("kd_dist_parm").value)
+                + "_kpa"
+                + str(self.get_parameter("kp_ang_parm").value)
+                + "_kia"
+                + str(self.get_parameter("ki_ang_parm").value)
+                + "_kda"
+                + str(self.get_parameter("kd_ang_parm").value)
+                + ".txt"
+            )
+```
