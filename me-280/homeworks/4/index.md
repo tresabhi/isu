@@ -85,3 +85,28 @@ The `time_to_goal_*` files were polluting my workspace directory so I modified D
                 + ".txt"
             )
 ```
+
+To get a basic understanding of how the bot performs, I set all values to `1.0`:
+
+```
+turtlebot3_controller:
+  ros__parameters:
+    # controller gains (in terms of linear distance first)
+    kp_dist_parm: 1.0
+    ki_dist_parm: 1.0
+    kd_dist_parm: 1.0
+    # controller gains (now in terms of angle/heading)
+    kp_ang_parm: 1.0
+    ki_ang_parm: 1.0
+    kd_ang_parm: 1.0
+    # parameters for determining when the robot has hit its goal
+    eps_dist_tol: 0.01
+    eps_ang_tol: 0.01
+goto_pose_client:
+  ros__parameters:
+    # (x,y) goal positions
+    x_goal_value: 2.
+    y_goal_value: 2.
+```
+
+Which resulted in a
