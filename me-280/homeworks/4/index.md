@@ -53,4 +53,10 @@ Now it's time to try different positions. Since we live in a relative universe, 
 
 ![](https://i.imgur.com/dVjQUq3m.png)
 
-The corresponding bag can be found in the `rosbag2_2025_11_16-22_17_19` folder within `bags.zip` in the Canvas submission or (https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_16-22_17_19/).
+The corresponding bag can be found in the `rosbag2_2025_11_16-22_17_19` folder within `bags.zip`, `Section_1.bag.zip` as requested explicitly by the question in the Canvas submission, or (https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_16-22_17_19/).
+
+Here's what I observed changing the values of `K` did:
+
+- `K_p`: this buffed the pull towards the target, or the aggressiveness of its correction, relative to the target which is why overshoots kep happening back when I was tinkering with all values of the same magnitude.
+- `K_d`: this was the dampening factor which makes sense since the dampening factor is usually a coefficient of the first derivative which helped smooth out the motion and kill the oscillations over time.
+- `K_i`: this acted like the memory, or the wisdom of the system where it helped eliminate cases where the turtle was just ever so slightly away from the target, delaying convergence.
