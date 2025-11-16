@@ -39,4 +39,26 @@ A = [
      0, 0, 1, 0;
      ];
 
-disp(X_u);
+disp('A =')
+disp(A)
+
+lambda = eig(A);
+disp('lambda =')
+disp(lambda)
+
+complex_eigenvalues = lambda(imag(lambda) ~= 0);
+
+[~, idx_p] = min(abs(real(complex_eigenvalues)));
+[~, idx_sp] = max(abs(real(complex_eigenvalues)));
+
+lambda_p = complex_eigenvalues(idx_p);
+lambda_sp = complex_eigenvalues(idx_sp);
+
+zeta_p = -real(lambda_p) / abs(lambda_p);
+zeta_sp = -real(lambda_sp) / abs(lambda_sp);
+
+disp("zeta_p =")
+disp(zeta_p)
+
+disp("zeta_sp =")
+disp(zeta_sp)
