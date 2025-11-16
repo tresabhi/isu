@@ -52,3 +52,5 @@ I made the gain on the angular displacement very aggressive since without such e
 Now it's time to try different positions. Since we live in a relative universe, changing the starting position is equivalent to changing its target position, which is why I only changed the `goal_value`s and not the starting positions. Here's the turtle going to $(7, 9)$:
 
 ![](https://i.imgur.com/dVjQUq3m.png)
+
+The corresponding bag can be found in the `rosbag2_2025_11_16-22_17_19` folder within `bags.zip` in the Canvas submission or (https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_16-22_17_19/).
