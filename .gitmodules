@@ -1,0 +1,12 @@
+[submodule "me-280/homeworks/4/src/DynamixelSDK"]
+	path = me-280/homeworks/4/src/DynamixelSDK
+	url = https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+	branch = humble
+[submodule "me-280/homeworks/4/src/turtlebot3_msgs"]
+	path = me-280/homeworks/4/src/turtlebot3_msgs
+	url = https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+	branch = humble
+[submodule "me-280/homeworks/4/src/turtlebot3"]
+	path = me-280/homeworks/4/src/turtlebot3
+	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
+	branch = humble
