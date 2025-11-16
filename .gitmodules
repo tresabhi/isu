@@ -14,3 +14,6 @@
 	path = me-280/homeworks/4/src/turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 	branch = humble
+[submodule "me-280/homeworks/4/src/me2800_hw4"]
+	path = me-280/homeworks/4/src/me2800_hw4
+	url = https://github.com/burg54/me2800_hw4.git
