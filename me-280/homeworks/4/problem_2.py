@@ -3,8 +3,8 @@ import yaml
 import subprocess
 import time
 import os
-import signal
 from math import pi
+import psutil
 
 PARAMS_FILE = "src/me2800_hw4/pid_turtlebot3/config/params.yaml"
 ROS_LAUNCH_CMD = ["ros2", "launch", "pid_turtlebot3", "launch_sim_and_control.launch"]
@@ -26,14 +26,20 @@ ANG_FACTOR = 8 / (2 * pi)
 
 
 def snapshot_times():
-    if os.path.exists(TIMES_DIR):
-        return set(os.listdir(TIMES_DIR))
-    else:
-        return set()
+    return set(os.listdir(TIMES_DIR)) if os.path.exists(TIMES_DIR) else set()
+
+
+def kill_process_tree(pid):
+    try:
+        parent = psutil.Process(pid)
+        for child in parent.children(recursive=True):
+            child.kill()
+        parent.kill()
+    except psutil.NoSuchProcess:
+        pass
 
 
 for combo in itertools.product(gain_values, repeat=len(dist_keys)):
-    # Update parameters
     with open(PARAMS_FILE, "r") as f:
         data = yaml.safe_load(f)
 
@@ -46,13 +52,10 @@ for combo in itertools.product(gain_values, repeat=len(dist_keys)):
     with open(PARAMS_FILE, "w") as f:
         yaml.dump(data, f)
 
-    # Snapshot times dir before launch
     before_files = snapshot_times()
 
-    # Delete existing robot
     subprocess.run(DELETE_CMD, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    # Launch simulation
     proc = subprocess.Popen(ROS_LAUNCH_CMD)
 
     start_time = time.time()
@@ -65,12 +68,7 @@ for combo in itertools.product(gain_values, repeat=len(dist_keys)):
             new_file_found = True
             break
 
-    # Kill the launch process
-    proc.send_signal(signal.SIGINT)
-    try:
-        proc.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        proc.kill()
+    kill_process_tree(proc.pid)
 
     print(f"Combo {combo} -> New file found: {new_file_found}")
 
