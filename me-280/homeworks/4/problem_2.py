@@ -8,9 +8,17 @@ from math import pi
 
 PARAMS_FILE = "src/me2800_hw4/pid_turtlebot3/config/params.yaml"
 ROS_LAUNCH_CMD = ["ros2", "launch", "pid_turtlebot3", "launch_sim_and_control.launch"]
-TIMES_DIR = "4/src/times"
+DELETE_CMD = [
+    "ros2",
+    "service",
+    "call",
+    "/delete_entity",
+    "gazebo_msgs/srv/DeleteEntity",
+    "{name: 'waffle_pi'}",
+]
+TIMES_DIR = "times"
 
-gain_values = [0.1, 1.0, 10.0]
+gain_values = [0.1, 0.5, 1.0, 5.0, 10.0]
 dist_keys = ["kp_dist_parm", "ki_dist_parm", "kd_dist_parm"]
 ang_keys = ["kp_ang_parm", "ki_ang_parm", "kd_ang_parm"]
 
@@ -25,6 +33,7 @@ def snapshot_times():
 
 
 for combo in itertools.product(gain_values, repeat=len(dist_keys)):
+    # Update parameters
     with open(PARAMS_FILE, "r") as f:
         data = yaml.safe_load(f)
 
@@ -37,20 +46,26 @@ for combo in itertools.product(gain_values, repeat=len(dist_keys)):
     with open(PARAMS_FILE, "w") as f:
         yaml.dump(data, f)
 
+    # Snapshot times dir before launch
     before_files = snapshot_times()
 
+    # Delete existing robot
+    subprocess.run(DELETE_CMD, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    # Launch simulation
     proc = subprocess.Popen(ROS_LAUNCH_CMD)
 
     start_time = time.time()
     new_file_found = False
     while time.time() - start_time < 10:
-        time.sleep(0.5)
+        time.sleep(0.1)
         after_files = snapshot_times()
         new_files = after_files - before_files
         if new_files:
             new_file_found = True
             break
 
+    # Kill the launch process
     proc.send_signal(signal.SIGINT)
     try:
         proc.wait(timeout=5)
