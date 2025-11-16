@@ -49,4 +49,6 @@ This results in a decent path that a turtle might survive:
 
 I made the gain on the angular displacement very aggressive since without such extreme values, it always ended up leaving the bounds of the simulation because it couldn't turn fast enough in contrast to the `dist_param`s.
 
-Now it's time to try different positions. Since we live in a relative universe, changing the starting position is equivalent to changing its target position, which is why I only changed the `goal_value`s and not the starting positions.
+Now it's time to try different positions. Since we live in a relative universe, changing the starting position is equivalent to changing its target position, which is why I only changed the `goal_value`s and not the starting positions. Here's the turtle going to $(7, 9)$:
+
+![](https://i.imgur.com/dVjQUq3m.png)
