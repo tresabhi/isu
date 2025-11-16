@@ -306,3 +306,7 @@ $$
 $$
 N_{3,4} = \frac{2s^{-1}}{2 \pi} * 0.5776s = \boxed{0.1839}
 $$
+
+## 4.
+
+This problem requires a lot of unit conversions so I will be using Python with Pint.
