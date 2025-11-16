@@ -26,17 +26,27 @@ But this is probably not the intention of the assignment so I went with these de
 turtle_controller:
   ros__parameters:
     # controller gains (in terms of linear distance first)
-    kp_dist_parm: 7.0
-    ki_dist_parm: 6.0
-    kd_dist_parm: 5.0
+    kp_dist_parm: 3.0
+    ki_dist_parm: 4.0
+    kd_dist_parm: 3.0
     # controller gains (now in terms of angle/heading)
-    kp_ang_parm: 20.0
-    ki_ang_parm: 49.0
-    kd_ang_parm: 20.0
+    kp_ang_parm: 2.0
+    ki_ang_parm: 4.0
+    kd_ang_parm: 6.0
+    # parameters for determining when the robot has hit its goal
+    eps_dist_tol: 0.1
+    eps_ang_tol: 0.08
+goto_pose_client:
+  ros__parameters:
+    # (x,y) goal positions
+    x_goal_value: 2.
+    y_goal_value: 2.
 ```
 
 This results in a decent path that a turtle might survive:
 
-![](https://i.imgur.com/pDzIyKBm.png)
+![](https://i.imgur.com/CB1bKyWm.png)
 
 I made the gain on the angular displacement very aggressive since without such extreme values, it always ended up leaving the bounds of the simulation because it couldn't turn fast enough in contrast to the `dist_param`s.
+
+Now it's time to try different positions. Since we live in a relative universe, changing the starting position is equivalent to changing its target position, which is why I only changed the `goal_value`s and not the starting positions.
