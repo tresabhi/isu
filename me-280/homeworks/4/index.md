@@ -66,24 +66,24 @@ Here's what I observed changing the values of `K` did:
 The `time_to_goal_*` files were polluting my workspace directory so I modified Dr. Fleming's code to write to the `times/` directory by modifying `turtlebot3_PID_controller.py`:
 
 ```py
-            fname = (
-                "time/"
-                + str(total_seconds)
-                + "sec"
-                + "_kpl"
-                + str(self.get_parameter("kp_dist_parm").value)
-                + "_kil"
-                + str(self.get_parameter("ki_dist_parm").value)
-                + "_kdl"
-                + str(self.get_parameter("kd_dist_parm").value)
-                + "_kpa"
-                + str(self.get_parameter("kp_ang_parm").value)
-                + "_kia"
-                + str(self.get_parameter("ki_ang_parm").value)
-                + "_kda"
-                + str(self.get_parameter("kd_ang_parm").value)
-                + ".txt"
-            )
+fname = (
+    "times/"
+    + str(total_seconds)
+    + "sec"
+    + "_kpl"
+    + str(self.get_parameter("kp_dist_parm").value)
+    + "_kil"
+    + str(self.get_parameter("ki_dist_parm").value)
+    + "_kdl"
+    + str(self.get_parameter("kd_dist_parm").value)
+    + "_kpa"
+    + str(self.get_parameter("kp_ang_parm").value)
+    + "_kia"
+    + str(self.get_parameter("ki_ang_parm").value)
+    + "_kda"
+    + str(self.get_parameter("kd_ang_parm").value)
+    + ".txt"
+)
 ```
 
 To get a basic understanding of how the bot performs, I set all values to `1.0`:
@@ -109,4 +109,44 @@ goto_pose_client:
     y_goal_value: 2.
 ```
 
-Which resulted in a
+Which resulted in the file `1553.1sec_kpl1.0_kil1.0_kdl1.0_kpa1.0_kia1.0_kda1.0.txt` being generated:
+
+```
+Total time to goal: 1553.10 seconds
+Location of goal, (x,y)=(2.0,2.0)
+Linear gains: Kp=1.0, Ki=1.0, Kd=1.0
+Angular gains: Kp=1.0, Ki=1.0, Kd=1.0
+```
+
+This is nice, but I would have to use REGEX to extract data from this later, so I stripped the part of the code that wrote the data to just this:
+
+```py
+f = open(fname, "w")
+f.write(f"|{total_seconds:.2f}|")
+f.write(f"{self.desired_x},{self.desired_y}|")
+f.write(f"{self.get_parameter('kp_dist_parm').value}|")
+f.write(f"{self.get_parameter('ki_dist_parm').value}|")
+f.write(f"{self.get_parameter('kd_dist_parm').value}|")
+f.write(f"{self.get_parameter('kp_ang_parm').value}|")
+f.write(f"{self.get_parameter('ki_ang_parm').value}|")
+f.write(f"{self.get_parameter('kd_ang_parm').value}|")
+f.close()
+```
+
+Rerunning now resulted in a far easier file to parse `2025.4sec_kpl1.0_kil1.0_kdl1.0_kpa1.0_kia1.0_kda1.0`:
+
+```txt
+|2025.40|2.0,2.0|1.0|1.0|1.0|1.0|1.0|1.0|
+```
+
+It's formatted so that I can just pase the above into a Markdown file lie this one and get a table:
+
+| Time    | x,y     | K_p_dist | K_i_dist | K_d_dist | K_p_ang | K_i_ang | K_d_ang |
+| ------- | ------- | -------- | -------- | -------- | ------- | ------- | ------- |
+| 2025.40 | 2.0,2.0 | 1.0      | 1.0      | 1.0      | 1.0     | 1.0     | 1.0     |
+
+With this done, I went to town trying out combinations from the following pool:
+
+$$
+[0.1, 0.5, 1.0, 5.0, 10.0]
+$$
