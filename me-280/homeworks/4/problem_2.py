@@ -3,8 +3,8 @@ import yaml
 import subprocess
 import time
 import os
+import signal
 from math import pi
-import psutil
 
 PARAMS_FILE = "src/me2800_hw4/pid_turtlebot3/config/params.yaml"
 ROS_LAUNCH_CMD = ["ros2", "launch", "pid_turtlebot3", "launch_sim_and_control.launch"]
@@ -26,17 +26,10 @@ ANG_FACTOR = 8 / (2 * pi)
 
 
 def snapshot_times():
-    return set(os.listdir(TIMES_DIR)) if os.path.exists(TIMES_DIR) else set()
-
-
-def kill_process_tree(pid):
-    try:
-        parent = psutil.Process(pid)
-        for child in parent.children(recursive=True):
-            child.kill()
-        parent.kill()
-    except psutil.NoSuchProcess:
-        pass
+    if os.path.exists(TIMES_DIR):
+        return set(os.listdir(TIMES_DIR))
+    else:
+        return set()
 
 
 for combo in itertools.product(gain_values, repeat=len(dist_keys)):
@@ -68,7 +61,11 @@ for combo in itertools.product(gain_values, repeat=len(dist_keys)):
             new_file_found = True
             break
 
-    kill_process_tree(proc.pid)
+    proc.send_signal(signal.SIGINT)
+    try:
+        proc.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        proc.kill()
 
     print(f"Combo {combo} -> New file found: {new_file_found}")
 
