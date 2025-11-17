@@ -316,28 +316,14 @@ $$
 I = 259 cm^4
 $$
 
-I will be splitting up the beam a little different for the purposes of computing the shear flow in the thin wall approximation world:
+Finally, it's time to get the shear flows, starting with the top segment with :
 
-![](https://i.imgur.com/ONN4BhF.png)
-
-The shear flow for the top segment, starting from the middle, going right:
+![](https://i.imgur.com/JnI1Imm.png)
 
 $$
-q_{red} = \frac{V}{I} Q = \frac{V}{I} \bar{y}' A' = \frac{V}{I} (b + h + b/2 - \bar{v}) (h/2 - x)
+q_1 = \frac{V}{I} Q = \frac{V}{I} \bar{y}' A' = \frac{V}{I} (b + h + b/2 - \bar{v}) (bx)
 $$
 
-According to the lecture notes, in cases like these, $b/2$ (I am using $b$ for thickness, but the lecture uses $t$) should be omitted as can be seen in the worked out example:
-
-![](https://i.imgur.com/Ga2fLJGm.png)
-
-However, I don't thing that's a good idea for this problem because $h = 4b$ which isn't that high. In the lecture example, $t \ll b$ was truly a good assumption, but here, I am ruling this out. $b/2$ will remain. Thus, the final shear flow for the top flange, with $x$ going from the center outwards remains:
-
 $$
-q_{red} = \frac{V}{I} (b + h + b/2 - \bar{v}) (h/2 - x)
-$$
-
-This can be simplified a little bit:
-
-$$
-\boxed{q_{red} = \frac{V}{I} \left( \frac{3}{2}b + h - \bar{v} \right) \left( \frac{h}{2} - x \right)}
+\boxed{q_1 = \frac{V}{I} \left( \frac{3}{2}b + h - \bar{v} \right) b x}
 $$
