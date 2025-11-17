@@ -200,68 +200,50 @@ $$
 \sigma_{xG} = \frac{M_y}{I_y} (w / 2) - \frac{M_z}{I_z} (-\bar{v})
 $$
 
-This can be turned into a matrix operation:
+Of course $M_y$ and $M_z$ are functions of $M$ and $\theta$, where $\theta = 60\degree$:
 
 $$
-\begin{bmatrix}
-  \frac{-l/2}{I_y} & \frac{w + l - \bar{v}}{I_z} \\
-  \frac{w/2}{I_y} & \frac{-\bar{v}}{I_z}
-\end{bmatrix} \begin{bmatrix}
-  M_y \\ M_z
-\end{bmatrix} = \begin{bmatrix}
-  4MPa \\ -6MPa
-\end{bmatrix}
-$$
-
-And the total magnitude and angle:
-
-$$
-M = \sqrt{M_y^2 + M_z^2}
+\sigma_{xB} = \frac{M \sin \theta}{I_y} (-l / 2) - \frac{M \cos \theta}{I_z} (w + l - \bar{v})
 $$
 
 $$
-\theta = \arctan \frac{M_z}{M_y}
+\sigma_{xG} = \frac{M \sin \theta}{I_y} (w / 2) - \frac{M \cos \theta}{I_z} (-\bar{v})
 $$
 
-My code from above can be extended to solve this:
-
-```py
-A = np.matrix(
-    [
-        [(-l / 2) / I_y, (w + l - v_bar) / I_z],
-        [(w / 2) / I_y, -v_bar / I_z],
-    ]
-)
-b = np.matrix(
-    [
-        [(4 * MPa).to_base_units().magnitude],
-        [(-6 * MPa).to_base_units().magnitude],
-    ]
-)
-
-solution = np.linalg.solve(A, b)
-
-M_y = solution[0, 0] * Pa
-M_z = solution[1, 0] * Pa
-
-M = (M_y**2 + M_z**2) ** (1 / 2)
-theta = atan2(M_y.magnitude, M_z.magnitude) * ur.rad
-
-print(f"\nProblem 2:")
-print(f"M = {M}")
-print(f"theta = {theta.to(deg)}")
-```
-
-And the results:
-
-```
-Problem 2:
-M = 18283.43377534111 pascal
-theta = -11.924523937611916 degree
-```
-
-Thus, the maximum you can apply is:
+That's 2 equations, 1 known, 2 equations. But that's nothing to worry, I will simply get 2 solutions, and I pick the lower one. Solving for $M$ from each is easy:
 
 $$
-\boxed{M = 18283Pa ~ \text{at} ~ \theta = -11.92\degree}
+\sigma_{xB} = M \left( \frac{\sin \theta}{I_y} (-l / 2) - \frac{\cos \theta}{I_z} (w + l - \bar{v}) \right)
+$$
+
+$$
+\sigma_{xG} = M \left( \frac{\sin \theta}{I_y} (w / 2) - \frac{\cos \theta}{I_z} (-\bar{v}) \right)
+$$
+
+Finally:
+
+$$
+M = \frac{\sigma_{xB}}{\frac{\sin \theta}{I_y} (-l / 2) - \frac{\cos \theta}{I_z} (w + l - \bar{v})}
+$$
+
+$$
+M = \frac{\sigma_{xG}}{\frac{\sin \theta}{I_y} (w / 2) - \frac{\cos \theta}{I_z} (-\bar{v})}
+$$
+
+M from B:
+
+$$
+M = \frac{-6MPa}{\frac{\sin 60\degree}{4.25*10^{-4}m^4} (-200mm / 2) - \frac{\cos 60\degree}{4.891*10^8mm^4} (50mm + 200mm - 162.5 mm)} = 20.46 kN m
+$$
+
+M from G:
+
+$$
+M = \frac{4MPa}{\frac{\sin 50\degree}{4.25*10^{-4}m^4} (50mm / 2) - \frac{\cos 60\degree}{4.891*10^8mm^4} (- 162.5 mm)} = 18.94 kN m
+$$
+
+Thus, the maximum moment is:
+
+$$
+\boxed{M_{max} = 18.94 kN * m}
 $$

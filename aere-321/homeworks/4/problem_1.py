@@ -52,34 +52,3 @@ print(f"sigma_x_E = {sigma_x_E}")
 print(f"sigma_x_F = {sigma_x_F}")
 print(f"sigma_x_G = {sigma_x_G}")
 print(f"sigma_x_H = {sigma_x_H}")
-
-l = l.to_base_units().magnitude
-w = w.to_base_units().magnitude
-v_bar = v_bar.to_base_units().magnitude
-I_y = I_y.to_base_units().magnitude
-I_z = I_z.to_base_units().magnitude
-
-A = np.matrix(
-    [
-        [(-l / 2) / I_y, (w + l - v_bar) / I_z],
-        [(w / 2) / I_y, -v_bar / I_z],
-    ]
-)
-b = np.matrix(
-    [
-        [(4 * MPa).to_base_units().magnitude],
-        [(-6 * MPa).to_base_units().magnitude],
-    ]
-)
-
-solution = np.linalg.solve(A, b)
-
-M_y = solution[0, 0] * Pa
-M_z = solution[1, 0] * Pa
-
-M = (M_y**2 + M_z**2) ** (1 / 2)
-theta = atan2(M_y.magnitude, M_z.magnitude) * ur.rad
-
-print(f"\nProblem 2:")
-print(f"M = {M}")
-print(f"theta = {theta.to(deg)}")
