@@ -284,14 +284,36 @@ $$
 
 ![](https://i.imgur.com/fbeTSog.png)
 
-Now, for the thin wall approximation, I imagined what the skeleton of this strut may look like. This causes the top horizontal to take up half of the vertical beams on both sides, adding up to an extra $10mm$. The vertical parts simply shift down by $5mm$, maintaining their $40mm$ height. The bottom horizontals lose $5mm$, bringing it down to $35mm$, from the inside due to the verticals assuming a thinner for.
+The value for $I = I_x$ can also be calculated now. The bottom two segments:
 
-![](https://i.imgur.com/i7VlPsw.png)
+$$
+I_A = 2hb^3 + 2bh * (\bar{v} - b/2)^2
+$$
 
-The question inquires the shear flow at points $A$ and $B$, which map to the following places in the thin wall approximation:
+The top segment in the middle:
 
-![](https://i.imgur.com/mrQMt5B.png)
+$$
+I_B = hb^3 + bh * (b + h - b/2 - \bar{v})^2
+$$
 
-Now I understand that my setup causes $A$ and $B$ to occur $5mm$ away from the actual corners of the thin wall form, which I am certain is what the question is NOT asking about. Thus, just to be safe, I will compute the shear flow values for the corners too, labeled $B'$ and $A'$.
+The two vertical segments on the side:
 
-![](https://i.imgur.com/SLQUNJ4.png)
+$$
+I_C = 2bh^3 + 2bh * (b + h/2 - \bar{v})^2
+$$
+
+All together:
+
+$$
+I = I_A + I_B = I_C
+$$
+
+$$
+I = 2hb^3 + 2bh * (\bar{v} - b/2)^2 + hb^3 + bh * (b + h - b/2 - \bar{v})^2 + 2bh^3 + 2bh * (b + h/2 - \bar{v})^2
+$$
+
+$$
+I = 259 cm^4
+$$
+
+I will be splitting up the beam a little different for the purposes of computing the shear flow in the thin wall approximation world:
