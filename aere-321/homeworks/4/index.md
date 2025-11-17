@@ -84,7 +84,7 @@ $$
 \theta_p = \frac{1}{2} \arctan 0 = \boxed{0}
 $$
 
-That was part (b) of the question, so I will go go back to part (a) that I never addressed. Decomposing the torque:
+Thus, the neutral axis is just the origin. That was part (b) of the question, so I will go go back to part (a) that I never addressed. Decomposing the torque:
 
 $$
 M_z = M \cos \theta = 2kN m \cos 60\degree = 1 kN m
@@ -93,3 +93,15 @@ $$
 $$
 M_y = M \sin \theta = 2kN m \sin 60\degree = 1.732 kN m
 $$
+
+And since $L_{yz} = 0$, I can get away with using the highly simplified stress equation from lecture slide 31:
+
+$$
+\sigma_x = \frac{M_y}{I_y} z - \frac{M_z}{I_z} y
+$$
+
+There's a lot of points that I suspect the maximum stress might exist:
+
+![](https://i.imgur.com/C0w3m4B.png)
+
+Smells like a job for a computer.
