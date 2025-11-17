@@ -247,3 +247,15 @@ Thus, the maximum moment is:
 $$
 \boxed{M_{max} = 18.94 kN * m}
 $$
+
+## 3.
+
+![](https://i.imgur.com/Xt8IdjV.png)
+
+Everything here is a function of $y$ here, measured from the neutral surface, something not given. The beam can be segmented into 5 segments, all $10mm$ by $40mm$:
+
+![](https://i.imgur.com/pTAPJZM.png)
+
+The temporary coordinate system:
+
+![](https://i.imgur.com/zpSmhfN.png)
