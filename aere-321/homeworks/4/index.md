@@ -210,7 +210,7 @@ $$
 \sigma_{xG} = \frac{M \sin \theta}{I_y} (w / 2) - \frac{M \cos \theta}{I_z} (-\bar{v})
 $$
 
-That's 2 equations, 1 known, 2 equations. But that's nothing to worry, I will simply get 2 solutions, and I pick the lower one. Solving for $M$ from each is easy:
+That's 2 equations and 1 known. But that's nothing to worry, I will simply get 2 solutions, and I pick the lower one. Solving for $M$ from each is easy:
 
 $$
 \sigma_{xB} = M \left( \frac{\sin \theta}{I_y} (-l / 2) - \frac{\cos \theta}{I_z} (w + l - \bar{v}) \right)
