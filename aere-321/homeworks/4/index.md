@@ -142,14 +142,14 @@ def sigma_x(z, y):
     return (M_y / I_y) * z - (M_z / I_z) * y
 
 
-sigma_x_A = sigma_x(-l / 2, w + l - v_bar).to(MPa)
-sigma_x_B = sigma_x(l / 2, w + l - v_bar).to(MPa)
-sigma_x_C = sigma_x(-l / 2, l - v_bar).to(MPa)
-sigma_x_D = sigma_x(l / 2, l - v_bar).to(MPa)
-sigma_x_E = sigma_x(-w / 2, l - v_bar).to(MPa)
-sigma_x_F = sigma_x(w / 2, l - v_bar).to(MPa)
-sigma_x_G = sigma_x(-w / 2, -v_bar).to(MPa)
-sigma_x_H = sigma_x(w / 2, -v_bar).to(MPa)
+sigma_x_A = sigma_x(l / 2, w + l - v_bar).to(MPa)
+sigma_x_B = sigma_x(-l / 2, w + l - v_bar).to(MPa)
+sigma_x_C = sigma_x(l / 2, l - v_bar).to(MPa)
+sigma_x_D = sigma_x(-l / 2, l - v_bar).to(MPa)
+sigma_x_E = sigma_x(w / 2, l - v_bar).to(MPa)
+sigma_x_F = sigma_x(-w / 2, l - v_bar).to(MPa)
+sigma_x_G = sigma_x(w / 2, -v_bar).to(MPa)
+sigma_x_H = sigma_x(-w / 2, -v_bar).to(MPa)
 
 print(f"sigma_x_A = {sigma_x_A}")
 print(f"sigma_x_B = {sigma_x_B}")
@@ -159,36 +159,109 @@ print(f"sigma_x_E = {sigma_x_E}")
 print(f"sigma_x_F = {sigma_x_F}")
 print(f"sigma_x_G = {sigma_x_G}")
 print(f"sigma_x_H = {sigma_x_H}")
-
-max_magnitude = [
-    sigma_x_A,
-    sigma_x_B,
-    sigma_x_C,
-    sigma_x_D,
-    sigma_x_E,
-    sigma_x_F,
-    sigma_x_G,
-    sigma_x_H,
-]
-max_magnitude = [abs(sigma) for sigma in max_magnitude]
-max_magnitude = max(max_magnitude)
-
-print(f"\nMaximum magnitude of sigma_x = {max_magnitude}")
 ```
 
 This results in the following output:
 
 ```
-sigma_x_A = -0.5814544099650556 megapascal
-sigma_x_B = 0.2336283230085337 megapascal
-sigma_x_C = -0.4820755279774779 megapascal
-sigma_x_D = 0.33300720499611136 megapascal
-sigma_x_E = -0.17641950311238191 megapascal
-sigma_x_F = 0.02735118013101541 megapascal
-sigma_x_G = 0.22109602483792873 megapascal
-sigma_x_H = 0.42486670808132604 megapascal
+sigma_x_A = 0.2336283230085337 megapascal
+sigma_x_B = -0.5814544099650556 megapascal
+sigma_x_C = 0.33300720499611136 megapascal
+sigma_x_D = -0.4820755279774779 megapascal
+sigma_x_E = 0.02735118013101541 megapascal
+sigma_x_F = -0.17641950311238191 megapascal
+sigma_x_G = 0.42486670808132604 megapascal
+sigma_x_H = 0.22109602483792873 megapascal
 
 Maximum magnitude of sigma_x = 0.5814544099650556 megapascal
 ```
 
-This, the maximum magnitude of $\sigma_x$ is $-0.5815MPa$ at Point A. As for the maximum tensile stress, it's $0.4249MPa$ at Point H.
+This, the maximum compressive stress occurs at point B with $\sigma_{xB} = -0.5815MPa$ and the maximum tensile stress occurs at point G with $\sigma_{xG} = 0.4249MPa$.
+
+## 2.
+
+From the last question, I know what the maximum tensile stress happens at point G and vice versa at point B. Thus, I can set the equations equal to each other:
+
+$$
+\sigma_{max} = \sigma_{xG} = 4MPa
+$$
+
+$$
+\sigma_{min} = \sigma_{xB} = -6MPa
+$$
+
+Expressions for $\sigma_{xB}$ and $\sigma_{xG}$:
+
+$$
+\sigma_{xB} = \frac{M_y}{I_y} (-l / 2) - \frac{M_z}{I_z} (w + l - \bar{v})
+$$
+
+$$
+\sigma_{xG} = \frac{M_y}{I_y} (w / 2) - \frac{M_z}{I_z} (-\bar{v})
+$$
+
+This can be turned into a matrix operation:
+
+$$
+\begin{bmatrix}
+  \frac{-l/2}{I_y} & \frac{w + l - \bar{v}}{I_z} \\
+  \frac{w/2}{I_y} & \frac{-\bar{v}}{I_z}
+\end{bmatrix} \begin{bmatrix}
+  M_y \\ M_z
+\end{bmatrix} = \begin{bmatrix}
+  4MPa \\ -6MPa
+\end{bmatrix}
+$$
+
+And the total magnitude and angle:
+
+$$
+M = \sqrt{M_y^2 + M_z^2}
+$$
+
+$$
+\theta = \arctan \frac{M_z}{M_y}
+$$
+
+My code from above can be extended to solve this:
+
+```py
+A = np.matrix(
+    [
+        [(-l / 2) / I_y, (w + l - v_bar) / I_z],
+        [(w / 2) / I_y, -v_bar / I_z],
+    ]
+)
+b = np.matrix(
+    [
+        [(4 * MPa).to_base_units().magnitude],
+        [(-6 * MPa).to_base_units().magnitude],
+    ]
+)
+
+solution = np.linalg.solve(A, b)
+
+M_y = solution[0, 0] * Pa
+M_z = solution[1, 0] * Pa
+
+M = (M_y**2 + M_z**2) ** (1 / 2)
+theta = atan2(M_y.magnitude, M_z.magnitude) * ur.rad
+
+print(f"\nProblem 2:")
+print(f"M = {M}")
+print(f"theta = {theta.to(deg)}")
+```
+
+And the results:
+
+```
+Problem 2:
+M = 18283.43377534111 pascal
+theta = -11.924523937611916 degree
+```
+
+Thus, the maximum you can apply is:
+
+$$
+\boxed{M = 18283Pa ~ \text{at} ~ \theta = -11.92\degree}
+$$
