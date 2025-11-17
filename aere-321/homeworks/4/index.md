@@ -43,7 +43,7 @@ $$
 $$
 
 $$
-\bar{v} = \frac{wl * l/2 + wl * (l + b/2)}{2wl} = \frac{l/2 + l + b/2}{2}
+\bar{v} = \frac{wl * l/2 + wl * (l + w/2)}{2wl} = \frac{l/2 + l + w/2}{2}
 $$
 
 $$
@@ -57,7 +57,7 @@ This gives me the position of the origin in relation to the edge of the stem:
 This allows me to get the inertia about the $z$ axis:
 
 $$
-I_z = wl^3 + wl * (l/2 - \bar{v})^2 + lw^3 + lw * (l - \bar{v} + b/2)^2
+I_z = wl^3 + wl * (l/2 - \bar{v})^2 + lw^3 + lw * (l - \bar{v} + w/2)^2
 $$
 
 $$
@@ -104,4 +104,91 @@ There's a lot of points that I suspect the maximum stress might exist:
 
 ![](https://i.imgur.com/C0w3m4B.png)
 
-Smells like a job for a computer.
+Smells like a job for a computer for which I came up with a fairly trivial Python code:
+
+```python
+import pint
+from math import sin, cos
+
+ur = pint.UnitRegistry()
+
+N = ur.N
+m = ur.m
+kN = 1000 * N
+deg = ur.deg
+mm = ur.mm
+MPa = ur.MPa
+
+l = 200 * mm
+w = 50 * mm
+
+M = 2 * kN * m
+theta = 60 * deg
+
+M_y = M * sin(theta)
+M_z = M * cos(theta)
+
+v_bar = (l / 2 + l + w / 2) / 2
+I_y = w * l**3 + l * w**3
+I_z = (
+    w * l**3
+    + w * l * (l / 2 - v_bar) ** 2
+    + l * w**3
+    + l * w * (l - v_bar + w / 2) ** 2
+)
+
+
+def sigma_x(z, y):
+    return (M_y / I_y) * z - (M_z / I_z) * y
+
+
+sigma_x_A = sigma_x(-l / 2, w + l - v_bar).to(MPa)
+sigma_x_B = sigma_x(l / 2, w + l - v_bar).to(MPa)
+sigma_x_C = sigma_x(-l / 2, l - v_bar).to(MPa)
+sigma_x_D = sigma_x(l / 2, l - v_bar).to(MPa)
+sigma_x_E = sigma_x(-w / 2, l - v_bar).to(MPa)
+sigma_x_F = sigma_x(w / 2, l - v_bar).to(MPa)
+sigma_x_G = sigma_x(-w / 2, -v_bar).to(MPa)
+sigma_x_H = sigma_x(w / 2, -v_bar).to(MPa)
+
+print(f"sigma_x_A = {sigma_x_A}")
+print(f"sigma_x_B = {sigma_x_B}")
+print(f"sigma_x_C = {sigma_x_C}")
+print(f"sigma_x_D = {sigma_x_D}")
+print(f"sigma_x_E = {sigma_x_E}")
+print(f"sigma_x_F = {sigma_x_F}")
+print(f"sigma_x_G = {sigma_x_G}")
+print(f"sigma_x_H = {sigma_x_H}")
+
+max_magnitude = [
+    sigma_x_A,
+    sigma_x_B,
+    sigma_x_C,
+    sigma_x_D,
+    sigma_x_E,
+    sigma_x_F,
+    sigma_x_G,
+    sigma_x_H,
+]
+max_magnitude = [abs(sigma) for sigma in max_magnitude]
+max_magnitude = max(max_magnitude)
+
+print(f"\nMaximum magnitude of sigma_x = {max_magnitude}")
+```
+
+This results in the following output:
+
+```
+sigma_x_A = -0.5814544099650556 megapascal
+sigma_x_B = 0.2336283230085337 megapascal
+sigma_x_C = -0.4820755279774779 megapascal
+sigma_x_D = 0.33300720499611136 megapascal
+sigma_x_E = -0.17641950311238191 megapascal
+sigma_x_F = 0.02735118013101541 megapascal
+sigma_x_G = 0.22109602483792873 megapascal
+sigma_x_H = 0.42486670808132604 megapascal
+
+Maximum magnitude of sigma_x = 0.5814544099650556 megapascal
+```
+
+This, the maximum magnitude of $\sigma_x$ is $-0.5815MPa$ at Point A. As for the maximum tensile stress, it's $0.4249MPa$ at Point H.
