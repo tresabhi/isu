@@ -259,3 +259,25 @@ Everything here is a function of $y$ here, measured from the neutral surface, so
 The temporary coordinate system:
 
 ![](https://i.imgur.com/zpSmhfN.png)
+
+This time I will be using $b$ and $h$ instead of $l$ and $w$ like last problem because sometimes, personally speaking, it got a bit ambiguous which is the smaller dimension.
+
+$$
+h = 40mm
+$$
+
+$$
+b = 10mm
+$$
+
+$$
+\bar{v} = \frac{2bh * (b/2) + bh * (b + h - b/2) + 2bh * (b + h/2)}{5bh}
+$$
+
+$$
+\bar{v} = \frac{2(b/2) + (b + h - b/2) + 2(b + h/2)}{5}
+$$
+
+$$
+\bar{v} = \frac{2(10mm/2) + (10mm + 40mm - 10mm/2) + 2(10mm + 20mm/2)}{5} = 19mm
+$$
