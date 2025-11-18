@@ -145,14 +145,83 @@ It's formatted so that I can just pase the above into a Markdown file lie this o
 | ------- | ------- | -------- | -------- | -------- | ------- | ------- | ------- |
 | 2025.40 | 2.0,2.0 | 1.0      | 1.0      | 1.0      | 1.0     | 1.0     | 1.0     |
 
-With this done, I went to town trying out combinations from the following pool:
-
-$$
-[0.1, 0.5, 1.0, 5.0, 10.0]
-$$
-
-To automate this process, I wrote the following Bash script. Note line 2 where I delete the `waffle_pi` entity. I ran into an issue where simultaneous simulations kept running at once, letting the bot reach speeds exceeding the sound barrier, disallowing convergence.
+To simplify rerunning the script, I came up with this Bash command to launch the simulation perfectly every single time:
 
 ```bash
 clear && killgazebo && export TURTLEBOT3_MODEL=waffle_pi && ros2 launch pid_turtlebot3 launch_sim_and_control.launch
+```
+
+To start off with the simulation, I set both proportionals to 0.01 (with others at 0) but that was unbelievably slow so I bumped both up to 0.1. This was better but it was create the angular proportional gain needed to be more aggressive as the position would outdistance the progress of the angular correction. Thus, I settled on ths following starting values and relaxed tolerances:
+
+```yaml
+kp_dist_parm: 0.1
+ki_dist_parm: 0.0
+kd_dist_parm: 0.0
+
+kp_ang_parm: 0.5
+ki_ang_parm: 0.0
+kd_ang_parm: 0.0
+
+eps_dist_tol: 0.1
+eps_ang_tol: 0.05
+```
+
+This resulted in a run that lasted nearly a minute long! Following my experiences tuning PID systems from the robotics club, I started bumping the proportional gains until I saw oscillations by 0.1. Eventually, I settled on the following (still keeping everything else 0):
+
+```yaml
+kp_dist_parm: 0.2
+ki_dist_parm: 0.0
+kd_dist_parm: 0.0
+
+kp_ang_parm: 0.5
+ki_ang_parm: 0.0
+kd_ang_parm: 0.0
+```
+
+Then I incremented the integral gains by 0.002 until the steady state errors were gone and went back a few steps when it started oscillating again:
+
+```yaml
+kp_dist_parm: 0.2
+ki_dist_parm: 0.05
+kd_dist_parm: 0.0
+
+kp_ang_parm: 0.5
+ki_ang_parm: 0.05
+kd_ang_parm: 0.0
+```
+
+But there was a lot of overshoot in the angles, so I started incrementing the derivative by 0.1 until the oscillations were gone:
+
+```yaml
+kp_dist_parm: 0.2
+ki_dist_parm: 0.05
+kd_dist_parm: 0.0
+
+kp_ang_parm: 0.5
+ki_ang_parm: 0.05
+kd_ang_parm: 0.5
+```
+
+At this point, it was painfully obvious the bot could go a little faster at the very end as it kept slowing down immensely as it neared the goal. This means, it needs to keep some of its velocity instead of discarding it since its closer. This involved buffing the proportional to speed up the bot and the derivative to stop it from overshooting:
+
+```yaml
+kp_dist_parm: 0.3
+ki_dist_parm: 2.0
+kd_dist_parm: 0.125
+
+kp_ang_parm: 0.5
+ki_ang_parm: 0.05
+kd_ang_parm: 0.5
+```
+
+I realized the angles were being a little too aggressive so I tuned down the angular gains:
+
+```yaml
+kp_dist_parm: 0.3
+ki_dist_parm: 2.0
+kd_dist_parm: 0.125
+
+kp_ang_parm: 0.25
+ki_ang_parm: 1.0
+kd_ang_parm: 1.0
 ```
