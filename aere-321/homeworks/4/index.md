@@ -275,11 +275,15 @@ $$
 $$
 
 $$
-\bar{v} = \frac{2(b/2) + (b + h - b/2) + 2(b + h/2)}{5}
+\bar{v} = \frac{2 * (b/2) + (b + h - b/2) + 2 * (b + h/2)}{5}
 $$
 
 $$
-\bar{v} = \frac{2(10mm/2) + (10mm + 40mm - 10mm/2) + 2(10mm + 20mm/2)}{5} = 19mm
+\bar{v} = \frac{b + b + h - b/2 + 2b + h}{5}
+$$
+
+$$
+\bar{v} = \frac{\frac{7}{2}b + 2h}{5} = 32mm
 $$
 
 ![](https://i.imgur.com/fbeTSog.png)
@@ -313,7 +317,7 @@ I = 2hb^3 + 2bh * (\bar{v} - b/2)^2 + hb^3 + bh * (b + h - b/2 - \bar{v})^2 + 2b
 $$
 
 $$
-I = 259 cm^4
+I = 225 cm^4
 $$
 
 Finally, it's time to get the shear flows, starting with the top segment with :

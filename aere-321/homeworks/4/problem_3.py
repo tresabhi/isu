@@ -1,0 +1,32 @@
+import pint
+
+ur = pint.UnitRegistry()
+
+V = 150 * ur.N
+h = 10 * ur.mm
+b = 40 * ur.mm
+
+v_bar = ((7 / 2) * b + 2 * h) / 5
+I = (
+    2 * h * b**3
+    + 2 * b * h * (v_bar - b / 2) ** 2
+    + h * b**3
+    + b * h * (b + h - b / 2 - v_bar) ** 2
+    + 2 * b * h**3
+    + 2 * b * h * (b + h / 2 - v_bar) ** 2
+)
+
+
+def q_1(x):
+    return (V / I) * ((3 / 2) * b + h - v_bar) * b * x
+
+
+def q_2(x):
+    return (V / I) * (
+        ((3 / 2) * b + h - v_bar) * (b + h) * h
+        + 2 * ((3 / 2) * b + h - v_bar - x / 2) * b * x
+    )
+
+
+print(q_1(b / 2 + h / 2))
+print(2 * q_2(0 * ur.mm))
