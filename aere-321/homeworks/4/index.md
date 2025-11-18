@@ -485,3 +485,41 @@ $$
 $$
 \boxed{q_B = 0.2531 N/mm}
 $$
+
+The shear flow diagram should look something like this:
+
+![](https://i.imgur.com/1bmnuE5.png)
+
+To get the max of the 2nd order shear flow in the vertical segment, I will have to resort to calculus:
+
+$$
+\frac{d}{dx} q_2 = 0
+$$
+
+$$
+\frac{2bV}{I} \left( \frac{3}{2} b + h - \bar v - x \right) = 0
+$$
+
+$$
+x = \frac{3}{2}b + h - \bar v
+$$
+
+That's where the max of $q_2$ occurs. Here are the printers for all the maxes:
+
+```py
+print("\nq_1_max =", q_1(b / 2 + h / 2))
+print("q_2_max =", q_2((3 / 2) * b + h - v_bar))
+print("q_3_max =", q_3(0 * ur.mm))
+```
+
+This gives:
+
+```
+q_1_max = 1.2655417406749556 newton / millimeter
+q_2_max = 5.11278863232682 newton / millimeter
+q_3_max = 4.729129662522203 newton / millimeter
+```
+
+The completed diagram:
+
+![](https://i.imgur.com/90vLpKE.png)

@@ -55,3 +55,7 @@ print("q_3 =", q_3(b + h / 2))
 
 print("\nB =", q_1(h / 2))
 print("A =", q_1(h / 2 + b))
+
+print("\nq_1_max =", q_1(b / 2 + h / 2))
+print("q_2_max =", q_2((3 / 2) * b + h - v_bar))
+print("q_3_max =", q_3(0 * ur.mm))
