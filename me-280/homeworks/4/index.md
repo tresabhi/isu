@@ -274,4 +274,4 @@ This is the limit of what I have been able to make the bot converge with. Any ot
 | 9.60  | 2.0,2.0 | 0.3      | 2.0      | 0.125    | 0.25    | 1.0     | 3.0     |
 | 9.70  | 2.0,2.0 | 0.3      | 2.0      | 0.125    | 0.25    | 1.0     | 3.0     |
 
-Here's the same thing, but in Google Sheets and sorted: https://docs.google.com/spreadsheets/d/1MblvIsPUXqbpznzQ592WdRYqOzhaqPRqr91uXXEJd0k/edit?usp=sharing
+Here's the same thing, but in Google Sheets with the best row highlighted: https://docs.google.com/spreadsheets/d/1MblvIsPUXqbpznzQ592WdRYqOzhaqPRqr91uXXEJd0k/edit?usp=sharing
