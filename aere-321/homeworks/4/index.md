@@ -325,11 +325,11 @@ Finally, it's time to get the shear flows, starting with the top segment with :
 ![](https://i.imgur.com/JnI1Imm.png)
 
 $$
-q_1 = \frac{V}{I} Q_1 = \frac{V}{I} \bar{y}' A' = \frac{V}{I} (b + h + b/2 - \bar{v}) (bx)
+q_1 = \frac{V}{I} Q_1 = \frac{V}{I} \bar{y}' A' = \frac{V}{I} (b + h + b/2 - \bar{v}) \frac{b}{2}
 $$
 
 $$
-\boxed{q_1 = \frac{V}{I} \left( \frac{3}{2}b + h - \bar{v} \right) b x}
+\boxed{q_1 = \frac{V}{I} \left( \frac{3}{2}b + h - \bar{v} \right) \frac{b}{2} x}
 $$
 
 The vertical segment's local coordinate system has $x$ starting from the top, going down to the middle of the bottom segment:

@@ -18,7 +18,7 @@ I = (
 
 
 def q_1(x):
-    return (V / I) * ((3 / 2) * b + h - v_bar) * b * x
+    return (V / I) * ((3 / 2) * b + h - v_bar) * (b / 2) * x
 
 
 def q_2(x):
