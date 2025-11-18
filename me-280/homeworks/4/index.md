@@ -154,25 +154,5 @@ $$
 To automate this process, I wrote the following Bash script. Note line 2 where I delete the `waffle_pi` entity. I ran into an issue where simultaneous simulations kept running at once, letting the bot reach speeds exceeding the sound barrier, disallowing convergence.
 
 ```bash
-clear
-ros2 service call /delete_entity gazebo_msgs/srv/DeleteEntity "{name: 'waffle_pi'}"
-ros2 launch pid_turtlebot3 launch_sim_and_control.launch
+clear && killgazebo && export TURTLEBOT3_MODEL=waffle_pi && ros2 launch pid_turtlebot3 launch_sim_and_control.launch
 ```
-
-This resulted a bunch of files:
-
-![](https://i.imgur.com/2g9p7zH.png)
-
-After cd-ing into the `times` dir, I merged all the files using:
-
-```bash
-for f in *.txt; do
-    cat "$f"
-    # echo -e "\n"
-done > ../merged_times.txt
-```
-
-And here's that table:
-
-| Time | x,y | K_p_dist | K_i_dist | K_d_dist | K_p_ang | K_i_ang | K_d_ang |
-| ---- | --- | -------- | -------- | -------- | ------- | ------- | ------- |
