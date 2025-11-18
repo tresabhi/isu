@@ -462,4 +462,26 @@ But these are not the values for $A$ and $B$ that the question is asking for. It
 
 ![](https://i.imgur.com/BDhSl4J.png)
 
-To get the values for $A$, $B$, and other values for draw the diagram, I wrote the following printers:
+To get the values for $A$ and $B$:
+
+```py
+print("\nB =", q_1(h / 2))
+print("A =", q_1(h / 2 + b))
+```
+
+Gives:
+
+```
+B = 0.2531083481349911 newton / millimeter
+A = 2.27797513321492 newton / millimeter
+```
+
+Thus:
+
+$$
+\boxed{q_A = 2.278 N/mm}
+$$
+
+$$
+\boxed{q_B = 0.2531 N/mm}
+$$

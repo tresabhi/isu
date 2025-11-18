@@ -52,3 +52,6 @@ print("q_1 =", q_1(0 * ur.mm))
 
 print("\nEnd of q_3:")
 print("q_3 =", q_3(b + h / 2))
+
+print("\nB =", q_1(h / 2))
+print("A =", q_1(h / 2 + b))
