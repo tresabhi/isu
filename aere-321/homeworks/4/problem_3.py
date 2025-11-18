@@ -28,5 +28,21 @@ def q_2(x):
     )
 
 
-print(q_1(b / 2 + h / 2))
-print(2 * q_2(0 * ur.mm))
+def q_3(x):
+    return (
+        (V / I)
+        * (
+            ((3 / 2) * b + h - v_bar) * (b + h) * h
+            + 2 * ((3 / 2) * b + h - v_bar - (b + h) / 2) * b * (b + h)
+        )
+        * (1 - x / (b + h / 2))
+    )
+
+
+print("Top right joint:")
+print("End of q_1 = ", q_1(b / 2 + h / 2))
+print("Start of q_2 = ", q_2(0 * ur.mm))
+
+print("Bottom right joint:")
+print("End of q_2 = ", q_2(b + h))
+print("Start of q_3 = ", q_3(0 * ur.mm))

@@ -351,3 +351,31 @@ $$
 $$
 \boxed{q_2 = \frac{V}{I} \left[ \left( \frac{3}{2}b + h - \bar{v} \right) (b + h)h + 2 \left( \frac{3}{2}b + h - \bar{v} - \frac{x}{2} \right) bx \right]}
 $$
+
+Time for the very last segment:
+
+![](https://i.imgur.com/JoUvT9c.png)
+
+This one can be solved by inspection actually. I know this will be a linear equation because $x$ only traverses the horizontal axis. Furthermore, I know from lecture that free ends must have $q = 0$. And, finally, I know that $q_3$ at $x = 0$ must equal $q_2$ at it's very bottom edge. Thus, the equation for $q_3$ should look something like this:
+
+$$
+q_3 = \alpha \left( 1 - \frac{x}{b + h/2} \right)
+$$
+
+There, $x$ scales $\alpha$ all the way down to $0$ as $x$ reaches the end of the segment. $\alpha$ is, of course, the ending value of $q_2$:
+
+$$
+\alpha = q_2(x = b + h)
+$$
+
+$$
+\alpha = \frac{V}{I} \left[ \left( \frac{3}{2}b + h - \bar{v} \right) (b + h)h + 2 \left( \frac{3}{2}b + h - \bar{v} - \frac{b + h}{2} \right) b (b + h) \right]
+$$
+
+Thus, the full equation for $q_3$ is:
+
+$$
+\boxed{q_3 = \frac{V}{I} \left[ \left( \frac{3}{2}b + h - \bar{v} \right) (b + h)h + 2 \left( \frac{3}{2}b + h - \bar{v} - \frac{b + h}{2} \right) b (b + h) \right] \left( 1 - \frac{x}{b + h/2} \right)}
+$$
+
+I hope this is an acceptable approach to this problem. I for one think this short cut I came up with is pretty cool.
