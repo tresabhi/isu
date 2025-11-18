@@ -214,7 +214,7 @@ ki_ang_parm: 0.05
 kd_ang_parm: 0.5
 ```
 
-I realized the angles were being a little too aggressive so I tuned down the angular gains:
+I realized the angles were being a little too aggressive so I tuned down the proportional angular gain but buffed the integral and derivative:
 
 ```yaml
 kp_dist_parm: 0.3
@@ -222,6 +222,20 @@ ki_dist_parm: 2.0
 kd_dist_parm: 0.125
 
 kp_ang_parm: 0.25
-ki_ang_parm: 1.0
-kd_ang_parm: 1.0
+ki_ang_parm: 1.5
+kd_ang_parm: 10.0
 ```
+
+Now there was room to buff the aggression of the displacement (with a buff to the angular derivative to handle the increased oscillation):
+
+```yaml
+kp_dist_parm: 0.6
+ki_dist_parm: 2.0
+kd_dist_parm: 0.125
+
+kp_ang_parm: 0.25
+ki_ang_parm: 1.5
+kd_ang_parm: 11.0
+```
+
+This is the limit of what I have been able to make the bot converge with. Any other solution involves the bot gunning for the target and overshooting it, but the script counts that as a "goal reached" which I think is dishonest.
