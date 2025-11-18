@@ -378,4 +378,88 @@ $$
 \boxed{q_3 = \frac{V}{I} \left[ \left( \frac{3}{2}b + h - \bar{v} \right) (b + h)h + 2 \left( \frac{3}{2}b + h - \bar{v} - \frac{b + h}{2} \right) b (b + h) \right] \left( 1 - \frac{x}{b + h/2} \right)}
 $$
 
-I hope this is an acceptable approach to this problem. I for one think this short cut I came up with is pretty cool.
+I hope this is an acceptable approach to this problem. I for one think this short cut I came up with is pretty cool. Anyway, it's time to do a sanity check to see if the $q$ functions agree with each other and equal to $0$ at the ends and in the center. To do so, I reimplemented the entire problem into Python:
+
+```py
+import pint
+
+ur = pint.UnitRegistry()
+
+V = 150 * ur.N
+h = 10 * ur.mm
+b = 40 * ur.mm
+
+v_bar = ((7 / 2) * b + 2 * h) / 5
+I = (
+    2 * h * b**3
+    + 2 * b * h * (v_bar - b / 2) ** 2
+    + h * b**3
+    + b * h * (b + h - b / 2 - v_bar) ** 2
+    + 2 * b * h**3
+    + 2 * b * h * (b + h / 2 - v_bar) ** 2
+)
+
+
+def q_1(x):
+    return (V / I) * ((3 / 2) * b + h - v_bar) * (b / 2) * x
+
+
+def q_2(x):
+    return (V / I) * (
+        ((3 / 2) * b + h - v_bar) * (b + h) * h
+        + 2 * ((3 / 2) * b + h - v_bar - x / 2) * b * x
+    )
+
+
+def q_3(x):
+    return (
+        (V / I)
+        * (
+            ((3 / 2) * b + h - v_bar) * (b + h) * h
+            + 2 * ((3 / 2) * b + h - v_bar - (b + h) / 2) * b * (b + h)
+        )
+        * (1 - x / (b + h / 2))
+    )
+```
+
+And then printed the following:
+
+```py
+print("Joint near B:")
+print("End of q_1 =", q_1(b / 2 + h / 2))
+print("Start of q_2 =", q_2(0 * ur.mm))
+
+print("\nJoint near A:")
+print("End of q_2 =", q_2(b + h))
+print("Start of q_3 =", q_3(0 * ur.mm))
+
+print("\nCenter of q_1:")
+print("q_1 =", q_1(0 * ur.mm))
+
+print("\nEnd of q_3:")
+print("q_3 =", q_3(b + h / 2))
+```
+
+And, the results confirm that the joints agree with one another and the ends are $0$:
+
+```
+Joint near B:
+End of q_1 = 1.2655417406749556 newton / millimeter
+Start of q_2 = 1.2655417406749556 newton / millimeter
+
+Joint near A:
+End of q_2 = 4.729129662522203 newton / millimeter
+Start of q_3 = 4.729129662522203 newton / millimeter
+
+Center of q_1:
+q_1 = 0.0 newton / millimeter
+
+End of q_3:
+q_3 = -0.0 newton / millimeter
+```
+
+But these are not the values for $A$ and $B$ that the question is asking for. It's $A'$ and $B'$ that I just found, but $A$ and $B$ actually sit here:
+
+![](https://i.imgur.com/BDhSl4J.png)
+
+To get the values for $A$, $B$, and other values for draw the diagram, I wrote the following printers:

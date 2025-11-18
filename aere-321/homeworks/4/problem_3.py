@@ -39,10 +39,16 @@ def q_3(x):
     )
 
 
-print("Top right joint:")
-print("End of q_1 = ", q_1(b / 2 + h / 2))
-print("Start of q_2 = ", q_2(0 * ur.mm))
+print("Joint near B:")
+print("End of q_1 =", q_1(b / 2 + h / 2))
+print("Start of q_2 =", q_2(0 * ur.mm))
 
-print("Bottom right joint:")
-print("End of q_2 = ", q_2(b + h))
-print("Start of q_3 = ", q_3(0 * ur.mm))
+print("\nJoint near A:")
+print("End of q_2 =", q_2(b + h))
+print("Start of q_3 =", q_3(0 * ur.mm))
+
+print("\nCenter of q_1:")
+print("q_1 =", q_1(0 * ur.mm))
+
+print("\nEnd of q_3:")
+print("q_3 =", q_3(b + h / 2))
