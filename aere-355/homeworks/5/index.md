@@ -12,6 +12,20 @@ $$
 \ddot{\theta} + 10 \alpha + 15 \theta = -5 \delta
 $$
 
+Equivalency:
+
+$$
+q = \dot{\theta}
+$$
+
+$$
+\dot{\alpha} + 2 \alpha - \dot{\theta} = 0
+$$
+
+$$
+\ddot{\theta} + 10 \alpha + 15 \theta = -5 \delta
+$$
+
 Substitutions:
 
 $$
@@ -29,11 +43,11 @@ $$
 Rewriting:
 
 $$
-\dot{x}_1 + 2 x_1 - q = 0
+\dot{x}_1 + 2 x_1 - x_3 = 0
 $$
 
 $$
-\dot{x}_1 = -2 x_1 + q
+\dot{x}_1 = -2 x_1 + x_3
 $$
 
 $$
@@ -59,49 +73,42 @@ X = \begin{bmatrix}
 $$
 
 $$
-U = \begin{bmatrix}
-  q \\
-  \delta
-\end{bmatrix}
-$$
-
-$$
 \dot{X} = \begin{bmatrix}
   \dot{x}_1 \\
   \dot{x}_2 \\
   \dot{x}_3
 \end{bmatrix} = \begin{bmatrix}
-  -2 x_1 + q \\
+  -2 x_1 + x_3 \\
   x_3 \\
   -10 x_1 - 15 x_2 - 5 \delta
 \end{bmatrix}
 $$
 
 $$
-\dot{X} = AX + BU
+\dot{X} = AX + B\delta
 $$
 
 $$
 \dot{X} = \begin{bmatrix}
-  -2 & 0 & 0 \\
+  -2 & 0 & 1 \\
   0 & 0 & 1 \\
   -10 & -15 & 0
 \end{bmatrix} X + \begin{bmatrix}
-  1 & 0 \\
-  0 & 0 \\
-  0 & -5
-\end{bmatrix} U
+  0 \\
+  0 \\
+  -5
+\end{bmatrix} \delta
 $$
 
 And now the for the MATLAB code:
 
 ```m
-A = [-2 0 0; 0 0 1; -10 -15 0];
-B = [1 0; 0 0; 0 -5];
+A = [-2 0 1; 0 0 1; -10 -15 0];
+B = [0; 0; -5];
 X_0 = [0; 0; 0];
-U = [0; 1];
+delta_0 = 1;
 
-f = @(t, x) A * x + B * U;
+f = @(t, x) A * x + B * delta_0;
 
 [t, x] = ode45(f, [0, 10], X_0);
 
@@ -118,24 +125,14 @@ This results in the following eigenvalues:
 
 ```
 Eigenvalues of A:
-   0.0000 + 3.8730i
-   0.0000 - 3.8730i
-  -2.0000 + 0.0000i
+  -1.2468 + 0.0000i
+  -0.3766 + 4.8907i
+  -0.3766 - 4.8907i
 ```
 
 And the following plot for a unit step in $\delta$:
 
-![](https://i.imgur.com/PPvecTa.png)
-
-Setting `U = [1; 0];` instead of `U = [0; 1];` shows what would happen if we had a unit step in `q` instead of `delta`:
-
-![](https://i.imgur.com/9bdSzBu.png)
-
-And a `U = [1; 1]` shows what would happen if we had a unit step in both `q` and `delta`:
-
-![](https://i.imgur.com/wADtJX0.png)
-
-The question was very ambiguous on what's being stepped to I just did all three.
+![](https://i.imgur.com/roH6YM3.png)
 
 ## 2.
 
