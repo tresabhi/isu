@@ -22,7 +22,7 @@ v_a3 = (mu_sun * (2 / R_earth - 1 / a_3)) ** (1 / 2)
 
 v_E = (mu_sun * (2 / R_earth - 1 / a_earth)) ** (1 / 2)
 
-v_infinity = v_a3 - v_E
+v_infinity = v_E - v_a3
 v_H = (v_infinity**2 + 2 * (mu_earth / r_1)) ** (1 / 2)
 
 delta_v = v_H - v_1

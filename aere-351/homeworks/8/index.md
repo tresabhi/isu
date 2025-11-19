@@ -331,7 +331,7 @@ $$
 Residue:
 
 $$
-v_\infty = v_{a3} - v_E
+v_\infty = v_E - v_{a3}
 $$
 
 Hyperbolic velocity after boost from Earth orbit:
