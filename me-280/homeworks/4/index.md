@@ -406,3 +406,5 @@ After much experimentation, this is the implementation I came up with. The numbe
 
         self.my_velocity_cont(l_v, a_v)
 ```
+
+The produced bag files are in the order of Gigabytes for `turtlebot3_world` and `turtlebot3_house`. Thus, they will be available only on Canvas as `turtlebot3_house.bag.zip` and `turtlebot3_world.bag.zip`.
