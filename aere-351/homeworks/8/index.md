@@ -261,3 +261,31 @@ $$
 $$
 r_{SOI,J} = \left( \frac{m_J}{m_\odot} \right)^{2/5} r_J = \left( \frac{1.89813 × 10^{27} kg}{1.989 × 10^{30} kg} \right)^{2/5} 7.784×10^8 km = \boxed{4.820×10^7 km}
 $$
+
+## 3.
+
+This problem throws the assumption of Earth being in a perfectly circular orbit out the window. This calls for a higher level or precision. To address this, I will derive and list all the equations I will need to solve this problem and implement it in Python. These values were kindly provided by the problem:
+
+$$
+\mu_{sun} = 132.7*10^9km^3/s^2
+$$
+
+$$
+\mu_{earth} = 398600km^3/s^2
+$$
+
+$$
+a_{earth} = 149.6*10^6km
+$$
+
+$$
+e_{earth} = 0.0167
+$$
+
+$$
+r_{earth} = 6378km
+$$
+
+$$
+R_{earth} = 147.4*10^6km
+$$
