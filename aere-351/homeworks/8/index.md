@@ -303,7 +303,7 @@ $$
 Actual parking radius:
 
 $$
-r_1 = R_{earth} + h_1
+r_1 = r_{earth} + h_1
 $$
 
 Parking velocity:
@@ -315,17 +315,17 @@ $$
 The final orbit:
 
 $$
-a_3 = \frac{r_{p3} + r_{earth}}{2}
+a_3 = \frac{r_{p3} + R_{earth}}{2}
 $$
 
 $$
-v_{a3} = \sqrt{\mu_{sun} \left( \frac{2}{r_{earth}} - \frac{1}{a_3} \right)}
+v_{a3} = \sqrt{\mu_{sun} \left( \frac{2}{R_{earth}} - \frac{1}{a_3} \right)}
 $$
 
 Earth velocity on that fine day:
 
 $$
-v_E = \sqrt{\mu_{sun} \left( \frac{2}{r_{earth}} - \frac{1}{a_{earth}} \right)}
+v_E = \sqrt{\mu_{sun} \left( \frac{2}{R_{earth}} - \frac{1}{a_{earth}} \right)}
 $$
 
 Residue:
