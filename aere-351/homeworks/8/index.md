@@ -465,10 +465,6 @@ $$
 \Delta v = v_H - v_p
 $$
 
-$$
-\beta = \arccos \frac{v_p}{v_H}
-$$
-
 Mercury hyperbolic:
 
 $$
@@ -477,4 +473,20 @@ $$
 
 $$
 \Delta v' = v_H' - v_p'
+$$
+
+Location of pericenter (from lecture 14 hand written notes):
+
+$$
+\cos \beta = \frac{1}{e} = \frac{1}{1 + \frac{r_p v_{\infty, earth}^2}{\mu_{earth}}}
+$$
+
+$$
+\beta = \arccos \frac{1}{1 + \frac{r_p v_{\infty, earth}^2}{\mu_{earth}}}
+$$
+
+And the aiming radius:
+
+$$
+\Delta = |a'| \sqrt{e'^2 - 1}
 $$

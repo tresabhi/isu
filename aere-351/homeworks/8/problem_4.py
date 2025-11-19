@@ -42,7 +42,18 @@ v_p_prime = (mu_mercury * (2 / r_p_prime - 1 / a_prime)) ** (1 / 2)
 
 v_H = (v_infinity_earth**2 + 2 * (mu_earth / r_p)) ** (1 / 2)
 delta_v = v_H - v_p
-beta = acos(v_p / v_H)
 
 v_H_prime = (v_infinity_mercury**2 + 2 * (mu_mercury / r_p_prime)) ** (1 / 2)
 delta_v_prime = v_H_prime - v_p_prime
+
+delta_v_total = delta_v + delta_v_prime
+beta = acos(1 / (1 + ((r_p * v_infinity_earth**2) / mu_earth)))
+delta = abs(a_prime) * (e_prime**2 - 1) ** (1 / 2)
+
+
+print("delta_v (near Earth) =", delta_v)
+print("delta_v (near Mercury) =", delta_v_prime)
+print("delta_v_total =", delta_v_total, "\n")
+
+print("beta =", beta)
+print("delta =", delta)
