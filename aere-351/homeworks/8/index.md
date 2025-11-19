@@ -264,7 +264,17 @@ $$
 
 ## 3.
 
-This problem throws the assumption of Earth being in a perfectly circular orbit out the window. This calls for a higher level or precision. To address this, I will derive and list all the equations I will need to solve this problem and implement it in Python. These values were kindly provided by the problem:
+This problem throws the assumption of Earth being in a perfectly circular orbit out the window. This calls for a higher level or precision. To address this, I will derive and list all the equations I will need to solve this problem and implement it in Python. These values were kindly provided by the problem (1 = Earth orbit, 2 = hyperbolic escape orbit, 3 = target orbit around sun):
+
+$$
+h_1 = 200km
+$$
+
+$$
+r_{p3} = 120 * 10^6km
+$$
+
+Additionally provided:
 
 $$
 \mu_{sun} = 132.7*10^9km^3/s^2
@@ -288,4 +298,38 @@ $$
 
 $$
 R_{earth} = 147.4*10^6km
+$$
+
+Actual parking radius:
+
+$$
+r_1 = R_{earth} + h_1
+$$
+
+Parking velocity:
+
+$$
+v_1 = \sqrt{\frac{\mu_{earth}}{r_1}}
+$$
+
+The final orbit:
+
+$$
+a_3 = \frac{r_{p3} + r_{earth}}{2}
+$$
+
+$$
+v_{a3} = \sqrt{\mu_{sun} \left( \frac{2}{r_{earth}} - \frac{1}{a_3} \right)}
+$$
+
+Earth velocity on that fine day:
+
+$$
+v_E = \sqrt{\mu_{sun} \left( \frac{2}{r_{earth}} - \frac{1}{a_{earth}} \right)}
+$$
+
+Residue:
+
+$$
+v_\infty = v_{a3} - v_E
 $$
