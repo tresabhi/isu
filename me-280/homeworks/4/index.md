@@ -309,3 +309,100 @@ For the dist parameters, $K_p = 0.6$, $K_i = 2.0$, and $K_d = 0.125$. For the an
 Increasing $K_p$ made the bot more aggressive at the beginning since it was the furthest away at that point than it would've been when it got closer. But if this is too low, you end up with the bot barely creeping forwards near the end as it slowed time the closer it got. And increase it too much, you start getting oscillations which is an indicator of you needing to back up a little.
 
 The introduction of $K_i$ gives the bot some memory, or as I like it call it, wisdom. In other words, it reduces persistent errors that may accumulate. But this must be used sparingly as if this is too high, you get oscillations again. $K_d$ simply dampens the oscillations at the expense of amplifying noise if too high.
+
+## 3.
+
+For this section, I came up with a similar Bash command to launch correctly every single time:
+
+```bash
+clear && killgazebo && export TURTLEBOT3_MODEL=waffle_pi && ros2 launch pid_turtlebot3 launch_sim_and_coll_avoidance.launch
+```
+
+After much experimentation, this is the implementation I came up with. The numbers are very much pulled out of thin air to make it work:
+
+```py
+    # Callback to process turtle's laser scan and compute control commands
+    def timer_callback(self, msg):  #: LaserScan):
+        import math
+
+        # Function to get the range for a specific angle
+        def get_range_for_angle(scan, angle_deg):
+            n = len(scan)
+
+            # Shouldn't ever happen
+            if n == 0:
+                return float("inf")
+
+            # MATLAB-like extraction pattern
+            idx = int(round(angle_deg)) % n
+
+            # This can fail sometimes so assume we're out of range
+            try:
+                r = scan[idx]
+            except Exception:
+                return float("inf")
+
+            if r == 0.0 or r is None or math.isinf(r) or math.isnan(r):
+                return float("inf")
+
+            return float(r)
+
+        front = get_range_for_angle(msg.ranges, 0)
+        front_15 = get_range_for_angle(msg.ranges, 15)
+        left = get_range_for_angle(msg.ranges, 90)
+        right = get_range_for_angle(msg.ranges, 270)
+        front_345 = get_range_for_angle(msg.ranges, 345)
+
+        print("Front-direction laser scan:", front)
+        print("15 deg laser scan:", front_15)
+        print("Left-direction laser scan:", left)
+        print("Right-direction laser scan:", right)
+        print("345 deg laser scan:", front_345)
+
+        SAFE_DIST = 0.8
+        CAUTION_DIST = 0.5
+        TOO_CLOSE = 0.35
+
+        l_v = 0.0
+        a_v = 0.0
+
+        # Completely clear ahead and around: go forward
+        if front > SAFE_DIST and front_15 > SAFE_DIST and front_345 > SAFE_DIST:
+            l_v = 0.20  # forward speed (m/s) - small safe value
+            a_v = 0.0
+
+        # Immediate danger anywhere in front arc: stop and turn away
+        elif front < TOO_CLOSE or front_15 < TOO_CLOSE or front_345 < TOO_CLOSE:
+            l_v = 0.0
+            left_space = min(left, 10.0)
+            right_space = min(right, 10.0)
+
+            # Turn in place
+            if left_space > right_space:
+                a_v = 0.8
+            else:
+                a_v = -0.8
+
+        # Something is approaching but not dangerously close: slow and steer around it
+        else:
+            if front <= CAUTION_DIST:
+                l_v = 0.05
+            else:
+                l_v = 0.12
+
+            # Simple steering command using front-left vs front-right
+            left_feel = min(front_15, 10.0)
+            right_feel = min(front_345, 10.0)
+            diff = left_feel - right_feel
+
+            K_ang = 0.8
+            a_v = K_ang * math.tanh(2 * diff)  # I love hyperbolic tangent :)
+
+            if front < SAFE_DIST:
+                if front_15 < front_345:
+                    a_v = -abs(a_v) - 0.2
+                else:
+                    a_v = abs(a_v) + 0.2
+
+        self.my_velocity_cont(l_v, a_v)
+```
