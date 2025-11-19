@@ -26,3 +26,6 @@ v_infinity = v_a3 - v_E
 v_H = (v_infinity**2 + 2 * (mu_earth / r_1)) ** (1 / 2)
 
 delta_v = v_H - v_1
+
+print(f"v_infinity = {v_infinity}")
+print(f"delta_v = {delta_v}")
