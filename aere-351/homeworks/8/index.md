@@ -333,3 +333,15 @@ Residue:
 $$
 v_\infty = v_{a3} - v_E
 $$
+
+Hyperbolic velocity after boost from Earth orbit:
+
+$$
+v_H = \sqrt{v_\infty^2 + 2 \frac{\mu_{earth}}{r_1}}
+$$
+
+The boost:
+
+$$
+\Delta v = v_H - v_1
+$$
