@@ -426,3 +426,55 @@ $$
 $$
 v_{\infty, mercury} = |v_{pT} - v_{mercury}|
 $$
+
+Initial parking orbit:
+
+$$
+r_p = R_{earth} + h_P
+$$
+
+$$
+a(1 - e) = r_p \implies a = \frac{r_p}{1 - e}
+$$
+
+$$
+v_p = \sqrt{\mu_{earth} \left( \frac{2}{r_p} - \frac{1}{a} \right)}
+$$
+
+Mercury capture orbit:
+
+$$
+r_p' = R_{mercury} + h_P'
+$$
+
+$$
+a' = \frac{r_p'}{1 - e'}
+$$
+
+$$
+v_p' = \sqrt{\mu_{mercury} \left( \frac{2}{r_p'} - \frac{1}{a'} \right)}
+$$
+
+Boost from Earth:
+
+$$
+v_H = \sqrt{v_{\infty, earth}^2 + 2 \frac{\mu_{earth}}{r_p}}
+$$
+
+$$
+\Delta v = v_H - v_p
+$$
+
+$$
+\beta = \arccos \frac{v_p}{v_H}
+$$
+
+Mercury hyperbolic:
+
+$$
+v_H' = \sqrt{v_{\infty, mercury}^2 + 2 \frac{\mu_{mercury}}{r_p'}}
+$$
+
+$$
+\Delta v' = v_H' - v_p'
+$$
