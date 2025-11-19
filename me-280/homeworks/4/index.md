@@ -53,7 +53,7 @@ Now it's time to try different positions. Since we live in a relative universe, 
 
 ![](https://i.imgur.com/dVjQUq3m.png)
 
-The corresponding bag can be found in the `rosbag2_2025_11_16-22_17_19` folder within `bags.zip`, `Section_1.bag.zip` as requested explicitly by the question in the Canvas submission, or (https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_16-22_17_19/).
+The corresponding bag can be found in the `rosbag2_2025_11_16-22_17_19` folder within `bags.zip`, `Section_1.bag.zip` as requested explicitly by the question in the Canvas submission, or on [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_16-22_17_19/).
 
 Here's what I observed changing the values of `K` did:
 
@@ -275,3 +275,27 @@ This is the limit of what I have been able to make the bot converge with. Any ot
 | 9.70  | 2.0,2.0 | 0.3      | 2.0      | 0.125    | 0.25    | 1.0     | 3.0     |
 
 Here's the same thing, but in Google Sheets with the best row highlighted: https://docs.google.com/spreadsheets/d/1MblvIsPUXqbpznzQ592WdRYqOzhaqPRqr91uXXEJd0k/edit?usp=sharing
+
+Here's the full `params.yaml` file:
+
+```yaml
+turtlebot3_controller:
+  ros__parameters:
+    kp_dist_parm: 0.6
+    ki_dist_parm: 2.0
+    kd_dist_parm: 0.125
+
+    kp_ang_parm: 0.25
+    ki_ang_parm: 1.5
+    kd_ang_parm: 11.0
+
+    eps_dist_tol: 0.1
+    eps_ang_tol: 0.05
+
+goto_pose_client:
+  ros__parameters:
+    x_goal_value: 2.0
+    y_goal_value: 2.0
+```
+
+You can find the corresponding bag for the best run under the `rosbag2_2025_11_19-20_02_06` folder in `bags.zip` submitted to Canvas or on [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_19-20_02_06/).
