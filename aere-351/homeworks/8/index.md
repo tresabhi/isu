@@ -388,3 +388,41 @@ The output:
 v_infinity = 1.7986079741242769 kilometer / second
 delta_v = 3.3703395487144547 kilometer / second
 ```
+
+## 4.
+
+Once again, I will be using Python. The semi-major axis for the transfer orbit:
+
+$$
+a_T = \frac{R_{earth} + R_{mercury}}{2}
+$$
+
+Velocities of the transfer orbit:
+
+$$
+v_{pT} = \sqrt{\mu_{sun} \left( \frac{2}{R_{mercury}} - \frac{1}{a_T} \right)}
+$$
+
+$$
+v_{aT} = \sqrt{\mu_{sun} \left( \frac{2}{R_{earth}} - \frac{1}{a_T} \right)}
+$$
+
+Velocities of the planets:
+
+$$
+v_{earth} = \sqrt{\frac{\mu_{sun}}{R_{earth}}}
+$$
+
+$$
+v_{mercury} = \sqrt{\frac{\mu_{sun}}{R_{mercury}}}
+$$
+
+Residues:
+
+$$
+v_{\infty, earth} = |v_{aT} - v_{earth}|
+$$
+
+$$
+v_{\infty, mercury} = |v_{pT} - v_{mercury}|
+$$
