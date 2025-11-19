@@ -298,4 +298,14 @@ goto_pose_client:
     y_goal_value: 2.0
 ```
 
-You can find the corresponding bag for the best run under the `rosbag2_2025_11_19-20_02_06` folder in `bags.zip` submitted to Canvas or on [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_19-20_02_06/).
+### Deliverables
+
+You can find the corresponding bag for the best run under the `rosbag2_2025_11_19-20_02_06` folder in `bags.zip` submitted to Canvas, directly in `Section_2.bag.zip` or on [GitHub](https://github.com/tresabhi/isu/tree/main/me-280/homeworks/4/bags/rosbag2_2025_11_19-20_02_06/).
+
+Rebuilding the environment using `colcon build --symlink-install` changes nothing. Sure, the convergence time is off by less than 0.2s but that's to be expected as that seems to happen between runs anyway.
+
+For the dist parameters, $K_p = 0.6$, $K_i = 2.0$, and $K_d = 0.125$. For the ang parameters, $K_p = 0.25$, $K_i = 1.5$, and $K_d = 11.0$.
+
+Increasing $K_p$ made the bot more aggressive at the beginning since it was the furthest away at that point than it would've been when it got closer. But if this is too low, you end up with the bot barely creeping forwards near the end as it slowed time the closer it got. And increase it too much, you start getting oscillations which is an indicator of you needing to back up a little.
+
+The introduction of $K_i$ gives the bot some memory, or as I like it call it, wisdom. In other words, it reduces persistent errors that may accumulate. But this must be used sparingly as if this is too high, you get oscillations again. $K_d$ simply dampens the oscillations at the expense of amplifying noise if too high.
