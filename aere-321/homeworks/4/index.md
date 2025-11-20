@@ -25,11 +25,11 @@ $$
 Inertia about the $y$ axis:
 
 $$
-I_y = wl^3 + lw^3
+I_y = \frac{1}{12} wl^3 + \frac{1}{12} lw^3
 $$
 
 $$
-I_y = 50mm * (200mm)^3 + 200mm * (50mm)^3 = 4.25*10^{-4}m^4
+I_y = \frac{1}{12} 50mm * (200mm)^3 + \frac{1}{12} 200mm * (50mm)^3 = 3.542×10^{-5} m^4
 $$
 
 The problem is ambiguous on where the origin is, so I will place a temporary origin at the bottom of the stem:
@@ -57,15 +57,11 @@ This gives me the position of the origin in relation to the edge of the stem:
 This allows me to get the inertia about the $z$ axis:
 
 $$
-I_z = wl^3 + wl * (l/2 - \bar{v})^2 + lw^3 + lw * (l - \bar{v} + w/2)^2
+I_z = \frac{1}{12}wl^3 + wl * (l/2 - \bar{v})^2 + \frac{1}{12}lw^3 + lw * (l - \bar{v} + w/2)^2
 $$
 
 $$
-I_z = 50mm * (200mm)^3 + 50mm * 200mm * (200mm / 2 - 162.5mm)^2 + 200mm * (50mm)^3 + 200mm * 50mm * (200mm - 162.5mm + 25mm / 2)^2
-$$
-
-$$
-I_z = 4.891*10^8mm^4
+I_z = 1.135^8 mm^4
 $$
 
 And the product of inertia:
@@ -108,7 +104,8 @@ Smells like a job for a computer for which I came up with a fairly trivial Pytho
 
 ```python
 import pint
-from math import sin, cos
+from math import sin, cos, atan2
+import numpy as np
 
 ur = pint.UnitRegistry()
 
@@ -118,6 +115,7 @@ kN = 1000 * N
 deg = ur.deg
 mm = ur.mm
 MPa = ur.MPa
+Pa = ur.Pa
 
 l = 200 * mm
 w = 50 * mm
@@ -129,13 +127,15 @@ M_y = M * sin(theta)
 M_z = M * cos(theta)
 
 v_bar = (l / 2 + l + w / 2) / 2
-I_y = w * l**3 + l * w**3
+I_y = (1 / 12) * w * l**3 + (1 / 12) * l * w**3
 I_z = (
-    w * l**3
+    (1 / 12) * w * l**3
     + w * l * (l / 2 - v_bar) ** 2
-    + l * w**3
+    + (1 / 12) * l * w**3
     + l * w * (l - v_bar + w / 2) ** 2
 )
+
+print(I_z)
 
 
 def sigma_x(z, y):
@@ -164,26 +164,24 @@ print(f"sigma_x_H = {sigma_x_H}")
 This results in the following output:
 
 ```
-sigma_x_A = 0.2336283230085337 megapascal
-sigma_x_B = -0.5814544099650556 megapascal
-sigma_x_C = 0.33300720499611136 megapascal
-sigma_x_D = -0.4820755279774779 megapascal
-sigma_x_E = 0.02735118013101541 megapascal
-sigma_x_F = -0.17641950311238191 megapascal
-sigma_x_G = 0.42486670808132604 megapascal
-sigma_x_H = 0.22109602483792873 megapascal
-
-Maximum magnitude of sigma_x = 0.5814544099650556 megapascal
+sigma_x_A = 4.119854196006673 megapascal
+sigma_x_B = -5.661138599676398 megapascal
+sigma_x_C = 4.5602211684837375 megapascal
+sigma_x_D = -5.220771627199333 megapascal
+sigma_x_E = 0.8923488701025857 megapascal
+sigma_x_F = -1.552899328818182 megapascal
+sigma_x_G = 2.6538167600108427 megapascal
+sigma_x_H = 0.20856856109007532 megapascal
 ```
 
-This, the maximum compressive stress occurs at point B with $\sigma_{xB} = -0.5815MPa$ and the maximum tensile stress occurs at point G with $\sigma_{xG} = 0.4249MPa$.
+This, the maximum compressive stress occurs at point B with $\sigma_{xB} = -5.661MPa$ and the maximum tensile stress occurs at point G with $\sigma_{xC} = 4.560MPa$.
 
 ## 2.
 
 From the last question, I know what the maximum tensile stress happens at point G and vice versa at point B. Thus, I can set the equations equal to each other:
 
 $$
-\sigma_{max} = \sigma_{xG} = 4MPa
+\sigma_{max} = \sigma_{xC} = 4MPa
 $$
 
 $$
@@ -197,7 +195,7 @@ $$
 $$
 
 $$
-\sigma_{xG} = \frac{M_y}{I_y} (w / 2) - \frac{M_z}{I_z} (-\bar{v})
+\sigma_{xC} = \frac{M_y}{I_y} (l / 2) - \frac{M_z}{I_z} (l - \bar{v})
 $$
 
 Of course $M_y$ and $M_z$ are functions of $M$ and $\theta$, where $\theta = 60\degree$:
@@ -207,7 +205,7 @@ $$
 $$
 
 $$
-\sigma_{xG} = \frac{M \sin \theta}{I_y} (w / 2) - \frac{M \cos \theta}{I_z} (-\bar{v})
+\sigma_{xG} = \frac{M \sin \theta}{I_y} (l / 2) - \frac{M \cos \theta}{I_z} (l - \bar{v})
 $$
 
 That's 2 equations and 1 known. But that's nothing to worry, I will simply get 2 solutions, and I pick the lower one. Solving for $M$ from each is easy:
@@ -217,35 +215,79 @@ $$
 $$
 
 $$
-\sigma_{xG} = M \left( \frac{\sin \theta}{I_y} (w / 2) - \frac{\cos \theta}{I_z} (-\bar{v}) \right)
+\sigma_{xG} = M \left( \frac{\sin \theta}{I_y} (l / 2) - \frac{\cos \theta}{I_z} (l - \bar{v}) \right)
 $$
 
 Finally:
 
 $$
-M = \frac{\sigma_{xB}}{\frac{\sin \theta}{I_y} (-l / 2) - \frac{\cos \theta}{I_z} (w + l - \bar{v})}
+M_B = \frac{\sigma_{xB}}{\frac{\sin \theta}{I_y} (-l / 2) - \frac{\cos \theta}{I_z} (w + l - \bar{v})}
 $$
 
 $$
-M = \frac{\sigma_{xG}}{\frac{\sin \theta}{I_y} (w / 2) - \frac{\cos \theta}{I_z} (-\bar{v})}
+M_G = \frac{\sigma_{xG}}{\frac{\sin \theta}{I_y} (l / 2) - \frac{\cos \theta}{I_z} (l - \bar{v})}
 $$
 
-M from B:
+The code form question can be modified for this problem:
+
+```py
+import pint
+from math import sin, cos, atan2
+import numpy as np
+
+ur = pint.UnitRegistry()
+
+N = ur.N
+m = ur.m
+kN = ur.kN
+deg = ur.deg
+mm = ur.mm
+MPa = ur.MPa
+Pa = ur.Pa
+
+l = 200 * mm
+w = 50 * mm
+
+M = 2 * kN * m
+theta = 60 * deg
+
+M_y = M * sin(theta)
+M_z = M * cos(theta)
+
+v_bar = (l / 2 + l + w / 2) / 2
+I_y = (1 / 12) * w * l**3 + (1 / 12) * l * w**3
+I_z = (
+    (1 / 12) * w * l**3
+    + w * l * (l / 2 - v_bar) ** 2
+    + (1 / 12) * l * w**3
+    + l * w * (l - v_bar + w / 2) ** 2
+)
+
+
+sigma_x_B = -6 * MPa
+sigma_x_G = 4 * MPa
+
+M_B = sigma_x_B / ((sin(theta) / I_y) * (-l / 2) - (cos(theta) / I_z) * (w + l - v_bar))
+M_C = sigma_x_G / ((sin(theta) / I_y) * (l / 2) - (cos(theta) / I_z) * (l - v_bar))
+
+M_B = M_B.to(kN * m)
+M_C = M_C.to(kN * m)
+
+print(f"M_B = {M_B}")
+print(f"M_C = {M_C}")
+```
+
+The output:
+
+```
+M_B = 2.1197149281393575 kilonewton * meter
+M_C = 1.7543008780558729 kilonewton * meter
+```
+
+Of course, I go with the lower:
 
 $$
-M = \frac{-6MPa}{\frac{\sin 60\degree}{4.25*10^{-4}m^4} (-200mm / 2) - \frac{\cos 60\degree}{4.891*10^8mm^4} (50mm + 200mm - 162.5 mm)} = 20.46 kN m
-$$
-
-M from G:
-
-$$
-M = \frac{4MPa}{\frac{\sin 50\degree}{4.25*10^{-4}m^4} (50mm / 2) - \frac{\cos 60\degree}{4.891*10^8mm^4} (- 162.5 mm)} = 18.94 kN m
-$$
-
-Thus, the maximum moment is:
-
-$$
-\boxed{M_{max} = 18.94 kN * m}
+\boxed{M = 1.754~kN~m}
 $$
 
 ## 3.

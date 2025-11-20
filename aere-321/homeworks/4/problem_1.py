@@ -22,13 +22,15 @@ M_y = M * sin(theta)
 M_z = M * cos(theta)
 
 v_bar = (l / 2 + l + w / 2) / 2
-I_y = w * l**3 + l * w**3
+I_y = (1 / 12) * w * l**3 + (1 / 12) * l * w**3
 I_z = (
-    w * l**3
+    (1 / 12) * w * l**3
     + w * l * (l / 2 - v_bar) ** 2
-    + l * w**3
+    + (1 / 12) * l * w**3
     + l * w * (l - v_bar + w / 2) ** 2
 )
+
+print(I_z)
 
 
 def sigma_x(z, y):
