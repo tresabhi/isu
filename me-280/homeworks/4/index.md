@@ -408,3 +408,10 @@ After much experimentation, this is the implementation I came up with. The numbe
 ```
 
 The produced bag files are in the order of Gigabytes for `turtlebot3_world` and `turtlebot3_house`. Thus, they will be available only on Canvas as `turtlebot3_house.bag.zip` and `turtlebot3_world.bag.zip`.
+
+Furthermore, I modified `turtlebot3_house.launch.py` in the `turtlebot3_simulations` submodule to spawn the robot inside for the purposes of the second simulation under `turtlebot3_world`:
+
+```py
+x_pose = LaunchConfiguration("x_pose", default="-2.0")
+y_pose = LaunchConfiguration("y_pose", default="3")
+```
