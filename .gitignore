@@ -1,5 +1,6 @@
 __pycache__/
 *.html
+*.pdf
 test.*
 *.zip
 me-280/perception/dataset/*/images/*.jpg
