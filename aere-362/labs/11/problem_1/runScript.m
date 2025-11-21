@@ -9,7 +9,7 @@ for i = 1:10
 end
 
 disp("gamma =")
-disp(gamma);
+disp(gamma)
 
 disp("d =")
-disp(d);
+disp(d)
