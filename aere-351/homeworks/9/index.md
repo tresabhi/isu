@@ -134,11 +134,7 @@ $$
 \Omega' = \Omega = \boxed{178\deg}
 $$
 
-Except for the argument of periapsis since $v_r \neq 0$:
-
-asdasd
-
-True anomaly:
+Except for the argument of periapsis since $v_r \neq 0$. And because we're in the right plane, this can be treated as a simple omega problem without any concern of inclination and RAAN:
 
 $$
 v_\theta = \sqrt{\frac{\mu}{p'}} (1 + e' \cos \theta') = \frac{\mu}{h'} (1 + e' \cos \theta')
@@ -153,7 +149,21 @@ $$
 $$
 
 $$
-\theta' = \arccos \left( \frac{54350 km^2/s * 8.2km/s}{3.98600 * 10^5 km^3/s^2 * 0.244} - \frac{1}{0.244} \right) = \boxed{61.06\deg}
+\theta' = \arccos \left( \frac{54350 km^2/s * 8.2km/s}{3.98600 * 10^5 km^3/s^2 * 0.244} - \frac{1}{0.244} \right) = 61.06\deg
+$$
+
+But this is the faux $\theta$ since it's omega that's offset, not the current $\theta$:
+
+![](https://i.imgur.com/fMu5JaA.png)
+
+$$
+\omega' = 360\deg + (\omega - \theta') = 360\deg + (25\deg - 61.06\deg) = \boxed{323.94\deg}
+$$
+
+The next question asks about the true anomaly again, which I already have:
+
+$$
+\theta' = \boxed{61.06\deg}
 $$
 
 Since we're already at the pericenter, we must waste no time and boost immediately. The intended velocities are:
