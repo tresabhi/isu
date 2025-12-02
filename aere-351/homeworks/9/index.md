@@ -269,3 +269,51 @@ $$
 $$
 e = 1 - \frac{r_p}{a} = 1 - \frac{1.4985×10^8 km}{1.99×10^8 km} = \boxed{0.247}
 $$
+
+## 2.
+
+Given:
+
+$$
+v_\infty = 6km/s
+$$
+
+$$
+\phi_1 = 65\deg
+$$
+
+$$
+\Delta = 20000km
+$$
+
+$$
+r_E = 149.6*10^6km
+$$
+
+$$
+R_E = 6378km
+$$
+
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
+Recovering $a$:
+
+$$
+v_\infty = \sqrt{\frac{\mu}{-a}}
+$$
+
+$$
+v_\infty^2 = \frac{\mu}{-a}
+$$
+
+$$
+a = -\frac{\mu}{v_\infty^2} = -\frac{3.98600 * 10^5 km^3/s^2}{(6km/s)^2} = -11072.2 km
+$$
+
+For it to miss Earth:
+
+$$
+r_p > R_E
+$$
