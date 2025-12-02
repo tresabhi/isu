@@ -312,8 +312,32 @@ $$
 a = -\frac{\mu}{v_\infty^2} = -\frac{3.98600 * 10^5 km^3/s^2}{(6km/s)^2} = -11072.2 km
 $$
 
+Recovering $e$:
+
+$$
+\Delta = \frac{\mu}{v_\infty^2} \sqrt{e^2 - 1} = -a \sqrt{e^2 - 1}
+$$
+
+$$
+-\frac{\Delta}{a} = \sqrt{e^2 - 1}
+$$
+
+$$
+\frac{\Delta^2}{a^2} = e^2 - 1
+$$
+
+$$
+e = \sqrt{\frac{\Delta^2}{a^2} + 1} = \sqrt{\frac{(20000km)^2}{(-11072.2 km)^2} + 1} = 2.0647
+$$
+
 For it to miss Earth:
 
 $$
 r_p > R_E
+$$
+
+But, will it?
+
+$$
+r_p = a (1 - e) = -11072.2 km * (1 - 2.0647) = \boxed{11789 km > 6378km \implies \text{Earth safe}}
 $$
