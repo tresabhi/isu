@@ -136,67 +136,7 @@ $$
 
 Except for the argument of periapsis since $v_r \neq 0$:
 
-$$
-\vec{v}' = \begin{bmatrix}
-  v_r \\
-  v_\theta
-\end{bmatrix} = \begin{bmatrix}
-  1.6 \\
-  8.2
-\end{bmatrix} km/s
-$$
-
-$$
-\vec{v}' \times \vec{h}' = \begin{bmatrix}
-  v_\theta h' \\
-  -v_r h'
-\end{bmatrix} = \begin{bmatrix}
-  8.2 km/s * 54350 km^2/s \\
-  -1.6 km/s * 54350 km^2/s
-\end{bmatrix} = \begin{bmatrix}
-  445670 \\
-  -86960
-\end{bmatrix} km^3/s^2
-$$
-
-$$
-\frac{\vec{v}' \times \vec{h}'}{\mu} = \frac{1}{3.98600 * 10^5 km^3/s^2} \begin{bmatrix}
-  445670 \\
-  -86960
-\end{bmatrix} km^3/s^2 = \begin{bmatrix}
-  1.11809 \\
-  -0.218164
-\end{bmatrix}
-$$
-
-And because we're at the pericenter if $\omega$ was $0$:
-
-$$
-\frac{\vec{r}'}{r'} = \begin{bmatrix}
-  1 \\
-  0 \\
-  0
-\end{bmatrix}
-$$
-
-$$
-\vec{e}' = \frac{\vec{v}' \times \vec{h}'}{\mu} - \frac{\vec{r}'}{r'} = \begin{bmatrix}
-  1.11809 \\
-  -0.218164
-\end{bmatrix} - \begin{bmatrix}
-  1 \\
-  0
-\end{bmatrix} = \begin{bmatrix}
-  0.11809 \\
-  -0.218164
-\end{bmatrix}
-$$
-
-Thus, the new argument of periapsis is:
-
-$$
-\omega' = \arctan \frac{-0.218164}{0.11809} = -61.57\deg = \boxed{298.43\deg}
-$$
+asdasd
 
 True anomaly:
 
