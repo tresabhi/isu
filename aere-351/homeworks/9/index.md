@@ -243,3 +243,29 @@ $$
 $$
 a = \frac{1}{\frac{2}{1.4985×10^8 km} - \frac{(33.23 km/s)^2}{1.3271244 * 10^{11} km^3/s^2}} = \boxed{1.99×10^8 km}
 $$
+
+And since this new orbit is coplanar with the Earth's orbit:
+
+$$
+i = i_E = \boxed{0.88 * 10^{-3} \deg}
+$$
+
+$$
+\Omega = \Omega_E = \boxed{175.4 \deg}
+$$
+
+But since the apogee of Earth's orbit serves as the satellite's perigee:
+
+$$
+\omega = \omega_E - 180\deg = 287.6 \deg - 180\deg = \boxed{107.6\deg}
+$$
+
+Oh and, let's not forget:
+
+$$
+r_p = a (1 - e)
+$$
+
+$$
+e = 1 - \frac{r_p}{a} = 1 - \frac{1.4985×10^8 km}{1.99×10^8 km} = \boxed{0.247}
+$$
