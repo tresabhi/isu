@@ -341,3 +341,19 @@ But, will it?
 $$
 r_p = a (1 - e) = -11072.2 km * (1 - 2.0647) = \boxed{11789 km > 6378km \implies \text{Earth safe}}
 $$
+
+Now the leaving angle:
+
+$$
+\cos \beta = \frac{1}{e}
+$$
+
+$$
+\beta = \arccos \frac{1}{e} = \arccos \frac{1}{2.0647} = 1.0652rad
+$$
+
+But the angle turned is actually:
+
+$$
+\delta = 2\beta = 2 * 1.0652rad = \boxed{2.13rad}
+$$
