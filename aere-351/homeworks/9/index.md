@@ -357,3 +357,31 @@ But the angle turned is actually:
 $$
 \delta = 2\beta = 2 * 1.0652rad = \boxed{2.13rad}
 $$
+
+This is what the above looks like:
+
+![](https://i.imgur.com/eCRhgL8.png)
+
+This is a triangle:
+
+![](https://i.imgur.com/v0pojzr.png)
+
+$$
+\alpha = \pi - \delta = \pi - 2.13rad = 1.012rad
+$$
+
+Generalized Pythagorean theorem:
+
+$$
+\Delta v^2 = v_\infty^2 + v_\infty^2 - 2 v_\infty v_\infty \cos \alpha = 2 v_\infty^2 - 2 v_\infty^2 \cos \alpha = 2 v_\infty^2 (1 - \cos \alpha)
+$$
+
+$$
+\Delta v = v_\infty \sqrt{2 (1 - \cos \alpha)} = 6km/s * \sqrt{2 (1 - \cos 1.012rad)} = \boxed{5.8162 km/s}
+$$
+
+The new angle:
+
+$$
+\phi_2 = \phi_1 + \delta = 65\deg + 2.13rad = \boxed{187\deg}
+$$
