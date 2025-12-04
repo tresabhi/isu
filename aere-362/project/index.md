@@ -64,3 +64,11 @@ And the plots:
 ![](https://i.imgur.com/Fi1VC2y.png)
 
 ![](https://i.imgur.com/NVVvlfa.png)
+
+### CFD Meshes
+
+It is unclear what mesh the project wants exactly, so I will be displaying both the external mesh surface with edges and the border surface without edges.
+
+![](https://i.imgur.com/3tVnRt5.png)
+
+![](https://i.imgur.com/Bc7qU21.png)
