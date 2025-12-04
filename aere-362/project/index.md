@@ -14,3 +14,5 @@ I have been assigned the following criteria for this project.
 - Mach number: `0.04`
 - Reynolds number: `3000000`
 - Target lift coefficient: `0.3`
+
+### Analysis at $\alpha = 1\degree, 2\degree, 3\degree$
