@@ -7,8 +7,8 @@ from pyspline import *
 
 
 prefix = './profiles/'
-airfoilProfilePS = prefix + 'paraview.foam'
-airfoilProfileSS = prefix + 'paraview.foam'
+airfoilProfilePS = prefix + 'NACA0012_lower.txt'
+airfoilProfileSS = prefix + 'NACA0012_upper.txt'
 ZSpan = 0.1
 nSpan = 2
 dX1PS = 0.005
