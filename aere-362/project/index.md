@@ -26,3 +26,41 @@ pvOptAirfoil post processing of all three angles of attack:
 ![](https://i.imgur.com/zHL8d4R.png)
 
 ![](https://i.imgur.com/6tIWheM.png)
+
+### $C_L$ and $C_D$ as Functions of $\alpha$
+
+This is going to be a very low resolution figure since there are only 3 points of data. The data tabulated:
+
+| $\alpha$ (deg) | $C_L$      | $C_D$      |
+| -------------- | ---------- | ---------- |
+| 1              | 0.10339017 | 0.01247696 |
+| 2              | 0.20600859 | 0.01308758 |
+| 3              | 0.30687305 | 0.01411271 |
+
+The code to plot the data above:
+
+```m
+alpha = [1, 2, 3];
+CL = [0.10339017, 0.20600859, 0.30687305];
+CD = [0.01247696, 0.01308758, 0.01411271];
+
+figure;
+plot(alpha, CL, 'o-');
+xlabel('\alpha (deg)');
+ylabel('C_L');
+title('Lift Coefficient vs Angle of Attack');
+grid on;
+
+figure;
+plot(alpha, CD, 'o-');
+xlabel('\alpha (deg)');
+ylabel('C_D');
+title('Drag Coefficient vs Angle of Attack');
+grid on;
+```
+
+And the plots:
+
+![](https://i.imgur.com/Fi1VC2y.png)
+
+![](https://i.imgur.com/NVVvlfa.png)
