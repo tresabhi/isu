@@ -78,3 +78,9 @@ It is unclear what mesh the project wants exactly, so I will be displaying both 
 The pressure profile for the $\alpha = 3\degree$ case is shown below:
 
 ![](https://i.imgur.com/d15lmxf.png)
+
+## Task 2. Airfoil Aerodynamic Optimization
+
+### Memo
+
+Unlike what we have primarily discussed in class so far (reducing drag), the optimization problem for this project is attainting a desired lift coefficient. More specifically, I need to let the NACA 0012 airfoil evolve to achieve a $C_L \geq 0.3$, also known as the object function at a low level. The design variables compose the mesh of the airfoil. It is implicit that one of the greatest constraints is the equality of the airfoil across the span of the wing. I say this is implicit since we're not optimizing all slices of the wing in one go, just one airfoil, mutating the entire wing together. All of this is subject to the scenario of Mach 0.04 and Reynolds number of 3000000.
