@@ -1,0 +1,1850 @@
+Generating mesh..
+Generating mesh.. Done!
+export TMOUT=5400
+export TMPDIR=/tmp
+export PTMPDIR=
+export APPTAINER_BINDPATH=/work:/work,/lustre:/lustre,/scratch:/scratch,/ptmp:/ptmp,/etc/hosts:/etc/hosts
+export APPTAINER_TMPDIR=/tmp
+export APPTAINER_CACHEDIR=/tmp
+export XDG_RUNTIME_DIR=/tmp
+ 
+-------------------------------------------------------------------------------
+|                               DAFoam v2.2.9                                 |
+-------------------------------------------------------------------------------
+ 
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1812 OPENFOAM=1812
+Arch   : "LSB;label=32;scalar=64"
+Exec   : decomposePar
+Date   : Dec 04 2025
+Time   : 15:47:10
+Host   : nova22-25
+PID    : 1330251
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+
+Decomposing mesh region0
+
+Create mesh
+
+Calculating distribution of cells
+Selecting decompositionMethod scotch [16]
+
+Finished decomposition in 0.01 s
+
+Calculating original mesh data
+
+Distributing cells to processors
+
+Distributing faces to processors
+
+Distributing points to processors
+
+Constructing processor meshes
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 0
+    Number of cells = 244
+    Number of faces shared with processor 1 = 16
+    Number of faces shared with processor 3 = 15
+    Number of faces shared with processor 6 = 16
+    Number of processor patches = 3
+    Number of processor faces = 47
+    Number of boundary faces = 505
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 1
+    Number of cells = 244
+    Number of faces shared with processor 0 = 16
+    Number of faces shared with processor 2 = 15
+    Number of faces shared with processor 3 = 2
+    Number of faces shared with processor 6 = 16
+    Number of processor patches = 4
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 2
+    Number of cells = 244
+    Number of faces shared with processor 1 = 15
+    Number of faces shared with processor 3 = 17
+    Number of faces shared with processor 11 = 16
+    Number of processor patches = 3
+    Number of processor faces = 48
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 3
+    Number of cells = 244
+    Number of faces shared with processor 0 = 15
+    Number of faces shared with processor 1 = 2
+    Number of faces shared with processor 2 = 17
+    Number of faces shared with processor 10 = 15
+    Number of processor patches = 4
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 4
+    Number of cells = 244
+    Number of faces shared with processor 5 = 17
+    Number of faces shared with processor 7 = 15
+    Number of faces shared with processor 12 = 1
+    Number of faces shared with processor 13 = 15
+    Number of processor patches = 4
+    Number of processor faces = 48
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 5
+    Number of cells = 244
+    Number of faces shared with processor 4 = 17
+    Number of faces shared with processor 7 = 17
+    Number of faces shared with processor 12 = 15
+    Number of processor patches = 3
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 6
+    Number of cells = 244
+    Number of faces shared with processor 0 = 16
+    Number of faces shared with processor 1 = 16
+    Number of faces shared with processor 7 = 32
+    Number of processor patches = 3
+    Number of processor faces = 64
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 7
+    Number of cells = 245
+    Number of faces shared with processor 4 = 15
+    Number of faces shared with processor 5 = 17
+    Number of faces shared with processor 6 = 32
+    Number of processor patches = 3
+    Number of processor faces = 64
+    Number of boundary faces = 506
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 8
+    Number of cells = 244
+    Number of faces shared with processor 9 = 16
+    Number of faces shared with processor 10 = 16
+    Number of faces shared with processor 11 = 1
+    Number of faces shared with processor 15 = 16
+    Number of processor patches = 4
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 9
+    Number of cells = 244
+    Number of faces shared with processor 8 = 16
+    Number of faces shared with processor 11 = 15
+    Number of faces shared with processor 14 = 15
+    Number of faces shared with processor 15 = 1
+    Number of processor patches = 4
+    Number of processor faces = 47
+    Number of boundary faces = 505
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 10
+    Number of cells = 244
+    Number of faces shared with processor 3 = 15
+    Number of faces shared with processor 8 = 16
+    Number of faces shared with processor 11 = 17
+    Number of processor patches = 3
+    Number of processor faces = 48
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 11
+    Number of cells = 244
+    Number of faces shared with processor 2 = 16
+    Number of faces shared with processor 8 = 1
+    Number of faces shared with processor 9 = 15
+    Number of faces shared with processor 10 = 17
+    Number of processor patches = 4
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 12
+    Number of cells = 244
+    Number of faces shared with processor 4 = 1
+    Number of faces shared with processor 5 = 15
+    Number of faces shared with processor 13 = 17
+    Number of faces shared with processor 14 = 16
+    Number of processor patches = 4
+    Number of processor faces = 49
+    Number of boundary faces = 503
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 13
+    Number of cells = 244
+    Number of faces shared with processor 4 = 15
+    Number of faces shared with processor 12 = 17
+    Number of faces shared with processor 14 = 1
+    Number of faces shared with processor 15 = 15
+    Number of processor patches = 4
+    Number of processor faces = 48
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 14
+    Number of cells = 244
+    Number of faces shared with processor 9 = 15
+    Number of faces shared with processor 12 = 16
+    Number of faces shared with processor 13 = 1
+    Number of faces shared with processor 15 = 16
+    Number of processor patches = 4
+    Number of processor faces = 48
+    Number of boundary faces = 504
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 15
+    Number of cells = 245
+    Number of faces shared with processor 8 = 16
+    Number of faces shared with processor 9 = 1
+    Number of faces shared with processor 13 = 15
+    Number of faces shared with processor 14 = 16
+    Number of processor patches = 4
+    Number of processor faces = 48
+    Number of boundary faces = 506
+
+Number of processor faces = 402
+Max number of cells = 245 (0.35842294% above average 244.125)
+Max number of processor patches = 4 (10.344828% above average 3.625)
+Max number of faces between processors = 64 (27.363184% above average 50.25)
+
+Time = 0
+
+Processor 0: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 1: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 2: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 3: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 4: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 5: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 6: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 7: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 8: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 9: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 10: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 11: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 12: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 13: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 14: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 15: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+End
+
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 16
+Hosts  :
+(
+    (nova22-25 16)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Create mesh for time = 0
+Initializing mesh and runtime for DASolver
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 16
+Hosts  :
+(
+    (nova22-25 16)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Create mesh for time = 0
+Initializing mesh and runtime for DASolver
+Initializing fields for DASimpleFoam
+Create simpleControl.
+
+SIMPLE: no convergence criteria found. Calculations will run for 2000 steps.
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Creating source term. 
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model SpalartAllmaras
+Selecting patchDistMethod meshWave
+No MRF models present
+
+Adjoint States: 
+4
+(
+U volVectorState
+nuTilda modelState
+phi surfaceScalarState
+p volScalarState
+)
+Global Cells: 3906
+Global Faces: 16152
+Global Xv: 26700
+Undecomposed points: 8064
+Global Adjoint States: 35682
+
+SIMPLE: no convergence criteria found. Calculations will run for 2000 steps.
+
+No MRF models present
+
+DACheckMesh Thresholds: 
+maxNonOrth: 70
+maxSkewness: 4
+maxAspectRatio: 100000
+maxIncorrectlyOrientedFaces: 0
+    Adding all faces of patches 1(wing) ...
+    Found matching patch wing with 0 faces.
+    Adding all faces of patches 1(wing) ...
+    Found matching patch wing with 0 faces.
+Initializing fields for DASimpleFoam
+Create simpleControl.
+
+SIMPLE: no convergence criteria found. Calculations will run for 2000 steps.
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Creating source term. 
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model SpalartAllmaras
+Selecting patchDistMethod meshWave
+No MRF models present
+
+Adjoint States: 
+4
+(
+U volVectorState
+nuTilda modelState
+phi surfaceScalarState
+p volScalarState
+)
+Global Cells: 3906
+Global Faces: 16152
+Global Xv: 26700
+Undecomposed points: 8064
+Global Adjoint States: 35682
+
+SIMPLE: no convergence criteria found. Calculations will run for 2000 steps.
+
+No MRF models present
+
+DACheckMesh Thresholds: 
+maxNonOrth: 70
+maxSkewness: 4
+maxAspectRatio: 100000
+maxIncorrectlyOrientedFaces: 0
+    Adding all faces of patches 1(wing) ...
+    Found matching patch wing with 0 faces.
+    Adding all faces of patches 1(wing) ...
+    Found matching patch wing with 0 faces.
+DAFoam option dictionary: 
+{
+    solverName      DASimpleFoam;
+    primalMinResTol 1e-08;
+    primalBC
+    {
+        U0
+        {
+            variable        U;
+            patches         1 ( inout );
+            value           3 ( 13.72 0 0 );
+        }
+        p0
+        {
+            variable        p;
+            patches         1 ( inout );
+            value           1 ( 0 );
+        }
+        T0
+        {
+            variable        T;
+            patches         1 ( inout );
+            value           1 ( 273.15 );
+        }
+        nuTilda0
+        {
+            variable        nuTilda;
+            patches         1 ( inout );
+            value           1 ( 5e-05 );
+        }
+        k0
+        {
+            variable        k;
+            patches         1 ( inout );
+            value           1 ( 0.0282358 );
+        }
+        omega0
+        {
+            variable        omega;
+            patches         1 ( inout );
+            value           1 ( 564.715 );
+        }
+        epsilon0
+        {
+            variable        epsilon;
+            patches         1 ( inout );
+            value           1 ( 1.43506 );
+        }
+        useWallFunction 1;
+    }
+    normalizeStates
+    {
+        p               94.1192;
+        phi             1;
+        U               13.72;
+        T               1;
+        nuTilda         0.0005;
+        k               0.282358;
+        epsilon         1.43506;
+        omega           564.715;
+        p_rgh           1;
+        D               1;
+    }
+    objFunc
+    {
+        CD
+        {
+            part1
+            {
+                type            force;
+                source          patchToFace;
+                patches         1 ( wing );
+                directionMode   parallelToFlow;
+                alphaName       alpha;
+                scale           0.10631033;
+                addToAdjoint    1;
+            }
+        }
+        CL
+        {
+            part1
+            {
+                type            force;
+                source          patchToFace;
+                patches         1 ( wing );
+                directionMode   normalToFlow;
+                alphaName       alpha;
+                scale           0.10631033;
+                addToAdjoint    1;
+            }
+        }
+    }
+    designVar
+    {
+        shapey
+        {
+            designVarType   FFD;
+        }
+        alpha
+        {
+            designVarType   AOA;
+            patches         1 ( inout );
+            flowAxis        x;
+            normalAxis      y;
+        }
+    }
+    designSurfaces  1 ( wing );
+    fvSource
+    {
+    }
+    primalVarBounds
+    {
+        UMax            1e+16;
+        UMin            -1e+16;
+        pMax            1e+16;
+        pMin            -1e+16;
+        p_rghMax        1e+16;
+        p_rghMin        -1e+16;
+        eMax            1e+16;
+        eMin            -1e+16;
+        TMax            1e+16;
+        TMin            -1e+16;
+        hMax            1e+16;
+        hMin            -1e+16;
+        DMax            1e+16;
+        DMin            -1e+16;
+        rhoMax          1e+16;
+        rhoMin          -1e+16;
+        nuTildaMax      1e+16;
+        nuTildaMin      1e-16;
+        kMax            1e+16;
+        kMin            1e-16;
+        omegaMax        1e+16;
+        omegaMin        1e-16;
+        epsilonMax      1e+16;
+        epsilonMin      1e-16;
+        ReThetatMax     1e+16;
+        ReThetatMin     1e-16;
+        gammaIntMax     1e+16;
+        gammaIntMin     1e-16;
+    }
+    multiPoint      0;
+    nMultiPoints    1;
+    adjPartDerivFDStep
+    {
+        State           1e-06;
+        FFD             0.001;
+        BC              0.01;
+        AOA             0.001;
+        ACTP            0.01;
+        ACTD            0.01;
+        ACTL            0.01;
+    }
+    transonicPCOption -1;
+    unsteadyAdjoint
+    {
+        mode            None;
+        nTimeInstances  -1;
+        periodicity     -1;
+    }
+    objFuncAvgStart 1;
+    adjPCLag        100;
+    useAD
+    {
+        mode            reverse;
+        dvName          None;
+        seedIndex       -9999;
+    }
+    rootDir         ./;
+    runStatus       None;
+    printPYDAFOAMOptions 0;
+    printDAOptions  1;
+    debug           0;
+    writeJacobians  1 ( None );
+    printInterval   10;
+    printIntervalUnsteady 500;
+    primalMinResTolDiff 100000;
+    adjUseColoring  1;
+    adjEqnOption
+    {
+        globalPCIters   0;
+        asmOverlap      1;
+        localPCIters    1;
+        jacMatReOrdering rcm;
+        pcFillLevel     1;
+        gmresMaxIters   1000;
+        gmresRestart    1000;
+        gmresRelTol     1e-06;
+        gmresAbsTol     1e-14;
+        gmresTolDiff    100;
+        useNonZeroInitGuess 0;
+        printInfo       1;
+    }
+    normalizeResiduals 10 ( URes pRes p_rghRes nuTildaRes phiRes TRes DRes kRes omegaRes epsilonRes );
+    maxResConLv4JacPCMat
+    {
+        pRes            2;
+        phiRes          1;
+        URes            2;
+        TRes            2;
+        nuTildaRes      2;
+        kRes            2;
+        epsilonRes      2;
+        omegaRes        2;
+        p_rghRes        2;
+        DRes            2;
+    }
+    jacLowerBounds
+    {
+        dRdW            1e-30;
+        dRdWPC          1e-30;
+    }
+    maxTractionBCIters 100;
+    decomposeParDict
+    {
+        method          scotch;
+        simpleCoeffs
+        {
+            n               3 ( 2 2 1 );
+            delta           0.001;
+        }
+        preservePatches 1 ( None );
+    }
+    adjStateOrdering state;
+    meshSurfaceFamily None;
+    designSurfaceFamily designSurfaces;
+    checkMeshThreshold
+    {
+        maxAspectRatio  100000;
+        maxNonOrth      70;
+        maxSkewness     4;
+        maxIncorrectlyOrientedFaces 0;
+    }
+    writeSensMap    1 ( NONE );
+    writeDeformedFFDs 0;
+}
+
+Reading OpenFOAM mesh information...
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 16
+Hosts  :
+(
+    (nova22-25 16)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Reading the OpenFOAM mesh..
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Finalising parallel run
+I/O    : uncollated
+Checking if we need to compress the mesh files
+Checking if we need to compress the mesh files
+pyDAFoam initialization done!
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 16
+Hosts  :
+(
+    (nova22-25 16)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Reading the OpenFOAM mesh..
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Finalising parallel run
+#------------------------------#
+ Total Volume Nodes :      8900
+#------------------------------#
+I/O    : uncollated
++---------------------------------------+
+|     All IDWarp Options:               |
++---------------------------------------+
+{'LdefFact': 1.0,
+ 'aExp': 3.0,
+ 'alpha': 0.25,
+ 'bExp': 5.0,
+ 'bucketSize': 8,
+ 'cornerAngle': 30.0,
+ 'errTol': 0.0005,
+ 'evalMode': 'fast',
+ 'fileType': 'openfoam',
+ 'gridFile': '/home/abhi457/NACA0012_alpha_3',
+ 'restartFile': None,
+ 'specifiedSurfaces': None,
+ 'symmTol': 1e-06,
+ 'symmetryPlanes': [[[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
+                    [[0.0, 0.0, 0.1], [0.0, 0.0, 1.0]]],
+ 'symmetrySurfaces': None,
+ 'useRotations': True,
+ 'zeroCornerRotations': True}
+Checking if we need to compress the mesh files
+Checking if we need to compress the mesh files
+OrderedDict([('inout', [0]), ('procBoundary0to1', [1]), ('procBoundary0to3', [2]), ('procBoundary0to6', [3]), ('symmetry1', [4]), ('symmetry2', [5]), ('wing', [6]), ('allSurfaces', [0, 1, 2, 3, 4, 5, 6]), ('allWalls', [6]), ('designSurfaces', [6])])
+#--------------------------------#
+ Unique Surface Nodes :       252
+#--------------------------------#
+ Computing Denomenator Estimate...
+ Load Balancing...
+ Finished Mesh Initialization.
++-------------------- Symmetry Planes -------------------+
+|           Point                        Normal          |
+| (  0.000   0.000   0.000)    (  0.000   0.000   1.000) |
+| (  0.000   0.000   0.100)    (  0.000   0.000   1.000) |
++--------------------------------------------------------+
+
+
++--------------------------------------------------------------------------+
+|                  Evaluating Objective Functions 000                      |
++--------------------------------------------------------------------------+
+Design Variables: 
+{'alpha': array([3.+0.j]), 'shapey': array([0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j,
+       0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j,
+       0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])}
+DVGeo PointSet UpToDate: False
+Updating DVGeo PointSet....
+DVGeo PointSet UpToDate: True
+Warping the volume mesh....
+Running Primal Solver 000
+Previous solution time -1e+10 not found and nothing deleted.
+Setting up primal boundary conditions based on pyOptions: 
+Setting primal boundary conditions...
+Setting U = (13.701197 0.71804932 0) at inout
+Setting primal boundary conditions...
+Setting p = 0 at inout
+T not found, skip it.
+Setting primal boundary conditions...
+Setting nuTilda = 5e-05 at inout
+k not found, skip it.
+omega not found, skip it.
+epsilon not found, skip it.
+Setting nut wall BC for wing. BCType=nutUSpaldingWallFunction
+
+Starting time loop
+
+Checking mesh quality for time = 0
+    Overall domain bounding box (-17.644112 -19.048251 0) (18.981788 19.048251 0.1)
+    Mesh has 3 geometric (non-empty/wedge) directions 3{1}
+    Mesh has 3 solution (non-empty) directions 3{1}
+    Boundary openness (1.0706562e-19 -1.7995194e-19 3.2409209e-17) OK.
+    Max cell openness = 2.6273617e-16 OK.
+    Max aspect ratio = 86.903244 OK.
+    Minimum face area = 3.008898e-06. Maximum face area = 4.6083198.  Face area magnitudes OK.
+    Min volume = 3.008898e-07. Max volume = 0.46083198.  Total volume = 109.48448.  Cell volumes OK.
+    Mesh non-orthogonality Max: 21.264107 average: 2.3522134
+    Non-orthogonality check OK.
+    Face pyramids OK.
+    Max skewness = 1.4755328 OK.
+    Coupled point location match (average 0) OK.
+
+Mesh OK.
+
+Time = 1
+
+U Initial residual: (1 1 0.99999999)
+U   Final residual: (0.084586286 0.079718092 0.092966731)
+p Initial residual: 1
+p   Final residual: 0.066487019
+Time step continuity errors : sum local = 0.0015499034
+                                 global = 0.00039828919
+                             cumulative = 0.00039828919
+nuTilda Initial residual: 1
+          Final residual: 0.078309461
+yPlus min: 197.79248 max: 288.46799 mean: 273.82448
+CD-part1-force: 0.49875244
+CL-part1-force: -0.03044774
+ExecutionTime = 0.41 s  ClockTime = 1 s
+
+Time = 10
+
+U Initial residual: (0.073851705 0.064725652 0.20094314)
+U   Final residual: (0.0066708643 0.0045784559 0.017465894)
+p Initial residual: 0.21226937
+p   Final residual: 0.017693538
+Time step continuity errors : sum local = 0.001423555
+                                 global = -0.00018550274
+                             cumulative = 0.00021278646
+nuTilda Initial residual: 0.00095448446
+          Final residual: 9.1177512e-05
+yPlus min: 66.666153 max: 294.55683 mean: 243.92789
+CD-part1-force: 0.0022374559
+CL-part1-force: 0.029453483
+ExecutionTime = 0.44 s  ClockTime = 1 s
+
+Time = 20
+
+U Initial residual: (0.039537653 0.041642178 0.10331432)
+U   Final residual: (0.0031257596 0.003427372 0.0078912168)
+p Initial residual: 0.39378635
+p   Final residual: 0.038478238
+Time step continuity errors : sum local = 0.00089328003
+                                 global = 2.8808042e-05
+                             cumulative = 0.0002415945
+nuTilda Initial residual: 0.0005519539
+          Final residual: 4.7923689e-05
+yPlus min: 59.872901 max: 302.97116 mean: 231.79228
+CD-part1-force: 0.01061776
+CL-part1-force: 0.15552808
+ExecutionTime = 0.48 s  ClockTime = 1 s
+
+Time = 30
+
+U Initial residual: (0.025175296 0.036452376 0.058367512)
+U   Final residual: (0.0016351188 0.0035399462 0.0039371822)
+p Initial residual: 0.17087768
+p   Final residual: 0.0087213692
+Time step continuity errors : sum local = 0.00022874004
+                                 global = -1.1567025e-05
+                             cumulative = 0.00023002748
+nuTilda Initial residual: 0.00038787961
+          Final residual: 3.6250062e-05
+yPlus min: 62.167285 max: 311.60917 mean: 228.37823
+CD-part1-force: 0.020928382
+CL-part1-force: 0.2749338
+ExecutionTime = 0.51 s  ClockTime = 1 s
+
+Time = 40
+
+U Initial residual: (0.016664581 0.029556251 0.032115561)
+U   Final residual: (0.0016197204 0.0020442699 0.0031170212)
+p Initial residual: 0.070164298
+p   Final residual: 0.0040198099
+Time step continuity errors : sum local = 0.000121169
+                                 global = -9.0909316e-06
+                             cumulative = 0.00022093654
+nuTilda Initial residual: 0.00026012052
+          Final residual: 1.961434e-05
+yPlus min: 54.10219 max: 321.46533 mean: 227.1749
+CD-part1-force: 0.015332713
+CL-part1-force: 0.28977663
+ExecutionTime = 0.54 s  ClockTime = 1 s
+
+Time = 50
+
+U Initial residual: (0.0092429563 0.01191063 0.018407824)
+U   Final residual: (0.00086390133 0.0010135674 0.0013380106)
+p Initial residual: 0.035171767
+p   Final residual: 0.0020981064
+Time step continuity errors : sum local = 6.472243e-05
+                                 global = 1.5432097e-06
+                             cumulative = 0.00022247975
+nuTilda Initial residual: 0.00014404813
+          Final residual: 1.0347201e-05
+yPlus min: 53.987781 max: 323.50244 mean: 226.57506
+CD-part1-force: 0.013521237
+CL-part1-force: 0.27276192
+ExecutionTime = 0.58 s  ClockTime = 1 s
+
+Time = 60
+
+U Initial residual: (0.0041097886 0.0046880019 0.010909778)
+U   Final residual: (0.00028228105 0.00033433145 0.0010841547)
+p Initial residual: 0.020766782
+p   Final residual: 0.0011979678
+Time step continuity errors : sum local = 3.6125218e-05
+                                 global = -2.1628236e-06
+                             cumulative = 0.00022031693
+nuTilda Initial residual: 7.9857236e-05
+          Final residual: 6.7621401e-06
+yPlus min: 54.517957 max: 322.48207 mean: 227.05087
+CD-part1-force: 0.013976504
+CL-part1-force: 0.26690557
+ExecutionTime = 0.61 s  ClockTime = 1 s
+
+Time = 70
+
+U Initial residual: (0.0023212339 0.0029142657 0.0055772807)
+U   Final residual: (0.00019385843 0.00028121538 0.00045194341)
+p Initial residual: 0.014021078
+p   Final residual: 0.0013585035
+Time step continuity errors : sum local = 3.9808577e-05
+                                 global = -1.9562294e-06
+                             cumulative = 0.0002183607
+nuTilda Initial residual: 3.1627559e-05
+          Final residual: 2.2568514e-06
+yPlus min: 54.970778 max: 321.67121 mean: 227.80434
+CD-part1-force: 0.01433658
+CL-part1-force: 0.27134601
+ExecutionTime = 0.65 s  ClockTime = 1 s
+
+Time = 80
+
+U Initial residual: (0.0019366241 0.0018858435 0.0027903751)
+U   Final residual: (0.00014368114 0.00012361032 0.00027168063)
+p Initial residual: 0.0099835262
+p   Final residual: 0.00068872696
+Time step continuity errors : sum local = 1.9897861e-05
+                                 global = -2.8224507e-06
+                             cumulative = 0.00021553825
+nuTilda Initial residual: 3.0627307e-05
+          Final residual: 2.0984327e-06
+yPlus min: 54.845632 max: 321.7943 mean: 228.2164
+CD-part1-force: 0.01466197
+CL-part1-force: 0.28102713
+ExecutionTime = 0.68 s  ClockTime = 1 s
+
+Time = 90
+
+U Initial residual: (0.0015438512 0.001297707 0.002544798)
+U   Final residual: (0.00011056324 0.00012649704 0.00019018244)
+p Initial residual: 0.0090028646
+p   Final residual: 0.00054884561
+Time step continuity errors : sum local = 1.5916309e-05
+                                 global = 2.2250892e-06
+                             cumulative = 0.00021776334
+nuTilda Initial residual: 2.1150706e-05
+          Final residual: 1.4577438e-06
+yPlus min: 54.447935 max: 322.51297 mean: 228.26283
+CD-part1-force: 0.014746285
+CL-part1-force: 0.29044794
+ExecutionTime = 0.71 s  ClockTime = 1 s
+
+Time = 100
+
+U Initial residual: (0.00099395506 0.00083309309 0.0020154664)
+U   Final residual: (9.7331046e-05 6.8309421e-05 0.00020104488)
+p Initial residual: 0.0071898409
+p   Final residual: 0.00040382731
+Time step continuity errors : sum local = 1.1699203e-05
+                                 global = 5.9860198e-07
+                             cumulative = 0.00021836194
+nuTilda Initial residual: 1.1033661e-05
+          Final residual: 9.7019014e-07
+yPlus min: 54.142031 max: 323.30999 mean: 228.10708
+CD-part1-force: 0.014541546
+CL-part1-force: 0.29621041
+ExecutionTime = 0.76 s  ClockTime = 1 s
+
+Time = 110
+
+U Initial residual: (0.00056572779 0.00046105906 0.001311897)
+U   Final residual: (5.3100941e-05 3.3017474e-05 0.00011907006)
+p Initial residual: 0.0042732045
+p   Final residual: 0.00028345149
+Time step continuity errors : sum local = 8.3024269e-06
+                                 global = -4.3297854e-06
+                             cumulative = 0.00021403216
+nuTilda Initial residual: 6.3583063e-06
+          Final residual: 4.3541015e-07
+yPlus min: 53.992066 max: 323.92773 mean: 227.94706
+CD-part1-force: 0.014402327
+CL-part1-force: 0.29950633
+ExecutionTime = 0.79 s  ClockTime = 1 s
+
+Time = 120
+
+U Initial residual: (0.00028593255 0.00019905268 0.00073316913)
+U   Final residual: (2.6977873e-05 1.5614361e-05 6.2272655e-05)
+p Initial residual: 0.0018380937
+p   Final residual: 0.00012064961
+Time step continuity errors : sum local = 3.5331756e-06
+                                 global = -1.2877562e-06
+                             cumulative = 0.0002127444
+nuTilda Initial residual: 5.9568096e-06
+          Final residual: 4.8405709e-07
+yPlus min: 53.933945 max: 324.32315 mean: 227.84734
+CD-part1-force: 0.014283168
+CL-part1-force: 0.30151164
+ExecutionTime = 0.82 s  ClockTime = 1 s
+
+Time = 130
+
+U Initial residual: (0.0001454825 9.7360861e-05 0.00030136695)
+U   Final residual: (1.4271848e-05 7.0013283e-06 2.9563194e-05)
+p Initial residual: 0.00072217714
+p   Final residual: 4.4326834e-05
+Time step continuity errors : sum local = 1.2957955e-06
+                                 global = 4.5714858e-07
+                             cumulative = 0.00021320155
+nuTilda Initial residual: 4.4082374e-06
+          Final residual: 4.343076e-07
+yPlus min: 53.911221 max: 324.56024 mean: 227.80356
+CD-part1-force: 0.014214857
+CL-part1-force: 0.30263179
+ExecutionTime = 0.86 s  ClockTime = 1 s
+
+Time = 140
+
+U Initial residual: (9.3114929e-05 7.8120415e-05 0.00015095183)
+U   Final residual: (7.0223679e-06 6.2363211e-06 1.007071e-05)
+p Initial residual: 0.00030189692
+p   Final residual: 1.7873419e-05
+Time step continuity errors : sum local = 5.2229606e-07
+                                 global = 2.6207925e-07
+                             cumulative = 0.00021346363
+nuTilda Initial residual: 2.5750557e-06
+          Final residual: 2.1577403e-07
+yPlus min: 53.900937 max: 324.70263 mean: 227.79034
+CD-part1-force: 0.014186207
+CL-part1-force: 0.30358867
+ExecutionTime = 0.9 s  ClockTime = 1 s
+
+Time = 150
+
+U Initial residual: (7.5884381e-05 7.4312498e-05 0.00010095894)
+U   Final residual: (6.5316728e-06 5.7646475e-06 7.1194487e-06)
+p Initial residual: 0.000136282
+p   Final residual: 8.1084713e-06
+Time step continuity errors : sum local = 2.3708315e-07
+                                 global = 2.1434689e-08
+                             cumulative = 0.00021348506
+nuTilda Initial residual: 1.2686648e-06
+          Final residual: 1.0493607e-07
+yPlus min: 53.895567 max: 324.7984 mean: 227.7877
+CD-part1-force: 0.014173179
+CL-part1-force: 0.30438414
+ExecutionTime = 0.93 s  ClockTime = 1 s
+
+Time = 160
+
+U Initial residual: (6.485822e-05 6.1076404e-05 8.6354492e-05)
+U   Final residual: (5.8927003e-06 4.6338052e-06 6.435273e-06)
+p Initial residual: 8.6047302e-05
+p   Final residual: 6.1980112e-06
+Time step continuity errors : sum local = 1.8129715e-07
+                                 global = -2.0171092e-08
+                             cumulative = 0.00021346489
+nuTilda Initial residual: 6.0968797e-07
+          Final residual: 4.0319018e-08
+yPlus min: 53.892184 max: 324.87285 mean: 227.78531
+CD-part1-force: 0.014161924
+CL-part1-force: 0.30501918
+ExecutionTime = 0.97 s  ClockTime = 1 s
+
+Time = 170
+
+U Initial residual: (5.4259965e-05 4.3368589e-05 7.2247851e-05)
+U   Final residual: (4.7839052e-06 3.3432606e-06 5.5320515e-06)
+p Initial residual: 6.1258901e-05
+p   Final residual: 4.4788966e-06
+Time step continuity errors : sum local = 1.3104e-07
+                                 global = -5.5128755e-09
+                             cumulative = 0.00021345938
+nuTilda Initial residual: 3.6988827e-07
+          Final residual: 3.2709098e-08
+yPlus min: 53.890046 max: 324.93399 mean: 227.78075
+CD-part1-force: 0.014151534
+CL-part1-force: 0.30551952
+ExecutionTime = 1 s  ClockTime = 1 s
+
+Time = 180
+
+U Initial residual: (4.2067393e-05 2.8274667e-05 5.7491653e-05)
+U   Final residual: (3.5451983e-06 2.2585993e-06 4.3605697e-06)
+p Initial residual: 4.3834681e-05
+p   Final residual: 2.9777339e-06
+Time step continuity errors : sum local = 8.7135078e-08
+                                 global = -7.026598e-09
+                             cumulative = 0.00021345235
+nuTilda Initial residual: 2.9360394e-07
+          Final residual: 1.9648893e-08
+yPlus min: 53.888795 max: 324.98327 mean: 227.77508
+CD-part1-force: 0.014141951
+CL-part1-force: 0.30589406
+ExecutionTime = 1.04 s  ClockTime = 2 s
+
+Time = 190
+
+U Initial residual: (3.0412694e-05 1.8035414e-05 4.2871546e-05)
+U   Final residual: (2.4787787e-06 1.4906277e-06 3.1433083e-06)
+p Initial residual: 3.057312e-05
+p   Final residual: 1.9177569e-06
+Time step continuity errors : sum local = 5.6126606e-08
+                                 global = -4.0556246e-09
+                             cumulative = 0.0002134483
+nuTilda Initial residual: 2.8314478e-07
+          Final residual: 2.6717561e-08
+yPlus min: 53.888083 max: 325.02114 mean: 227.76993
+CD-part1-force: 0.014133958
+CL-part1-force: 0.30616228
+ExecutionTime = 1.07 s  ClockTime = 2 s
+
+Time = 200
+
+U Initial residual: (2.1183634e-05 1.2195019e-05 2.9705575e-05)
+U   Final residual: (1.7045406e-06 1.0215429e-06 2.1659672e-06)
+p Initial residual: 2.0615867e-05
+p   Final residual: 1.2975819e-06
+Time step continuity errors : sum local = 3.7980931e-08
+                                 global = -1.1654637e-09
+                             cumulative = 0.00021344713
+nuTilda Initial residual: 2.5080532e-07
+          Final residual: 2.1460563e-08
+yPlus min: 53.887627 max: 325.04891 mean: 227.76601
+CD-part1-force: 0.014127935
+CL-part1-force: 0.30635274
+ExecutionTime = 1.11 s  ClockTime = 2 s
+
+Time = 210
+
+U Initial residual: (1.4819809e-05 9.1734444e-06 2.0898549e-05)
+U   Final residual: (1.1937697e-06 7.6141109e-07 1.5139248e-06)
+p Initial residual: 1.4854972e-05
+p   Final residual: 9.5237052e-07
+Time step continuity errors : sum local = 2.7878969e-08
+                                 global = -1.5509594e-09
+                             cumulative = 0.00021344558
+nuTilda Initial residual: 2.0263647e-07
+          Final residual: 1.5601468e-08
+yPlus min: 53.887326 max: 325.06881 mean: 227.76336
+CD-part1-force: 0.014123651
+CL-part1-force: 0.30648932
+ExecutionTime = 1.14 s  ClockTime = 2 s
+
+Time = 220
+
+U Initial residual: (1.05654e-05 7.2757214e-06 1.5255925e-05)
+U   Final residual: (8.663468e-07 5.9115441e-07 1.0955922e-06)
+p Initial residual: 1.1023075e-05
+p   Final residual: 7.3305332e-07
+Time step continuity errors : sum local = 2.146015e-08
+                                 global = -1.7301999e-09
+                             cumulative = 0.00021344385
+nuTilda Initial residual: 1.4835431e-07
+          Final residual: 1.0763062e-08
+yPlus min: 53.887117 max: 325.08304 mean: 227.76164
+CD-part1-force: 0.014120674
+CL-part1-force: 0.30658887
+ExecutionTime = 1.18 s  ClockTime = 2 s
+
+Time = 230
+
+U Initial residual: (7.7941608e-06 5.810939e-06 1.1575346e-05)
+U   Final residual: (6.4896924e-07 4.5936872e-07 8.216848e-07)
+p Initial residual: 8.467943e-06
+p   Final residual: 5.5993608e-07
+Time step continuity errors : sum local = 1.6392824e-08
+                                 global = -1.3370435e-09
+                             cumulative = 0.00021344251
+nuTilda Initial residual: 1.0311187e-07
+          Final residual: 7.4617419e-09
+yPlus min: 53.886976 max: 325.09331 mean: 227.76047
+CD-part1-force: 0.014118602
+CL-part1-force: 0.30666256
+ExecutionTime = 1.21 s  ClockTime = 2 s
+
+Time = 240
+
+U Initial residual: (5.9134474e-06 4.4794133e-06 8.70663e-06)
+U   Final residual: (4.9010326e-07 3.4752501e-07 6.2011327e-07)
+p Initial residual: 6.8617076e-06
+p   Final residual: 4.2171277e-07
+Time step continuity errors : sum local = 1.2346552e-08
+                                 global = -8.3468124e-10
+                             cumulative = 0.00021344168
+nuTilda Initial residual: 7.1318926e-08
+          Final residual: 5.3413547e-09
+yPlus min: 53.886871 max: 325.10083 mean: 227.75964
+CD-part1-force: 0.01411711
+CL-part1-force: 0.30671752
+ExecutionTime = 1.25 s  ClockTime = 2 s
+
+Time = 250
+
+U Initial residual: (4.4856958e-06 3.3136093e-06 6.3900053e-06)
+U   Final residual: (3.6812824e-07 2.5735688e-07 4.6338257e-07)
+p Initial residual: 5.5825986e-06
+p   Final residual: 5.2058066e-07
+Time step continuity errors : sum local = 1.5241476e-08
+                                 global = 2.5748706e-10
+                             cumulative = 0.00021344193
+nuTilda Initial residual: 5.0981964e-08
+          Final residual: 3.9801575e-09
+yPlus min: 53.88677 max: 325.10635 mean: 227.759
+CD-part1-force: 0.014115977
+CL-part1-force: 0.30675779
+ExecutionTime = 1.28 s  ClockTime = 2 s
+
+Time = 260
+
+U Initial residual: (3.3395934e-06 2.3692604e-06 4.5950866e-06)
+U   Final residual: (2.7245316e-07 1.8611106e-07 3.3664839e-07)
+p Initial residual: 4.127373e-06
+p   Final residual: 2.5949887e-07
+Time step continuity errors : sum local = 7.5976998e-09
+                                 global = -4.6941279e-10
+                             cumulative = 0.00021344147
+nuTilda Initial residual: 3.7727766e-08
+          Final residual: 3.0336218e-09
+yPlus min: 53.886659 max: 325.11039 mean: 227.75847
+CD-part1-force: 0.014115158
+CL-part1-force: 0.30678867
+ExecutionTime = 1.32 s  ClockTime = 2 s
+
+Time = 270
+
+U Initial residual: (2.4628268e-06 1.6941502e-06 3.3626736e-06)
+U   Final residual: (2.0074555e-07 1.3463344e-07 2.4772018e-07)
+p Initial residual: 2.8892692e-06
+p   Final residual: 1.8026947e-07
+Time step continuity errors : sum local = 5.2780632e-09
+                                 global = -3.0505013e-10
+                             cumulative = 0.00021344116
+nuTilda Initial residual: 2.8545883e-08
+          Final residual: 2.3221861e-09
+yPlus min: 53.886537 max: 325.11331 mean: 227.75802
+CD-part1-force: 0.014114522
+CL-part1-force: 0.30681107
+ExecutionTime = 1.35 s  ClockTime = 2 s
+
+Time = 280
+
+U Initial residual: (1.8096741e-06 1.2374161e-06 2.5057747e-06)
+U   Final residual: (1.4730638e-07 9.846278e-08 1.8422611e-07)
+p Initial residual: 2.0209982e-06
+p   Final residual: 1.1967303e-07
+Time step continuity errors : sum local = 3.5039106e-09
+                                 global = -2.3289771e-10
+                             cumulative = 0.00021344093
+nuTilda Initial residual: 2.1608721e-08
+          Final residual: 1.7429647e-09
+yPlus min: 53.886448 max: 325.11545 mean: 227.75763
+CD-part1-force: 0.01411404
+CL-part1-force: 0.30682734
+ExecutionTime = 1.39 s  ClockTime = 2 s
+
+Time = 290
+
+U Initial residual: (1.3217838e-06 9.1097107e-07 1.8871875e-06)
+U   Final residual: (1.0785302e-07 7.212274e-08 1.3685459e-07)
+p Initial residual: 1.426718e-06
+p   Final residual: 8.3283907e-08
+Time step continuity errors : sum local = 2.4384902e-09
+                                 global = -1.8064614e-10
+                             cumulative = 0.00021344075
+nuTilda Initial residual: 1.6151309e-08
+          Final residual: 1.2809634e-09
+yPlus min: 53.886409 max: 325.11704 mean: 227.75731
+CD-part1-force: 0.014113678
+CL-part1-force: 0.30683923
+ExecutionTime = 1.42 s  ClockTime = 2 s
+
+Time = 300
+
+U Initial residual: (9.6167394e-07 6.7639001e-07 1.4284746e-06)
+U   Final residual: (7.9240482e-08 5.3447501e-08 1.0201453e-07)
+p Initial residual: 1.0471814e-06
+p   Final residual: 6.7177517e-08
+Time step continuity errors : sum local = 1.9669177e-09
+                                 global = -1.467389e-10
+                             cumulative = 0.0002134406
+nuTilda Initial residual: 1.1906271e-08
+          Final residual: 9.3131152e-10
+yPlus min: 53.886405 max: 325.11825 mean: 227.75707
+CD-part1-force: 0.014113424
+CL-part1-force: 0.30684822
+ExecutionTime = 1.46 s  ClockTime = 2 s
+
+Time = 310
+
+U Initial residual: (7.0448877e-07 5.0327655e-07 1.0550755e-06)
+U   Final residual: (5.8522587e-08 3.9842476e-08 7.5090885e-08)
+p Initial residual: 7.8469888e-07
+p   Final residual: 4.9155182e-08
+Time step continuity errors : sum local = 1.43924e-09
+                                 global = -1.0538986e-10
+                             cumulative = 0.00021344049
+nuTilda Initial residual: 8.7200157e-09
+          Final residual: 6.7499585e-10
+yPlus min: 53.886409 max: 325.11915 mean: 227.75692
+CD-part1-force: 0.014113235
+CL-part1-force: 0.30685479
+ExecutionTime = 1.49 s  ClockTime = 2 s
+
+Time = 320
+
+U Initial residual: (5.2132278e-07 3.7418474e-07 7.6505331e-07)
+U   Final residual: (4.3383032e-08 2.9726676e-08 5.4828092e-08)
+p Initial residual: 6.0243889e-07
+p   Final residual: 3.6316688e-08
+Time step continuity errors : sum local = 1.0633382e-09
+                                 global = -7.1712157e-11
+                             cumulative = 0.00021344042
+nuTilda Initial residual: 6.3952426e-09
+          Final residual: 4.9125339e-10
+yPlus min: 53.886404 max: 325.11982 mean: 227.75682
+CD-part1-force: 0.014113098
+CL-part1-force: 0.30685965
+ExecutionTime = 1.53 s  ClockTime = 2 s
+
+Time = 330
+
+U Initial residual: (3.8783212e-07 2.7553757e-07 5.5290363e-07)
+U   Final residual: (3.199752e-08 2.1832366e-08 3.9905413e-08)
+p Initial residual: 4.5564286e-07
+p   Final residual: 3.1409255e-08
+Time step continuity errors : sum local = 9.1965248e-10
+                                 global = -5.5709784e-11
+                             cumulative = 0.00021344037
+nuTilda Initial residual: 4.6996816e-09
+          Final residual: 3.6280656e-10
+yPlus min: 53.88639 max: 325.1203 mean: 227.75676
+CD-part1-force: 0.014112997
+CL-part1-force: 0.30686323
+ExecutionTime = 1.56 s  ClockTime = 2 s
+
+Time = 340
+
+U Initial residual: (2.8808833e-07 2.0379198e-07 4.0631813e-07)
+U   Final residual: (2.367213e-08 1.6160707e-08 2.9522825e-08)
+p Initial residual: 3.3199363e-07
+p   Final residual: 2.1367039e-08
+Time step continuity errors : sum local = 6.2562072e-10
+                                 global = -4.1338988e-11
+                             cumulative = 0.00021344033
+nuTilda Initial residual: 3.4445462e-09
+          Final residual: 2.7165933e-10
+yPlus min: 53.886375 max: 325.12064 mean: 227.7567
+CD-part1-force: 0.014112921
+CL-part1-force: 0.30686588
+ExecutionTime = 1.6 s  ClockTime = 2 s
+
+Time = 350
+
+U Initial residual: (2.1262978e-07 1.4985208e-07 3.0275951e-07)
+U   Final residual: (1.7424413e-08 1.1859159e-08 2.1974911e-08)
+p Initial residual: 2.4084114e-07
+p   Final residual: 2.4011148e-08
+Time step continuity errors : sum local = 7.0304039e-10
+                                 global = 1.7447274e-11
+                             cumulative = 0.00021344034
+nuTilda Initial residual: 2.5406345e-09
+          Final residual: 2.045641e-10
+yPlus min: 53.886364 max: 325.12089 mean: 227.75666
+CD-part1-force: 0.014112863
+CL-part1-force: 0.30686777
+ExecutionTime = 1.63 s  ClockTime = 2 s
+
+Time = 360
+
+U Initial residual: (1.5572922e-07 1.0950812e-07 2.2443988e-07)
+U   Final residual: (1.2756145e-08 8.6396947e-09 1.6201415e-08)
+p Initial residual: 1.7589491e-07
+p   Final residual: 1.1907975e-08
+Time step continuity errors : sum local = 3.4866279e-10
+                                 global = -2.4616575e-11
+                             cumulative = 0.00021344032
+nuTilda Initial residual: 1.8813949e-09
+          Final residual: 1.5170903e-10
+yPlus min: 53.886359 max: 325.12108 mean: 227.75662
+CD-part1-force: 0.014112822
+CL-part1-force: 0.30686924
+ExecutionTime = 1.67 s  ClockTime = 2 s
+
+Time = 370
+
+U Initial residual: (1.1423542e-07 8.1374985e-08 1.6727627e-07)
+U   Final residual: (9.431413e-09 6.4494168e-09 1.2065994e-08)
+p Initial residual: 1.3071582e-07
+p   Final residual: 1.2424463e-08
+Time step continuity errors : sum local = 3.6378559e-10
+                                 global = 9.5938631e-12
+                             cumulative = 0.00021344033
+nuTilda Initial residual: 1.4041978e-09
+          Final residual: 1.1194834e-10
+yPlus min: 53.886355 max: 325.12122 mean: 227.75659
+CD-part1-force: 0.01411279
+CL-part1-force: 0.30687027
+ExecutionTime = 1.7 s  ClockTime = 2 s
+
+Time = 380
+
+U Initial residual: (8.4253815e-08 6.0437047e-08 1.2308332e-07)
+U   Final residual: (6.9607441e-09 4.7657523e-09 8.8509856e-09)
+p Initial residual: 9.7852188e-08
+p   Final residual: 6.5848911e-09
+Time step continuity errors : sum local = 1.9280435e-10
+                                 global = -1.3632678e-11
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 1.0427485e-09
+          Final residual: 8.146867e-11
+yPlus min: 53.886352 max: 325.12132 mean: 227.75657
+CD-part1-force: 0.014112769
+CL-part1-force: 0.30687108
+ExecutionTime = 1.74 s  ClockTime = 2 s
+
+Time = 390
+
+U Initial residual: (6.2514671e-08 4.510769e-08 9.1257305e-08)
+U   Final residual: (5.1816643e-09 3.5632857e-09 6.610946e-09)
+p Initial residual: 7.288419e-08
+p   Final residual: 6.8068152e-09
+Time step continuity errors : sum local = 1.9930236e-10
+                                 global = 4.919389e-12
+                             cumulative = 0.00021344032
+nuTilda Initial residual: 7.7093894e-10
+          Final residual: 5.9865212e-11
+yPlus min: 53.88635 max: 325.1214 mean: 227.75655
+CD-part1-force: 0.014112751
+CL-part1-force: 0.30687164
+ExecutionTime = 1.77 s  ClockTime = 2 s
+
+Time = 400
+
+U Initial residual: (4.6389101e-08 3.3138196e-08 6.7298068e-08)
+U   Final residual: (3.8254047e-09 2.6070795e-09 4.8669678e-09)
+p Initial residual: 5.394001e-08
+p   Final residual: 3.5950333e-09
+Time step continuity errors : sum local = 1.0526194e-10
+                                 global = -6.9064075e-12
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 5.6585195e-10
+          Final residual: 4.4098318e-11
+yPlus min: 53.886348 max: 325.12146 mean: 227.75654
+CD-part1-force: 0.01411274
+CL-part1-force: 0.30687208
+ExecutionTime = 1.81 s  ClockTime = 2 s
+
+Time = 410
+
+U Initial residual: (3.4313116e-08 2.4331645e-08 5.073069e-08)
+U   Final residual: (2.8316334e-09 1.923607e-09 3.7035672e-09)
+p Initial residual: 3.9583409e-08
+p   Final residual: 3.6845298e-09
+Time step continuity errors : sum local = 1.0788245e-10
+                                 global = 2.6149949e-12
+                             cumulative = 0.00021344032
+nuTilda Initial residual: 4.1711916e-10
+          Final residual: 3.2954003e-11
+yPlus min: 53.886346 max: 325.1215 mean: 227.75654
+CD-part1-force: 0.01411273
+CL-part1-force: 0.30687238
+ExecutionTime = 1.85 s  ClockTime = 2 s
+
+Time = 420
+
+U Initial residual: (2.5263236e-08 1.7712028e-08 3.7564455e-08)
+U   Final residual: (2.0783112e-09 1.3998786e-09 2.7392398e-09)
+p Initial residual: 2.8964013e-08
+p   Final residual: 1.9446162e-09
+Time step continuity errors : sum local = 5.6938091e-11
+                                 global = -3.8432913e-12
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 3.0828199e-10
+          Final residual: 2.4461196e-11
+yPlus min: 53.886345 max: 325.12153 mean: 227.75653
+CD-part1-force: 0.014112724
+CL-part1-force: 0.30687262
+ExecutionTime = 1.88 s  ClockTime = 2 s
+
+Time = 430
+
+U Initial residual: (1.8573581e-08 1.304278e-08 2.8172484e-08)
+U   Final residual: (1.5351752e-09 1.0383698e-09 2.0561051e-09)
+p Initial residual: 2.1154873e-08
+p   Final residual: 1.999838e-09
+Time step continuity errors : sum local = 5.8554973e-11
+                                 global = 1.498915e-12
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 2.2920898e-10
+          Final residual: 1.8179388e-11
+yPlus min: 53.886344 max: 325.12155 mean: 227.75653
+CD-part1-force: 0.014112718
+CL-part1-force: 0.30687279
+ExecutionTime = 1.92 s  ClockTime = 2 s
+
+Time = 440
+
+U Initial residual: (1.3665457e-08 9.6044047e-09 2.1223123e-08)
+U   Final residual: (1.1292018e-09 7.6328952e-10 1.5609863e-09)
+p Initial residual: 1.5490253e-08
+p   Final residual: 1.0613685e-09
+Time step continuity errors : sum local = 3.1076674e-11
+                                 global = -2.1196618e-12
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 1.6977149e-10
+          Final residual: 1.3333816e-11
+yPlus min: 53.886343 max: 325.12157 mean: 227.75652
+CD-part1-force: 0.014112715
+CL-part1-force: 0.30687292
+ExecutionTime = 1.95 s  ClockTime = 3 s
+
+Time = 450
+
+U Initial residual: (1.0088377e-08 7.1638384e-09 1.6302992e-08)
+U   Final residual: (8.3729858e-10 5.7062679e-10 1.2150911e-09)
+p Initial residual: 1.1372896e-08
+p   Final residual: 1.0919466e-09
+Time step continuity errors : sum local = 3.1972045e-11
+                                 global = 7.98818e-13
+                             cumulative = 0.00021344031
+nuTilda Initial residual: 1.255912e-10
+          Final residual: 9.8224648e-12
+yPlus min: 53.886343 max: 325.12158 mean: 227.75652
+CD-part1-force: 0.014112712
+CL-part1-force: 0.30687301
+ExecutionTime = 1.99 s  ClockTime = 3 s
+
+Time = 455
+Minimal residual 9.7839879e-09 satisfied the prescribed tolerance 1e-08
+
+CD-part1-force: 0.014112711
+CL-part1-force: 0.30687305
+Printing Primal Residual Statistics.
+U Residual Norm2: (0.0006422312 0.00051472953 3.3408884e-12)
+U Residual Mean: (5.5812096e-06 1.8405555e-06 2.0694411e-14)
+U Residual Max: (0.00012834496 0.00018136237 7.5849419e-13)
+p Residual Norm2: 0.00011774298
+p Residual Mean: 1.8558455e-07
+p Residual Max: 5.5086714e-05
+nuTilda Residual Norm2: 1.0728363e-07
+nuTilda Residual Mean: 4.0416178e-10
+nuTilda Residual Max: 2.0961073e-08
+phi Residual Norm2: 6.6843537e-07
+phi Residual Mean: 1.9431849e-09
+phi Residual Max: 1.3865626e-07
+End
+
+Objective Functions: 
+{'DVCon1_volume_constraint_0': 1.0000000000000735, 'DVCon1_thickness_constraints_0': array([1.000000000000001 , 0.9999999999999997, 1.0000000000000002,
+       1.0000000000000002, 0.9999999999999999, 1.0000000000000002,
+       1.0000000000000002, 1.                , 1.0000000000000002,
+       1.                , 1.0000000000000009, 0.9999999999999999,
+       1.0000000000000002, 0.9999999999999999, 0.9999999999999998,
+       1.                , 1.                , 1.                ,
+       1.0000000000000002, 1.0000000000000007]), 'CD': 0.014112710999995375, 'CL': 0.3068730510438316, 'fail': False}
+Flow Runtime: 1.82885
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/importlib/_bootstrap.py:219: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+  return f(*args, **kwds)
+/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/UnstructuredMesh.py:112: ResourceWarning: unclosed file <_io.BufferedReader name='/work/class-faculty/phe/dafoam/packages/miniconda3/lib/python3.6/site-packages/idwarp/idwarp.so'>
+  self.warp = MExt('idwarp', [curDir], debug=debug)._module
+runScript.py:139: ComplexWarning: Casting complex values to real discards the imaginary part
+  inletU = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
+Finalising parallel run
+Finalising parallel run
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1812 OPENFOAM=1812
+Arch   : "LSB;label=32;scalar=64"
+Exec   : reconstructPar
+Date   : Dec 04 2025
+Time   : 15:47:13
+Host   : nova22-25
+PID    : 1330258
+I/O    : uncollated
+Case   : /home/abhi457/NACA0012_alpha_3
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+
+Reconstructing fields for mesh region0
+
+Time = 455
+
+Reconstructing FV fields
+
+    Reconstructing volScalarFields
+
+        alphaPorosity
+        nuTilda
+        nut
+        p
+
+    Reconstructing volVectorFields
+
+        U
+        fvSource
+
+    Reconstructing surfaceScalarFields
+
+        meshPhi
+        phi
+
+Reconstructing point fields
+
+No point fields
+
+No lagrangian fields
+
+No FA fields
+
+
+End
+
