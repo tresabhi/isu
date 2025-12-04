@@ -88,3 +88,23 @@ Unlike what we have primarily discussed in class so far (reducing drag), the opt
 ### How It's Optimized
 
 The geometry-parametrization module takes control-point design variables and generates an updated geometry. This feeds the mesh-deformation module, which adjusts the original volume mesh to match the new boundary. The resulting mesh goes to the CFD solver, which computes the flow field. Using this flow solution, the discrete-adjoint solver evaluates sensitivities of objectives and constraints with respect to the design variables. These gradients are then used by the optimization module to update the design variables, which are sent back to the geometry-parametrization stage, completing the loop.
+
+### Optimized NACA 0012
+
+It shouldn't be surprising to see such a tiny difference in $C_L$ since the wing could already achieve $C_L = 3.0$ even before the optimization.
+
+![](https://i.imgur.com/5ZuotS2.png)
+
+The drag, however, was reduced while keeping the lift constant which is impressive. The reduction:
+
+$$
+C_D^0 = 0.01402712
+$$
+
+$$
+C_D^1 = 0.01255188
+$$
+
+$$
+R = 1 - \frac{0.01255188}{0.01402712} = 0.10517056 = \boxed{10.517056\%}
+$$
