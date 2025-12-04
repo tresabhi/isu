@@ -20,3 +20,6 @@
 [submodule "me-280/project"]
 	path = me-280/project
 	url = https://github.com/tresabhi/f1tenth_gym_ros
+[submodule "me-280/gym"]
+	path = me-280/gym
+	url = https://github.com/tresabhi/f1tenth_gym
