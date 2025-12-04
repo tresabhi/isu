@@ -67,8 +67,14 @@ And the plots:
 
 ### CFD Meshes
 
-It is unclear what mesh the project wants exactly, so I will be displaying both the external mesh surface with edges and the border surface without edges.
+It is unclear what mesh the project wants exactly, so I will be displaying both the external mesh surface with edges and the border surface without edges for the $\alpha = 3\degree$ case.
 
 ![](https://i.imgur.com/3tVnRt5.png)
 
 ![](https://i.imgur.com/Bc7qU21.png)
+
+### Pressure Profile
+
+The pressure profile for the $\alpha = 3\degree$ case is shown below:
+
+![](https://i.imgur.com/d15lmxf.png)
