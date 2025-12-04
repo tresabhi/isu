@@ -16,3 +16,13 @@ I have been assigned the following criteria for this project.
 - Target lift coefficient: `0.3`
 
 ### Analysis at $\alpha = 1\degree, 2\degree, 3\degree$
+
+An incompressible flow analysis was run on the NACA 0012 airfoil using ParaView at angle of attacks of $1\degree, 2\degree, 3\degree$. Even with Docker installed on my computer, I chose to use the Nova HPC's instead, following the instructions from `21 Computer Lab.pdf`. The raw results can be found in the Canvas submission or [the GitHub directory associated with this project](https://github.com/tresabhi/isu/tree/main/aere-362/project).
+
+pvOptAirfoil post processing of all three angles of attack:
+
+![](https://i.imgur.com/gSAIkR6.png)
+
+![](https://i.imgur.com/zHL8d4R.png)
+
+![](https://i.imgur.com/6tIWheM.png)
