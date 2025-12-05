@@ -385,3 +385,61 @@ The new angle:
 $$
 \phi_2 = \phi_1 + \delta = 65\deg + 2.13rad = \boxed{187\deg}
 $$
+
+## 3.
+
+Given:
+
+$$
+m_\text{payload} = 100000kg
+$$
+
+$$
+h = 300km
+$$
+
+$$
+I_{sp, 2} = 450s
+$$
+
+$$
+m_{\text{dry}, 2} = 80000kg
+$$
+
+$$
+m_{\text{propellant}, 2} = 600000kg
+$$
+
+$$
+m_{\text{propellant}, 1} = 0.85 m_1
+$$
+
+$$
+I_{sp, 1} = 290s
+$$
+
+$$
+\Delta v_\text{loss} = 1.59 km/s
+$$
+
+From the Internet:
+
+$$
+R = 6380km
+$$
+
+$$
+g_0 = 9.81 m/s^2
+$$
+
+Actual orbit:
+
+$$
+r = R + h = 6380km + 300km = 6680 km
+$$
+
+Relation of all delta v's:
+
+$$
+\Delta v + \Delta v_\text{loss} = \Delta v_1 + \Delta v_2
+$$
