@@ -23,9 +23,15 @@ pvOptAirfoil post processing of all three angles of attack:
 
 ![](https://i.imgur.com/gSAIkR6.png)
 
+**Figure 1:** converged plots for airfoil at $\alpha = 1\degree$.
+
 ![](https://i.imgur.com/zHL8d4R.png)
 
+**Figure 2:** converged plots for airfoil at $\alpha = 2\degree$.
+
 ![](https://i.imgur.com/6tIWheM.png)
+
+**Figure 3:** converged plots for airfoil at $\alpha = 3\degree$.
 
 ### $C_L$ and $C_D$ as Functions of $\alpha$
 
@@ -63,7 +69,11 @@ And the plots:
 
 ![](https://i.imgur.com/Fi1VC2y.png)
 
+**Figure 4:** $C_L$ vs $\alpha$.
+
 ![](https://i.imgur.com/NVVvlfa.png)
+
+**Figure 5:** $C_D$ vs $\alpha$.
 
 ### CFD Meshes
 
@@ -71,13 +81,19 @@ It is unclear what mesh the project wants exactly, so I will be displaying both 
 
 ![](https://i.imgur.com/3tVnRt5.png)
 
+**Figure 6:** mesh for $\alpha = 3\degree$ showing the external surface with edges.
+
 ![](https://i.imgur.com/Bc7qU21.png)
+
+**Figure 7:** mesh for $\alpha = 3\degree$ showing the border surface without edges.
 
 ### Pressure Profile
 
 The pressure profile for the $\alpha = 3\degree$ case is shown below:
 
 ![](https://i.imgur.com/d15lmxf.png)
+
+**Figure 8:** pressure profile for the $\alpha = 3\degree$ case.
 
 ## Task 2. Airfoil Aerodynamic Optimization
 
@@ -94,6 +110,8 @@ The geometry-parametrization module takes control-point design variables and gen
 It shouldn't be surprising to see such a tiny difference in $C_L$ since the wing could already achieve $C_L = 3.0$ even before the optimization.
 
 ![](https://i.imgur.com/5ZuotS2.png)
+
+**Figure 9:** optimized graphs for NACA 0012 airfoil at MACH 0.04 and Reynold's number 3000000.
 
 The drag, however, was reduced while keeping the lift constant which is impressive. The reduction:
 
@@ -115,18 +133,22 @@ Here's the baseline and optimized meshes:
 
 ![](https://i.imgur.com/At3UU72.png)
 
+**Figure 10:** baseline mesh for NACA 0012.
+
 ![](https://i.imgur.com/Ra8nSM6.png)
+
+**Figure 11:** optimized mesh.
 
 ### Optimality and Feasibility Over Iterations
 
 The feasibility and optimality can be gleaned from `logMeshGeneration.txt` from which an excerpt can be seen below.
 
 $$
-\text{feasibility} = 3.54 \times 10^{-8}
+\text{feasibility} = \boxed{3.54 \times 10^{-8}}
 $$
 
 $$
-\text{optimality} = 7.53 \times 10^{-7}
+\text{optimality} = \boxed{7.53 \times 10^{-7}}
 $$
 
 ```
