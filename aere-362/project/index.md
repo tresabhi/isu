@@ -108,3 +108,11 @@ $$
 $$
 R = 1 - \frac{0.01255188}{0.01402712} = 0.10517056 = \boxed{10.517056\%}
 $$
+
+### Comparing Meshes
+
+Here's the baseline and optimized meshes:
+
+![](https://i.imgur.com/At3UU72.png)
+
+![](https://i.imgur.com/Ra8nSM6.png)
