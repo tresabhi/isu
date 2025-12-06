@@ -411,7 +411,7 @@ m_{\text{propellant}, 2} = 600000kg
 $$
 
 $$
-m_{\text{propellant}, 1} = 0.85 m_1
+m_{\text{propellant}, 1} = 0.85 m_1 = 0.85 (m_{\text{dry}, 1} + m_{\text{propellant}, 1})
 $$
 
 $$
@@ -432,6 +432,10 @@ $$
 g_0 = 9.81 m/s^2
 $$
 
+$$
+\mu = 3.98600 * 10^5 km^3/s^2
+$$
+
 Actual orbit:
 
 $$
@@ -442,4 +446,66 @@ Relation of all delta v's:
 
 $$
 \Delta v + \Delta v_\text{loss} = \Delta v_1 + \Delta v_2
+$$
+
+$$
+\Delta v = v_\theta - 0 = \sqrt{\frac{\mu}{r}} = \sqrt{\frac{3.98600 * 10^5 km^3/s^2}{6680km}}  = 7.725 km/s
+$$
+
+$$
+\Delta v_2 = I_{sp,2} g_0 \ln \frac{m_{0,2}}{m_{f,2}} = I_{sp,2} g_0 \ln \frac{m_{\text{dry}, 2} + m_\text{payload} + m_{\text{propellant}, 2}}{m_{\text{dry}, 2} + m_\text{payload}}
+$$
+
+$$
+\Delta v_2 = 450s * 9.81 m/s^2 * \ln \frac{80000kg + 100000kg + 600000kg}{80000kg + 100000kg} = 6.473 km/s
+$$
+
+$$
+\Delta v_1 = \Delta v + \Delta v_\text{loss} - \Delta v_2 = 7.725 km/s + 1.59 km/s - 6.473 km/s = 2.842 km/s
+$$
+
+Finding the mass of the first stage:
+
+$$
+\Delta v_1 = I_{sp,1} g_0 \ln \frac{m_{\text{dry}, 1} + m_{\text{propellant}, 1} + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}{m_{\text{dry}, 1} + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}
+$$
+
+But I really don't care what the dry and propellant masses are for stage 1:
+
+$$
+m_1 = m_{\text{dry}, 1} + m_{\text{propellant}, 1}
+$$
+
+$$
+m_{\text{propellant}, 1} = 0.85 m_1
+$$
+
+$$
+m_{\text{dry}, 1} = (1 - 0.85) m_1 = 0.15 m_1
+$$
+
+$$
+\Delta v_1 = I_{sp,1} g_0 \ln \frac{m_1 + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}{0.15 m_1 + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}
+$$
+
+$$
+\frac{\Delta v_1}{I_{sp,1} g_0} = \ln \frac{m_1 + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}{0.15 m_1 + m_{\text{dry}, 2} + m_{\text{propellant}, 2} + m_\text{payload}}
+$$
+
+$$
+\frac{\Delta v_1}{I_{sp,1} g_0} = \frac{2.842 km/s}{290s * 9.81 m/s^2} = 0.999
+$$
+
+$$
+0.999 = \ln \frac{m_1 + 80000kg + 600000kg + 100000kg}{0.15 m_1 + 80000kg + 600000kg + 100000kg}
+$$
+
+$$
+\implies m_1 = 2.25784×10^6 kg
+$$
+
+There are two boosters, so the mass of one of them is:
+
+$$
+m_\text{booster} = \frac{1}{2} m_1 = \boxed{1.12892×10^6 kg}
 $$
