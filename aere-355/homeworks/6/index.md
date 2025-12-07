@@ -147,3 +147,37 @@ end
 This gives the plot:
 
 ![](https://i.imgur.com/pQMJqrP.png)
+
+## 2.
+
+Before I can jump into the programming, I need to mangle the standard form:
+
+$$
+\tau = \frac{-1}{L_p}
+$$
+
+$$
+g_s = -\frac{L_{\delta_a}}{L_p}
+$$
+
+And the standard form:
+
+$$
+\tau \Delta \dot{p} + p = g_s \Delta \delta_a
+$$
+
+But really, I don't care about the fact that it's a small nudge:
+
+$$
+\tau \dot{p} + p = g_s \delta_a
+$$
+
+$$
+\tau \dot{p} = - p + g_s \delta_a
+$$
+
+$$
+\dot{p} = \frac{-1}{\tau} p + \frac{g_s}{\tau} \delta_a
+$$
+
+This can be thrown at `ode45`:
