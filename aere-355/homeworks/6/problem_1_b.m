@@ -1,6 +1,6 @@
 plot_dynamics(deg2rad(2));
-plot_dynamics(deg2rad(4));
-legend('\delta_r = 2 deg', '\delta_r = 4 deg');
+plot_dynamics(deg2rad(10));
+legend('\delta_r = 2 deg', '\delta_r = 10 deg');
 
 function plot_dynamics(delta_r)
     zeta = 0.4;

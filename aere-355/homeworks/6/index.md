@@ -6,8 +6,8 @@ Following the matrix equation listed on page 9 in the chapter 5 notes, along wit
 
 ```m
 plot_dynamics(deg2rad(2));
-plot_dynamics(deg2rad(4));
-legend('\delta_r = 2 deg', '\delta_r = 4 deg');
+plot_dynamics(deg2rad(10));
+legend('\delta_r = 2 deg', '\delta_r = 10 deg');
 
 function plot_dynamics(delta_r)
     zeta = 0.2;
@@ -45,14 +45,14 @@ end
 
 This creates a pretty plot:
 
-![](https://i.imgur.com/cb7mblw.png)
+![](https://i.imgur.com/4JNWIp3.png)
 
 For airplane B, I forked the code from airplane A:
 
 ```m
 plot_dynamics(deg2rad(2));
-plot_dynamics(deg2rad(4));
-legend('\delta_r = 2 deg', '\delta_r = 4 deg');
+plot_dynamics(deg2rad(10));
+legend('\delta_r = 2 deg', '\delta_r = 10 deg');
 
 function plot_dynamics(delta_r)
     zeta = 0.4;
@@ -90,4 +90,4 @@ end
 
 This produces the following plot:
 
-![](https://i.imgur.com/llLhZc0.png)
+![](https://i.imgur.com/bpFMrnO.png)
