@@ -222,3 +222,25 @@ grid on
 And this gives the plot:
 
 ![](https://i.imgur.com/wTekPqa.png)
+
+## 3.
+
+![](https://i.imgur.com/YWWEU7H.png)
+
+The left most root is the roll mode:
+
+$$
+s_1 = \boxed{-7 rad/s}
+$$
+
+The one with the imaginary parts is the dutch roll:
+
+$$
+s_{2,3} = \boxed{(-2 \pm 3i) rad/s}
+$$
+
+And the one close to the origin, or the one to the right is the spiral mode:
+
+$$
+s_4 = \boxed{-0.5 rad/s}
+$$
