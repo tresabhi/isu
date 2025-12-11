@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import detrend
 
+plt.rcParams["toolbar"] = "none"
+
 raw = pd.read_csv("aere-322/labs/10/data.csv", header=None)
 run_labels = raw.iloc[0]
 column_labels = raw.iloc[1]
@@ -38,7 +40,7 @@ for i in range(6):
         ]
 
     for t_segment, x_segment, label in segments:
-        x_segment = detrend(x_segment)
+        x_segment = detrend(x_segment) * 1000
         dt = np.mean(np.diff(t_segment))
 
         N = len(x_segment)
@@ -50,7 +52,8 @@ for i in range(6):
         plt.figure()
         plt.plot(frequencies[mask], np.abs(Y[mask]) * 2 / N)
         plt.xlabel("Frequency (Hz)")
-        plt.ylabel("Amplitude (m)")
+        plt.ylabel("Amplitude (mm)")
         plt.title(f"Run {run_index} FFT{label}")
+        plt.grid()
 
 plt.show()
