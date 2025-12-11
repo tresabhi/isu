@@ -24,6 +24,7 @@
     "ddot",
     "Decadal",
     "disp",
+    "fftfreq",
     "figsize",
     "fitrnet",
     "fmincon",
