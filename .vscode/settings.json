@@ -23,6 +23,7 @@
     "contourf",
     "ddot",
     "Decadal",
+    "detrend",
     "disp",
     "fftfreq",
     "figsize",

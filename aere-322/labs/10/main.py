@@ -12,31 +12,45 @@ runs = {
     run: data[run].apply(pd.to_numeric, errors="coerce") for run in run_labels.unique()
 }
 
+weight_removal_runs = [3, 6]
+weight_removal_time = 6
+
 for i in range(6):
-    run = runs[f"Run #{i+1}"]
+    run_index = i + 1
+    run = runs[f"Run #{run_index}"]
 
-    t = run["Time (s)"]
-    x = run["Position (m)"]
+    t = run["Time (s)"].values
+    x = run["Position (m)"].values
 
-    x = detrend(x)
+    segments = [(t, x, "")]
+    if run_index in weight_removal_runs:
+        segments = [
+            (
+                t[t <= weight_removal_time],
+                x[t <= weight_removal_time],
+                " (Before Removal)",
+            ),
+            (
+                t[t >= weight_removal_time],
+                x[t >= weight_removal_time],
+                " (After Removal)",
+            ),
+        ]
 
-    dt = np.mean(np.diff(t))
-    fs = 1 / dt
-    N = len(x)
+    for t_segment, x_segment, label in segments:
+        x_segment = detrend(x_segment)
+        dt = np.mean(np.diff(t_segment))
 
-    Y = np.fft.fft(x)
-    frequencies = np.fft.fftfreq(N, d=dt)
+        N = len(x_segment)
+        Y = np.fft.fft(x_segment)
 
-    mask = frequencies >= 0
-    frequencies = frequencies[mask]
-    Y = Y[mask]
+        frequencies = np.fft.fftfreq(N, d=dt)
+        mask = frequencies >= 0
 
-    magnitudes = np.abs(Y) * 2 / N
-
-    plt.figure()
-    plt.plot(frequencies, magnitudes)
-    plt.xlabel("Frequency (Hz)")
-    plt.ylabel("Amplitude (m)")
-    plt.title(f"Run {i + 1} FFT")
+        plt.figure()
+        plt.plot(frequencies[mask], np.abs(Y[mask]) * 2 / N)
+        plt.xlabel("Frequency (Hz)")
+        plt.ylabel("Amplitude (m)")
+        plt.title(f"Run {run_index} FFT{label}")
 
 plt.show()
