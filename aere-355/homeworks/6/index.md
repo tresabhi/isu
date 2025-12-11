@@ -244,3 +244,33 @@ And the one close to the origin, or the one to the right is the spiral mode:
 $$
 s_4 = \boxed{-0.5 rad/s}
 $$
+
+Doubling time:
+
+$$
+e^{\Re(s) t} = k = 2
+$$
+
+$$
+t = \frac{\ln k}{\Re(s)} = \frac{\ln 2}{\Re(s)}
+$$
+
+Halving time:
+
+$$
+t = \frac{\ln \frac{1}{2}}{\Re(s)} = -\frac{\ln 2}{\Re(s)}
+$$
+
+So, really, I have to use the doubling time and if the result is negative, I should've used the halving time. And since they all have negative real parts, I will always be using the halving timeL
+
+$$
+t_1 = -\frac{\ln 2}{-7 rad/s} = \boxed{0.09902 s}
+$$
+
+$$
+t_{2,3} = -\frac{\ln 2}{-2 rad/s} = \boxed{0.3466 s}
+$$
+
+$$
+t_4 = -\frac{\ln 2}{-0.5 rad/s} = \boxed{1.39 s}
+$$
