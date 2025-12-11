@@ -23,9 +23,9 @@ disp('eigenvalues =')
 disp(eigenvalues)
 
 sigma = real(eigenvalues(1));
-nu = imag(eigenvalues(1));
+omega_d = imag(eigenvalues(1));
 
-omega_n = sqrt(sigma ^ 2 + nu ^ 2);
+omega_n = sqrt(sigma ^ 2 + omega_d ^ 2);
 zeta = -sigma / omega_n;
 
 disp('omega_n =')
@@ -33,3 +33,43 @@ disp(omega_n)
 
 disp('zeta =')
 disp(zeta)
+
+T = 2 * pi / omega_d;
+
+disp('T =')
+disp(T)
+
+t_half = -log(2) / sigma;
+
+disp('t_half =')
+disp(t_half)
+
+x_0 = [0.1; 0];
+[t, x] = ode45(@(t, x) dutch_roll(x, A, B, 0), [0, 3 * T], x_0);
+
+figure(1)
+plot(t, x(:, 1))
+hold on
+plot(t, x(:, 2))
+legend('\beta (rad)', 'r (rad/s)')
+grid on
+xlabel('Time (s)')
+ylabel('x (m)')
+title('Dutch Roll Input Response')
+
+x_0 = [0; 0];
+[t, x] = ode45(@(t, x) dutch_roll(x, A, B, 1), [0, 3 * T], x_0);
+
+figure(2)
+plot(t, x(:, 1))
+hold on
+plot(t, x(:, 2))
+legend('\beta (rad)', 'r (rad/s)')
+grid on
+xlabel('Time (s)')
+ylabel('x (m)')
+title('Dutch Roll Step Response')
+
+function x_dot = dutch_roll(x, A, B, delta_r)
+    x_dot = A * x + B * delta_r;
+end

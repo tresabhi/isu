@@ -274,3 +274,119 @@ $$
 $$
 t_4 = -\frac{\ln 2}{-0.5 rad/s} = \boxed{1.39 s}
 $$
+
+## 4.
+
+I solved the entire problem entirely in MATLAB:
+
+```m
+Y_beta = -7.8;
+Y_delta_r = 5.236;
+Y_r = 2.47;
+
+N_r = -0.34;
+N_delta_r = -0.616;
+N_beta = 0.64;
+
+u_0 = 154;
+
+A = [
+     Y_beta / u_0, - (1 - Y_r / u_0);
+     N_beta, N_r
+     ];
+B = [
+     Y_delta_r / u_0;
+     N_delta_r
+     ];
+
+eigenvalues = eig(A);
+
+disp('eigenvalues =')
+disp(eigenvalues)
+
+sigma = real(eigenvalues(1));
+omega_d = imag(eigenvalues(1));
+
+omega_n = sqrt(sigma ^ 2 + omega_d ^ 2);
+zeta = -sigma / omega_n;
+
+disp('omega_n =')
+disp(omega_n)
+
+disp('zeta =')
+disp(zeta)
+
+T = 2 * pi / omega_d;
+
+disp('T =')
+disp(T)
+
+t_half = -log(2) / sigma;
+
+disp('t_half =')
+disp(t_half)
+
+x_0 = [0.1; 0];
+[t, x] = ode45(@(t, x) dutch_roll(x, A, B, 0), [0, 3 * T], x_0);
+
+figure(1)
+plot(t, x(:, 1))
+hold on
+plot(t, x(:, 2))
+legend('\beta (rad)', 'r (rad/s)')
+grid on
+xlabel('Time (s)')
+ylabel('x (m)')
+title('Dutch Roll Input Response')
+
+x_0 = [0; 0];
+[t, x] = ode45(@(t, x) dutch_roll(x, A, B, 1), [0, 3 * T], x_0);
+
+figure(2)
+plot(t, x(:, 1))
+hold on
+plot(t, x(:, 2))
+legend('\beta (rad)', 'r (rad/s)')
+grid on
+xlabel('Time (s)')
+ylabel('x (m)')
+title('Dutch Roll Step Response')
+
+function x_dot = dutch_roll(x, A, B, delta_r)
+    x_dot = A * x + B * delta_r;
+end
+```
+
+This produces the following input response plot:
+
+![](https://i.imgur.com/b8wd1ah.png)
+
+And the step input response plot:
+
+![](https://i.imgur.com/cTEdtgt.png)
+
+And the following outputs:
+
+```
+eigenvalues =
+  -0.1953 + 0.7803i
+  -0.1953 - 0.7803i
+
+omega_n =
+    0.8043
+
+zeta =
+    0.2428
+
+T =
+    8.0527
+
+t_half =
+    3.5487
+```
+
+But that's not it. Part (d) requires me to visually estimate the period and time to half amplitude:
+
+![](https://i.imgur.com/hkh7qUf.png)
+
+The period seems to be about $7.5s$ which is pretty close to the $T = 8.0527s$ that the code predicted. And as for the halving time, that was a bit more scuffed, but visually, I placed it at about $5.5s$ which is not at all close to the $t_{half} = 3.5487s$.
