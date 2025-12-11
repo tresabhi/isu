@@ -261,7 +261,7 @@ $$
 t = \frac{\ln \frac{1}{2}}{\Re(s)} = -\frac{\ln 2}{\Re(s)}
 $$
 
-So, really, I have to use the doubling time and if the result is negative, I should've used the halving time. And since they all have negative real parts, I will always be using the halving timeL
+So, really, when I am using the doubling time and if the result is negative, I should've used the halving time. And since they all have negative real parts, I will always be using the halving timeL
 
 $$
 t_1 = -\frac{\ln 2}{-7 rad/s} = \boxed{0.09902 s}
