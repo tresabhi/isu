@@ -69,6 +69,7 @@ def main():
                 and last_character in CONSONANTS
                 and second_last_character in CONSONANTS
                 # y is an exception to the double consonant rule.
+                and last_character not in DOUBLE_COUNTING_EXCEPTIONS
                 and second_last_character not in DOUBLE_COUNTING_EXCEPTIONS
                 # Exempt the preset combos. In other words, if they show up,
                 # it's fine to not consider it as a double consonant.
@@ -80,6 +81,7 @@ def main():
                 has_second_last_character
                 and last_character in VOWELS
                 and second_last_character in VOWELS
+                and last_character not in DOUBLE_COUNTING_EXCEPTIONS
                 and second_last_character not in DOUBLE_COUNTING_EXCEPTIONS
                 and last_two not in TRIPLE_COUNTING_EXCEPTIONS
             )

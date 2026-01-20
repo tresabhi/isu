@@ -71,6 +71,7 @@
     "pretraining",
     "printoptions",
     "raan",
+    "randint",
     "randn",
     "Raphson",
     "rosbag",
