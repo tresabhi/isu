@@ -14,6 +14,7 @@ Feel free to reference it but keep in mind I am a student too. **I make a lot of
 | [AERE 322](/aere-322)  | Aerospace Structures Laboratory                                          |
 | [AERE 351](/aere-351)  | Astrodynamics I                                                          |
 | [AERE 355](/aere-355)  | Aircraft Flight Dynamics and Control                                     |
+| [AERE 362](/aere-361)  | Computational Techniques for Aerospace Design                            |
 | [AERE 362](/aere-362)  | Aerospace Systems Integration                                            |
 | [AERE 490E](/aere-490) | Aerospace Engineering Independent Study: Spacecraft Systems              |
 | [CPRE 287](/cpre-287)  | Cyber-Physical System Fundamentals                                       |
