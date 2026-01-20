@@ -26,6 +26,22 @@ Then, I declared two composite booleans dictating wether there are two consonant
 
 The same is done, but for vowels. Then, an empty pool variable is declared which will hold all valid list of characters. The pool is filled with vowels if we had double consonants and vice versa. If we had neither double consonants nor double vowels, then all characters are allowed. Finally, the random character is picked from the pool and appended to the name.
 
+## What method or library did you use to generate random characters, and why did you choose that approach?
+
+I used the `random` library because it comes built into Python.
+
+## What steps did you take to ensure each character in the name is truly random while implementing the rules?
+
+Please see the double counting check above (the numbered list).
+
+## How did you test the generator to ensure all the requirements were met? Can you describe your testing process and provide examples of names your generator produced?
+
+I just ran it a bunch of times to cover all edge cases and recorded a few for this writeup.
+
+- `Poyhnuc` proves the algorithm's handing of the "y" exception as "h" and "n" are allowed even after "y".
+- `Pjaalyq`, among many others, proves the algorithm stops using vowels when double consonants are present. Here, "l" was used after "aa".
+- `Chroot` proves the algorithm allowed "r" after "c" and "h" because "ch" is a part of the triple count exception list.
+
 ## Errors
 
 The only error I encountered was running the wrong command because I pressed the up arrow one too many times and ended up running:
