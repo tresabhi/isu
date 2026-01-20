@@ -4,7 +4,7 @@
 
 I first decided to take it slow and start off by declaring all the constants. I.e. the list of consonants, vowels, exceptions to the rules like the character `y` and the two letter combos like `sh`, `th`, and `ch`.
 
-With the constants declared, using the random library's `randint` function, I generated the number of characters that I must have for the name and started looping using the `range` function and `i` to keep track of the indices.
+With the constants declared, using the random library's `randint` function, I generated the n\umber of characters that I must have for the name and started looping using the `range` function and `i` to keep track of the indices.
 
 Feeling overwhelmed by the rules and exceptions, I decided to simply handle the easiest case first: the first character. This special letter has the opportunity to be picked from any character in the English alphabet. I do this when `i == 0` and capitalize.
 
