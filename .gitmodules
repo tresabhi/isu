@@ -17,6 +17,3 @@
 [submodule "me-280/homeworks/4/src/me2800_hw4"]
 	path = me-280/homeworks/4/src/me2800_hw4
 	url = https://github.com/tresabhi/me2800_hw4.git
-[submodule "me-280/f1sim_ws/src/f1tenth_gym_ros"]
-	path = me-280/f1sim_ws/src/f1tenth_gym_ros
-	url = https://github.com/tresabhi/f1tenth_gym_ros
