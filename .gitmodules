@@ -19,7 +19,7 @@
 	url = https://github.com/tresabhi/me2800_hw4.git
 [submodule "me-280/project"]
 	path = me-280/project
-	url = https://github.com/tresabhi/me-280-project
+	url = https://github.com/tresabhi/me-280-project.git
 [submodule "aere-361/labs/1"]
 	path = aere-361/labs/1
-	url = https://github.com/AERE-361/lab-1-s2026-tresabhi
+	url = https://github.com/AERE-361/lab-1-s2026-tresabhi.git
