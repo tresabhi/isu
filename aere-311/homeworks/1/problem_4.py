@@ -27,8 +27,8 @@ delta_s = c_p * math.log(T_2 / T_1) - R * math.log(p_2 / p_1)
 print(
     tabulate(
         [
-            ["delta_h", delta_h.to(ur.J / ur.kg)],
-            ["delta_e", delta_e.to(ur.J / ur.kg)],
+            ["delta_h", delta_h.to(ur.J / ur.kg)],  # WRONG
+            ["delta_e", delta_e.to(ur.J / ur.kg)],  # WRONG
             ["delta_s", delta_s.to(ur.J / (ur.kg * ur.K))],
         ]
     )
