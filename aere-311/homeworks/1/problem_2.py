@@ -3,7 +3,7 @@ from tabulate import tabulate
 
 ur = pint.UnitRegistry()
 
-R = 1716.46 * ur.ft * ur.lb / (ur.slug * ur.rankine)
+R = 1716.46 * ur.ft * ur.lbf / (ur.slug * ur.rankine)
 T = 936 * ur.rankine
 p = 7.8 * ur.atm
 
@@ -17,10 +17,10 @@ h = c_p * T
 print(
     tabulate(
         [
-            ["c_p", c_p.to(ur.ft * ur.lb / (ur.slug * ur.rankine))],
-            ["c_v", c_v.to(ur.ft * ur.lb / (ur.slug * ur.rankine))],
-            ["e", e.to(ur.ft * ur.lb / ur.slug)],
-            ["h", h.to(ur.ft * ur.lb / ur.slug)],
+            ["c_p", c_p.to(ur.ft * ur.lbf / (ur.slug * ur.rankine))],
+            ["c_v", c_v.to(ur.ft * ur.lbf / (ur.slug * ur.rankine))],
+            ["e", e.to(ur.ft * ur.lbf / ur.slug)],
+            ["h", h.to(ur.ft * ur.lbf / ur.slug)],
         ]
     )
 )
