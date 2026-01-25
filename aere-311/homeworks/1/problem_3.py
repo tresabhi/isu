@@ -19,8 +19,8 @@ print(
         [
             ["c_p", c_p.to(ur.ft * ur.lbf / (ur.slug * ur.rankine))],
             ["c_v", c_v.to(ur.ft * ur.lbf / (ur.slug * ur.rankine))],
-            ["e", e.to(ur.ft * ur.lbf / ur.slug)],  # WRONG
-            ["h", h.to(ur.ft * ur.lbf / ur.slug)],  # WRONG
+            ["e / 1e6", e.to(ur.ft * ur.lbf / ur.slug) / 1e6],
+            ["h / 1e6", h.to(ur.ft * ur.lbf / ur.slug) / 1e6],
         ]
     )
 )
