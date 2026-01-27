@@ -23,3 +23,6 @@
 [submodule "aere-361/labs/1"]
 	path = aere-361/labs/1
 	url = https://github.com/AERE-361/lab-1-s2026-tresabhi.git
+[submodule "cpre-287/labs/2"]
+	path = cpre-287/labs/2
+	url = https://git.ece.iastate.edu/tpdeerin/cpre287x-l2.git
