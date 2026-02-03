@@ -11,9 +11,11 @@ c_p, c_v, R = symbols("c_p c_v R")
 
 T_0, T = symbols("T_0 T")
 rho_0, rho = symbols("rho_0 rho")
-P_0, P = symbols("rho_0 rho")
+P_0, P = symbols("P_0 P")
 
 equations = [
+    Eq(gamma, c_p / c_v),
+    Eq(R, c_p - c_v),
     Eq(T_0 / T, (1 + ((gamma - 1) / 2) * M**2)),
     Eq(rho_0 / rho, (T_0 / T) ** (c_v / R)),
     Eq(P_0 / P, (T_0 / T) ** (c_p / R)),
@@ -41,10 +43,13 @@ units = {
 
 knowns = {
     gamma: 7 / 5,
+    R: 287.05 * ur.J / (ur.kg * ur.K),
+}
+knowns = {
+    **knowns,
     M: 2.6,
     T_0: 269.15 * ur.K,
 }
-
 knowns = {
     key: (value.to(units[key]).magnitude if isinstance(value, Quantity) else value)
     for key, value in knowns.items()
