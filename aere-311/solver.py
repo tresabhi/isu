@@ -2,7 +2,7 @@ from sympy import symbols, Eq, solve, Float, Mul
 from tabulate import tabulate
 from pint import UnitRegistry, Quantity
 
-ur = UnitRegistry(system="mks")
+ur = UnitRegistry()
 
 u, M = symbols("u M")
 
@@ -20,25 +20,30 @@ equations = [
     Eq(rho_0 / rho, (T_0 / T) ** (c_v / R)),
     Eq(P_0 / P, (T_0 / T) ** (c_p / R)),
 ]
-units = {
+
+base_units = {
     u: ur.m / ur.s,
     M: ur.dimensionless,
 }
-units = {
-    **units,
+base_units = {
+    **base_units,
     gamma: ur.dimensionless,
     c_p: ur.J / (ur.kg * ur.K),
     c_v: ur.J / (ur.kg * ur.K),
     R: ur.J / (ur.kg * ur.K),
 }
-units = {
-    **units,
+base_units = {
+    **base_units,
     T_0: ur.K,
     T: ur.K,
     rho_0: ur.kg / ur.m**3,
     rho: ur.kg / ur.m**3,
     P_0: ur.Pa,
     P: ur.Pa,
+}
+
+output_units = {
+    P_0: ur.atm,
 }
 
 knowns = {
@@ -49,9 +54,10 @@ knowns = {
     **knowns,
     M: 2.6,
     T_0: 269.15 * ur.K,
+    P: 1 * ur.atm,
 }
 knowns = {
-    key: (value.to(units[key]).magnitude if isinstance(value, Quantity) else value)
+    key: (value.to(base_units[key]).magnitude if isinstance(value, Quantity) else value)
     for key, value in knowns.items()
 }
 
@@ -64,7 +70,8 @@ for index, solutions in enumerate(solution_sets):
 
     for key, value in solutions.items():
         if isinstance(value, Float):
-            knowns[key] = float(value) * units[key]
+            units = output_units[key] if key in output_units else base_units[key]
+            knowns[key] = (float(value) * base_units[key]).to(units)
         elif isinstance(value, Mul):
             unknowns[key] = value
         else:
