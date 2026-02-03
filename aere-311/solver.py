@@ -1,4 +1,4 @@
-from sympy import symbols, Eq, solve
+from sympy import symbols, Eq, solve, Float, Mul
 from tabulate import tabulate
 from pint import UnitRegistry, Quantity
 
@@ -51,8 +51,24 @@ knowns = {
 }
 
 equations = [equation.subs(knowns) for equation in equations]
-solutions = solve(equations)
+solution_sets = solve(equations)
 
-for index, solution in enumerate(solutions):
-    print(f"Solution set {index + 1}")
-    print(tabulate(solution.items()), end="\n\n")
+for index, solutions in enumerate(solution_sets):
+    knowns = {}
+    unknowns = {}
+
+    for key, value in solutions.items():
+        if isinstance(value, Float):
+            knowns[key] = float(value) * units[key]
+        elif isinstance(value, Mul):
+            unknowns[key] = value
+        else:
+            raise Exception(f"Unknown solution type: {type(value)}")
+
+    if len(knowns) > 0:
+        print(f"Set {index + 1} knowns:")
+        print(tabulate(knowns.items()), end="\n\n")
+
+    if len(unknowns) > 0:
+        print(f"Set {index + 1} unknowns:")
+        print(tabulate(unknowns.items()), end="\n\n")
