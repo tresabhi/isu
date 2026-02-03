@@ -29,3 +29,6 @@
 [submodule "aere-361/labs/2"]
 	path = aere-361/labs/2
 	url = https://github.com/AERE-361/lab-2-s2026-tresabhi.git
+[submodule "cpre-287/labs/3"]
+	path = cpre-287/labs/3
+	url = https://git.ece.iastate.edu/tpdeerin/smart-hvac-project-skeleton-group-1.git
