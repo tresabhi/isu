@@ -5,6 +5,8 @@ from equations import *
 if __name__ == "__main__":
     solution_sets = solve(equations)
 
+    print(f"{len(solution_sets)} solution sets", end="\n\n")
+
     for index, solutions in enumerate(solution_sets):
         knowns = {}
         unknowns = {}
