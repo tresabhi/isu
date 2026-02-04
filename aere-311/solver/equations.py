@@ -20,7 +20,7 @@ from knowns import *
 #     Eq(P_P_0, P / P_0),
 # ]
 
-equations = [
+equations_isentropic = [
     Eq(P_0, rho_0 * R * T_0),
     Eq(P, rho * R * T),
     #
@@ -35,4 +35,5 @@ equations = [
     Eq(P_0 / P, (T_0 / T) ** (gamma / (gamma - 1))),
 ]
 
+equations = [*equations_isentropic]
 equations = [equation.subs(knowns) for equation in equations]
