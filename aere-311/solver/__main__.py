@@ -6,7 +6,7 @@ from symbols import *
 if __name__ == "__main__":
     print("Solving...")
 
-    sets = solve(equations)
+    sets = solve(equations, dict=True)
     count = len(sets)
 
     if count == 0:

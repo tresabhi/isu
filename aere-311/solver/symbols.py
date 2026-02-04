@@ -1,6 +1,7 @@
 from sympy import symbols
 
 u, M, a = symbols("u M a")
+u_0, M_0, a_0 = symbols("u_0 M_0 a_0")
 
 gamma = symbols("gamma")
 c_p, c_v, R = symbols("c_p c_v R")

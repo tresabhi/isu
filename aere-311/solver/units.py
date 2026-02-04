@@ -3,8 +3,11 @@ from registry import *
 
 base_units = {
     u: ur.m / ur.s,
+    u_0: ur.m / ur.s,
     M: ur.dimensionless,
+    M_0: ur.dimensionless,
     a: ur.m / ur.s,
+    a_0: ur.m / ur.s,
     #
     gamma: ur.dimensionless,
     c_p: ur.J / (ur.kg * ur.K),
