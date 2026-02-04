@@ -18,15 +18,15 @@ base_units = {
     T: ur.K,
     rho_0: ur.kg / ur.m**3,
     rho: ur.kg / ur.m**3,
-    P_0: ur.Pa,
-    P: ur.Pa,
+    p_0: ur.Pa,
+    p: ur.Pa,
     #
     T_T_0: ur.dimensionless,
     rho_rho_0: ur.dimensionless,
-    P_P_0: ur.dimensionless,
+    p_p_0: ur.dimensionless,
 }
 
 output_units = {
-    P_0: ur.atm,
-    P: ur.atm,
+    p_0: ur.atm,
+    p: ur.atm,
 }

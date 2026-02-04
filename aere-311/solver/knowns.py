@@ -7,8 +7,9 @@ knowns = {
     gamma: 7 / 5,
     R: 287.05 * ur.J / (ur.kg * ur.K),
     #
-    T_0: 950 * ur.K,
-    T: 600 * ur.K,
+    p: 0.61 * ur.atm,
+    rho: 0.819 * ur.kg / ur.m**3,
+    u: 300 * ur.m / ur.s,
 }
 
 knowns = {
