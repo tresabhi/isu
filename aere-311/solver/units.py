@@ -17,6 +17,10 @@ base_units = {
     rho: ur.kg / ur.m**3,
     P_0: ur.Pa,
     P: ur.Pa,
+    #
+    T_T_0: ur.dimensionless,
+    rho_rho_0: ur.dimensionless,
+    P_P_0: ur.dimensionless,
 }
 
 output_units = {

@@ -1,13 +1,21 @@
 from sympy import solve, Float, Mul
 from tabulate import tabulate
 from equations import *
+from symbols import *
 
 if __name__ == "__main__":
-    solution_sets = solve(equations)
+    print("Solving...")
 
-    print(f"{len(solution_sets)} solution sets", end="\n\n")
+    sets = solve(equations)
+    count = len(sets)
 
-    for index, solutions in enumerate(solution_sets):
+    if count == 0:
+        print("No solutions found! System might be over-constrained.", end="\n\n")
+        exit(1)
+
+    print(f"{len(sets)} solution sets", end="\n\n")
+
+    for index, solutions in enumerate(sets):
         knowns = {}
         unknowns = {}
 
