@@ -16,5 +16,4 @@ if __name__ == "__main__":
             T_0: 519 * ur.rankine,
             u: 1360 * ur.ft / ur.s,
         },
-        [M, u],
     )
