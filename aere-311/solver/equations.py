@@ -3,14 +3,17 @@ from symbols import *
 
 isentropic_equations = [
     Eq(p, rho * R * T),
+    Eq(p_0, rho_0 * R * T_0),
     Eq(p_inf, rho_inf * R * T_inf),
     Eq(p_star, rho_star * R * T_star),
     #
     Eq(a, (gamma * R * T) ** (1 / 2)),
+    Eq(a_0, (gamma * R * T_0) ** (1 / 2)),
     Eq(a_inf, (gamma * R * T_inf) ** (1 / 2)),
     Eq(a_star, (gamma * R * T_star) ** (1 / 2)),
     #
     Eq(M, u / a),
+    Eq(M_0, u_0 / a_0),
     Eq(M_inf, u_inf / a_inf),
     Eq(M_star, u_star / a_star),
     #
