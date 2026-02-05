@@ -4,7 +4,7 @@ from units import output_units, base_units
 from tabulate import tabulate
 
 
-def solve(equations, knowns, find):
+def solve(equations, knowns, find=None):
     print("Solving...\n")
 
     base_knowns = {
@@ -17,17 +17,23 @@ def solve(equations, knowns, find):
     }
     subbed_equations = [equation.subs(base_knowns) for equation in equations]
 
-    sets = sympy_solve(subbed_equations, find, dict=True)
+    sets = (
+        sympy_solve(subbed_equations, dict=True)
+        if find is None
+        else sympy_solve(subbed_equations, find, dict=True)
+    )
     count = len(sets)
 
     if count == 0:
-        print("No solutions found! System might be over-constrained.\n")
-        exit(1)
+        raise Exception("No solution sets")
+
+    # if count > 1:
+    #     raise Exception("More than 1 solution sets")
+
+    solved = {}
+    unsolved = {}
 
     for index, solutions in enumerate(sets):
-        solved = {}
-        unsolved = {}
-
         for key, value in solutions.items():
             if isinstance(value, Float):
                 units = output_units[key] if key in output_units else base_units[key]
@@ -44,3 +50,5 @@ def solve(equations, knowns, find):
         if len(unsolved) > 0:
             print(f"Set {index + 1} unknowns:")
             print(tabulate(unsolved.items()), end="\n\n")
+
+    return solved
