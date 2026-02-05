@@ -4,29 +4,43 @@ from registry import *
 base_units = {
     u: ur.m / ur.s,
     u_0: ur.m / ur.s,
-    M: ur.dimensionless,
-    M_0: ur.dimensionless,
+    u_inf: ur.m / ur.s,
+    u_star: ur.m / ur.s,
+    #
     a: ur.m / ur.s,
     a_0: ur.m / ur.s,
+    a_inf: ur.m / ur.s,
+    a_star: ur.m / ur.s,
+    #
+    M: ur.dimensionless,
+    M_0: ur.dimensionless,
+    M_inf: ur.dimensionless,
+    M_star: ur.dimensionless,
+    #
+    p: ur.Pa,
+    p_0: ur.Pa,
+    p_inf: ur.Pa,
+    p_star: ur.Pa,
+    #
+    rho: ur.kg / ur.m**3,
+    rho_0: ur.kg / ur.m**3,
+    rho_inf: ur.kg / ur.m**3,
+    rho_star: ur.kg / ur.m**3,
+    #
+    T: ur.K,
+    T_0: ur.K,
+    T_inf: ur.K,
+    T_star: ur.K,
     #
     gamma: ur.dimensionless,
     c_p: ur.J / (ur.kg * ur.K),
     c_v: ur.J / (ur.kg * ur.K),
     R: ur.J / (ur.kg * ur.K),
-    #
-    T_0: ur.K,
-    T: ur.K,
-    rho_0: ur.kg / ur.m**3,
-    rho: ur.kg / ur.m**3,
-    p_0: ur.Pa,
-    p: ur.Pa,
-    #
-    T_T_0: ur.dimensionless,
-    rho_rho_0: ur.dimensionless,
-    p_p_0: ur.dimensionless,
 }
 
 output_units = {
-    p_0: ur.atm,
     p: ur.atm,
+    p_0: ur.atm,
+    p_inf: ur.atm,
+    p_star: ur.atm,
 }

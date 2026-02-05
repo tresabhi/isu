@@ -1,11 +1,12 @@
 from sympy import symbols
 
-u, M, a = symbols("u M a")
-u_0, M_0, a_0 = symbols("u_0 M_0 a_0")
+u, u_0, u_inf, u_star = symbols("u u_0 u_inf u_star")
+a, a_0, a_inf, a_star = symbols("a a_0 a_inf a_star")
+M, M_0, M_inf, M_star = symbols("M M_0 M_inf M_star")
+
+p, p_0, p_inf, p_star = symbols("p p_0 p_inf p_star")
+rho, rho_0, rho_inf, rho_star = symbols("rho rho_0 rho_inf rho_star")
+T, T_0, T_inf, T_star = symbols("T T_0 T_inf T_star")
 
 gamma = symbols("gamma")
 c_p, c_v, R = symbols("c_p c_v R")
-
-T_0, T, T_T_0 = symbols("T_0 T T_T_0")
-rho_0, rho, rho_rho_0 = symbols("rho_0 rho rho_rho_0")
-p_0, p, p_p_0 = symbols("p_0 p p_p_0")
