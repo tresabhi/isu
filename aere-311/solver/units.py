@@ -22,6 +22,11 @@ base_units = {
     p_inf: ur.Pa,
     p_star: ur.Pa,
     #
+    q: ur.Pa,
+    q_0: ur.Pa,
+    q_inf: ur.Pa,
+    q_star: ur.Pa,
+    #
     rho: ur.kg / ur.m**3,
     rho_0: ur.kg / ur.m**3,
     rho_inf: ur.kg / ur.m**3,
@@ -43,4 +48,9 @@ output_units = {
     p_0: ur.atm,
     p_inf: ur.atm,
     p_star: ur.atm,
+    #
+    q: ur.atm,
+    q_0: ur.atm,
+    q_inf: ur.atm,
+    q_star: ur.atm,
 }

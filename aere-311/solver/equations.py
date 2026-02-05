@@ -28,6 +28,16 @@ isentropic_equations = [
 ]
 
 bernoulli_equations = [
-    Eq(p_inf + (1 / 2) * rho_inf * u_inf**2, p + (1 / 2) * rho * u**2),
-    Eq(rho_inf, rho),
+    Eq(q, (1 / 2) * rho * u**2),
+    Eq(q_0, (1 / 2) * rho_0 * u_0**2),
+    Eq(q_inf, (1 / 2) * rho_inf * u_inf**2),
+    Eq(q_star, (1 / 2) * rho_star * u_star**2),
+    #
+    Eq(p + q, p_0 + q_0),
+    Eq(p + q, p_inf + q_inf),
+    Eq(p + q, p_star + q_star),
+    #
+    Eq(rho, rho_0),
+    Eq(rho, rho_inf),
+    Eq(rho, rho_star),
 ]

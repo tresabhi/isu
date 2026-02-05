@@ -3,6 +3,8 @@ from sympy import solve as sympy_solve, Float, Mul, Add, nsolve
 from units import output_units, base_units
 from tabulate import tabulate
 
+headers = ["Symbol", "Value"]
+
 
 def solve(equations, knowns):
     knowns = {
@@ -44,10 +46,10 @@ def solve(equations, knowns):
             raise Exception(f"Unknown solution type: {type(value)}")
 
     if len(solved) > 0:
-        print(tabulate(solved.items()), end="\n\n")
+        print(tabulate(solved.items(), headers=headers), end="\n\n")
 
     if len(unsolved) > 0:
-        print(tabulate(unsolved.items()), end="\n\n")
+        print(tabulate(unsolved.items(), headers=headers), end="\n\n")
 
     return solved
 
