@@ -58,6 +58,7 @@
     "linspace",
     "markerfacecolor",
     "meshgrid",
+    "nsolve",
     "numel",
     "Numpy",
     "odeset",
