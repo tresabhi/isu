@@ -27,7 +27,7 @@ isentropic_equations = [
     Eq(p_0 / p_star, (1 + (gamma - 1) / 2 * M_star**2) ** (gamma / (gamma - 1))),
 ]
 
-equations_bernoulli = [
-    Eq(p_0 + (1 / 2) * rho_0 * u_0**2, p + (1 / 2) * rho * u**2),
-    Eq(rho_0, rho),
+bernoulli_equations = [
+    Eq(p_inf + (1 / 2) * rho_inf * u_inf**2, p + (1 / 2) * rho * u**2),
+    Eq(rho_inf, rho),
 ]

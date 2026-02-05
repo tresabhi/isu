@@ -44,11 +44,9 @@ def solve(equations, knowns):
             raise Exception(f"Unknown solution type: {type(value)}")
 
     if len(solved) > 0:
-        print(f"Set {0} knowns:")
         print(tabulate(solved.items()), end="\n\n")
 
     if len(unsolved) > 0:
-        print(f"Set {0} unknowns:")
         print(tabulate(unsolved.items()), end="\n\n")
 
     return solved

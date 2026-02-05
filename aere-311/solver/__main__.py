@@ -9,7 +9,7 @@ air = {
 }
 
 if __name__ == "__main__":
-    solve(
+    isentropic_solution = solve(
         isentropic_equations,
         {
             **air,
@@ -19,3 +19,20 @@ if __name__ == "__main__":
             p: 0.550 * ur.atm,
         },
     )
+
+    bernoulli_solution = solve(
+        bernoulli_equations,
+        {
+            **air,
+            p_inf: 0.61 * ur.atm,
+            rho_inf: 0.819 * ur.kg / ur.m**3,
+            u_inf: 300 * ur.m / ur.s,
+            p: 0.550 * ur.atm,
+        },
+    )
+
+    percentage_change = 100 * (
+        (bernoulli_solution[u] - isentropic_solution[u]) / isentropic_solution[u]
+    )
+
+    print("percentage_change", percentage_change)
