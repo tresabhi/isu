@@ -2,6 +2,9 @@ import sympy as sp
 from symbols import *
 
 isentropic_equations = [
+    sp.Eq(c_v, R / (gamma - 1)),
+    sp.Eq(c_p, (gamma * R) / (gamma - 1)),
+    #
     sp.Eq(p, rho * R * T),
     sp.Eq(p_0, rho_0 * R * T_0),
     sp.Eq(p_inf, rho_inf * R * T_inf),
