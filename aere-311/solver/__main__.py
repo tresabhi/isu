@@ -13,7 +13,9 @@ if __name__ == "__main__":
         isentropic_equations,
         {
             **air,
-            T_0: 519 * ur.rankine,
-            u: 1360 * ur.ft / ur.s,
+            p_inf: 0.61 * ur.atm,
+            rho_inf: 0.819 * ur.kg / ur.m**3,
+            u_inf: 300 * ur.m / ur.s,
+            p: 0.470 * ur.atm,
         },
     )
