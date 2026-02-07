@@ -383,3 +383,42 @@ U' = \begin{bmatrix}
   \delta_3 = \delta = 20mm
 \end{bmatrix}
 $$
+
+The formula:
+
+$$
+S' U' = F'
+$$
+
+$$
+\begin{bmatrix}
+  4 & -2 \\
+  -2 & 2
+\end{bmatrix} \begin{bmatrix}
+  \delta_2 \\
+  20
+\end{bmatrix} = \begin{bmatrix}
+  0 \\
+  F_3
+\end{bmatrix}
+$$
+
+Expanding to equations:
+
+$$
+4 \delta_2 - 2 * 20 = 0 \Rightarrow 4 \delta_2 - 40 = 0 \Rightarrow \delta_2 = 10
+$$
+
+$$
+-2 \delta_2 + 2 * 20 = F_3 \Rightarrow -2 * 10 + 40 = F_3 \Rightarrow F_3 = 20
+$$
+
+Thus:
+
+$$
+\boxed{\delta_2 = 10mm}
+$$
+
+$$
+\boxed{F_3 = 20N}
+$$
