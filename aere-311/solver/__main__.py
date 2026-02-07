@@ -20,5 +20,7 @@ if __name__ == "__main__":
             **sonic,
             #
             M: 0.3786,
+            T: 300 * ur.K,
+            rho: 1 * ur.kg / ur.m**3,
         },
     )
