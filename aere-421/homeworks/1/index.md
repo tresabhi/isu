@@ -239,6 +239,8 @@ $$
 
 ## 2.
 
+![](https://i.imgur.com/G7Hpk4B.png)
+
 I will just be forking my code from before as I have already explained everything. I will also be reducing the intermediate prints as it's unnecessary:
 
 ```py
@@ -323,4 +325,61 @@ $$
 
 $$
 \boxed{\delta_4 = 0.5 \text{in}}
+$$
+
+## 3.
+
+![](https://i.imgur.com/b3yX3EL.png)
+
+Because there are unknowns both in $U$ and $F$, I will have to do this symbolically. Here are the knowns (everything in Newtons and millimeters):
+
+$$
+\delta_1 = 0
+$$
+
+$$
+\delta_3 = 20mm
+$$
+
+$$
+k_1 = k_2 = 2000 \frac{N}{m} \frac{1m}{1000mm} = 2 \frac{N}{mm}
+$$
+
+$$
+S = \begin{bmatrix}
+  k_1 & -k_1 & 0 \\
+  -k_1 & k_1 + k_2 & -k_2 \\
+  0 & -k_2 & k_2
+\end{bmatrix} = \begin{bmatrix}
+  2 & -2 & 0 \\
+  -2 & 4 & -2 \\
+  0 & -2 & 2
+\end{bmatrix}
+$$
+
+Trimming $S$:
+
+$$
+S' = \begin{bmatrix}
+  4 & -2 \\
+  -2 & 2
+\end{bmatrix}
+$$
+
+The trimmed force vector:
+
+$$
+F' = \begin{bmatrix}
+  0 \\
+  F_3
+\end{bmatrix}
+$$
+
+The trimmed displacement vector:
+
+$$
+U' = \begin{bmatrix}
+  \delta_2 \\
+  \delta_3 = \delta = 20mm
+\end{bmatrix}
 $$
