@@ -42,11 +42,22 @@ S = K_1 + K_2 + K_3
 
 print(S, end="\n\n")
 
-S = S[
-    np.ix_(
-        [1, 2],
-        [1, 2],
-    )
-]
+free = [1, 2, 3]
+S = S[np.ix_(free, free)]
 
 print(S, end="\n\n")
+
+F = np.matrix(
+    [
+        [0],
+        [-1000],
+        [0],
+        [4000],
+    ]
+)[np.ix_(free)]
+
+print(F, end="\n\n")
+
+U = np.linalg.solve(S, F)
+
+print(U)

@@ -101,15 +101,11 @@ And this of course results int he correct global matrix:
  [    0     0 -1000  1000]]
 ```
 
-Looking at the image again, however, reveals that only indices $2$ and $3$ are free. Thus, I trim the global matrix to just have the movable nodes, but I use the indices $1$ and $2$ since Python is a 0-indexed language, unlike English. The indices show up twice to ask `numpy` to slice both vertically and horizontally:
+Looking at the image again, however, reveals that only indices $2$, $3$, and $4$ are free. Thus, I trim the global matrix to just have the movable nodes, but I use the indices $1$, $2$, and $3$ since Python is a 0-indexed language, unlike English. The indices show up twice to ask `numpy` to slice both vertically and horizontally:
 
 ```py
-S = S[
-    np.ix_(
-        [1, 2],
-        [1, 2],
-    )
-]
+free = [1, 2, 3]
+S = S[np.ix_(free, free)]
 
 print(S, end="\n\n")
 ```
@@ -117,6 +113,126 @@ print(S, end="\n\n")
 And we get the expected slice:
 
 ```
-[[ 2000 -1000]
- [-1000  2000]]
+[[ 2000 -1000     0]
+ [-1000  2000 -1000]
+ [    0 -1000  1000]]
 ```
+
+Now would be an appropriate time to declare the external forces:
+
+```py
+F = np.matrix(
+    [
+        [0],
+        [-1000],
+        [0],
+        [4000],
+    ]
+)[np.ix_(free)]
+```
+
+Now I know it's a little silly to declare the full external force matrix, just to trim off the first value instantly, but it's the consistency that matters. Nevertheless, the output:
+
+```
+[[-1000]
+ [    0]
+ [ 4000]]
+```
+
+Using `numpy`'s `linalg` module gives me a simple way to find the displacements:
+
+```py
+U = np.linalg.solve(S, F)
+
+print(U)
+```
+
+And the displacements are:
+
+```
+[[ 3.]
+ [ 7.]
+ [11.]]
+```
+
+As a review, here's the entire script:
+
+```py
+import numpy as np
+
+k_1 = k_2 = k_3 = 1000
+K_1 = K_2 = K_3 = k_1 * np.matrix(
+    [
+        [1, -1],
+        [-1, 1],
+    ]
+)
+
+print(K_1, end="\n\n")
+print(K_2, end="\n\n")
+print(K_3, end="\n\n")
+
+K_1 = np.pad(
+    K_1,
+    pad_width=(
+        (0, 2),
+        (0, 2),
+    ),
+)
+K_2 = np.pad(
+    K_2,
+    pad_width=(
+        (1, 1),
+        (1, 1),
+    ),
+)
+K_3 = np.pad(
+    K_3,
+    pad_width=(
+        (2, 0),
+        (2, 0),
+    ),
+)
+
+print(K_1, end="\n\n")
+print(K_2, end="\n\n")
+print(K_3, end="\n\n")
+
+S = K_1 + K_2 + K_3
+
+print(S, end="\n\n")
+
+free = [1, 2, 3]
+S = S[np.ix_(free, free)]
+
+print(S, end="\n\n")
+
+F = np.matrix(
+    [
+        [0],
+        [-1000],
+        [0],
+        [4000],
+    ]
+)[np.ix_(free)]
+
+print(F, end="\n\n")
+
+U = np.linalg.solve(S, F)
+
+print(U)
+```
+
+And the results are:
+
+$$
+\boxed{\delta_2 = 3 \text{in}}
+$$
+
+$$
+\boxed{\delta_3 = 7 \text{in}}
+$$
+
+$$
+\boxed{\delta_4 = 11 \text{in}}
+$$
