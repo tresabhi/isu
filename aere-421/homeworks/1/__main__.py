@@ -41,3 +41,12 @@ print(K_3, end="\n\n")
 S = K_1 + K_2 + K_3
 
 print(S, end="\n\n")
+
+S = S[
+    np.ix_(
+        [1, 2],
+        [1, 2],
+    )
+]
+
+print(S, end="\n\n")

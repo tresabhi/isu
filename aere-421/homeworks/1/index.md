@@ -100,3 +100,23 @@ And this of course results int he correct global matrix:
  [    0 -1000  2000 -1000]
  [    0     0 -1000  1000]]
 ```
+
+Looking at the image again, however, reveals that only indices $2$ and $3$ are free. Thus, I trim the global matrix to just have the movable nodes, but I use the indices $1$ and $2$ since Python is a 0-indexed language, unlike English. The indices show up twice to ask `numpy` to slice both vertically and horizontally:
+
+```py
+S = S[
+    np.ix_(
+        [1, 2],
+        [1, 2],
+    )
+]
+
+print(S, end="\n\n")
+```
+
+And we get the expected slice:
+
+```
+[[ 2000 -1000]
+ [-1000  2000]]
+```
