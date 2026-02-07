@@ -37,3 +37,7 @@ K_3 = np.pad(
 print(K_1, end="\n\n")
 print(K_2, end="\n\n")
 print(K_3, end="\n\n")
+
+S = K_1 + K_2 + K_3
+
+print(S, end="\n\n")
