@@ -13,14 +13,9 @@ sonic = {
 }
 
 if __name__ == "__main__":
-    solve(
-        isentropic_equations,
-        {
-            **air,
-            **sonic,
-            #
-            M: 0.3786,
-            T: 300 * ur.K,
-            rho: 1 * ur.kg / ur.m**3,
-        },
-    )
+    find = [M, p_0_p, rho_0_rho, T_0_T]
+
+    solve(isentropic_equations, {**air, M: 0.61}, find)
+    solve(isentropic_equations, {**air, rho_0_rho: 9.9}, find)
+    solve(isentropic_equations, {**air, p_0_p: 1.5}, find)
+    solve(isentropic_equations, {**air, T_0_T: 1.01}, find)

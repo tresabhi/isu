@@ -9,7 +9,7 @@ HEADERS = ["Symbol", "Value"]
 EQUIVALENCY_THRESHOLD = 0.01
 
 
-def solve(equations, knowns):
+def solve(equations, knowns, find=None):
     knowns = {
         key: (
             value.to(base_units[key]).magnitude
@@ -54,8 +54,10 @@ def solve(equations, knowns):
         units = output_units[symbol] if symbol in output_units else base_units[symbol]
         value_with_units = (float(value) * base_units[symbol]).to(units)
 
-        solved_rows.append((symbol, value_with_units))
         solved_dict[symbol] = value
+
+        if find is not None and symbol in find:
+            solved_rows.append((symbol, value_with_units))
 
     if len(solved_rows) > 0:
         print()
