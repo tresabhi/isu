@@ -39,12 +39,11 @@ def solve(equations, knowns, find=None):
 
             if solutions_count == 1:
                 solution = float(solutions[0])
-            elif solutions_count == 0:
-                logger.warning(f"{symbol}: numerical solving")
-                solution = sp.nsolve(equation, symbol, 1)
             else:
-                logger.error(f"{symbol}: picking last of {solutions_count} solutions")
-                solution = float(solutions[-1])
+                logger.warning(
+                    f"{symbol}: {solutions_count} solutions; numerical solving..."
+                )
+                solution = sp.nsolve(equation, symbol, 1)
 
             if symbol in knowns:
                 if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:

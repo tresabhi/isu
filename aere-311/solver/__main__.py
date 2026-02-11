@@ -8,18 +8,13 @@ air = {
     R: 287.05 * ur.J / (ur.kg * ur.K),
 }
 
-sonic = {
-    M_star: 1,
-}
-
 if __name__ == "__main__":
     solve(
         isentropic_equations,
         {
             **air,
-            **sonic,
-            p: 1 * ur.atm,
-            T: 230 * ur.K,
-            M: 2.000,
+            T: 300 * ur.K,
+            p: 1.2 * ur.atm,
+            u: 305.0 * ur.m / ur.s,
         },
     )
