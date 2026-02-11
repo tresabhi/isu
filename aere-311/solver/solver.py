@@ -10,6 +10,7 @@ EQUIVALENCY_THRESHOLD = 0.01
 
 
 def solve(equations, knowns, find=None):
+    equations = [sp.Eq(*equation) for equation in equations]
     knowns = {
         key: (
             value.to(base_units[key]).magnitude
