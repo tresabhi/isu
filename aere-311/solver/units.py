@@ -59,8 +59,10 @@ output_units = {
     p: ur.atm,
     p_0: ur.atm,
     p_inf: ur.atm,
+    p_star: ur.atm,
     #
     q: ur.atm,
     q_0: ur.atm,
     q_inf: ur.atm,
+    q_star: ur.atm,
 }

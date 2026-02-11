@@ -38,11 +38,11 @@ def solve(equations, knowns, find=None):
             if symbol in knowns:
                 if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
                     logger.opt(colors=True).info(
-                        f"{symbol} over-solved <green>{knowns[symbol]} != {solution}</green>"
+                        f"{symbol} over-solved <green>{knowns[symbol]} == {solution}</green>"
                     )
                 else:
                     logger.opt(colors=True).info(
-                        f"symbol over-solved <red>{knowns[symbol]} == {solution}</red>"
+                        f"symbol over-solved <red>{knowns[symbol]} != {solution}</red>"
                     )
 
             knowns[symbol] = solution
