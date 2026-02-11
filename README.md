@@ -10,8 +10,10 @@ Feel free to reference it but keep in mind I am a student too. **I make a lot of
 | [AERE 161](/aere-161)  | Numerical, Graphical and Laboratory Techniques for Aerospace Engineering |
 | [AERE 261](/aere-261)  | Introduction to Performance and Design                                   |
 | [AERE 310](/aere-310)  | Aerodynamics I: Incompressible Flow                                      |
+| [AERE 310](/aere-311)  | Aerodynamics II: Compressible Flow                                       |
 | [AERE 321](/aere-321)  | Flight Structures Analysis                                               |
 | [AERE 322](/aere-322)  | Aerospace Structures Laboratory                                          |
+| [AERE 344](/aere-344)  | Aerodynamics and Propulsion Laboratory                                   |
 | [AERE 351](/aere-351)  | Astrodynamics I                                                          |
 | [AERE 355](/aere-355)  | Aircraft Flight Dynamics and Control                                     |
 | [AERE 362](/aere-361)  | Computational Techniques for Aerospace Design                            |
