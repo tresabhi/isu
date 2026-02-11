@@ -9,7 +9,7 @@ HEADERS = ["Symbol", "Value"]
 EQUIVALENCY_THRESHOLD = 0.01
 
 
-def solve(equations, knowns, find=None):
+def solve(equations, knowns, find=None, symbolic=True):
     equations = [sp.Eq(*equation) for equation in equations]
     knowns = {
         key: (
@@ -34,16 +34,18 @@ def solve(equations, knowns, find=None):
                 continue
 
             [symbol] = symbols
-            solutions = sp.solve(equation, symbol)
+            solutions = sp.solve(equation, symbol) if symbolic else []
             solutions_count = len(solutions)
             solution = None
 
             if solutions_count == 1:
                 solution = float(solutions[0])
             else:
-                logger.warning(
-                    f"{symbol}: {solutions_count} solutions; numerical solving..."
-                )
+                if symbolic:
+                    logger.warning(
+                        f"{symbol}: {solutions_count} solutions; numerical solving..."
+                    )
+
                 solution = sp.nsolve(equation, symbol, 1)
 
             if symbol in knowns:
