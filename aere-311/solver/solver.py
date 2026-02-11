@@ -38,7 +38,7 @@ def solve(equations, knowns, find=None):
             if symbol in knowns:
                 if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
                     logger.opt(colors=True).info(
-                        f"{symbol} over-solved <green>{knowns[symbol]} == {solution}</green>"
+                        f"{symbol} over-solved <green>{knowns[symbol]} != {solution}</green>"
                     )
                 else:
                     logger.opt(colors=True).info(
@@ -56,7 +56,7 @@ def solve(equations, knowns, find=None):
 
         solved_dict[symbol] = value
 
-        if find is not None and symbol in find:
+        if find is None or symbol in find:
             solved_rows.append((symbol, value_with_units))
 
     if len(solved_rows) > 0:
