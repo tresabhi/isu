@@ -18,8 +18,8 @@ if __name__ == "__main__":
         {
             **air,
             **sonic,
-            T: 300 * ur.K,
-            p: 1.2 * ur.atm,
-            u: 305.0 * ur.m / ur.s,
+            p: 1 * ur.atm,
+            T: 230 * ur.K,
+            M: 2.000,
         },
     )

@@ -33,16 +33,27 @@ def solve(equations, knowns, find=None):
                 continue
 
             [symbol] = symbols
-            solution = sp.nsolve(equation, symbol, 1)
+            solutions = sp.solve(equation, symbol)
+            solutions_count = len(solutions)
+            solution = None
+
+            if solutions_count == 1:
+                solution = float(solutions[0])
+            elif solutions_count == 0:
+                logger.warning(f"{symbol}: numerical solving")
+                solution = sp.nsolve(equation, symbol, 1)
+            else:
+                logger.error(f"{symbol}: picking last of {solutions_count} solutions")
+                solution = float(solutions[-1])
 
             if symbol in knowns:
                 if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
                     logger.opt(colors=True).info(
-                        f"{symbol} over-solved <green>{knowns[symbol]} == {solution}</green>"
+                        f"{symbol}: over-solved <green>{knowns[symbol]} == {solution}</green>"
                     )
                 else:
                     logger.opt(colors=True).info(
-                        f"symbol over-solved <red>{knowns[symbol]} != {solution}</red>"
+                        f"{symbol}: over-solved <red>{knowns[symbol]} != {solution}</red>"
                     )
 
             knowns[symbol] = solution
