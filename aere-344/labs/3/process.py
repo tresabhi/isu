@@ -40,10 +40,11 @@ def read_pressure(path):
     return sum(pressures) / len(pressures)
 
 
+# Calibration
 for index in range(CALIBRATION_POINTS):
     name = index + 1
-    voltage = read_voltage((f"data/calibration/{name}.txt"))
-    pressure = read_pressure((f"data/calibration/{name}.csv"))
+    voltage = read_voltage(f"data/calibration/{name}.txt")
+    pressure = read_pressure(f"data/calibration/{name}.csv")
 
     voltages.append(voltage)
     pressures.append(pressure)
@@ -71,34 +72,40 @@ plt.title("Calibration")
 plt.grid()
 plt.legend()
 
-
 velocities = []
+voltages = []
 
 for depth in TEST_DEPTHS:
     voltage = read_voltage(f"data/test/{depth}in.txt")
     pressure = m * voltage + b
     velocity = math.sqrt(2 * pressure / DENSITY)
     velocities.append(velocity)
+    voltages.append(voltage)
 
-plt.figure()
-plt.plot(
+fig, ax1 = plt.subplots()
+
+ax1.plot(
     TEST_DEPTHS,
     velocities,
     "o-",
     label="Velocity vs Depth",
     color="tab:blue",
 )
-plt.plot(
+ax1.plot(
     [TEST_MAX_DEPTH + x - TEST_DEPTH_STEP for x in TEST_DEPTHS],
     list(reversed(velocities)),
     ".--",
     label="Velocity vs Depth (Extrapolated)",
     color="tab:blue",
 )
-plt.xlabel("Depth (inches)")
-plt.ylabel("Velocity (m/s)")
-plt.title("Velocity vs Depth")
-plt.grid()
-plt.legend()
+ax1.set_xlabel("Depth (inches)")
+ax1.set_ylabel("Velocity (m/s)")
+ax1.grid()
+ax1.legend()
 
+ax2 = ax1.twinx()
+ax2.set_ylabel("Voltage (V)")
+ax2.set_ylim(min(voltages), max(voltages))
+
+plt.title("Velocity vs Depth with Voltage Scale")
 plt.show()
