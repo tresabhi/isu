@@ -4,7 +4,8 @@ import numpy as np
 import math
 
 CALIBRATION_POINTS = 5
-TEST_RANGE = np.arange(0, 6.5, 0.5)
+TEST_MAX_RANGE = 6.5
+TEST_RANGE = np.arange(0, TEST_MAX_RANGE, 0.5)
 DENSITY = 1.225
 
 voltages = []
@@ -73,7 +74,18 @@ for depth in TEST_RANGE:
     velocities.append(velocity)
 
 plt.figure()
-plt.plot(TEST_RANGE, velocities, "o-", label="Velocity vs Depth")
+plt.plot(
+    TEST_RANGE,
+    velocities,
+    "o-",
+    label="Velocity vs Depth",
+)
+plt.plot(
+    [TEST_MAX_RANGE + x for x in TEST_RANGE],
+    list(reversed(velocities)),
+    "o-",
+    label="Velocity vs Depth",
+)
 plt.xlabel("Depth (inches)")
 plt.ylabel("Velocity (m/s)")
 plt.title("Velocity vs Depth")
