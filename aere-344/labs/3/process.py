@@ -160,5 +160,4 @@ plot_velocity_distribution(
     title="Velocity Distribution (Excluding First Point)",
 )
 
-
 plt.show()
