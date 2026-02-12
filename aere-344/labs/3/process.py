@@ -48,28 +48,36 @@ for index in range(CALIBRATION_POINTS):
 
 m, b = np.polyfit(voltages, pressures, 1)
 
-for test in TEST_RANGE:
-    voltage = read_voltage((f"data/test/{test}in.txt"))
+plt.figure()
+[dots] = plt.plot(voltages, pressures, "o", label="Data")
+plt.plot(
+    voltages,
+    m * np.array(voltages) + b,
+    "--",
+    label=f"Fit: y = {m:.3f}x + ({b:.3f})",
+    color=dots.get_color(),
+)
+plt.xlabel("Voltage (V)")
+plt.ylabel("Pressure (Pa)")
+plt.title("Calibration")
+plt.grid()
+plt.legend()
+
+
+velocities = []
+
+for depth in TEST_RANGE:
+    voltage = read_voltage(f"data/test/{depth}in.txt")
     pressure = m * voltage + b
     velocity = math.sqrt(2 * pressure / DENSITY)
+    velocities.append(velocity)
 
-    print(f"p({test} in) = {voltage} V")
-    print(f"p({test} in) = {pressure} Pa")
-    print(f"v({test} in) = {velocity} m/s")
+plt.figure()
+plt.plot(TEST_RANGE, velocities, "o-", label="Velocity vs Depth")
+plt.xlabel("Depth (inches)")
+plt.ylabel("Velocity (m/s)")
+plt.title("Velocity vs Depth")
+plt.grid()
+plt.legend()
 
-
-# [dots] = plt.plot(voltages, pressures, "o", label="Data")
-# plt.plot(
-#     voltages,
-#     m * np.array(voltages) + b,
-#     "--",
-#     label=f"Fit: y = {m:.3f}x + ({b:.3f})",
-#     color=dots.get_color(),
-# )
-
-# plt.xlabel("Voltage (V)")
-# plt.ylabel("Pressure (Pa)")
-# plt.title("Calibration")
-# plt.grid()
-# plt.legend()
-# plt.show()
+plt.show()
