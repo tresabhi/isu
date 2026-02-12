@@ -1,40 +1,62 @@
 import csv
 from matplotlib import pyplot as plt
 import numpy as np
+import math
 
 CALIBRATION_POINTS = 5
+TEST_RANGE = np.arange(0, 6.5, 0.5)
+DENSITY = 1.225
 
 voltages = []
 pressures = []
 
-for index in range(CALIBRATION_POINTS):
-    name = index + 1
 
-    point_voltages = []
-    point_pressures = []
+def read_voltage(path):
+    voltages = []
 
-    with open(f"data/calibration/{name}.txt") as file:
+    with open(path) as file:
         lines = file.readlines()[5:]
 
         for line in lines:
             magnitude = float(line[-12:-4])
             power = float(line[-2])
             voltage = magnitude * 10**power
-            point_voltages.append(voltage)
+            voltages.append(voltage)
 
-    with open(f"data/calibration/{name}.csv") as file:
+    return sum(voltages) / len(voltages)
+
+
+def read_pressure(path):
+    pressures = []
+
+    with open(path) as file:
         reader = csv.reader(file)
         for row in reader:
             pressure = float(row[2])
-            point_pressures.append(pressure)
+            pressures.append(pressure)
 
-    pressure = sum(point_pressures) / len(point_pressures)
-    voltage = sum(point_voltages) / len(point_voltages)
+    return sum(pressures) / len(pressures)
+
+
+for index in range(CALIBRATION_POINTS):
+    name = index + 1
+    voltage = read_voltage((f"data/calibration/{name}.txt"))
+    pressure = read_pressure((f"data/calibration/{name}.csv"))
 
     voltages.append(voltage)
     pressures.append(pressure)
 
 m, b = np.polyfit(voltages, pressures, 1)
+
+for test in TEST_RANGE:
+    voltage = read_voltage((f"data/test/{test}in.txt"))
+    pressure = m * voltage + b
+    velocity = math.sqrt(2 * pressure / DENSITY)
+
+    print(f"p({test} in) = {voltage} V")
+    print(f"p({test} in) = {pressure} Pa")
+    print(f"v({test} in) = {velocity} m/s")
+
 
 # [dots] = plt.plot(voltages, pressures, "o", label="Data")
 # plt.plot(
