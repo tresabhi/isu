@@ -40,18 +40,48 @@ def calibrate():
 
 
 def compute_velocities(depths, m, b):
-    voltages, velocities = [], []
+    voltages, velocities, pressures = [], [], []
 
     for depth in depths:
         voltage = read_voltage(f"data/test/{depth}in.txt")
         voltages.append(voltage)
-        pressures = m * voltage + b
-        velocities.append(math.sqrt(2 * pressures / DENSITY))
+        pressure = m * voltage + b
+        pressures.append(pressure)
+        velocities.append(math.sqrt(2 * pressure / DENSITY))
 
-    return depths, velocities, voltages
+    return depths, velocities, voltages, pressures
 
 
-def plot_depth_velocity(depths, velocities, voltages, title):
+def plot_pressure_distribution(depths, pressures, voltages, title):
+    _, ax1 = plt.subplots()
+
+    ax1.plot(depths, pressures, "o-", label="Velocity vs Depth", color="tab:blue")
+
+    last_depth = depths[-1]
+    mirrored_depths = [2 * last_depth - d for d in reversed(depths)]
+    mirrored_pressures = pressures[::-1]
+
+    ax1.plot(
+        mirrored_depths,
+        mirrored_pressures,
+        ".--",
+        label="Extrapolated",
+        color="tab:blue",
+    )
+
+    ax1.set_xlabel("Depth (inches)")
+    ax1.set_ylabel("Pressure (Pa)")
+    ax1.grid()
+    ax1.legend()
+
+    ax2 = ax1.twinx()
+    ax2.set_ylabel("Voltage (V)")
+    ax2.set_ylim(min(voltages), max(voltages))
+
+    plt.title(title)
+
+
+def plot_velocity_distribution(depths, velocities, voltages, title):
     _, ax1 = plt.subplots()
 
     ax1.plot(depths, velocities, "o-", label="Velocity vs Depth", color="tab:blue")
@@ -100,12 +130,35 @@ def plot_calibration(voltages, pressures, m, b):
 m, b, voltages, pressures = calibrate()
 
 plot_calibration(voltages, pressures, m, b)
-plot_depth_velocity(
-    *compute_velocities(TEST_DEPTHS, m, b), title="Velocity vs Depth & Voltage"
+
+computed = compute_velocities(TEST_DEPTHS, m, b)
+computed_without_first = compute_velocities(TEST_DEPTHS_WITHOUT_FIRST, m, b)
+
+plot_pressure_distribution(
+    computed[0],
+    computed[3],
+    computed[2],
+    title="Pressure Distribution",
 )
-plot_depth_velocity(
-    *compute_velocities(TEST_DEPTHS_WITHOUT_FIRST, m, b),
-    title="Velocity vs Depth & Voltage (Excluding First Point)",
+plot_pressure_distribution(
+    computed_without_first[0],
+    computed_without_first[3],
+    computed_without_first[2],
+    title="Pressure Distribution (Excluding First Point)",
 )
+
+plot_velocity_distribution(
+    computed[0],
+    computed[1],
+    computed[2],
+    title="Velocity Distribution",
+)
+plot_velocity_distribution(
+    computed_without_first[0],
+    computed_without_first[1],
+    computed_without_first[2],
+    title="Velocity Distribution (Excluding First Point)",
+)
+
 
 plt.show()
