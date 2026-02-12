@@ -138,13 +138,13 @@ plot_pressure_distribution(
     computed[0],
     computed[3],
     computed[2],
-    title="Pressure Distribution",
+    title="Dynamic Pressure Distribution",
 )
 plot_pressure_distribution(
     computed_without_first[0],
     computed_without_first[3],
     computed_without_first[2],
-    title="Pressure Distribution (Excluding First Point)",
+    title="Dynamic Pressure Distribution (Excluding First Point)",
 )
 
 plot_velocity_distribution(
