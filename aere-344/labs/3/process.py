@@ -4,8 +4,9 @@ import numpy as np
 import math
 
 CALIBRATION_POINTS = 5
-TEST_MAX_RANGE = 6.5
-TEST_RANGE = np.arange(0, TEST_MAX_RANGE, 0.5)
+TEST_MAX_DEPTH = 6.5
+TEST_DEPTH_STEP = 0.5
+TEST_DEPTHS = np.arange(0, TEST_MAX_DEPTH, TEST_DEPTH_STEP)
 DENSITY = 1.225
 
 voltages = []
@@ -50,13 +51,19 @@ for index in range(CALIBRATION_POINTS):
 m, b = np.polyfit(voltages, pressures, 1)
 
 plt.figure()
-[dots] = plt.plot(voltages, pressures, "o", label="Data")
+plt.plot(
+    voltages,
+    pressures,
+    "o",
+    label="Data",
+    color="tab:blue",
+)
 plt.plot(
     voltages,
     m * np.array(voltages) + b,
     "--",
     label=f"Fit: y = {m:.3f}x + ({b:.3f})",
-    color=dots.get_color(),
+    color="tab:blue",
 )
 plt.xlabel("Voltage (V)")
 plt.ylabel("Pressure (Pa)")
@@ -67,7 +74,7 @@ plt.legend()
 
 velocities = []
 
-for depth in TEST_RANGE:
+for depth in TEST_DEPTHS:
     voltage = read_voltage(f"data/test/{depth}in.txt")
     pressure = m * voltage + b
     velocity = math.sqrt(2 * pressure / DENSITY)
@@ -75,16 +82,18 @@ for depth in TEST_RANGE:
 
 plt.figure()
 plt.plot(
-    TEST_RANGE,
+    TEST_DEPTHS,
     velocities,
     "o-",
     label="Velocity vs Depth",
+    color="tab:blue",
 )
 plt.plot(
-    [TEST_MAX_RANGE + x for x in TEST_RANGE],
+    [TEST_MAX_DEPTH + x - TEST_DEPTH_STEP for x in TEST_DEPTHS],
     list(reversed(velocities)),
-    "o-",
-    label="Velocity vs Depth",
+    ".--",
+    label="Velocity vs Depth (Extrapolated)",
+    color="tab:blue",
 )
 plt.xlabel("Depth (inches)")
 plt.ylabel("Velocity (m/s)")
