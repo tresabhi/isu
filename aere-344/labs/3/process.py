@@ -3,10 +3,12 @@ from matplotlib import pyplot as plt
 import numpy as np
 import math
 
+
 CALIBRATION_POINTS = 5
 TEST_MAX_DEPTH = 6.5
 TEST_DEPTH_STEP = 0.5
 TEST_DEPTHS = np.arange(0, TEST_MAX_DEPTH, TEST_DEPTH_STEP)
+TEST_DEPTHS_WITHOUT_FIRST = np.arange(TEST_DEPTH_STEP, TEST_MAX_DEPTH, TEST_DEPTH_STEP)
 DENSITY = 1.225
 
 voltages = []
@@ -107,5 +109,42 @@ ax2 = ax1.twinx()
 ax2.set_ylabel("Voltage (V)")
 ax2.set_ylim(min(voltages), max(voltages))
 
-plt.title("Velocity vs Depth with Voltage Scale")
+plt.title("Velocity vs Depth with Voltage")
+
+velocities = []
+voltages = []
+
+for depth in TEST_DEPTHS_WITHOUT_FIRST:
+    voltage = read_voltage(f"data/test/{depth}in.txt")
+    pressure = m * voltage + b
+    velocity = math.sqrt(2 * pressure / DENSITY)
+    velocities.append(velocity)
+    voltages.append(voltage)
+
+fig, ax1 = plt.subplots()
+
+ax1.plot(
+    TEST_DEPTHS_WITHOUT_FIRST,
+    velocities,
+    "o-",
+    label="Velocity vs Depth",
+    color="tab:blue",
+)
+ax1.plot(
+    [TEST_MAX_DEPTH + x - TEST_DEPTH_STEP * 2 for x in TEST_DEPTHS_WITHOUT_FIRST],
+    list(reversed(velocities)),
+    ".--",
+    label="Velocity vs Depth (Extrapolated)",
+    color="tab:blue",
+)
+ax1.set_xlabel("Depth (inches)")
+ax1.set_ylabel("Velocity (m/s)")
+ax1.grid()
+ax1.legend()
+
+ax2 = ax1.twinx()
+ax2.set_ylabel("Voltage (V)")
+ax2.set_ylim(min(voltages), max(voltages))
+
+plt.title("Velocity vs Depth with Voltage (Excluding First Point)")
 plt.show()
