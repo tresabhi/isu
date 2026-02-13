@@ -1,7 +1,7 @@
 from symbols import *
 from registry import *
 
-base_units = {
+si_base_units = {
     u: ur.m / ur.s,
     u0: ur.m / ur.s,
     u_inf: ur.m / ur.s,
@@ -55,7 +55,7 @@ base_units = {
     rho0_rho_star: ur.dimensionless,
 }
 
-output_units = {
+durbin_output_units = {
     p: ur.atm,
     p0: ur.atm,
     p_inf: ur.atm,
@@ -65,5 +65,4 @@ output_units = {
     q0: ur.atm,
     q_inf: ur.atm,
     q_star: ur.atm,
-    #
 }

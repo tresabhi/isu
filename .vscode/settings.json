@@ -28,6 +28,7 @@
     "detrend",
     "disp",
     "Drei",
+    "durbin",
     "fftfreq",
     "figsize",
     "fitrnet",

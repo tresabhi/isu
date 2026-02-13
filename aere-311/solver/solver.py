@@ -1,6 +1,5 @@
 from pint import Quantity
 import sympy as sp
-from units import output_units, base_units
 from tabulate import tabulate
 from symbols import *
 from logger import logger
@@ -12,15 +11,17 @@ EQUIVALENCY_THRESHOLD = 0.01
 class Solver:
     log = logger.opt(colors=True)
 
-    def __init__(self, equations):
+    def __init__(self, equations, base_units, output_units):
         self.equations = [sp.Eq(*equation) for equation in equations]
+        self.base_units = base_units
+        self.output_units = {**base_units, **output_units}
 
         pass
 
     def solve(self, knowns, find=None):
         knowns = {
             key: (
-                value.to(base_units[key]).magnitude
+                value.to(self.base_units[key]).magnitude
                 if isinstance(value, Quantity)
                 else value
             )
@@ -78,10 +79,8 @@ class Solver:
         solved_dict = {}
 
         for symbol, value in knowns.items():
-            units = (
-                output_units[symbol] if symbol in output_units else base_units[symbol]
-            )
-            value_with_units = (float(value) * base_units[symbol]).to(units)
+            units = self.output_units[symbol]
+            value_with_units = (float(value) * self.base_units[symbol]).to(units)
 
             solved_dict[symbol] = value
 
