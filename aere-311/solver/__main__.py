@@ -8,9 +8,10 @@ air = {
     R: 287.05 * ur.J / (ur.kg * ur.K),
 }
 
+solver = Solver(equations=isentropic_equations)
+
 if __name__ == "__main__":
-    solve(
-        isentropic_equations,
+    solver.solve(
         {
             **air,
             p_inf: 0.61 * ur.atm,
@@ -18,5 +19,4 @@ if __name__ == "__main__":
             u_inf: 300 * ur.m / ur.s,
             p: 0.460 * ur.atm,
         },
-        symbolic=False,
     )
