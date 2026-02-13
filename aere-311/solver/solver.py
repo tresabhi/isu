@@ -10,12 +10,14 @@ EQUIVALENCY_THRESHOLD = 0.01
 
 
 class Solver:
+    log = logger.opt(colors=True)
+
     def __init__(self, equations):
         self.equations = [sp.Eq(*equation) for equation in equations]
 
         pass
 
-    def solve(self, knowns):
+    def solve(self, knowns, find=None):
         knowns = {
             key: (
                 value.to(base_units[key]).magnitude
@@ -39,27 +41,34 @@ class Solver:
                     continue
 
                 [symbol] = symbols
-                solutions = sp.solve(equation, symbol) if symbolic else []
-                solutions_count = len(solutions)
                 solution = None
 
-                if solutions_count == 1:
-                    solution = float(solutions[0])
-                else:
-                    if symbolic:
-                        logger.warning(
-                            f"{symbol}: {solutions_count} solutions; numerical solving..."
+                try:
+                    solution = sp.nsolve(equation, symbol, 1)
+                except:
+                    self.log.info(
+                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>"
+                    )
+
+                    solutions = sp.solve(equation, symbol)
+                    solutions_count = len(solutions)
+
+                    if solutions_count == 1:
+                        solution = float(solutions[0])
+                    else:
+                        self.log.info(
+                            f"{symbol}: <yellow>{solutions_count} solutions; using last...</yellow>"
                         )
 
-                    solution = sp.nsolve(equation, symbol, 1)
+                        solution = float(solutions[-1])
 
                 if symbol in knowns:
                     if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
-                        logger.opt(colors=True).info(
+                        self.log.info(
                             f"{symbol}: over-solved <green>{knowns[symbol]} == {solution}</green>"
                         )
                     else:
-                        logger.opt(colors=True).info(
+                        self.log.info(
                             f"{symbol}: over-solved <red>{knowns[symbol]} != {solution}</red>"
                         )
 
