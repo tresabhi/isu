@@ -63,6 +63,7 @@
     "meshgrid",
     "nsolve",
     "numel",
+    "numparse",
     "Numpy",
     "odeset",
     "optimoptions",

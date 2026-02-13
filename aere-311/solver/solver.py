@@ -3,15 +3,16 @@ import sympy as sp
 from tabulate import tabulate
 from symbols import *
 from logger import logger
+from registry import ur
 
-HEADERS = ["Symbol", "Value"]
+HEADERS = ["Symbol", "Value", "Units"]
 EQUIVALENCY_THRESHOLD = 0.01
 
 
 class Solver:
     log = logger.opt(colors=True)
 
-    def __init__(self, equations, base_units, output_units):
+    def __init__(self, equations, base_units, output_units, sig_figs=5):
         self.equations = [sp.Eq(*equation) for equation in equations]
         self.base_units = base_units
         self.output_units = {**base_units, **output_units}
@@ -85,10 +86,20 @@ class Solver:
             solved_dict[symbol] = value
 
             if find is None or symbol in find:
-                solved_rows.append((symbol, value_with_units))
+                solved_rows.append(
+                    (
+                        symbol,
+                        f"{value_with_units.magnitude:.5g}",
+                        (
+                            None
+                            if value_with_units.units == ur.dimensionless
+                            else f"{value_with_units.units:~}"
+                        ),
+                    )
+                )
 
         if len(solved_rows) > 0:
             print()
-            print(tabulate(solved_rows, headers=HEADERS))
+            print(tabulate(solved_rows, headers=HEADERS, disable_numparse=True))
 
         return solved_dict
