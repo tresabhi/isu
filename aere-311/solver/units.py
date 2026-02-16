@@ -28,6 +28,8 @@ si_base_units = {
     p0: ur.Pa,
     p1: ur.Pa,
     p2: ur.Pa,
+    p01: ur.Pa,
+    p02: ur.Pa,
     p_inf: ur.Pa,
     p_star: ur.Pa,
     #
@@ -69,6 +71,8 @@ si_base_units = {
     p0_p_inf: ur.dimensionless,
     p0_p_star: ur.dimensionless,
     p2_p1: ur.dimensionless,
+    p01_p1: ur.dimensionless,
+    p02_p1: ur.dimensionless,
     #
     rho0_rho: ur.dimensionless,
     rho0_rho_inf: ur.dimensionless,
@@ -81,6 +85,8 @@ durbin_output_units = {
     p0: ur.atm,
     p1: ur.atm,
     p2: ur.atm,
+    p01: ur.atm,
+    p02: ur.atm,
     p_inf: ur.atm,
     p_star: ur.atm,
     #

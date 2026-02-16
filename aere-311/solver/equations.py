@@ -105,11 +105,38 @@ shock_equations = [
         (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
         * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2)),
     ),
+    (
+        s2 - s1,
+        c_p
+        * sp.ln(
+            (
+                (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
+                * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2))
+            )
+        )
+        - R * sp.ln(1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+    ),
+    #
+    # Calorically perfect gas
+    (T02, T01),
+    #
+    # Subsonic and supersonic pitot sampling
+    (M1**2, (2 / (gamma - 1)) * (p01_p1 ** ((gamma - 1) / gamma) - 1)),
+    (
+        p02_p1,
+        (
+            (((gamma + 1) ** 2 * M1**2) / (4 * gamma * M1**2 - 2 * (gamma - 1)))
+            ** (gamma / (gamma - 1))
+        )
+        * ((1 - gamma + 2 * gamma * M1**2) / (gamma + 1)),
+    ),
     #
     # Ratio full forms
     (rho2_rho1, rho2 / rho1),
     (u2_u1, u2 / u1),
     (p2_p1, p2 / p1),
+    (p01_p1, p02 / p1),
+    (p02_p1, p01 / p1),
     (T2_T1, T2 / T1),
     (h2_h1, h2 / h1),
 ]
@@ -123,6 +150,14 @@ bernoulli_equations = [
     (rho, rho0),
 ]
 
-# with open("test.md", "w") as file:
-#     for equation in isentropic_equations:
-#         file.write(f"$$\n{sp.latex(equation)}\n$$\n\n")
+equation_sets = [
+    isentropic_equations,
+    bernoulli_equations,
+    shock_equations,
+]
+
+if __name__ == "__main__":
+    with open("test.md", "w") as file:
+        for equations in equation_sets:
+            for equation in equations:
+                file.write(f"$$\n{sp.latex(equation)}\n$$\n\n")
