@@ -67,11 +67,11 @@ class Solver:
                 if symbol in knowns:
                     if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
                         self.log.info(
-                            f"{symbol}: over-solved <green>{knowns[symbol]} == {solution}</green>"
+                            f"{symbol}: <green>over-solved</green> {knowns[symbol]} == {solution}"
                         )
                     else:
                         self.log.info(
-                            f"{symbol}: over-solved <red>{knowns[symbol]} != {solution}</red>"
+                            f"{symbol}: <red>over-solved</red> {knowns[symbol]} != {solution}"
                         )
 
                 knowns[symbol] = solution

@@ -51,6 +51,8 @@ si_base_units = {
     T0: ur.K,
     T1: ur.K,
     T2: ur.K,
+    T01: ur.K,
+    T02: ur.K,
     T_inf: ur.K,
     T_star: ur.K,
     T2_T1: ur.dimensionless,
@@ -76,6 +78,7 @@ si_base_units = {
     p2_p1: ur.dimensionless,
     p01_p1: ur.dimensionless,
     p02_p1: ur.dimensionless,
+    p02_p01: ur.dimensionless,
     #
     rho0_rho: ur.dimensionless,
     rho0_rho_inf: ur.dimensionless,

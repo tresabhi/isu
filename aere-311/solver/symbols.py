@@ -8,8 +8,8 @@ p, p0, p1, p2, p01, p02, p_inf, p_star = symbols("p p0:3 p01 p02 p_inf p*")
 rho, rho0, rho1, rho2, rho_inf, rho_star = symbols("rho rho0:3 rho_inf rho*")
 T, T0, T1, T2, T01, T02, T_inf, T_star = symbols("T T0:3 T01 T02 T_inf T*")
 
-p0_p, p0_p_inf, p0_p_star, p2_p1, p01_p1, p02_p1 = symbols(
-    "p0/p p0/p_inf p0/p* p2/p1 p01/p1 p02/p1"
+p0_p, p0_p_inf, p0_p_star, p2_p1, p01_p1, p02_p1, p02_p01 = symbols(
+    "p0/p p0/p_inf p0/p* p2/p1 p01/p1 p02/p1 p02/p01"
 )
 rho0_rho, rho0_rho_inf, rho0_rho_star, rho2_rho1 = symbols(
     "rho0/rho rho0/rho_inf rho0/rho* rho2/rho1"

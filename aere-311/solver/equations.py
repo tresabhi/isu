@@ -11,6 +11,8 @@ isentropic_equations = [
     (p0, rho0 * R * T0),
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
+    (p01, rho1 * R * T01),
+    (p02, rho2 * R * T02),
     (p_inf, rho_inf * R * T_inf),
     (p_star, rho_star * R * T_star),
     #
@@ -116,6 +118,7 @@ shock_equations = [
         )
         - R * sp.ln(1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
     ),
+    (p02_p01, sp.E ** (-s2_s1 / R)),
     #
     # Calorically perfect gas
     (T02, T01),
