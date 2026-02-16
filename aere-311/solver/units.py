@@ -55,7 +55,6 @@ si_base_units = {
     T02: ur.K,
     T_inf: ur.K,
     T_star: ur.K,
-    T2_T1: ur.dimensionless,
     #
     gamma: ur.dimensionless,
     c_p: ur.J / (ur.kg * ur.K),
@@ -71,6 +70,7 @@ si_base_units = {
     T0_T: ur.dimensionless,
     T0_T_inf: ur.dimensionless,
     T0_T_star: ur.dimensionless,
+    T2_T1: ur.dimensionless,
     #
     p0_p: ur.dimensionless,
     p0_p_inf: ur.dimensionless,
@@ -102,4 +102,17 @@ durbin_output_units = {
     q2: ur.atm,
     q_inf: ur.atm,
     q_star: ur.atm,
+}
+
+imperial_output_units = {
+    **durbin_output_units,
+    #
+    T: ur.rankine,
+    T0: ur.rankine,
+    T1: ur.rankine,
+    T2: ur.rankine,
+    T01: ur.rankine,
+    T02: ur.rankine,
+    T_inf: ur.rankine,
+    T_star: ur.rankine,
 }

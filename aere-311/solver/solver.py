@@ -89,7 +89,6 @@ class Solver:
                 solved_rows.append(
                     (
                         f"{symbol}",
-                        # f"{value_with_units.magnitude:.5g}",
                         value_with_units.magnitude,
                         (
                             None
