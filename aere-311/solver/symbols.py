@@ -19,4 +19,4 @@ q, q0, q1, q2, q_inf, q_star = symbols("q q0:3 q_inf q*")
 
 gamma = symbols("gamma")
 c_p, c_v, R = symbols("c_p c_v R")
-h0, h1, h2 = symbols("h0:3")
+h1, h2, h2_h1 = symbols("h1:3 h2/h1")

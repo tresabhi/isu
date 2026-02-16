@@ -10,7 +10,7 @@ air = {
 }
 
 solver = Solver(
-    equations=shock_equations,
+    equations=[*isentropic_equations, *shock_equations],
     base_units=si_base_units,
     output_units=durbin_output_units,
 )

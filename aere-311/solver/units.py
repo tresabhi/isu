@@ -57,9 +57,9 @@ si_base_units = {
     c_p: ur.J / (ur.kg * ur.K),
     c_v: ur.J / (ur.kg * ur.K),
     R: ur.J / (ur.kg * ur.K),
-    h0: ur.J / ur.kg,
     h1: ur.J / ur.kg,
     h2: ur.J / ur.kg,
+    h2_h1: ur.dimensionless,
     #
     T0_T: ur.dimensionless,
     T0_T_inf: ur.dimensionless,
