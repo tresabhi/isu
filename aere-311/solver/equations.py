@@ -69,9 +69,29 @@ isentropic_equations = [
     (M_star, u / a_star),
 ]
 
-# with open("test.md", "w") as file:
-#     for equation in isentropic_equations:
-#         file.write(f"$$\n{sp.latex(equation)}\n$$\n\n")
+shock_equations = [
+    # Continuity
+    (rho1 * u1, rho2 * u2),
+    #
+    # Momentum
+    (p1 + rho1 * u1**2, p2 + rho2 * u2**2),
+    #
+    # Energy
+    (h1 + u1**2 / 2, h2 + u2**2 / 2),
+    #
+    # Normal shock
+    (M2**2, (1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2)),
+    #
+    # Ratios
+    (rho2_rho1, ((gamma + 1) * M1**2) / (2 + (gamma - 1) * M1**2)),
+    (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+    (rho2_rho1, 1 / u2_u1),
+    #
+    # Ratio full forms
+    (rho2_rho1, rho2 / rho1),
+    (u2_u1, u2 / u1),
+    (p2_p1, p2 / p1),
+]
 
 bernoulli_equations = [
     (q, (1 / 2) * rho * u**2),
@@ -81,3 +101,7 @@ bernoulli_equations = [
     #
     (rho, rho0),
 ]
+
+# with open("test.md", "w") as file:
+#     for equation in isentropic_equations:
+#         file.write(f"$$\n{sp.latex(equation)}\n$$\n\n")
