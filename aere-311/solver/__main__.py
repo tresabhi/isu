@@ -12,7 +12,7 @@ air = {
 solver = Solver(
     equations=[*isentropic_equations, *shock_equations],
     base_units=si_base_units,
-    output_units=imperial_output_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
@@ -20,8 +20,8 @@ if __name__ == "__main__":
         {
             **air,
             #
-            p1: 1 * ur.atm,
-            p2: 10.33 * ur.atm,
-            T2: 1390 * ur.rankine,
+            M1: 3,
+            T1: 300 * ur.K,
+            p1: 1.5 * ur.atm,
         },
     )

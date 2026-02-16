@@ -11,8 +11,8 @@ isentropic_equations = [
     (p0, rho0 * R * T0),
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
-    (p01, rho1 * R * T01),
-    (p02, rho2 * R * T02),
+    # (p01, rho01 * R * T01),
+    # (p02, rho02 * R * T02),
     (p_inf, rho_inf * R * T_inf),
     (p_star, rho_star * R * T_star),
     #
@@ -48,7 +48,6 @@ isentropic_equations = [
     #
     # Velocity from stagnation temperature relation
     (u, M * sp.sqrt(gamma * R * T0 / (1 + ((gamma - 1) / 2) * M**2))),
-    # (u0, M0 * sp.sqrt(gamma * R * T0 / (1 + ((gamma - 1) / 2) * M0**2))),
     (u1, M1 * sp.sqrt(gamma * R * T0 / (1 + ((gamma - 1) / 2) * M1**2))),
     (u2, M2 * sp.sqrt(gamma * R * T0 / (1 + ((gamma - 1) / 2) * M2**2))),
     (u_inf, M_inf * sp.sqrt(gamma * R * T0 / (1 + ((gamma - 1) / 2) * M_inf**2))),
@@ -138,8 +137,8 @@ shock_equations = [
     (rho2_rho1, rho2 / rho1),
     (u2_u1, u2 / u1),
     (p2_p1, p2 / p1),
-    (p01_p1, p02 / p1),
-    (p02_p1, p01 / p1),
+    (p01_p1, p01 / p1),
+    (p02_p1, p02 / p1),
     (T2_T1, T2 / T1),
     (h2_h1, h2 / h1),
     (s2_s1, s2 - s1),

@@ -21,6 +21,7 @@ class Solver:
 
     def solve(self, knowns, find=None):
         original_knowns = knowns
+
         knowns = {
             key: (
                 value.to(self.base_units[key]).magnitude
@@ -32,13 +33,17 @@ class Solver:
 
         last_knowns = 0
         subbed_equations = []
+        solved_last_using = {}
 
         while len(knowns) > last_knowns:
             last_knowns = len(knowns)
             subbed_equations = [equation.subs(knowns) for equation in self.equations]
+            index = 0
 
             for equation in subbed_equations:
+                original_equation = self.equations[index]
                 symbols = equation.free_symbols
+                index += 1
 
                 if len(symbols) != 1:
                     continue
@@ -50,7 +55,7 @@ class Solver:
                     solution = sp.nsolve(equation, symbol, 1)
                 except:
                     self.log.info(
-                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow> {equation.lhs} = {equation.rhs}"
+                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{equation.lhs} = {equation.rhs}"
                     )
 
                     solutions = sp.solve(equation, symbol)
@@ -71,11 +76,13 @@ class Solver:
                             f"{symbol}: <green>over-solved</green> {knowns[symbol]} == {solution}"
                         )
                     else:
+                        last_equation = solved_last_using[symbol]
                         self.log.info(
-                            f"{symbol}: <red>over-solved</red> {knowns[symbol]} != {solution}"
+                            f"{symbol}: <red>over-solved</red> {knowns[symbol]} != {solution}\n\t({last_equation.lhs} = {last_equation.rhs})\n\t({original_equation.lhs} = {original_equation.rhs})"
                         )
 
                 knowns[symbol] = solution
+                solved_last_using[symbol] = original_equation
 
         solved_rows = []
         solved_dict = {}
