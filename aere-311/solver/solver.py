@@ -19,17 +19,21 @@ class Solver:
 
         pass
 
-    def solve(self, knowns, find=None):
-        original_knowns = knowns
+    def solve(self, original_knowns, find=None):
+        knowns = {}
 
-        knowns = {
-            key: (
-                value.to(self.base_units[key]).magnitude
-                if isinstance(value, Quantity)
-                else value
-            )
-            for key, value in knowns.items()
-        }
+        for key, value in original_knowns.items():
+            if key not in self.base_units:
+                raise SyntaxError(f"{key} has no base units")
+
+            base = self.base_units[key]
+
+            if isinstance(value, Quantity):
+                knowns[key] = value.to(self.base_units[key]).magnitude
+            elif base == ur.dimensionless:
+                knowns[key] = value
+            else:
+                raise TypeError(f"Expected units for {key} in input")
 
         last_knowns = 0
         subbed_equations = []
@@ -55,7 +59,7 @@ class Solver:
                     solution = sp.nsolve(equation, symbol, 1)
                 except:
                     self.log.info(
-                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{equation.lhs} = {equation.rhs}"
+                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{original_equation.lhs} = {original_equation.rhs}\n\t{equation.lhs} = {equation.rhs}"
                     )
 
                     solutions = sp.solve(equation, symbol)

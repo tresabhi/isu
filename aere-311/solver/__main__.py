@@ -20,8 +20,7 @@ if __name__ == "__main__":
         {
             **air,
             #
-            M1: 3,
-            T1: 300 * ur.K,
-            p1: 1.5 * ur.atm,
+            p02: 1.245 * ur.atm,
+            p1: 0.1 * ur.atm,
         },
     )
