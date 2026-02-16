@@ -20,6 +20,7 @@ class Solver:
         pass
 
     def solve(self, knowns, find=None):
+        original_knowns = knowns
         knowns = {
             key: (
                 value.to(self.base_units[key]).magnitude
@@ -88,7 +89,7 @@ class Solver:
             if find is None or symbol in find:
                 solved_rows.append(
                     (
-                        f"{symbol}",
+                        symbol,
                         value_with_units.magnitude,
                         (
                             None
@@ -99,9 +100,23 @@ class Solver:
                 )
 
         if len(solved_rows) > 0:
-            solved_rows = sorted(solved_rows, key=lambda t: t[0].lower())
+            solved_rows = sorted(solved_rows, key=lambda t: f"{t[0]}".lower())
+            table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
 
             print()
-            print(tabulate(solved_rows, headers=HEADERS, disable_numparse=True))
+            index = -2
+            for line in table.splitlines():
+                if index < 0:
+                    print(line)
+                else:
+                    symbol = solved_rows[index][0]
+                    is_input = symbol in original_knowns
+
+                    if is_input:
+                        self.log.info(f"<blue>{line}</blue>")
+                    else:
+                        print(line)
+
+                index += 1
 
         return solved_dict
