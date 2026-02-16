@@ -40,8 +40,10 @@ si_base_units = {
     q_inf: ur.Pa,
     q_star: ur.Pa,
     #
-    rho: ur.kg / ur.m**3,
     rho0: ur.kg / ur.m**3,
+    rho01: ur.kg / ur.m**3,
+    rho02: ur.kg / ur.m**3,
+    rho: ur.kg / ur.m**3,
     rho1: ur.kg / ur.m**3,
     rho2: ur.kg / ur.m**3,
     rho_inf: ur.kg / ur.m**3,
@@ -70,6 +72,8 @@ si_base_units = {
     T0_T: ur.dimensionless,
     T0_T_inf: ur.dimensionless,
     T0_T_star: ur.dimensionless,
+    T01_T1: ur.dimensionless,
+    T02_T2: ur.dimensionless,
     T2_T1: ur.dimensionless,
     #
     p0_p: ur.dimensionless,
@@ -78,12 +82,16 @@ si_base_units = {
     p2_p1: ur.dimensionless,
     p01_p1: ur.dimensionless,
     p02_p1: ur.dimensionless,
+    p01_p1: ur.dimensionless,
+    p02_p2: ur.dimensionless,
     p02_p01: ur.dimensionless,
     #
     rho0_rho: ur.dimensionless,
     rho0_rho_inf: ur.dimensionless,
     rho0_rho_star: ur.dimensionless,
     rho2_rho1: ur.dimensionless,
+    rho01_rho1: ur.dimensionless,
+    rho02_rho2: ur.dimensionless,
 }
 
 durbin_output_units = {

@@ -55,23 +55,35 @@ isentropic_equations = [
     # Temperature ratio
     (T0_T, 1 + ((gamma - 1) / 2) * M**2),
     (T0_T_inf, 1 + ((gamma - 1) / 2) * M_inf**2),
+    (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
+    (T02_T2, 1 + ((gamma - 1) / 2) * M2**2),
     #
     # Pressure ratio
     (p0_p, (1 + (gamma - 1) / 2 * M**2) ** (gamma / (gamma - 1))),
     (p0_p_inf, (1 + (gamma - 1) / 2 * M_inf**2) ** (gamma / (gamma - 1))),
+    (p01_p1, (1 + (gamma - 1) / 2 * M1**2) ** (gamma / (gamma - 1))),
+    (p02_p2, (1 + (gamma - 1) / 2 * M2**2) ** (gamma / (gamma - 1))),
     #
     # Density ratio
     (rho0_rho, (1 + (gamma - 1) / 2 * M**2) ** (1 / (gamma - 1))),
     (rho0_rho_inf, (1 + (gamma - 1) / 2 * M_inf**2) ** (1 / (gamma - 1))),
+    (rho01_rho1, (1 + (gamma - 1) / 2 * M1**2) ** (1 / (gamma - 1))),
+    (rho02_rho2, (1 + (gamma - 1) / 2 * M2**2) ** (1 / (gamma - 1))),
     #
     # Ratio definitions
     (T0_T, T0 / T),
+    (T01_T1, T01 / T1),
+    (T02_T2, T02 / T2),
     (T0_T_inf, T0 / T_inf),
     (T0_T_star, T0 / T_star),
     (p0_p, p0 / p),
+    (p01_p1, p01 / p1),
+    (p02_p2, p02 / p2),
     (p0_p_inf, p0 / p_inf),
     (p0_p_star, p0 / p_star),
     (rho0_rho, rho0 / rho),
+    (rho01_rho1, rho01 / rho1),
+    (rho02_rho2, rho02 / rho2),
     (rho0_rho_inf, rho0 / rho_inf),
     (rho0_rho_star, rho0 / rho_star),
     #
