@@ -106,7 +106,7 @@ shock_equations = [
         * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2)),
     ),
     (
-        s2 - s1,
+        s2_s1,
         c_p
         * sp.ln(
             (
@@ -131,7 +131,7 @@ shock_equations = [
         * ((1 - gamma + 2 * gamma * M1**2) / (gamma + 1)),
     ),
     #
-    # Ratio full forms
+    # Composite expansions
     (rho2_rho1, rho2 / rho1),
     (u2_u1, u2 / u1),
     (p2_p1, p2 / p1),
@@ -139,6 +139,7 @@ shock_equations = [
     (p02_p1, p01 / p1),
     (T2_T1, T2 / T1),
     (h2_h1, h2 / h1),
+    (s2_s1, s2 - s1),
 ]
 
 bernoulli_equations = [

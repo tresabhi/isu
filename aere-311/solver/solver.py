@@ -49,7 +49,7 @@ class Solver:
                     solution = sp.nsolve(equation, symbol, 1)
                 except:
                     self.log.info(
-                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>"
+                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow> {equation.lhs} = {equation.rhs}"
                     )
 
                     solutions = sp.solve(equation, symbol)
