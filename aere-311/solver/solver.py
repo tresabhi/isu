@@ -88,7 +88,7 @@ class Solver:
             if find is None or symbol in find:
                 solved_rows.append(
                     (
-                        symbol,
+                        f"{symbol}",
                         # f"{value_with_units.magnitude:.5g}",
                         value_with_units.magnitude,
                         (
@@ -100,6 +100,8 @@ class Solver:
                 )
 
         if len(solved_rows) > 0:
+            solved_rows = sorted(solved_rows, key=lambda t: t[0].lower())
+
             print()
             print(tabulate(solved_rows, headers=HEADERS, disable_numparse=True))
 
