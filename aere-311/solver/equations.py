@@ -191,6 +191,8 @@ from symbols import *
 
 composite_equations = [
     (delta_s, s2 - s1),
+    (delta_h, h2 - h1),
+    (delta_e, e2 - e1),
     (T2_T1, T2 / T1),
     (p2_p1, p2 / p1),
     (rho2_rho1, rho2 / rho1),

@@ -3,8 +3,8 @@ from sympy import symbols
 R = symbols("R")
 gamma = symbols("gamma")
 cp, cv = symbols("cp cv")
-e1, e2 = symbols("e1:3")
-h1, h2 = symbols("h1:3")
+e1, e2, delta_e = symbols("e1:3 delta_e")
+h1, h2, delta_h = symbols("h1:3 delta_h")
 s1, s2, delta_s = symbols("s1:3 delta_s")
 
 u1, u2 = symbols("u1:3")
