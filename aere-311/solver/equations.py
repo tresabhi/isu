@@ -193,18 +193,45 @@ composite_equations = [
     (delta_s, s2 - s1),
     (delta_h, h2 - h1),
     (delta_e, e2 - e1),
+    #
     (T2_T1, T2 / T1),
+    (T0_T1, T0 / T1),
+    (T0_T2, T0 / T2),
+    #
     (p2_p1, p2 / p1),
     (rho2_rho1, rho2 / rho1),
 ]
 
-# Chapter 7
-thermodynamic_equations = [
-    # Equation of state
+state_equations = [
+    #
+    # Chapter 7
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
+]
+
+entropy_equations = [
     #
-    # Calorically perfect gas
+    # Chapter 7
+    (delta_s, cp * sp.ln(T2_T1) - R * sp.ln(p2_p1)),
+    (delta_s, cv * sp.ln(T2_T1) + R * sp.ln(1 / rho2_rho1)),
+]
+
+isentropic_equations = [
+    #
+    # Chapter 7
+    (p2_p1, rho2_rho1**gamma),
+    (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
+]
+
+isothermal_equations = [
+    #
+    # Chapter 7
+    (T1, T2),
+]
+
+calorically_perfect_equations = [
+    #
+    # Chapter 7
     (e1, cv * T1),
     (e2, cv * T2),
     (h1, cp * T1),
@@ -213,29 +240,51 @@ thermodynamic_equations = [
     (cv, R / (gamma - 1)),
     (gamma, cp / cv),
     #
-    # Entropy changes
-    (delta_s, cp * sp.ln(T2_T1) - R * sp.ln(p2_p1)),
-    (delta_s, cv * sp.ln(T2_T1) + R * sp.ln(1 / rho2_rho1)),
+    # Chapter 8
+    (a1, sp.sqrt((gamma * p1) / rho1)),
+    (a2, sp.sqrt((gamma * p2) / rho2)),
+    (a1, sp.sqrt(gamma * R * T1)),
+    (a2, sp.sqrt(gamma * R * T2)),
+]
+
+adiabatic_equations = [
     #
-    # Adiabatic
+    # Chapter 8
     (h1 + u1**2 / 2, h2 + u2**2 / 2),
+    (cp * T1 + u1**2 / 2, cp * T2 + u2**2 / 2),
+    (a1**2 / (gamma - 1) + u1**2 / 2, a2**2 / (gamma - 1) + u2**2 / 2),
 ]
 
-# Chapter 7
-isentropic_equations = [
-    (p2_p1, rho2_rho1**gamma),
-    (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
+static_equations = [
+    #
+    # Chapter 8
+    (a1**2 / (gamma - 1) + u1**2 / 2, a0**2 / (gamma - 1)),
+    (a2**2 / (gamma - 1) + u2**2 / 2, a0**2 / (gamma - 1)),
+    #
+    (cp * T1 + u1**2 / 2, cp * T0),
+    (cp * T2 + u2**2 / 2, cp * T0),
+    #
+    (T0_T1, 1 + ((gamma - 1) / 2) * M1**2),
+    (T0_T2, 1 + ((gamma - 1) / 2) * M2**2),
 ]
 
-# Chapter 7
-isothermal_equations = [
-    (T1, T2),
+sonic_equations = [
+    #
+    # Chapter 8
+    (a1**2 / (gamma - 1) + u1**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
+    (a2**2 / (gamma - 1) + u2**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
 ]
 
 equation_sets = [
     composite_equations,
-    thermodynamic_equations,
+    state_equations,
+    entropy_equations,
     isentropic_equations,
+    isothermal_equations,
+    calorically_perfect_equations,
+    adiabatic_equations,
+    static_equations,
+    sonic_equations,
 ]
 
 if __name__ == "__main__":

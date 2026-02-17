@@ -19,15 +19,26 @@ si_base_units = {
     u1: ur.m / ur.s,
     u2: ur.m / ur.s,
     #
+    a0: ur.m / ur.s,
+    a1: ur.m / ur.s,
+    a2: ur.m / ur.s,
+    a_star: ur.m / ur.s,
+    #
+    M1: ur.dimensionless,
+    M2: ur.dimensionless,
+    #
     p1: ur.Pa,
     p2: ur.Pa,
     p2_p1: ur.dimensionless,
     rho1: ur.kg / ur.m**3,
     rho2: ur.kg / ur.m**3,
     rho2_rho1: ur.dimensionless,
+    #
     T1: ur.K,
     T2: ur.K,
     T2_T1: ur.dimensionless,
+    T0_T1: ur.dimensionless,
+    T0_T2: ur.dimensionless,
 }
 
 durbin_output_units = {

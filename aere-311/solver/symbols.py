@@ -8,10 +8,12 @@ h1, h2, delta_h = symbols("h1:3 delta_h")
 s1, s2, delta_s = symbols("s1:3 delta_s")
 
 u1, u2 = symbols("u1:3")
+M1, M2 = symbols("M1:3")
+a0, a1, a2, a_star = symbols("a0:3 a*")
 
 p1, p2, p2_p1 = symbols("p1:3 p2/p1")
 rho1, rho2, rho2_rho1 = symbols("rho1:3 rho2/rho1")
-T1, T2, T2_T1 = symbols("T1:3 T2/T1")
+T0, T1, T2, T2_T1, T0_T1, T0_T2 = symbols("T0:3 T2/T1 T0_T1 T0_T2")
 
 # u, u0, u1, u2, u_inf, u_star = symbols("u u0:3 u_inf u*")
 # a, a0, a1, a2, a_inf, a_star = symbols("a a0:3 a_inf a*")
