@@ -199,7 +199,12 @@ composite_equations = [
     (T0_T2, T0 / T2),
     #
     (p2_p1, p2 / p1),
+    (p0_p1, p0 / p1),
+    (p0_p2, p0 / p2),
+    #
     (rho2_rho1, rho2 / rho1),
+    (rho0_rho1, rho0 / rho1),
+    (rho0_rho2, rho0 / rho2),
 ]
 
 state_equations = [
@@ -266,6 +271,12 @@ static_equations = [
     #
     (T0_T1, 1 + ((gamma - 1) / 2) * M1**2),
     (T0_T2, 1 + ((gamma - 1) / 2) * M2**2),
+    #
+    (p0_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
+    (p0_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
+    #
+    (rho0_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
+    (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
 sonic_equations = [
