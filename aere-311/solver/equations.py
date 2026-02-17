@@ -183,12 +183,50 @@ from symbols import *
 #     (rho, rho0),
 # ]
 
+# equation_sets = [
+#     isentropic_equations,
+#     bernoulli_equations,
+#     shock_equations,
+# ]
 
+composite_equations = [
+    (delta_s, s2 - s1),
+    (T2_T1, T2 / T1),
+    (p2_p1, p2 / p1),
+    (rho2_rho1, rho2 / rho1),
+]
+
+# Chapter 7
+thermodynamic_equations = [
+    # Equation of state
+    (p1, rho1 * R * T1),
+    (p2, rho2 * R * T2),
+    #
+    # Calorically perfect gas
+    (e1, cv * T1),
+    (e2, cv * T2),
+    (h1, cp * T1),
+    (h2, cp * T2),
+    (cp, (gamma * R) / (gamma - 1)),
+    (cv, R / (gamma - 1)),
+    (gamma, cp / cv),
+    #
+    # Entropy changes
+    (delta_s, cp * sp.ln(T2_T1) - R * sp.ln(p2_p1)),
+    (delta_s, cv * sp.ln(T2_T1) + R * sp.ln(1 / rho2_rho1)),
+    #
+    # Adiabatic
+    (h1 + u1**2 / 2, h2 + u2**2 / 2),
+]
+
+# Chapter 7
+isentropic_equations = [
+    (p2_p1, rho2_rho1**gamma),
+    (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
+]
 
 equation_sets = [
-    isentropic_equations,
-    bernoulli_equations,
-    shock_equations,
+    thermodynamic_equations,
 ]
 
 if __name__ == "__main__":

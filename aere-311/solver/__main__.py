@@ -7,12 +7,12 @@ from units import *
 air = {
     # gamma: 7 / 5,
     # R: 287.05 * ur.J / (ur.kg * ur.K),
-    c_p: 0.847 * ur.kJ / (ur.kg * ur.K),
-    c_v: 0.658 * ur.kJ / (ur.kg * ur.K),
+    cp: 0.847 * ur.kJ / (ur.kg * ur.K),
+    cv: 0.658 * ur.kJ / (ur.kg * ur.K),
 }
 
 solver = Solver(
-    equations=[*isentropic_equations, *shock_equations],
+    equations=[*composite_equations, *thermodynamic_equations, *isentropic_equations],
     base_units=si_base_units,
     output_units=durbin_output_units,
 )
