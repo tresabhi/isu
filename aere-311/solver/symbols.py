@@ -11,6 +11,7 @@ u1, u2 = symbols("u1:3")
 M1, M2 = symbols("M1:3")
 a0, a1, a2, a_star = symbols("a0:3 a*")
 
+q1, q2 = symbols("q1:3")
 p0, p1, p2, p2_p1, p0_p1, p0_p2 = symbols("p0:3 p2/p1 p0/p1 p0/p2")
 rho0, rho1, rho2, rho2_rho1, rho0_rho1, rho0_rho2 = symbols(
     "rho0:3 rho2/rho1 rho0/rho1 rho0/rho2"

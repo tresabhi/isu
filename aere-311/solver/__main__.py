@@ -7,8 +7,6 @@ from units import *
 air = {
     gamma: 7 / 5,
     R: 287.05 * ur.J / (ur.kg * ur.K),
-    # cp: 0.847 * ur.kJ / (ur.kg * ur.K),
-    # cv: 0.658 * ur.kJ / (ur.kg * ur.K),
 }
 
 solver = Solver(
@@ -21,7 +19,8 @@ solver = Solver(
         *calorically_perfect_equations,
         *adiabatic_equations,
         *static_equations,
-        *sonic_equations,
+        # *sonic_equations,
+        *bernoulli_equations,
     ],
     base_units=si_base_units,
     output_units=durbin_output_units,
@@ -32,5 +31,8 @@ if __name__ == "__main__":
         {
             **air,
             #
+            p0: 1550 * ur.atm,
+            T0: 1800 * ur.K,
+            u1: 1.85 * ur.km / ur.s,
         },
     )

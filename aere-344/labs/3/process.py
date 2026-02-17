@@ -34,7 +34,11 @@ def calibrate():
         voltages.append(read_voltage(f"data/calibration/{i}.txt"))
         pressures.append(read_pressure(f"data/calibration/{i}.csv"))
 
-    m, b = np.polyfit(voltages, pressures, 1)
+    (m, b), [residual], *_ = np.polyfit(voltages, pressures, 1, full=True)
+    rmse = (residual / 5) ** (1 / 2)
+
+    print(f"residual = {residual}")
+    print(f"RMSE = {rmse}")
 
     return m, b, voltages, pressures
 

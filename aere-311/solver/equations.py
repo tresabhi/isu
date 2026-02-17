@@ -286,6 +286,13 @@ sonic_equations = [
     (a2**2 / (gamma - 1) + u2**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
 ]
 
+bernoulli_equations = [
+    (q1, (1 / 2) * rho1 * u1**2),
+    (q2, (1 / 2) * rho2 * u2**2),
+    (p0, p1 + q1),
+    (p0, p1 + q2),
+]
+
 equation_sets = [
     composite_equations,
     state_equations,
