@@ -25,5 +25,6 @@ q, q0, q1, q2, q_inf, q_star = symbols("q q0:3 q_inf q*")
 
 gamma = symbols("gamma")
 c_p, c_v, R = symbols("c_p c_v R")
-h1, h2, h2_h1 = symbols("h1:3 h2/h1")
-s1, s2, s2_s1 = symbols("s1:3 s2-s1")
+h1, h2, h2_h1, delta_h_2_1 = symbols("h1:3 h2/h1 h2-h1")
+s1, s2, delta_s_2_1 = symbols("s1:3 s2-s1")
+e1, e2, delta_e_2_1 = symbols("e1:3 e2-e1")

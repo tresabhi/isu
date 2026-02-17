@@ -5,8 +5,10 @@ from equations import *
 from units import *
 
 air = {
-    gamma: 7 / 5,
-    R: 287.05 * ur.J / (ur.kg * ur.K),
+    # gamma: 7 / 5,
+    # R: 287.05 * ur.J / (ur.kg * ur.K),
+    c_p: 0.847 * ur.kJ / (ur.kg * ur.K),
+    c_v: 0.658 * ur.kJ / (ur.kg * ur.K),
 }
 
 solver = Solver(
@@ -20,7 +22,9 @@ if __name__ == "__main__":
         {
             **air,
             #
-            p02: 1.245 * ur.atm,
-            p1: 0.1 * ur.atm,
+            T1: 288 * ur.K,
+            p1: 1 * ur.atm,
+            T2: 640 * ur.K,
+            p2: 9 * ur.atm,
         },
     )
