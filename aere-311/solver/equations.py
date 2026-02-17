@@ -225,8 +225,15 @@ isentropic_equations = [
     (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
 ]
 
+# Chapter 7
+isothermal_equations = [
+    (T1, T2),
+]
+
 equation_sets = [
+    composite_equations,
     thermodynamic_equations,
+    isentropic_equations,
 ]
 
 if __name__ == "__main__":

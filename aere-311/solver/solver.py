@@ -6,7 +6,7 @@ from logger import logger
 from registry import ur
 
 HEADERS = ["Symbol", "Value", "Units"]
-EQUIVALENCY_THRESHOLD = 0.01
+EQUIVALENCY_THRESHOLD = 0.001
 
 
 class Solver:
@@ -75,7 +75,7 @@ class Solver:
                         solution = float(solutions[-1])
 
                 if symbol in knowns:
-                    if (knowns[symbol] - solution) / solution <= EQUIVALENCY_THRESHOLD:
+                    if knowns[symbol] - solution <= EQUIVALENCY_THRESHOLD:
                         self.log.info(
                             f"{symbol}: <green>over-solved</green> {knowns[symbol]} == {solution}"
                         )
