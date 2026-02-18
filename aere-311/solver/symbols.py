@@ -20,7 +20,16 @@ a0, a1, a2, a_star = symbols("a0:3 a*")
 p0, p1, p2, p2_p1, p0_p1, p0_p2, p01, p02, p02_p01, p01_p1, p01_p2, p02_p1, p02_p2 = (
     symbols("p0:3 p2/p1 p0/p1 p0/p2 p01 p02 p02/p01 p01/p1 p01/p2 p02/p1 p02/p2")
 )
-rho0, rho1, rho2, rho2_rho1, rho0_rho1, rho0_rho2 = symbols(
-    "rho0:3 rho2/rho1 rho0/rho1 rho0/rho2"
-)
+(
+    rho0,
+    rho1,
+    rho2,
+    rho2_rho1,
+    rho0_rho1,
+    rho0_rho2,
+    rho01,
+    rho02,
+    rho01_rho1,
+    rho02_rho2,
+) = symbols("rho0:3 rho2/rho1 rho0/rho1 rho0/rho2 rho01 rho02 rho01_rho1 rho02_rho2")
 T0, T1, T2, T2_T1, T0_T1, T0_T2, T01, T02 = symbols("T0:3 T2/T1 T0/T1 T0/T2 T01 T02")

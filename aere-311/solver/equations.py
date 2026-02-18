@@ -34,6 +34,8 @@ composite_equations = [
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
     (rho0_rho2, rho0 / rho2),
+    (rho01_rho1, rho01 / rho1),
+    (rho02_rho2, rho02 / rho2),
     #
     (u2_u1, u2 / u1),
     #
@@ -47,6 +49,8 @@ state_equations = [
     (p0, rho0 * R * T0),
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
+    (p01, rho01 * R * T01),
+    (p02, rho02 * R * T02),
 ]
 
 entropy_equations = [
@@ -118,6 +122,9 @@ static_equations = [
     #
     (rho0_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+    #
+    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
+    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
 sonic_equations = [

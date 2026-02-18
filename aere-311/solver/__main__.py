@@ -16,7 +16,7 @@ solver = Solver(
         *composite_equations,
         *state_equations,
         *entropy_equations,
-        *isentropic_equations,
+        # *isentropic_equations,
         # *isothermal_equations,
         *calorically_perfect_equations,
         *adiabatic_equations,
@@ -34,10 +34,8 @@ if __name__ == "__main__":
         {
             **air,
             #
-            d2: 3.66 * ur.m,
-            u2: 3.2 * ur.km / ur.s,
-            m_dot: 1500 * ur.kg / ur.s,
-            p0: 85 * ur.atm,
-            T2: 909.1503033630723 * ur.K,
+            p1: 1 * ur.atm,
+            T1: 288 * ur.K,
+            M1: 2.800,
         },
     )
