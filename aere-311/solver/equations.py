@@ -23,6 +23,9 @@ composite_equations = [
     (T2_T1, T2 / T1),
     (T0_T1, T0 / T1),
     (T0_T2, T0 / T2),
+    (T_star_T0, T_star / T0),
+    (T_star_T1, T_star / T1),
+    (T_star_T2, T_star / T2),
     #
     (p2_p1, p2 / p1),
     (p0_p1, p0 / p1),
@@ -32,12 +35,18 @@ composite_equations = [
     (p01_p2, p01 / p2),
     (p02_p1, p02 / p1),
     (p02_p2, p02 / p2),
+    (p_star_p0, p_star / p0),
+    (p_star_p1, p_star / p1),
+    (p_star_p2, p_star / p2),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
     (rho0_rho2, rho0 / rho2),
     (rho01_rho1, rho01 / rho1),
     (rho02_rho2, rho02 / rho2),
+    (rho_star_rho0, rho_star / rho0),
+    (rho_star_rho1, rho_star / rho1),
+    (rho_star_rho2, rho_star / rho2),
     #
     (u2_u1, u2 / u1),
     #
@@ -53,6 +62,8 @@ state_equations = [
     (p2, rho2 * R * T2),
     (p01, rho01 * R * T01),
     (p02, rho02 * R * T02),
+    (p02, rho02 * R * T02),
+    (p_star, rho_star * R * T_star),
 ]
 
 entropy_equations = [
@@ -92,6 +103,7 @@ calorically_perfect_equations = [
     (a2, sp.sqrt((gamma * p2) / rho2)),
     (a1, sp.sqrt(gamma * R * T1)),
     (a2, sp.sqrt(gamma * R * T2)),
+    (a_star, sp.sqrt(gamma * R * T_star)),
 ]
 
 adiabatic_equations = [
@@ -183,10 +195,15 @@ sonic_equations = [
     (a1**2, ((gamma + 1) / 2) * a_star**2 - ((gamma - 1) / 2) * u1**2),
     (a2**2, ((gamma + 1) / 2) * a_star**2 - ((gamma - 1) / 2) * u2**2),
     #
-    (a_star**2, u1 * u2),
-    (1, M1_star * M1_star),
-    (M1_star, u1 / a_star),
-    (M2_star, u2 / a_star),
+    (T_star_T0, 2 / (gamma + 1)),
+    (p_star_p0, (2 / (gamma + 1)) ** (gamma / (gamma - 1))),
+    (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
+    # 1
+    (M1**2, 2 / ((gamma + 1) / M1_star**2 - (gamma - 1))),
+    (M2**2, 2 / ((gamma + 1) / M1_star**2 - (gamma - 1))),
+    #
+    (M1_star**2, ((gamma + 1) * M1**2) / (2 + (gamma - 1) * M1**2)),
+    (M2_star**2, ((gamma + 1) * M2**2) / (2 + (gamma - 1) * M2**2)),
 ]
 
 super_sonic_equations = [
