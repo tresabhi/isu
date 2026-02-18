@@ -1,7 +1,8 @@
 from sympy import symbols
 
+d1, d2 = symbols("d1:3")
 A1, A2 = symbols("A1:3")
-v_dot1, v_dot2 = symbols("v_dot1:3")
+V_dot1, V_dot2 = symbols("V_dot1:3")
 m_dot, m_dot1, m_dot2 = symbols("m_dot m_dot1:3")
 F = symbols("F")
 

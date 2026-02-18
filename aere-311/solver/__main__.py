@@ -15,18 +15,18 @@ solver = Solver(
         *continuity_equations,
         *composite_equations,
         *state_equations,
-        # *entropy_equations,
-        # *isentropic_equations,
+        *entropy_equations,
+        *isentropic_equations,
         # *isothermal_equations,
         *calorically_perfect_equations,
         *adiabatic_equations,
         *static_equations,
         *sonic_equations,
         # *bernoulli_equations,
-        # *normal_shock_equations,
+        *normal_shock_equations,
     ],
     base_units=si_base_units,
-    output_units=si_base_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
@@ -34,11 +34,10 @@ if __name__ == "__main__":
         {
             **air,
             #
-            A1: 0.6 * ur.m**2,
-            A2: 1 * ur.m**2,
-            rho1: 0.1 * ur.kg / ur.m**3,
-            T1: 300 * ur.K,
-            u1: 277.775 * ur.m / ur.s,
-            u2: 131.540 * ur.m / ur.s,
+            d2: 3.66 * ur.m,
+            u2: 3.2 * ur.km / ur.s,
+            m_dot: 1500 * ur.kg / ur.s,
+            p0: 85 * ur.atm,
+            T2: 909.1503033630723 * ur.K,
         },
     )

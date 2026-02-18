@@ -2,12 +2,16 @@ import sympy as sp
 from symbols import *
 
 continuity_equations = [
-    (v_dot1, A1 * u1),
-    (v_dot2, A2 * u2),
-    (m_dot1, rho1 * v_dot1),
-    (m_dot2, rho2 * v_dot2),
+    (A1, (sp.pi / 4) * d1**2),
+    (A2, (sp.pi / 4) * d2**2),
+    (V_dot1, A1 * u1),
+    (V_dot2, A2 * u2),
+    #
+    (m_dot1, rho1 * V_dot1),
+    (m_dot2, rho2 * V_dot2),
     (m_dot, m_dot1),
     (m_dot, m_dot2),
+    #
     (F, m_dot * (u2 - u1) + (p2 * A2 - p1 * A1)),
 ]
 
@@ -32,6 +36,9 @@ composite_equations = [
     (rho0_rho2, rho0 / rho2),
     #
     (u2_u1, u2 / u1),
+    #
+    (M1, u1 / a1),
+    (M2, u2 / a2),
 ]
 
 state_equations = [
@@ -52,6 +59,7 @@ entropy_equations = [
 isentropic_equations = [
     #
     # Chapter 7
+    (delta_s, 0),
     (p2_p1, rho2_rho1**gamma),
     (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
 ]
@@ -102,6 +110,11 @@ static_equations = [
     #
     (p0_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
     (p0_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
+    #
+    # (p0_p1, (1 + (u1**2) / (2 * cp * T1)) ** (gamma / (gamma - 1))),
+    # (p0_p2, (1 + (u2**2) / (2 * cp * T2)) ** (gamma / (gamma - 1))),
+    # (p0 / (rho1 * R * T1), (1 + (u1**2) / (2 * cp * T1)) ** (gamma / (gamma - 1))),
+    # (p0 / (rho2 * R * T2), (1 + (u2**2) / (2 * cp * T2)) ** (gamma / (gamma - 1))),
     #
     (rho0_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
