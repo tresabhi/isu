@@ -71,18 +71,29 @@ si_base_units = {
     T0: ur.K,
     T1: ur.K,
     T2: ur.K,
+    T01: ur.K,
+    T02: ur.K,
     T2_T1: ur.dimensionless,
     T0_T1: ur.dimensionless,
     T0_T2: ur.dimensionless,
-    T01: ur.K,
-    T02: ur.K,
 }
 
 durbin_output_units = {
     **si_base_units,
+    #
     p0: ur.atm,
     p1: ur.atm,
     p2: ur.atm,
     p01: ur.atm,
     p02: ur.atm,
+}
+
+imperial_output_units = {
+    **durbin_output_units,
+    #
+    T0: ur.rankine,
+    T1: ur.rankine,
+    T2: ur.rankine,
+    T01: ur.rankine,
+    T02: ur.rankine,
 }

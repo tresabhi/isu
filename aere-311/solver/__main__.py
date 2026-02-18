@@ -20,13 +20,15 @@ solver = Solver(
         # *isothermal_equations,
         *calorically_perfect_equations,
         *adiabatic_equations,
-        *static_equations,
+        # *static_equations,
         *sonic_equations,
         # *bernoulli_equations,
         *normal_shock_equations,
+        # *sub_sonic_equations,
+        *super_sonic_equations,
     ],
     base_units=si_base_units,
-    output_units=durbin_output_units,
+    output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
@@ -34,8 +36,7 @@ if __name__ == "__main__":
         {
             **air,
             #
-            p1: 1 * ur.atm,
-            T1: 288 * ur.K,
-            M1: 2.800,
+            p02: 1.245 * ur.atm,
+            p1: 0.1 * ur.atm,
         },
     )

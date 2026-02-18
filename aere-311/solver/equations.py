@@ -29,6 +29,8 @@ composite_equations = [
     (p0_p2, p0 / p2),
     (p02_p01, p02 / p01),
     (p01_p1, p01 / p1),
+    (p01_p2, p01 / p2),
+    (p02_p1, p02 / p1),
     (p02_p2, p02 / p2),
     #
     (rho2_rho1, rho2 / rho1),
@@ -115,6 +117,7 @@ static_equations = [
     (p0_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
     (p0_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
     #
+    # source: other homework
     # (p0_p1, (1 + (u1**2) / (2 * cp * T1)) ** (gamma / (gamma - 1))),
     # (p0_p2, (1 + (u2**2) / (2 * cp * T2)) ** (gamma / (gamma - 1))),
     # (p0 / (rho1 * R * T1), (1 + (u1**2) / (2 * cp * T1)) ** (gamma / (gamma - 1))),
@@ -122,9 +125,6 @@ static_equations = [
     #
     (rho0_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
-    #
-    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
-    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
 sonic_equations = [
@@ -171,8 +171,17 @@ normal_shock_equations = [
     #
     (T02, T01),
     #
+    # source: my butt
+    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
+    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+]
+
+sub_sonic_equations = [
     (M1**2, (2 / (gamma - 1)) * (p01_p1 ** ((gamma - 1) / gamma) - 1)),
     (M2**2, (2 / (gamma - 1)) * (p02_p2 ** ((gamma - 1) / gamma) - 1)),
+]
+
+super_sonic_equations = [
     (
         p02_p1,
         (((gamma + 1) ** 2 * M1**2) / (4 * gamma * M1**2 - 2 * (gamma - 1)))
