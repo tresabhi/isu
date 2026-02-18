@@ -111,4 +111,11 @@ imperial_output_units = {
     T2: ur.rankine,
     T01: ur.rankine,
     T02: ur.rankine,
+    #
+    p0: ur.lbf / ur.ft**2,
+    p1: ur.lbf / ur.ft**2,
+    p2: ur.lbf / ur.ft**2,
+    p01: ur.lbf / ur.ft**2,
+    p02: ur.lbf / ur.ft**2,
+    p_star: ur.lbf / ur.ft**2,
 }

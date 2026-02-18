@@ -16,7 +16,7 @@ solver = Solver(
         *composite_equations,
         *state_equations,
         # *entropy_equations,
-        # *isentropic_equations,
+        *isentropic_equations,
         # *isothermal_equations,
         *calorically_perfect_equations,
         # *adiabatic_equations,
@@ -24,7 +24,7 @@ solver = Solver(
         # *bernoulli_equations,
         # *normal_shock_equations,
         # *sub_sonic_equations,
-        *sonic_equations,
+        # *sonic_equations,
         # *super_sonic_equations,
     ],
     base_units=si_base_units,
@@ -36,8 +36,9 @@ if __name__ == "__main__":
         {
             **air,
             #
-            T1: 300 * ur.K,
-            p1: 1.2 * ur.atm,
-            u1: 305.0 * ur.m / ur.s,
+            M1: 0.82,
+            M2: 0.78,
+            p1: 1455.6 * ur.lbf / ur.ft**2,
+            T1: 483.04 * ur.rankine,
         },
     )
