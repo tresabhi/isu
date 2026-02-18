@@ -1,5 +1,10 @@
 from sympy import symbols
 
+A1, A2 = symbols("A1:3")
+v_dot1, v_dot2 = symbols("v_dot1:3")
+m_dot, m_dot1, m_dot2 = symbols("m_dot m_dot1:3")
+F = symbols("F")
+
 R = symbols("R")
 gamma = symbols("gamma")
 cp, cv = symbols("cp cv")

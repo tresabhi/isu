@@ -2,6 +2,15 @@ from symbols import *
 from registry import *
 
 si_base_units = {
+    A1: ur.m**2,
+    A2: ur.m**2,
+    v_dot1: ur.m**3 / ur.s,
+    v_dot2: ur.m**3 / ur.s,
+    m_dot: ur.kg / ur.s,
+    m_dot1: ur.kg / ur.s,
+    m_dot2: ur.kg / ur.s,
+    F: ur.N,
+    #
     R: ur.J / (ur.kg * ur.K),
     cp: ur.J / (ur.kg * ur.K),
     cv: ur.J / (ur.kg * ur.K),

@@ -1,6 +1,16 @@
 import sympy as sp
 from symbols import *
 
+continuity_equations = [
+    (v_dot1, A1 * u1),
+    (v_dot2, A2 * u2),
+    (m_dot1, rho1 * v_dot1),
+    (m_dot2, rho2 * v_dot2),
+    (m_dot, m_dot1),
+    (m_dot, m_dot2),
+    (F, m_dot * (u2 - u1) + (p2 * A2 - p1 * A1)),
+]
+
 composite_equations = [
     (delta_s, s2 - s1),
     (delta_h, h2 - h1),
