@@ -52,6 +52,8 @@ composite_equations = [
     #
     (M1, u1 / a1),
     (M2, u2 / a2),
+    #
+    (h2_h1, h2 / h1),
 ]
 
 state_equations = [
@@ -61,7 +63,6 @@ state_equations = [
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
     (p01, rho01 * R * T01),
-    (p02, rho02 * R * T02),
     (p02, rho02 * R * T02),
     (p_star, rho_star * R * T_star),
 ]
