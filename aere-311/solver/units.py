@@ -37,9 +37,6 @@ si_base_units = {
     p0_p1: ur.dimensionless,
     p0_p2: ur.dimensionless,
     #
-    q1: ur.Pa,
-    q2: ur.Pa,
-    #
     rho0: ur.kg / ur.m**3,
     rho1: ur.kg / ur.m**3,
     rho2: ur.kg / ur.m**3,
@@ -60,7 +57,4 @@ durbin_output_units = {
     p0: ur.atm,
     p1: ur.atm,
     p2: ur.atm,
-    #
-    q1: ur.atm,
-    q2: ur.atm,
 }

@@ -210,6 +210,7 @@ composite_equations = [
 state_equations = [
     #
     # Chapter 7
+    (p0, rho0 * R * T0),
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
 ]
@@ -287,10 +288,10 @@ sonic_equations = [
 ]
 
 bernoulli_equations = [
-    (q1, (1 / 2) * rho1 * u1**2),
-    (q2, (1 / 2) * rho2 * u2**2),
-    (p0, p1 + q1),
-    (p0, p1 + q2),
+    (p0, p1 + (1 / 2) * rho1 * u1**2),
+    (p0, p2 + (1 / 2) * rho2 * u2**2),
+    (rho0, rho1),
+    (rho0, rho2),
 ]
 
 equation_sets = [
