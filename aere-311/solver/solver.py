@@ -19,7 +19,7 @@ class Solver:
 
         pass
 
-    def solve(self, original_knowns, find=None):
+    def solve(self, original_knowns):
         knowns = {}
 
         for key, value in original_knowns.items():
@@ -94,21 +94,19 @@ class Solver:
         for symbol, value in knowns.items():
             units = self.output_units[symbol]
             value_with_units = (float(value) * self.base_units[symbol]).to(units)
-
             solved_dict[symbol] = value
 
-            if find is None or symbol in find:
-                solved_rows.append(
+            solved_rows.append(
+                (
+                    symbol,
+                    value_with_units.magnitude,
                     (
-                        symbol,
-                        value_with_units.magnitude,
-                        (
-                            None
-                            if value_with_units.units == ur.dimensionless
-                            else f"{value_with_units.units:~}"
-                        ),
-                    )
+                        None
+                        if value_with_units.units == ur.dimensionless
+                        else f"{value_with_units.units:~}"
+                    ),
                 )
+            )
 
         if len(solved_rows) > 0:
             solved_rows = sorted(solved_rows, key=lambda t: f"{t[0]}".lower())
