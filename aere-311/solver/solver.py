@@ -99,7 +99,7 @@ class Solver:
             solved_rows.append(
                 (
                     symbol,
-                    value_with_units.magnitude,
+                    f"{value_with_units.magnitude:.5g}",
                     (
                         None
                         if value_with_units.units == ur.dimensionless
