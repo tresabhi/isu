@@ -41,6 +41,10 @@ si_base_units = {
     p01: ur.Pa,
     p02: ur.Pa,
     p02_p01: ur.dimensionless,
+    p01_p1: ur.dimensionless,
+    p01_p2: ur.dimensionless,
+    p02_p1: ur.dimensionless,
+    p02_p2: ur.dimensionless,
     #
     rho0: ur.kg / ur.m**3,
     rho1: ur.kg / ur.m**3,
