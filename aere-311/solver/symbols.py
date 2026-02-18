@@ -14,7 +14,7 @@ h1, h2, delta_h, h2_h1 = symbols("h1:3 delta_h h2_h1")
 s1, s2, delta_s = symbols("s1:3 delta_s")
 
 u1, u2, u2_u1 = symbols("u1:3 u2/u1")
-M1, M2 = symbols("M1:3")
+M1, M2, M1_star, M2_star = symbols("M1:3 M1:3*")
 a0, a1, a2, a_star = symbols("a0:3 a*")
 
 p0, p1, p2, p2_p1, p0_p1, p0_p2, p01, p02, p02_p01, p01_p1, p01_p2, p02_p1, p02_p2 = (

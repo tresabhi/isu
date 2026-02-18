@@ -127,13 +127,6 @@ static_equations = [
     (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
-sonic_equations = [
-    #
-    # Chapter 8
-    (a1**2 / (gamma - 1) + u1**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
-    (a2**2 / (gamma - 1) + u2**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
-]
-
 bernoulli_equations = [
     (p0, p1 + (1 / 2) * rho1 * u1**2),
     (p0, p2 + (1 / 2) * rho2 * u2**2),
@@ -179,6 +172,21 @@ normal_shock_equations = [
 sub_sonic_equations = [
     (M1**2, (2 / (gamma - 1)) * (p01_p1 ** ((gamma - 1) / gamma) - 1)),
     (M2**2, (2 / (gamma - 1)) * (p02_p2 ** ((gamma - 1) / gamma) - 1)),
+]
+
+sonic_equations = [
+    #
+    # Chapter 8
+    (a1**2 / (gamma - 1) + u1**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
+    (a2**2 / (gamma - 1) + u2**2 / 2, ((gamma + 1) / (2 * (gamma - 1))) * a_star**2),
+    #
+    (a1**2, ((gamma + 1) / 2) * a_star**2 - ((gamma - 1) / 2) * u1**2),
+    (a2**2, ((gamma + 1) / 2) * a_star**2 - ((gamma - 1) / 2) * u2**2),
+    #
+    (a_star**2, u1 * u2),
+    (1, M1_star * M1_star),
+    (M1_star, u1 / a_star),
+    (M2_star, u2 / a_star),
 ]
 
 super_sonic_equations = [

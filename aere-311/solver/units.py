@@ -42,6 +42,8 @@ si_base_units = {
     #
     M1: ur.dimensionless,
     M2: ur.dimensionless,
+    M1_star: ur.dimensionless,
+    M2_star: ur.dimensionless,
     #
     p0: ur.Pa,
     p1: ur.Pa,
