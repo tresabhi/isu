@@ -14,6 +14,7 @@ si_base_units = {
     h1: ur.J / ur.kg,
     h2: ur.J / ur.kg,
     delta_h: ur.J / ur.kg,
+    h2_h1: ur.dimensionless,
     #
     s1: ur.J / (ur.kg * ur.K),
     s2: ur.J / (ur.kg * ur.K),
@@ -21,6 +22,7 @@ si_base_units = {
     #
     u1: ur.m / ur.s,
     u2: ur.m / ur.s,
+    u2_u1: ur.dimensionless,
     #
     a0: ur.m / ur.s,
     a1: ur.m / ur.s,
@@ -36,6 +38,9 @@ si_base_units = {
     p2_p1: ur.dimensionless,
     p0_p1: ur.dimensionless,
     p0_p2: ur.dimensionless,
+    p01: ur.Pa,
+    p02: ur.Pa,
+    p02_p01: ur.dimensionless,
     #
     rho0: ur.kg / ur.m**3,
     rho1: ur.kg / ur.m**3,
@@ -50,6 +55,8 @@ si_base_units = {
     T2_T1: ur.dimensionless,
     T0_T1: ur.dimensionless,
     T0_T2: ur.dimensionless,
+    T01: ur.K,
+    T02: ur.K,
 }
 
 durbin_output_units = {

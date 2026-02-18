@@ -201,10 +201,13 @@ composite_equations = [
     (p2_p1, p2 / p1),
     (p0_p1, p0 / p1),
     (p0_p2, p0 / p2),
+    (p02_p01, p02 / p01),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
     (rho0_rho2, rho0 / rho2),
+    #
+    (u2_u1, u2 / u1),
 ]
 
 state_equations = [
@@ -294,20 +297,33 @@ bernoulli_equations = [
     (rho0, rho2),
 ]
 
-equation_sets = [
-    composite_equations,
-    state_equations,
-    entropy_equations,
-    isentropic_equations,
-    isothermal_equations,
-    calorically_perfect_equations,
-    adiabatic_equations,
-    static_equations,
-    sonic_equations,
+normal_shock_equations = [
+    #
+    # Chapter 8
+    (rho1 * u1, rho2 * u2),
+    (p1 + rho1 * u1**2, p2 + rho2 * u2**2),
+    (h1 + u1**2 / 2, h2 + u2**2 / 2),
+    #
+    (M2**2, (1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2)),
+    (rho2_rho1, 1 / u2_u1),
+    (rho2_rho1, ((gamma + 1) * M1**2) / (2 + (gamma - 1) * M1**2)),
+    (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+    (T2_T1, h2_h1),
+    (
+        T2_T1,
+        (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
+        * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2)),
+    ),
+    (
+        delta_s,
+        cp
+        * sp.ln(
+            (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
+            * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2))
+        )
+        - R * sp.ln(1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+    ),
+    (p02_p01, sp.exp(-delta_s / R)),
+    #
+    (T02, T01),
 ]
-
-if __name__ == "__main__":
-    with open("test.md", "w") as file:
-        for equations in equation_sets:
-            for equation in equations:
-                file.write(f"$$\n{sp.latex(equation)}\n$$\n\n")

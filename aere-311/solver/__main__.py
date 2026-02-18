@@ -12,16 +12,16 @@ air = {
 
 solver = Solver(
     equations=[
-        # *composite_equations,
-        # *state_equations,
-        # *entropy_equations,
-        # *isentropic_equations,
+        *composite_equations,
+        *state_equations,
+        *entropy_equations,
+        *isentropic_equations,
         # *isothermal_equations,
-        # *calorically_perfect_equations,
-        # *adiabatic_equations,
-        # *static_equations,
-        # *sonic_equations,
-        *bernoulli_equations,
+        *calorically_perfect_equations,
+        *adiabatic_equations,
+        *static_equations,
+        *sonic_equations,
+        # *bernoulli_equations,
     ],
     base_units=si_base_units,
     output_units=durbin_output_units,
@@ -32,8 +32,9 @@ if __name__ == "__main__":
         {
             **air,
             #
-            p0: 1550 * ur.atm,
-            T0: 1800 * ur.K,
-            u1: 1.85 * ur.km / ur.s,
+            rho1: 0.05 * ur.kg / ur.m**3,
+            u1: 600 * ur.m / ur.s,
+            p1: 5000 * ur.Pa,
+            u2: 294.444 * ur.m / ur.s,
         },
     )
