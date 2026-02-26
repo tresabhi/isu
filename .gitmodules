@@ -38,3 +38,6 @@
 [submodule "aere-361/labs/4"]
 	path = aere-361/labs/4
 	url = https://github.com/AERE-361/lab-4-s2026-tresabhi.git
+[submodule "aere-361/labs/5"]
+	path = aere-361/labs/5
+	url = https://github.com/AERE-361/lab-5-s2026-tresabhi.git
