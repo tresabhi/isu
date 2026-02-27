@@ -18,9 +18,9 @@ solver = Solver(
         # *entropy_equations,
         # *isentropic_equations,
         # *isothermal_equations,
-        *calorically_perfect_equations,
+        # *calorically_perfect_equations,
         # *adiabatic_equations,
-        *static_equations,
+        # *static_equations,
         # *bernoulli_equations,
         # *sub_sonic_equations,
         # *sonic_equations,
@@ -28,7 +28,7 @@ solver = Solver(
         # *normal_shock_equations,
         *oblique_shocks,
     ],
-    output_units=imperial_output_units,
+    output_units=ephemeral_units,
 )
 
 if __name__ == "__main__":
@@ -36,7 +36,9 @@ if __name__ == "__main__":
         {
             **air,
             #
-            M1: 1.5,
-            d1: 567 * ur.ft,
+            beta: 30 * ur.deg,
+            M1: 4,
+            p1: 2.65e4 * ur.N / ur.m**2,
+            T1: 223.3 * ur.K,
         },
     )

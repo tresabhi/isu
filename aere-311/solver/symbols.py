@@ -68,6 +68,8 @@ a_star = S("a*", "m / s")
 
 M1 = S("M1", None)
 M2 = S("M2", None)
+Mn1 = S("Mn1", None)
+Mn2 = S("Mn2", None)
 M1_star = S("M1*", None)
 M2_star = S("M2*", None)
 
@@ -117,7 +119,12 @@ T_star_T0 = S("T*/T0", None)
 T_star_T1 = S("T*/T1", None)
 T_star_T2 = S("T*/T2", None)
 
-H1 = S("H1", "m")
-H2 = S("H2", "m")
-mu1 = S("mu1", "radian")
-mu2 = S("mu2", "radian")
+d = S("d", "m")
+H = S("H", "m")
+
+mu = S("mu", "radian")
+beta = S("beta", "radian")
+theta = S("theta", "radian")
+
+w1 = S("w1", "m / 2")
+w2 = S("w2", "m / 2")

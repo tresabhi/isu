@@ -225,8 +225,27 @@ super_sonic_equations = [
 oblique_shocks = [
     #
     # Chapter 9
-    (mu1, sp.asin(1 / M1)),
-    (mu2, sp.asin(1 / M2)),
-    (sp.tan(mu1), H1 / d1),
-    (sp.tan(mu2), H2 / d2),
+    (mu, sp.asin(1 / M1)),
+    (sp.tan(mu), H / d),
+    #
+    (w1, w2),
+    (rho1 * u1, rho2 * u2),
+    (p1 + rho1 * u1**2, p2 + rho2 * u2**2),
+    (h1 + u1**2 / 2, h2 + u2**2 / 2),
+    #
+    (Mn1, M1 * sp.sin(beta)),
+    (M2, Mn2 / sp.sin(beta - theta)),
+    (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
+    #
+    (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
+    (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+    (T2_T1, p2_p1 / rho2_rho1),
+    #
+    (
+        sp.tan(theta),
+        2
+        * sp.cot(beta)
+        * ((M1**2 * sp.sin(beta) ** 2 - 1) / (M1**2 * (gamma + sp.cos(2 * beta)) + 2)),
+    ),
+    (theta, beta - sp.atan((1 / rho2_rho1) * sp.tan(beta))),
 ]

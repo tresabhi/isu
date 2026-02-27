@@ -8,15 +8,19 @@ durbin_output_units = {
     p01: ur.atm,
     p02: ur.atm,
     p_star: ur.atm,
+    #
+    mu: ur.deg,
+    beta: ur.deg,
+    theta: ur.deg,
 }
 
 imperial_output_units = {
     **durbin_output_units,
     #
+    d: ur.ft,
     d1: ur.ft,
     d2: ur.ft,
-    H1: ur.ft,
-    H2: ur.ft,
+    H: ur.ft,
     #
     T0: ur.rankine,
     T1: ur.rankine,
@@ -30,4 +34,10 @@ imperial_output_units = {
     p01: ur.lbf / ur.ft**2,
     p02: ur.lbf / ur.ft**2,
     p_star: ur.lbf / ur.ft**2,
+}
+
+ephemeral_units = {
+    **durbin_output_units,
+    #
+    p2: ur.N / ur.m**2,
 }
