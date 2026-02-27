@@ -147,6 +147,13 @@ bernoulli_equations = [
     (rho0, rho2),
 ]
 
+shock_equations = [
+    #
+    # source: my butt
+    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
+    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+]
+
 normal_shock_equations = [
     #
     # Chapter 8
@@ -176,10 +183,6 @@ normal_shock_equations = [
     (p02_p01, sp.exp(-delta_s / R)),
     #
     (T02, T01),
-    #
-    # source: my butt
-    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
-    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
 sub_sonic_equations = [
@@ -248,4 +251,9 @@ oblique_shocks = [
         * ((M1**2 * sp.sin(beta) ** 2 - 1) / (M1**2 * (gamma + sp.cos(2 * beta)) + 2)),
     ),
     (theta, beta - sp.atan((1 / rho2_rho1) * sp.tan(beta))),
+    #
+    (sp.tan(beta), u1 / w1),
+    (sp.tan(beta - theta), u2 / w2),
+    (sp.tan(beta - theta) / sp.tan(beta), u2_u1),
+    (u2_u1, 1 / rho2_rho1),
 ]

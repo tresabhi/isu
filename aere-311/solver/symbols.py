@@ -46,16 +46,16 @@ cv = S("cv", "J / (kg * K)")
 
 e1 = S("e1", "J / (kg * K)")
 e2 = S("e2", "J / (kg * K)")
-delta_e = S("delta_e", "J / (kg * K)")
+delta_e = S("e2-e1", "J / (kg * K)")
 
 h1 = S("h1", "J / kg")
 h2 = S("h2", "J / kg")
-delta_h = S("delta_h", "J / kg")
+delta_h = S("h2-h1", "J / kg")
 h2_h1 = S("h2/h1", None)
 
 s1 = S("s1", "J / (kg * K)")
 s2 = S("s2", "J / (kg * K)")
-delta_s = S("delta_s", "J / (kg * K)")
+delta_s = S("s2-s1", "J / (kg * K)")
 
 u1 = S("u1", "m / s")
 u2 = S("u2", "m / s")

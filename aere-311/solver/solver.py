@@ -51,7 +51,7 @@ class Solver:
                 solution = None
 
                 try:
-                    solution = sp.nsolve(equation, symbol, 1)
+                    solution = sp.nsolve(equation, symbol, 0.1)
                 except:
                     self.log.info(
                         f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{original_equation.lhs} = {original_equation.rhs}\n\t{equation.lhs} = {equation.rhs}"
