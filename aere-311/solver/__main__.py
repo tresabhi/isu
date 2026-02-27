@@ -16,7 +16,7 @@ solver = Solver(
         *composite_equations,
         *state_equations,
         # *entropy_equations,
-        *isentropic_equations,
+        # *isentropic_equations,
         # *isothermal_equations,
         *calorically_perfect_equations,
         # *adiabatic_equations,
@@ -27,7 +27,6 @@ solver = Solver(
         # *sonic_equations,
         # *super_sonic_equations,
     ],
-    base_units=si_base_units,
     output_units=durbin_output_units,
 )
 
@@ -36,9 +35,9 @@ if __name__ == "__main__":
         {
             **air,
             #
-            M1: 0.82,
-            M2: 0.78,
-            p1: 1455.6 * ur.lbf / ur.ft**2,
-            T1: 483.04 * ur.rankine,
+            M1: 1.93,
+            p0: 0.751 * ur.atm,
+            p2: 0.5 * ur.atm,
+            T2: 300 * ur.K,
         },
     )

@@ -1,7 +1,7 @@
 from pint import Quantity
 import sympy as sp
 from tabulate import tabulate
-from symbols import *
+from symbols import Symbol
 from logger import logger
 from registry import ur
 
@@ -12,25 +12,20 @@ EQUIVALENCY_THRESHOLD = 0.001
 class Solver:
     log = logger.opt(colors=True)
 
-    def __init__(self, equations, base_units, output_units, sig_figs=5):
+    def __init__(self, equations, output_units, sig_figs=5):
         self.equations = [sp.Eq(*equation) for equation in equations]
-        self.base_units = base_units
-        self.output_units = {**base_units, **output_units}
+        self.output_units = output_units
+        self.sig_figs = sig_figs
 
         pass
 
-    def solve(self, original_knowns):
+    def solve(self, original_knowns: dict[Symbol, Quantity | float]):
         knowns = {}
 
         for key, value in original_knowns.items():
-            if key not in self.base_units:
-                raise SyntaxError(f"{key} has no base units")
-
-            base = self.base_units[key]
-
             if isinstance(value, Quantity):
-                knowns[key] = value.to(self.base_units[key]).magnitude
-            elif base == ur.dimensionless:
+                knowns[key] = value.to(key.unit).magnitude
+            elif key.unit == ur.dimensionless:
                 knowns[key] = value
             else:
                 raise TypeError(f"Expected units for {key} in input")
@@ -92,18 +87,22 @@ class Solver:
         solved_dict = {}
 
         for symbol, value in knowns.items():
-            units = self.output_units[symbol]
-            value_with_units = (float(value) * self.base_units[symbol]).to(units)
+            unit = (
+                self.output_units[symbol]
+                if symbol in self.output_units
+                else symbol.unit
+            )
+            value_with_unit = (float(value) * symbol.unit).to(unit)
             solved_dict[symbol] = value
 
             solved_rows.append(
                 (
                     symbol,
-                    f"{value_with_units.magnitude}",
+                    f"{value_with_unit.magnitude}",
                     (
                         None
-                        if value_with_units.units == ur.dimensionless
-                        else f"{value_with_units.units:~}"
+                        if value_with_unit.units == ur.dimensionless
+                        else f"{value_with_unit.units:~}"
                     ),
                 )
             )
