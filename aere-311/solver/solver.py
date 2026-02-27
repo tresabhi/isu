@@ -98,7 +98,7 @@ class Solver:
             solved_rows.append(
                 (
                     symbol,
-                    f"{value_with_unit.magnitude}",
+                    f"{value_with_unit.magnitude:.{self.sig_figs}g}",
                     (
                         None
                         if value_with_unit.units == ur.dimensionless
