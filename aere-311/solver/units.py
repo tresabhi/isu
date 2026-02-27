@@ -40,4 +40,5 @@ ephemeral_units = {
     **durbin_output_units,
     #
     p2: ur.N / ur.m**2,
+    p02: ur.N / ur.m**2,
 }
