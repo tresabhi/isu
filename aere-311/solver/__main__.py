@@ -18,7 +18,7 @@ solver = Solver(
         # *entropy_equations,
         # *isentropic_equations,
         # *isothermal_equations,
-        *specific_heat_equations,
+        # *specific_heat_equations,
         # *calorically_perfect_equations,
         # *adiabatic_equations,
         # *static_equations,
@@ -30,7 +30,7 @@ solver = Solver(
         # *normal_shock_equations,
         *oblique_shocks,
     ],
-    output_units=ephemeral_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":

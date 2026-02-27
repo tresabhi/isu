@@ -23,6 +23,8 @@ composite_equations = [
     (T2_T1, T2 / T1),
     (T0_T1, T0 / T1),
     (T0_T2, T0 / T2),
+    (T01_T1, T01 / T1),
+    (T02_T2, T02 / T2),
     (T02_T01, T02 / T01),
     (T_star_T0, T_star / T0),
     (T_star_T1, T_star / T1),
@@ -178,8 +180,6 @@ normal_shock_equations = [
     ),
     (p02_p01, sp.exp(-delta_s / R)),
     #
-    (T02, T01),
-    #
     # source: my butt
     (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
@@ -269,8 +269,9 @@ oblique_shocks = [
     ),
     (p02_p01, sp.exp(-delta_s / R)),
     #
-    (T02, T01),
-    #
-    (rho01_rho1, (1 + ((gamma - 1) / 2) * Mn1**2) ** (1 / (gamma - 1))),
-    (rho02_rho2, (1 + ((gamma - 1) / 2) * Mn2**2) ** (1 / (gamma - 1))),
+    # Appendix A
+    (p01_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
+    (p02_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
+    (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
+    (T01, T02),
 ]
