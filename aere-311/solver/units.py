@@ -13,6 +13,11 @@ durbin_output_units = {
 imperial_output_units = {
     **durbin_output_units,
     #
+    d1: ur.ft,
+    d2: ur.ft,
+    H1: ur.ft,
+    H2: ur.ft,
+    #
     T0: ur.rankine,
     T1: ur.rankine,
     T2: ur.rankine,

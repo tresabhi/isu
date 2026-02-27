@@ -1,11 +1,11 @@
-from sympy import Symbol as SympySymbol
+import sympy as sp
 from pint import Unit
 from registry import ur
 
 symbols: list["Symbol"] = []
 
 
-class Symbol(SympySymbol):
+class Symbol(sp.Symbol):
     unit: Unit
 
     def __new__(
@@ -14,7 +14,7 @@ class Symbol(SympySymbol):
         unit: str | None,
         positive=True,
     ):
-        symbol = SympySymbol.__new__(self, name, positive=positive)
+        symbol = sp.Symbol.__new__(self, name, positive=positive)
         symbol.unit = ur("dimensionless" if unit is None else unit)
 
         symbols.append(symbol)
@@ -116,3 +116,8 @@ T_star = S("T*", "K")
 T_star_T0 = S("T*/T0", None)
 T_star_T1 = S("T*/T1", None)
 T_star_T2 = S("T*/T2", None)
+
+H1 = S("H1", "m")
+H2 = S("H2", "m")
+mu1 = S("mu1", "radian")
+mu2 = S("mu2", "radian")

@@ -22,12 +22,13 @@ solver = Solver(
         # *adiabatic_equations,
         *static_equations,
         # *bernoulli_equations,
-        # *normal_shock_equations,
         # *sub_sonic_equations,
         # *sonic_equations,
         # *super_sonic_equations,
+        # *normal_shock_equations,
+        *oblique_shocks,
     ],
-    output_units=durbin_output_units,
+    output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
@@ -35,9 +36,7 @@ if __name__ == "__main__":
         {
             **air,
             #
-            M1: 1.93,
-            p0: 0.751 * ur.atm,
-            p2: 0.5 * ur.atm,
-            T2: 300 * ur.K,
+            M1: 1.5,
+            d1: 567 * ur.ft,
         },
     )

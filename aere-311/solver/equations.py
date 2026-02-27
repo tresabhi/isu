@@ -221,3 +221,12 @@ super_sonic_equations = [
         * ((1 - gamma + 2 * gamma * M2**2) / (gamma + 1)),
     ),
 ]
+
+oblique_shocks = [
+    #
+    # Chapter 9
+    (mu1, sp.asin(1 / M1)),
+    (mu2, sp.asin(1 / M2)),
+    (sp.tan(mu1), H1 / d1),
+    (sp.tan(mu2), H2 / d2),
+]
