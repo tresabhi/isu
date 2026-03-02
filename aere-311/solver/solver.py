@@ -51,7 +51,7 @@ class Solver:
                 solution = None
 
                 try:
-                    solution = sp.nsolve(equation, symbol, 0.1)
+                    solution = sp.nsolve(equation, symbol, symbol.initial)
                 except:
                     self.log.info(
                         f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{original_equation.lhs} = {original_equation.rhs}\n\t{equation.lhs} = {equation.rhs}"
@@ -80,7 +80,9 @@ class Solver:
                             f"{symbol}: <red>over-solved</red> {knowns[symbol]} != {solution}\n\t({last_equation.lhs} = {last_equation.rhs})\n\t({original_equation.lhs} = {original_equation.rhs})"
                         )
 
-                knowns[symbol] = solution
+                else:
+                    knowns[symbol] = solution
+
                 solved_last_using[symbol] = original_equation
 
         solved_rows = []

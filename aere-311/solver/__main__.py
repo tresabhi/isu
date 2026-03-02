@@ -16,7 +16,7 @@ solver = Solver(
         *shock_static_equations,
         *oblique_shocks,
     ],
-    output_units=ephemeral_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
@@ -24,14 +24,8 @@ if __name__ == "__main__":
         {
             **air,
             #
-            # beta: 30 * ur.deg,
-            # M1: 4,
-            # p1: 2.65e4 * ur.N / ur.m**2,
-            # T1: 223.3 * ur.K,
-            #
-            beta: 30 * ur.deg,
-            M1: 4,
-            p1: 2.65e4 * ur.N / ur.m**2,
-            T1: 223.3 * ur.K,
+            beta: 36.87 * ur.deg,
+            M1: 3.5,
+            p1: 1 * ur.atm,
         },
     )

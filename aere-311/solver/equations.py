@@ -257,6 +257,7 @@ oblique_shocks = [
         * sp.cot(beta)
         * ((M1**2 * sp.sin(beta) ** 2 - 1) / (M1**2 * (gamma + sp.cos(2 * beta)) + 2)),
     ),
+    (theta, beta - sp.atan((1 / rho2_rho1) * sp.tan(beta))),
 ]
 
 # oblique_shocks = [
