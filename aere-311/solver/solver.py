@@ -1,3 +1,4 @@
+from pathlib import Path
 from pint import Quantity
 import sympy as sp
 from tabulate import tabulate
@@ -87,6 +88,7 @@ class Solver:
 
         solved_rows = []
         solved_dict = {}
+        document = ""
 
         for symbol, value in knowns.items():
             unit = (
@@ -99,7 +101,7 @@ class Solver:
 
             solved_rows.append(
                 (
-                    symbol,
+                    sp.latex(symbol),
                     f"{value_with_unit.magnitude:.{self.sig_figs}g}",
                     (
                         None
@@ -109,24 +111,41 @@ class Solver:
                 )
             )
 
+        document += "# Sunrise Solver\n\n"
+
         if len(solved_rows) > 0:
             solved_rows = sorted(solved_rows, key=lambda t: f"{t[0]}".lower())
-            table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
+            # table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
 
-            print()
-            index = -2
-            for line in table.splitlines():
-                if index < 0:
-                    print(line)
-                else:
-                    symbol = solved_rows[index][0]
-                    is_input = symbol in original_knowns
+            document += "## Solutions\n\n"
+            document += "| Symbol | Value | Units |\n"
+            document += "| - | - | - |\n"
 
-                    if is_input:
-                        self.log.info(f"<blue>{line}</blue>")
-                    else:
-                        print(line)
+            for row in solved_rows:
+                symbol, value, unit = row
 
-                index += 1
+                document += (
+                    f"| ${symbol}$ | ${value}$ | {"" if unit is None else unit} |\n"
+                )
+
+            # print()
+            # index = -2
+            # for line in table.splitlines():
+            #     if index < 0:
+            #         print(line)
+            #     else:
+            #         symbol = solved_rows[index][0]
+            #         is_input = symbol in original_knowns
+
+            #         if is_input:
+            #             self.log.info(f"<blue>{line}</blue>")
+            #         else:
+            #             print(line)
+
+            #     index += 1
+
+        dir = Path(__file__).resolve().parent
+        with open(dir / "solutions.md", "w") as file:
+            file.write(document)
 
         return solved_dict
