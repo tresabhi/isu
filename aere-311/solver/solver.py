@@ -86,66 +86,75 @@ class Solver:
 
                 solved_last_using[symbol] = original_equation
 
-        solved_rows = []
         solved_dict = {}
-        document = ""
+        ordered_known_symbols = sorted(
+            knowns.keys(), key=lambda symbol: symbol.name.replace("\\", "").lower()
+        )
 
-        for symbol, value in knowns.items():
+        solutions_section = ""
+        solutions_section += "## Solutions\n\n"
+        solutions_section += "| Symbol | Value | Units |\n"
+        solutions_section += "| - | - | - |\n"
+
+        for symbol in ordered_known_symbols:
             unit = (
                 self.output_units[symbol]
                 if symbol in self.output_units
                 else symbol.unit
             )
+            value = knowns[symbol]
             value_with_unit = (float(value) * symbol.unit).to(unit)
-            solved_dict[symbol] = value
 
-            solved_rows.append(
-                (
-                    sp.latex(symbol),
-                    f"{value_with_unit.magnitude:.{self.sig_figs}g}",
-                    (
-                        None
-                        if value_with_unit.units == ur.dimensionless
-                        else f"{value_with_unit.units:~}"
-                    ),
-                )
+            solved_dict[symbol] = value
+            name = sp.latex(symbol)
+            magnitude = f"{value_with_unit.magnitude:.{self.sig_figs}g}"
+            pretty_unit = (
+                ""
+                if value_with_unit.units == ur.dimensionless
+                else f"{value_with_unit.units:~}"
             )
 
-        document += "# Sunrise Solver\n\n"
+            solutions_section += f"| ${name}$ | ${magnitude}$ | {pretty_unit} |\n"
 
-        if len(solved_rows) > 0:
-            solved_rows = sorted(solved_rows, key=lambda t: f"{t[0]}".lower())
-            # table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
+        # if len(solved_rows) > 0:
+        #     solved_rows = sorted(
+        #         solved_rows, key=lambda t: f"{t[0].replace("\\", "")}".lower()
+        #     )
+        #     # table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
 
-            document += "## Solutions\n\n"
-            document += "| Symbol | Value | Units |\n"
-            document += "| - | - | - |\n"
+        #     solutions_section += "## Solutions\n\n"
+        #     solutions_section += "| Symbol | Value | Units |\n"
+        #     solutions_section += "| - | - | - |\n"
 
-            for row in solved_rows:
-                symbol, value, unit = row
+        #     for row in solved_rows:
+        #         symbol, value, unit = row
 
-                document += (
-                    f"| ${symbol}$ | ${value}$ | {"" if unit is None else unit} |\n"
-                )
+        #         solutions_section += (
+        #             f"| ${symbol}$ | ${value}$ | {"" if unit is None else unit} |\n"
+        #         )
 
-            # print()
-            # index = -2
-            # for line in table.splitlines():
-            #     if index < 0:
-            #         print(line)
-            #     else:
-            #         symbol = solved_rows[index][0]
-            #         is_input = symbol in original_knowns
+        # print()
+        # index = -2
+        # for line in table.splitlines():
+        #     if index < 0:
+        #         print(line)
+        #     else:
+        #         symbol = solved_rows[index][0]
+        #         is_input = symbol in original_knowns
 
-            #         if is_input:
-            #             self.log.info(f"<blue>{line}</blue>")
-            #         else:
-            #             print(line)
+        #         if is_input:
+        #             self.log.info(f"<blue>{line}</blue>")
+        #         else:
+        #             print(line)
 
-            #     index += 1
+        #     index += 1
+
+        intro_section = ""
+        intro_section += "# Sunrise Solver\n\n"
 
         dir = Path(__file__).resolve().parent
         with open(dir / "solutions.md", "w") as file:
-            file.write(document)
+            file.write(intro_section)
+            file.write(solutions_section)
 
         return solved_dict
