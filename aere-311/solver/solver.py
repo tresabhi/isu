@@ -114,7 +114,15 @@ class Solver:
                 else f"{value_with_unit.units:~}"
             )
 
-            solutions_section += f"| ${name}$ | ${magnitude}$ | {pretty_unit} |\n"
+            wrapper0 = wrapper1 = ""
+
+            if symbol in original_knowns:
+                wrapper0 = '<span style="color:#7aaeff">'
+                wrapper1 = "</span>"
+
+            solutions_section += f"| {wrapper0}${name}${wrapper1} | "
+            solutions_section += f"{wrapper0}${magnitude}${wrapper1} | "
+            solutions_section += f"{wrapper0}{pretty_unit}{wrapper1} |\n"
 
         # if len(solved_rows) > 0:
         #     solved_rows = sorted(
