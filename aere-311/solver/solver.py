@@ -50,7 +50,7 @@ class Solver:
                 if (
                     lhs.is_number
                     and rhs.is_number
-                    and not abs(rhs - lhs) < EQUIVALENCY_THRESHOLD
+                    and not abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
                 ):
                     self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
 
