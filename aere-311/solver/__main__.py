@@ -20,12 +20,22 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    solver.solve(
+    s1 = solver.solve(
         {
             **air,
             #
             beta: 36.87 * ur.deg,
             M1: 3.5,
+            p1: 1 * ur.atm,
+        },
+    )
+
+    s2 = solver.solve(
+        {
+            **air,
+            #
+            beta: 36.87 * ur.deg,
+            M1: s1[M2],
             p1: 1 * ur.atm,
         },
     )

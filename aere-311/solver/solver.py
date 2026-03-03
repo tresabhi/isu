@@ -11,14 +11,13 @@ EQUIVALENCY_THRESHOLD = 0.001
 
 
 class Solver:
+    solution_set = 1
     log = logger.opt(colors=True)
 
     def __init__(self, equations, output_units, sig_figs=5):
         self.equations = [sp.Eq(*equation) for equation in equations]
         self.output_units = output_units
         self.sig_figs = sig_figs
-
-        pass
 
     def solve(self, original_knowns: dict[Symbol, Quantity | float]):
         knowns = {}
@@ -37,8 +36,12 @@ class Solver:
 
         while len(knowns) > last_knowns:
             last_knowns = len(knowns)
-            subbed_equations = [equation.subs(knowns) for equation in self.equations]
+            subbed_equations = []
             index = 0
+
+            for equation in self.equations:
+                subbed_equation = equation.subs(knowns)
+                subbed_equations.append(subbed_equation)
 
             for equation in subbed_equations:
                 original_equation = self.equations[index]
@@ -124,45 +127,14 @@ class Solver:
             solutions_section += f"{wrapper0}${magnitude}${wrapper1} | "
             solutions_section += f"{wrapper0}{pretty_unit}{wrapper1} |\n"
 
-        # if len(solved_rows) > 0:
-        #     solved_rows = sorted(
-        #         solved_rows, key=lambda t: f"{t[0].replace("\\", "")}".lower()
-        #     )
-        #     # table = tabulate(solved_rows, headers=HEADERS, disable_numparse=True)
-
-        #     solutions_section += "## Solutions\n\n"
-        #     solutions_section += "| Symbol | Value | Units |\n"
-        #     solutions_section += "| - | - | - |\n"
-
-        #     for row in solved_rows:
-        #         symbol, value, unit = row
-
-        #         solutions_section += (
-        #             f"| ${symbol}$ | ${value}$ | {"" if unit is None else unit} |\n"
-        #         )
-
-        # print()
-        # index = -2
-        # for line in table.splitlines():
-        #     if index < 0:
-        #         print(line)
-        #     else:
-        #         symbol = solved_rows[index][0]
-        #         is_input = symbol in original_knowns
-
-        #         if is_input:
-        #             self.log.info(f"<blue>{line}</blue>")
-        #         else:
-        #             print(line)
-
-        #     index += 1
-
         intro_section = ""
         intro_section += "# Sunrise Solver\n\n"
 
         dir = Path(__file__).resolve().parent
-        with open(dir / "solutions.md", "w") as file:
+        with open(dir / "solutions" / f"{self.solution_set}.md", "w") as file:
             file.write(intro_section)
             file.write(solutions_section)
+
+        self.solution_set += 1
 
         return solved_dict

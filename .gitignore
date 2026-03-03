@@ -22,7 +22,7 @@ me-280/f1sim_ws/build/
 me-280/f1sim_ws/install/
 me-280/f1sim_ws/log/
 
-aere-311/solver/solutions.md
+aere-311/solver/solutions/*.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
