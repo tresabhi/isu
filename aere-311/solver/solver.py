@@ -20,8 +20,8 @@ class Solver:
         self.output_units = output_units
         self.sig_figs = sig_figs
 
-        for item in self.solutions_dir.iterdir():
-            item.unlink()
+        # for item in self.solutions_dir.iterdir():
+        #     item.unlink()
 
     def solve(self, original_knowns: dict[Symbol, Quantity | float]):
         knowns = {}

@@ -7,7 +7,6 @@ from units import *
 air = {
     gamma: 7 / 5,
     R: 287.05 * ur.J / (ur.kg * ur.K),
-    # rho0: 1.225 * ur.kg / ur.m**3,
 }
 
 solver = Solver(
@@ -20,22 +19,13 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    s1 = solver.solve(
+    solver.solve(
         {
             **air,
             #
-            beta: 36.87 * ur.deg,
-            M1: 3.5,
-            p1: 1 * ur.atm,
-        },
-    )
-
-    s2 = solver.solve(
-        {
-            **air,
-            #
-            beta: 36.87 * ur.deg,
-            M1: s1[M2],
-            p1: 1 * ur.atm,
+            theta: 22.5 * ur.deg,
+            M1: 2.5,
+            p1: 2 * ur.atm,
+            T1: 280 * ur.K,
         },
     )

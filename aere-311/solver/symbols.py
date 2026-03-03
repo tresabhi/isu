@@ -1,6 +1,7 @@
 import sympy as sp
 from pint import Unit
 from registry import ur
+import math
 
 symbols: list["Symbol"] = []
 
@@ -130,8 +131,9 @@ d = S("d", "m")
 H = S("H", "m")
 
 mu = S("\\mu", "radian")
-beta = S("\\beta", "radian")
 theta = S("\\theta", "radian")
+beta_weak = S("\\beta_\\text{weak}", "radian", 0.01)
+beta_strong = S("\\beta_\\text{strong}", "radian", initial=math.pi / 2)
 
 w1 = S("w_1", "m / s")
 w2 = S("w_2", "m / s")

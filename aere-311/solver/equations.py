@@ -235,78 +235,40 @@ oblique_shocks = [
     # Chapter 9
     (w1, w2),
     #
-    (Mn1, M1 * sp.sin(beta)),
+    (Mn1, M1 * sp.sin(beta_weak)),
     (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
     (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
     (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
     (T2_T1, p2_p1 / rho2_rho1),
-    (M2, Mn2 / sp.sin(beta - theta)),
+    (M2, Mn2 / sp.sin(beta_weak - theta)),
     #
-    (sp.tan(beta), u1 / w1),
-    (sp.tan(beta - theta), u2 / w2),
-    (sp.tan(beta - theta) / sp.tan(beta), u2_u1),
+    (sp.tan(beta_weak), u1 / w1),
+    (sp.tan(beta_weak - theta), u2 / w2),
+    (sp.tan(beta_weak - theta) / sp.tan(beta_weak), u2_u1),
     (u2_u1, 1 / rho2_rho1),
     (
         u2_u1,
-        (2 + (gamma - 1) * M1**2 * sp.sin(beta) ** 2)
-        / ((gamma + 1) * M1**2 * sp.sin(beta) ** 2),
+        (2 + (gamma - 1) * M1**2 * sp.sin(beta_weak) ** 2)
+        / ((gamma + 1) * M1**2 * sp.sin(beta_weak) ** 2),
+    ),
+    #
+    (
+        sp.tan(theta),
+        2
+        * sp.cot(beta_weak)
+        * (
+            (M1**2 * sp.sin(beta_weak) ** 2 - 1)
+            / (M1**2 * (gamma + sp.cos(2 * beta_weak)) + 2)
+        ),
     ),
     (
         sp.tan(theta),
         2
-        * sp.cot(beta)
-        * ((M1**2 * sp.sin(beta) ** 2 - 1) / (M1**2 * (gamma + sp.cos(2 * beta)) + 2)),
+        * sp.cot(beta_strong)
+        * (
+            (M1**2 * sp.sin(beta_strong) ** 2 - 1)
+            / (M1**2 * (gamma + sp.cos(2 * beta_strong)) + 2)
+        ),
     ),
-    (theta, beta - sp.atan((1 / rho2_rho1) * sp.tan(beta))),
+    (theta, beta_weak - sp.atan((1 / rho2_rho1) * sp.tan(beta_weak))),
 ]
-
-# oblique_shocks = [
-#     #
-#     # Chapter 9
-#     (mu, sp.asin(1 / M1)),
-#     (sp.tan(mu), H / d),
-#     #
-#     (w1, w2),
-#     (rho1 * u1, rho2 * u2),
-#     (p1 + rho1 * u1**2, p2 + rho2 * u2**2),
-#     (h1 + u1**2 / 2, h2 + u2**2 / 2),
-#     #
-#     (Mn1, M1 * sp.sin(beta)),
-#     (M2, Mn2 / sp.sin(beta - theta)),
-#     (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
-#     #
-#     (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
-#     (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
-#     (T2_T1, p2_p1 / rho2_rho1),
-#     #
-#     (
-#         sp.tan(theta),
-#         2
-#         * sp.cot(beta)
-#         * ((M1**2 * sp.sin(beta) ** 2 - 1) / (M1**2 * (gamma + sp.cos(2 * beta)) + 2)),
-#     ),
-#     (theta, beta - sp.atan((1 / rho2_rho1) * sp.tan(beta))),
-#     #
-#     (sp.tan(beta), u1 / w1),
-#     (sp.tan(beta - theta), u2 / w2),
-#     (sp.tan(beta - theta) / sp.tan(beta), u2_u1),
-#     (u2_u1, 1 / rho2_rho1),
-#     #
-#     # normal shock equations but for the normal components
-#     (
-#         delta_s,
-#         cp
-#         * sp.ln(
-#             (1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1))
-#             * ((2 + (gamma - 1) * Mn1**2) / ((gamma + 1) * Mn1**2))
-#         )
-#         - R * sp.ln(1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
-#     ),
-#     (p02_p01, sp.exp(-delta_s / R)),
-#     #
-#     # Appendix A
-#     (p01_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
-#     (p02_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
-#     # (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
-#     # (T01, T02),
-# ]
