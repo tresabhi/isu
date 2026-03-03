@@ -50,7 +50,7 @@ class Solver:
                 if (
                     lhs.is_number
                     and rhs.is_number
-                    and not abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
+                    and abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
                 ):
                     self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
 
@@ -121,7 +121,7 @@ class Solver:
             value = knowns[symbol]
             value_with_unit = (float(value) * symbol.unit).to(unit)
 
-            solved_dict[symbol] = value
+            solved_dict[symbol] = value_with_unit
             name = sp.latex(symbol)
             magnitude = f"{value_with_unit.magnitude:.{self.sig_figs}g}"
             pretty_unit = (
