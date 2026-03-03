@@ -132,7 +132,7 @@ H = S("H", "m")
 
 mu = S("\\mu", "radian")
 theta = S("\\theta", "radian")
-beta_weak = S("\\beta_\\text{weak}", "radian", 0.01)
+beta_weak = S("\\beta_\\text{weak}", "radian", initial=0.01)
 beta_strong = S("\\beta_\\text{strong}", "radian", initial=math.pi / 2)
 
 w1 = S("w_1", "m / s")
