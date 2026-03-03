@@ -16,14 +16,16 @@ class Solver:
     solutions_dir = Path(__file__).resolve().parent / "solutions"
 
     def __init__(self, equations, output_units, sig_figs=5):
-        self.equations = [sp.Eq(*equation) for equation in equations]
+        self.equations = equations
         self.output_units = output_units
         self.sig_figs = sig_figs
 
-        # for item in self.solutions_dir.iterdir():
-        #     item.unlink()
-
     def solve(self, original_knowns: dict[Symbol, Quantity | float]):
+        self.equations = [
+            equation if isinstance(equation, sp.Eq) else sp.Eq(*equation)
+            for equation in self.equations
+        ]
+
         knowns = {}
 
         for key, value in original_knowns.items():
