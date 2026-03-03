@@ -13,11 +13,15 @@ EQUIVALENCY_THRESHOLD = 0.001
 class Solver:
     solution_set = 1
     log = logger.opt(colors=True)
+    solutions_dir = Path(__file__).resolve().parent / "solutions"
 
     def __init__(self, equations, output_units, sig_figs=5):
         self.equations = [sp.Eq(*equation) for equation in equations]
         self.output_units = output_units
         self.sig_figs = sig_figs
+
+        for item in self.solutions_dir.iterdir():
+            item.unlink()
 
     def solve(self, original_knowns: dict[Symbol, Quantity | float]):
         knowns = {}
@@ -40,8 +44,17 @@ class Solver:
             index = 0
 
             for equation in self.equations:
-                subbed_equation = equation.subs(knowns)
-                subbed_equations.append(subbed_equation)
+                lhs = equation.lhs.subs(knowns)
+                rhs = equation.rhs.subs(knowns)
+
+                if (
+                    lhs.is_number
+                    and rhs.is_number
+                    and not abs(rhs - lhs) < EQUIVALENCY_THRESHOLD
+                ):
+                    self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
+
+                subbed_equations.append(equation.subs(knowns))
 
             for equation in subbed_equations:
                 original_equation = self.equations[index]
@@ -130,8 +143,7 @@ class Solver:
         intro_section = ""
         intro_section += "# Sunrise Solver\n\n"
 
-        dir = Path(__file__).resolve().parent
-        with open(dir / "solutions" / f"{self.solution_set}.md", "w") as file:
+        with open(self.solutions_dir / f"{self.solution_set}.md", "w") as file:
             file.write(intro_section)
             file.write(solutions_section)
 
