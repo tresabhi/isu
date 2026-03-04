@@ -159,7 +159,7 @@ class Solver:
         )
         lines = lines.splitlines()
 
-        print(f"\n{"\n".join(lines[0:4])}")
+        print(f"\n{"\n".join(lines[0:3])}")
 
         for index in range(len(ordered_known_symbols)):
             symbol = ordered_known_symbols[index]
