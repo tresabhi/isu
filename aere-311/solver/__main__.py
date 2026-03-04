@@ -29,21 +29,31 @@ if __name__ == "__main__":
         }
     )
 
-    solver.equations = [
-        *composite_equations,
-        *shock_static_equations,
-        *normal_shock_equations,
-    ]
-
     s2 = solver.solve(
         {
             **air,
             #
             M1: s1[M2],
             p1: s1[p2],
+            theta: 20 * ur.deg,
         }
     )
 
-    print(s1[p01] - s2[p02])
+    solver.equations = [
+        *composite_equations,
+        *shock_static_equations,
+        *normal_shock_equations,
+    ]
+
+    s3 = solver.solve(
+        {
+            **air,
+            #
+            M1: s2[M2],
+            p1: s2[p2],
+        }
+    )
+
+    print(s1[p01] - s3[p02])
 
     solver.clean_solutions_dir()
