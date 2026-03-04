@@ -44,4 +44,6 @@ if __name__ == "__main__":
         }
     )
 
+    print(s1[p01] - s2[p02])
+
     solver.clean_solutions_dir()
