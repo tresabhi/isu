@@ -20,12 +20,15 @@ class Solver:
         self.output_units = output_units
         self.sig_figs = sig_figs
 
-    def solve(self, original_knowns: dict[Symbol, Quantity | float]):
+        # self.clean_solutions_dir()
+
+    def normalize_equations(self):
         self.equations = [
             equation if isinstance(equation, sp.Eq) else sp.Eq(*equation)
             for equation in self.equations
         ]
 
+    def normalize_knowns(self, original_knowns):
         knowns = {}
 
         for key, value in original_knowns.items():
@@ -36,32 +39,42 @@ class Solver:
             else:
                 raise TypeError(f"Expected units for {key} in input")
 
-        last_knowns = 0
+        return knowns
+
+    def clean_solutions_dir(self):
+        for item in self.solutions_dir.iterdir():
+            item.unlink()
+
+    def sub_equations(self, knowns):
         subbed_equations = []
+
+        for equation in self.equations:
+            lhs = equation.lhs.subs(knowns)
+            rhs = equation.rhs.subs(knowns)
+
+            if (
+                lhs.is_number
+                and rhs.is_number
+                and abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
+            ):
+                self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
+
+            subbed_equations.append(equation.subs(knowns))
+
+        return subbed_equations
+
+    def solve_equations(self, knowns):
+        last_knowns = 0
         solved_last_using = {}
 
         while len(knowns) > last_knowns:
             last_knowns = len(knowns)
-            subbed_equations = []
-            index = 0
+            subbed_equations = self.sub_equations(knowns)
 
-            for equation in self.equations:
-                lhs = equation.lhs.subs(knowns)
-                rhs = equation.rhs.subs(knowns)
-
-                if (
-                    lhs.is_number
-                    and rhs.is_number
-                    and abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
-                ):
-                    self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
-
-                subbed_equations.append(equation.subs(knowns))
-
-            for equation in subbed_equations:
+            for index in range(len(self.equations)):
                 original_equation = self.equations[index]
+                equation = subbed_equations[index]
                 symbols = equation.free_symbols
-                index += 1
 
                 if len(symbols) != 1:
                     continue
@@ -104,6 +117,7 @@ class Solver:
 
                 solved_last_using[symbol] = original_equation
 
+    def write_solutions(self, knowns, original_knowns):
         solved_dict = {}
         ordered_known_symbols = sorted(
             knowns.keys(), key=lambda symbol: symbol.name.replace("\\", "").lower()
@@ -150,5 +164,13 @@ class Solver:
             file.write(solutions_section)
 
         self.solution_set += 1
+
+        return solved_dict
+
+    def solve(self, original_knowns):
+        self.normalize_equations()
+        knowns = self.normalize_knowns(original_knowns)
+        self.solve_equations(knowns)
+        solved_dict = self.write_solutions(knowns, original_knowns)
 
         return solved_dict
