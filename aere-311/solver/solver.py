@@ -152,24 +152,26 @@ class Solver:
             table.append((name, magnitude, pretty_unit))
 
         lines = tabulate(
-            table, headers=["Symbol", "Value", "Units"], disable_numparse=True
-        ).splitlines()
+            table,
+            headers=["Symbol", "Value", "Units"],
+            disable_numparse=True,
+            tablefmt="rounded_outline",
+        )
+        lines = lines.splitlines()
 
-        print()
-        print("\n".join(lines[0:2]))
+        print(f"\n{"\n".join(lines[0:4])}")
 
-        index = 0
-
-        for line in lines[2:]:
+        for index in range(len(ordered_known_symbols)):
             symbol = ordered_known_symbols[index]
             is_input = symbol in original_knowns
+            line = lines[index + 3]
 
             if is_input:
                 self.log.info(f"<blue>{line}</blue>")
             else:
                 print(line)
 
-            index += 1
+        print(lines[-1])
 
         return solved_dict
 
