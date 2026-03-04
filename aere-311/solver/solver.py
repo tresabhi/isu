@@ -20,8 +20,6 @@ class Solver:
         self.output_units = output_units
         self.sig_figs = sig_figs
 
-        # self.clean_solutions_dir()
-
     def normalize_equations(self):
         self.equations = [
             equation if isinstance(equation, sp.Eq) else sp.Eq(*equation)
@@ -42,8 +40,12 @@ class Solver:
         return knowns
 
     def clean_solutions_dir(self):
-        for item in self.solutions_dir.iterdir():
-            item.unlink()
+        for file in self.solutions_dir.glob("*.md"):
+            if file.stem.isdigit():
+                number = int(file.stem)
+
+                if number > self.solution_set:
+                    file.unlink()
 
     def sub_equations(self, knowns):
         subbed_equations = []

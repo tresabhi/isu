@@ -13,20 +13,35 @@ solver = Solver(
     equations=[
         *composite_equations,
         *shock_static_equations,
-        # *oblique_shocks,
-        *normal_shock_equations,
+        *oblique_shocks,
     ],
     output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
-    s = solver.solve(
+    s1 = solver.solve(
         {
             **air,
             #
             M1: 4,
             p1: 4 * ur.atm,
-        },
+            theta: 25.3 * ur.deg,
+        }
     )
 
-    print(s[p2] - s[p1])
+    solver.equations = [
+        *composite_equations,
+        *shock_static_equations,
+        *normal_shock_equations,
+    ]
+
+    s2 = solver.solve(
+        {
+            **air,
+            #
+            M1: s1[M2],
+            p1: s1[p2],
+        }
+    )
+
+    solver.clean_solutions_dir()
