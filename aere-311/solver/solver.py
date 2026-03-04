@@ -133,7 +133,7 @@ class Solver:
             value_with_unit = (float(value) * symbol.unit).to(unit)
 
             solved_dict[symbol] = value_with_unit
-            name = sp.latex(symbol)
+            name = f"{symbol}"
             magnitude = f"{value_with_unit.magnitude:.{self.sig_figs}g}"
             pretty_unit = (
                 ""
