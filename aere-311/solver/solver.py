@@ -44,7 +44,7 @@ class Solver:
             if file.stem.isdigit():
                 number = int(file.stem)
 
-                if number > self.solution_set:
+                if number > self.solution_set - 1:
                     file.unlink()
 
     def sub_equations(self, knowns):

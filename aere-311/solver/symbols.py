@@ -58,7 +58,7 @@ h2 = S("h_2", "J / kg")
 delta_h = S("\\Delta h", "J / kg")
 h2_h1 = S("{h_2}/{h_1}")
 
-s1 = S("s_1", "J / (kg * K)")
+incident = S("s_1", "J / (kg * K)")
 s2 = S("s_2", "J / (kg * K)")
 delta_s = S("\\Delta s", "J / (kg * K)")
 

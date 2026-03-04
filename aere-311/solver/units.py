@@ -29,12 +29,12 @@ imperial_output_units = {
     T01: ur.rankine,
     T02: ur.rankine,
     #
-    p0: ur.lbf / ur.ft**2,
-    p1: ur.lbf / ur.ft**2,
-    p2: ur.lbf / ur.ft**2,
-    p01: ur.lbf / ur.ft**2,
-    p02: ur.lbf / ur.ft**2,
-    p_star: ur.lbf / ur.ft**2,
+    p0: ur.atm,
+    p1: ur.atm,
+    p2: ur.atm,
+    p01: ur.atm,
+    p02: ur.atm,
+    p_star: ur.atm,
 }
 
 ephemeral_units = {

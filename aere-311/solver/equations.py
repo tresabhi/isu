@@ -16,7 +16,7 @@ continuity_equations = [
 ]
 
 composite_equations = [
-    (delta_s, s2 - s1),
+    (delta_s, s2 - incident),
     (delta_h, h2 - h1),
     (delta_e, e2 - e1),
     #
