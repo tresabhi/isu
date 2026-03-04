@@ -117,12 +117,13 @@ class Solver:
     def print_name(self):
         with open(self.name_file) as file:
             name = file.read()
-            self.log.info(f"<white>{name}</white>\n")
+            self.log.info(f"<white>{name}</white>")
+
+        self.print_divider()
 
     def print_divider(self):
-        logger.info("\n")
-        logger.info("─" * self.terminal_size.columns)
-        logger.info("\n")
+        line = "─" * self.terminal_size.columns
+        self.log.info(f"\n<white>{line}</white>\n")
 
     def print_solutions(self, knowns, original_knowns):
         solved_dict = {}
