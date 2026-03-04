@@ -54,7 +54,8 @@ class Solver:
                 and rhs.is_number
                 and abs(rhs - lhs) > EQUIVALENCY_THRESHOLD
             ):
-                self.log.info(f"{equation}: <red>inequality</red> {lhs} != {rhs}")
+                self.log.info(f"<red>inequality in</red> {equation}")
+                self.log.info(f"\t{lhs:.{self.sig_figs}g} != {rhs:.{self.sig_figs}g}")
 
             subbed_equations.append(equation.subs(knowns))
 
@@ -83,8 +84,12 @@ class Solver:
                     solution = sp.nsolve(equation, symbol, symbol.initial)
                 except:
                     self.log.info(
-                        f"{symbol}: <yellow>numerical solving failed; trying symbolic...</yellow>\n\t{original_equation.lhs} = {original_equation.rhs}\n\t{equation.lhs} = {equation.rhs}"
+                        f"<yellow>nsolve failed for {symbol}; trying symbolic...</yellow>"
                     )
+                    self.log.info(
+                        f"\t{original_equation.lhs} = {original_equation.rhs}"
+                    )
+                    self.log.info(f"\t{equation.lhs} = {equation.rhs}")
 
                     solutions = sp.solve(equation, symbol)
                     solutions_count = len(solutions)
@@ -93,20 +98,27 @@ class Solver:
                         solution = float(solutions[0])
                     else:
                         self.log.info(
-                            f"{symbol}: <yellow>{solutions_count} solutions; using last...</yellow>"
+                            f"<yellow>{solutions_count} solutions {symbol}; using last...</yellow>"
                         )
 
                         solution = float(solutions[-1])
 
                 if symbol in knowns:
                     if knowns[symbol] - solution <= EQUIVALENCY_THRESHOLD:
+                        self.log.info(f"<green>over-solved</green> {symbol}")
                         self.log.info(
-                            f"{symbol}: <green>over-solved</green> {knowns[symbol]} == {solution}"
+                            f"\t{knowns[symbol]:.{self.sig_figs}g} == {solution:.{self.sig_figs}g}"
                         )
+
                     else:
                         last_equation = solved_last_using[symbol]
+                        self.log.info(f"<red>over-solved</red> {symbol}")
                         self.log.info(
-                            f"{symbol}: <red>over-solved</red> {knowns[symbol]} != {solution}\n\t({last_equation.lhs} = {last_equation.rhs})\n\t({original_equation.lhs} = {original_equation.rhs})"
+                            f"\t{knowns[symbol]:.{self.sig_figs}g} != {solution:.{self.sig_figs}g}"
+                        )
+                        self.log.info(f"\t({last_equation.lhs} = {last_equation.rhs})")
+                        self.log.info(
+                            f"\t({original_equation.lhs} = {original_equation.rhs})"
                         )
 
                 else:
