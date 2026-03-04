@@ -34,6 +34,7 @@
     "fclose",
     "fftfreq",
     "fgets",
+    "figlet",
     "figsize",
     "fitrnet",
     "fmincon",

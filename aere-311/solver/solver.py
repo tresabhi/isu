@@ -1,9 +1,8 @@
-import shutil
 from pathlib import Path
+import shutil
 from pint import Quantity
 import sympy as sp
 from tabulate import tabulate
-from symbols import Symbol
 from logger import logger
 from registry import ur
 
@@ -14,8 +13,12 @@ class Solver:
     solution_set = 1
     log = logger.opt(colors=True)
     terminal_size = shutil.get_terminal_size()
+    working_dir = Path(__file__).resolve().parent
+    name_file = working_dir / "name.txt"
 
     def __init__(self, equations, output_units, sig_figs=5):
+        self.print_name()
+
         self.equations = equations
         self.output_units = output_units
         self.sig_figs = sig_figs
@@ -110,6 +113,11 @@ class Solver:
                     knowns[symbol] = solution
 
                 solved_last_using[symbol] = original_equation
+
+    def print_name(self):
+        with open(self.name_file) as file:
+            name = file.read()
+            self.log.info(f"<white>{name}</white>\n")
 
     def print_divider(self):
         logger.info("\n")
