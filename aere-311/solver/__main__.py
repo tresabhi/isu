@@ -13,22 +13,34 @@ solver = Solver(
     equations=[
         *composite_equations,
         *shock_static_equations,
-        # *oblique_shocks,
-        *normal_shock_equations,
+        *oblique_shocks,
     ],
-    output_units=durbin_output_units,
+    output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
-    s = solver.solve(
+    incident = solver.solve(
         {
             **air,
             #
-            M1: 4,
-            p1: 4 * ur.atm,
+            theta: 18.2 * ur.deg,
+            M1: 3.2,
+            p1: 3 * ur.atm,
+            T1: 570 * ur.rankine,
         }
     )
 
-    print(s[p02] - s[p01])
+    reflected = solver.solve(
+        {
+            **air,
+            #
+            theta: 18.2 * ur.deg,
+            M1: incident[M2],
+            p1: incident[p2],
+            T1: incident[T2],
+        }
+    )
 
-    solver.clean_solutions_dir()
+    phi = reflected[beta_weak] - reflected[theta]
+
+    print(phi)

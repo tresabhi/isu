@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 from pint import Quantity
 import sympy as sp
@@ -6,14 +7,13 @@ from symbols import Symbol
 from logger import logger
 from registry import ur
 
-HEADERS = ["Symbol", "Value", "Units"]
 EQUIVALENCY_THRESHOLD = 0.001
 
 
 class Solver:
     solution_set = 1
     log = logger.opt(colors=True)
-    solutions_dir = Path(__file__).resolve().parent / "solutions"
+    terminal_size = shutil.get_terminal_size()
 
     def __init__(self, equations, output_units, sig_figs=5):
         self.equations = equations
@@ -38,14 +38,6 @@ class Solver:
                 raise TypeError(f"Expected units for {key} in input")
 
         return knowns
-
-    def clean_solutions_dir(self):
-        for file in self.solutions_dir.glob("*.md"):
-            if file.stem.isdigit():
-                number = int(file.stem)
-
-                if number > self.solution_set - 1:
-                    file.unlink()
 
     def sub_equations(self, knowns):
         subbed_equations = []
@@ -119,16 +111,17 @@ class Solver:
 
                 solved_last_using[symbol] = original_equation
 
-    def write_solutions(self, knowns, original_knowns):
+    def print_divider(self):
+        logger.info("\n")
+        logger.info("─" * self.terminal_size.columns)
+        logger.info("\n")
+
+    def print_solutions(self, knowns, original_knowns):
         solved_dict = {}
         ordered_known_symbols = sorted(
             knowns.keys(), key=lambda symbol: symbol.name.replace("\\", "").lower()
         )
-
-        solutions_section = ""
-        solutions_section += "## Solutions\n\n"
-        solutions_section += "| Symbol | Value | Units |\n"
-        solutions_section += "| - | - | - |\n"
+        table = []
 
         for symbol in ordered_known_symbols:
             unit = (
@@ -147,32 +140,38 @@ class Solver:
                 if value_with_unit.units == ur.dimensionless
                 else f"{value_with_unit.units:~}"
             )
+            table.append((name, magnitude, pretty_unit))
 
-            wrapper0 = wrapper1 = ""
+        lines = tabulate(
+            table, headers=["Symbol", "Value", "Units"], disable_numparse=True
+        ).splitlines()
 
-            if symbol in original_knowns:
-                wrapper0 = '<span style="color:#7aaeff">'
-                wrapper1 = "</span>"
+        print()
+        print("\n".join(lines[0:2]))
 
-            solutions_section += f"| {wrapper0}${name}${wrapper1} | "
-            solutions_section += f"{wrapper0}${magnitude}${wrapper1} | "
-            solutions_section += f"{wrapper0}{pretty_unit}{wrapper1} |\n"
+        index = 0
 
-        intro_section = ""
-        intro_section += "# Sunrise Solver\n\n"
+        for line in lines[2:]:
+            symbol = ordered_known_symbols[index]
+            is_input = symbol in original_knowns
 
-        with open(self.solutions_dir / f"{self.solution_set}.md", "w") as file:
-            file.write(intro_section)
-            file.write(solutions_section)
+            if is_input:
+                self.log.info(f"<blue>{line}</blue>")
+            else:
+                print(line)
 
-        self.solution_set += 1
+            index += 1
 
         return solved_dict
 
     def solve(self, original_knowns):
         self.normalize_equations()
+
         knowns = self.normalize_knowns(original_knowns)
+
         self.solve_equations(knowns)
-        solved_dict = self.write_solutions(knowns, original_knowns)
+        solved_dict = self.print_solutions(knowns, original_knowns)
+
+        self.print_divider()
 
         return solved_dict
