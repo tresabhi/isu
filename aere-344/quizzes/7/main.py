@@ -9,6 +9,7 @@ with open("data.dat") as file:
         lines[41:70],
         lines[71:99],
     ]
+    zone_index = 1
 
     for zone in zones:
         C_D = 0
@@ -30,5 +31,6 @@ with open("data.dat") as file:
             index += 1
 
         C_D *= 2 / c
+        zone_index += 1
 
-        print(C_D)
+        print(f"C_D_{zone_index} = {C_D:.5g}")
