@@ -44,3 +44,6 @@
 [submodule "cpre-287/labs/6"]
 	path = cpre-287/labs/6
 	url = https://github.com/tresabhi/cpre-287-lab-6
+[submodule "aere-361/labs/6"]
+	path = aere-361/labs/6
+	url = https://github.com/AERE-361/lab-6-s2026-tresabhi
