@@ -24,6 +24,11 @@ me-280/f1sim_ws/log/
 
 aere-311/solver/solutions/
 
+# ansys
+*:Zone.Identifier
+aere-421/labs/*/*_files/
+*.backup/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
