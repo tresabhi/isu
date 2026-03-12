@@ -81,6 +81,7 @@
     "numparse",
     "Numpy",
     "odeset",
+    "OFLAGS",
     "optimoptions",
     "OTSU",
     "overdamped",
