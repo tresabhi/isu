@@ -40,6 +40,7 @@ def process(file_name):
         plt.xlabel("Frequency")
         plt.ylabel("Power Spectral Density")
         plt.plot(f, Pxx)
+        plt.yscale("log")
         plt.savefig(f"{file_name}_psd.png")
 
 
