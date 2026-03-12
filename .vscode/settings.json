@@ -67,6 +67,7 @@
     "Kutta",
     "labelcolor",
     "lhsdesign",
+    "libintegrate",
     "linalg",
     "linestyle",
     "linspace",
