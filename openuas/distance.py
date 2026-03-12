@@ -1,7 +1,7 @@
 true_min = 1
-true_max = 4
+true_max = 2
 
-width = 0.4
+width = 0.3
 padding = width * 3 / 2
 gap = width / 4
 
