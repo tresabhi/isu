@@ -15,6 +15,9 @@ durbin_output_units = {
     beta_weak: ur.deg,
     beta_strong: ur.deg,
     theta: ur.deg,
+    #
+    nu1: ur.deg,
+    nu2: ur.deg,
 }
 
 imperial_output_units = {
@@ -37,6 +40,13 @@ imperial_output_units = {
     p01: ur.atm,
     p02: ur.atm,
     p_star: ur.atm,
+    #
+    rho0: ur.slug / ur.ft**3,
+    rho1: ur.slug / ur.ft**3,
+    rho2: ur.slug / ur.ft**3,
+    rho01: ur.slug / ur.ft**3,
+    rho02: ur.slug / ur.ft**3,
+    rho_star: ur.slug / ur.ft**3,
 }
 
 ephemeral_units = {
