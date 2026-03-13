@@ -10,6 +10,8 @@ durbin_output_units = {
     p_star: ur.atm,
     #
     mu: ur.deg,
+    mu1: ur.deg,
+    mu2: ur.deg,
     beta_weak: ur.deg,
     beta_strong: ur.deg,
     theta: ur.deg,

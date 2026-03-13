@@ -11,36 +11,18 @@ air = {
 
 solver = Solver(
     equations=[
-        *composite_equations,
+        *prandtl_meyer_equations,
         *shock_static_equations,
-        *oblique_shocks,
     ],
     output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
-    incident = solver.solve(
+    solver.solve(
         {
             **air,
             #
-            theta: 18.2 * ur.deg,
-            M1: 3.2,
-            p1: 3 * ur.atm,
-            T1: 570 * ur.rankine,
+            M1: 2,
+            theta: 12 * ur.degree,
         }
     )
-
-    reflected = solver.solve(
-        {
-            **air,
-            #
-            theta: 18.2 * ur.deg,
-            M1: incident[M2],
-            p1: incident[p2],
-            T1: incident[T2],
-        }
-    )
-
-    phi = reflected[beta_weak] - reflected[theta]
-
-    print(phi)

@@ -272,3 +272,25 @@ oblique_shocks = [
     ),
     (theta, beta_weak - sp.atan((1 / rho2_rho1) * sp.tan(beta_weak))),
 ]
+
+prandtl_meyer_equations = [
+    #
+    # Chapter 9
+    (
+        nu1,
+        sp.sqrt((gamma + 1) / (gamma - 1))
+        * sp.atan(sp.sqrt(((gamma - 1) / (gamma + 1)) * (M1**2 - 1)))
+        - sp.atan(sp.sqrt(M1**2 - 1)),
+    ),
+    (
+        nu2,
+        sp.sqrt((gamma + 1) / (gamma - 1))
+        * sp.atan(sp.sqrt(((gamma - 1) / (gamma + 1)) * (M2**2 - 1)))
+        - sp.atan(sp.sqrt(M2**2 - 1)),
+    ),
+    #
+    (theta, nu2 - nu1),
+    #
+    (sp.tan(mu1), 1 / sp.sqrt(M1**2 - 1)),
+    (sp.tan(mu2), 1 / sp.sqrt(M2**2 - 1)),
+]

@@ -17,7 +17,7 @@ class Symbol(sp.Symbol):
         positive=True,
     ):
         symbol = sp.Symbol.__new__(
-            self, name, positive=True if positive else None, real=True
+            self, name, positive=True if positive else None, real=True, imaginary=False
         )
         symbol.unit = ur("dimensionless" if unit is None else unit)
         symbol.initial = initial
@@ -71,12 +71,12 @@ a1 = S("a1", "m / s")
 a2 = S("a2", "m / s")
 a_star = S("a*", "m / s")
 
-M1 = S("M1")
-M2 = S("M2")
-Mn1 = S("Mn1")
-Mn2 = S("Mn2")
-M1_star = S("M1*")
-M2_star = S("M2*")
+M1 = S("M1", initial=2)
+M2 = S("M2", initial=2)
+Mn1 = S("Mn1", initial=2)
+Mn2 = S("Mn2", initial=2)
+M1_star = S("M1*", initial=2)
+M2_star = S("M2*", initial=2)
 
 p0 = S("p0", "Pa")
 p1 = S("p1", "Pa")
@@ -131,9 +131,14 @@ d = S("d", "m")
 H = S("H", "m")
 
 mu = S("mu", "radian")
+mu1 = S("mu1", "radian")
+mu2 = S("mu2", "radian")
 theta = S("theta", "radian")
-beta_weak = S("beta_weak", "radian", initial=0.01)
+beta_weak = S("beta_weak", "radian", initial=0.001)
 beta_strong = S("beta_strong", "radian", initial=math.pi / 2)
 
 w1 = S("w1", "m / s")
 w2 = S("w2", "m / s")
+
+nu1 = S("nu1", "radian")
+nu2 = S("nu2", "radian")
