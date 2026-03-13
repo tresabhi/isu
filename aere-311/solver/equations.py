@@ -293,4 +293,15 @@ prandtl_meyer_equations = [
     #
     (sp.tan(mu1), 1 / sp.sqrt(M1**2 - 1)),
     (sp.tan(mu2), 1 / sp.sqrt(M2**2 - 1)),
+    #
+    (T02, T01),
+    (p02, p01),
+    (T2_T1, T2_T02 / T1_T01),
+    (p2_p1, p2_p02 / p1_p01),
+    (T2_T1, (1 + ((gamma - 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M2**2)),
+    (
+        p2_p1,
+        ((1 + ((gamma - 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M2**2))
+        ** (gamma / (gamma - 1)),
+    ),
 ]

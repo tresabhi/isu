@@ -11,8 +11,11 @@ air = {
 
 solver = Solver(
     equations=[
-        *prandtl_meyer_equations,
+        *composite_equations,
         *shock_static_equations,
+        *state_equations,
+        *specific_heat_equations,
+        *prandtl_meyer_equations,
     ],
     output_units=imperial_output_units,
 )
@@ -23,6 +26,8 @@ if __name__ == "__main__":
             **air,
             #
             M1: 2,
-            theta: 12 * ur.degree,
+            p1: 0.7 * ur.atm,
+            theta: 23.38 * ur.degree,
+            T1: 550 * ur.rankine,
         }
     )
