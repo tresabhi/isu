@@ -53,12 +53,12 @@ cv = S("cv", "J / (kg * K)", "Specific heat (constant volume)")
 
 e1 = S("e1", "J / kg", "Total energy (1)")
 e2 = S("e2", "J / kg", "Total energy (2)")
-delta_e = S("e2-e1", "J / (kg * K)", "Total energy (2 - 1)")
+delta_e = S("e2-e1", "J / kg", "Total energy (2 - 1)")
 
 h1 = S("h1", "J / kg", "Enthalpy (1)")
 h2 = S("h2", "J / kg", "Enthalpy (2)")
 delta_h = S("h2-h1", "J / kg", "Enthalpy (2 - 1)")
-h2_h1 = S("h2/h1", None, "Enthalpy (2/1)")
+h2_h1 = S("h2/h1", None, "Enthalpy ratio (2/1)")
 
 s1 = S("s1", "J / (kg * K)", "Entropy (1)")
 s2 = S("s2", "J / (kg * K)", "Entropy (2)")
