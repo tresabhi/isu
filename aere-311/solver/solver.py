@@ -155,17 +155,18 @@ class Solver:
 
             solved_dict[symbol] = value_with_unit
             name = f"{symbol}"
+            memo = symbol.memo
             magnitude = f"{value_with_unit.magnitude:.{self.sig_figs}g}"
             pretty_unit = (
                 ""
                 if value_with_unit.units == ur.dimensionless
                 else f"{value_with_unit.units:~}"
             )
-            table.append((name, magnitude, pretty_unit))
+            table.append((name, magnitude, pretty_unit, memo))
 
         lines = tabulate(
             table,
-            headers=["Symbol", "Value", "Units"],
+            headers=["Symbol", "Value", "Units", "Memo"],
             disable_numparse=True,
             tablefmt="rounded_outline",
         )
