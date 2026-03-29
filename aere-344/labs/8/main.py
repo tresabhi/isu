@@ -193,3 +193,10 @@ plt.ylim(bottom=0, top=0.01)
 plt.legend()
 plt.grid()
 plt.savefig(f"out/locale_shear_stress.png")
+
+L = 65 * in_to_m
+C_D = 2 * thetas[-1] / L
+C_D_theoretical = 0.075 / (Re_x[-1] ** 0.2)
+
+print(f"C_D = {C_D}")
+print(f"C_D_theoretical = {C_D_theoretical}")
