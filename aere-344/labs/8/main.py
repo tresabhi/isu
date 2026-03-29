@@ -31,8 +31,8 @@ def boundary_model(y, d):
     return 1 - np.exp(-y / d)
 
 
-profiles = []
 deltas = []
+deltas_theoretical = []
 thetas = []
 
 
@@ -81,7 +81,7 @@ for x_in in xs_in:
         p0 = np.array(mean_sample[0:39])
 
         q_inf = p0_pitot - p_inf
-        q = p0 - p_inf
+        q = np.maximum(0, p0 - p_inf)
 
         u_inf = np.sqrt((2 / rho) * q_inf)
         u = np.sqrt((2 / rho) * q)
@@ -93,9 +93,17 @@ for x_in in xs_in:
         y1 = ys[idx - 1]
         y2 = ys[idx]
 
+        Re_x = u_inf * x / nu
         delta = y1 + (0.99 * u_inf - u1) * (y2 - y1) / (u2 - u1)
+        delta_theoretical = 0.37 * x * Re_x ** (-0.2)
+
+        deltas.append(delta)
+        deltas_theoretical.append(delta_theoretical)
 
         plt.plot(u / u_inf, ys / delta, label=f"x = {x_in}in")
+
+        theta = np.sum((u / u_inf) * (1 - u / u_inf) * Delta_y)
+        thetas.append(theta)
 
         if x_in == 10:
             plt_figure_1("Front")
@@ -106,6 +114,33 @@ for x_in in xs_in:
 
 plt_figure_1("Back")
 plt.savefig(f"out/velocity_profiles_back.png")
+
+plt.clf()
+
+deltas_mm = np.array(deltas) * 1000
+deltas_theoretical_mm = np.array(deltas_theoretical) * 1000
+
+plt.plot(xs_in, deltas_mm, label="Empirical")
+plt.plot(xs_in, deltas_theoretical_mm, label="Theoretical")
+plt.legend()
+plt.title("Boundary Thickness vs Downstream Position")
+plt.xlabel("x [in]")
+plt.ylabel("delta [mm]")
+plt.ylim(bottom=0)
+plt.xlim(left=0, right=xs_in[-1])
+plt.grid()
+plt.savefig(f"out/boundary_thickness.png")
+
+plt.clf()
+
+plt.plot(xs_in, thetas)
+plt.title("Momentum Thickness vs Downstream Position")
+plt.xlabel("x [in]")
+plt.ylabel("theta")
+plt.ylim(bottom=0)
+plt.xlim(left=0, right=xs_in[-1])
+plt.grid()
+plt.savefig(f"out/momentum_thickness.png")
 
 # rake_sample = np.array(sample[0:38] + [0])
 # total_sample = np.array(sample[38])
