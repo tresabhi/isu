@@ -18,7 +18,8 @@ delta_tr = 5 * x_tr / np.sqrt(Re_tr)
 is_ = list(range(0, 39))
 
 # broken_indices = [2, 11, 17, 22]
-broken_indices = [1, 15, 20, 21, 33, 34]
+broken_indices = []
+broken_indices = [1, 20, 21]
 broken_indices = np.array(broken_indices)
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
@@ -38,7 +39,8 @@ def boundary_model(y, d):
 deltas = []
 deltas_theoretical = []
 thetas = []
-profiles = []
+velocity_profiles = []
+pressure_profiles = []
 
 
 def plt_figure_1(name):
@@ -69,7 +71,6 @@ for x_in in xs_in:
             chunk_3 = row[70:86]
 
             sample = chunk_1 + chunk_2 + chunk_3
-
             samples.append(sample)
 
         mean_sample = np.mean(samples, axis=0)
@@ -88,11 +89,17 @@ for x_in in xs_in:
         q_inf = p0_pitot - p_inf
         q = np.maximum(0, p0 - p_inf)
 
+        pressure_profiles.append([p0[0]] + list(p0))
+
         u_inf = np.sqrt((2 / rho) * q_inf)
         u = np.sqrt((2 / rho) * q)
         u = [0] + list(u)
 
-        profiles.append(u)
+        # plt.clf()
+        # plt.plot(is_, list(u))
+        # plt.savefig(f"out/{x_in}in.png")
+
+        velocity_profiles.append(u)
 
         idx = np.argmax(u >= 0.99 * u_inf)
 
@@ -156,10 +163,30 @@ plt.xlim(left=0, right=xs_in[-1])
 plt.grid()
 plt.savefig(f"out/momentum_thickness.png")
 
-plt.clf()
+fig = plt.figure()
+ax = fig.add_subplot(projection="3d")
 
 profile_range, y = np.meshgrid(xs_in, ys_mm)
-z = np.array(profiles).T
+z = np.array(pressure_profiles).T
+
+# 3D surface plot
+surf = ax.plot_surface(profile_range, y, z, cmap="viridis")
+
+# Colorbar
+fig.colorbar(surf, ax=ax, label="p0 [Pa]")
+
+# Labels
+ax.set_xlabel("x [in]")
+ax.set_ylabel("y [mm]")
+ax.set_zlabel("p0 [Pa]")
+
+ax.set_title("Pressure Profile vs Downstream Position (3D)")
+
+plt.savefig("out/dynamic_pressure_profile_3d.png")
+
+plt.clf()
+
+z = np.array(velocity_profiles).T
 
 plt.contourf(profile_range, y, z)
 plt.colorbar(label="u [m/s]")
