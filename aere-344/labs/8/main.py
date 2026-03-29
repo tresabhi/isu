@@ -1,14 +1,13 @@
 import csv
-import math
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 
 in_to_m = 1 / 39.37
 
 u_inf = 13
 rho = 1.225
 nu = 1.57e-5
+mu = nu * rho
 Delta_y = 4 / 1000
 
 is_ = list(range(0, 39))
@@ -28,6 +27,7 @@ profiles = []
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
     sample_range = x_in * in_to_m
+    x = x_in * in_to_m
 
     with open(path) as file:
         reader = csv.reader(file)
@@ -65,14 +65,26 @@ for x_in in xs_in:
 
         u = np.sqrt((2 * np.maximum(0, p0 - p_inf)) / rho)
         u_inf = np.sqrt((2 * (p0_inf - p_inf)) / rho)
-
         u[0] = 0
 
         Re_x = u * sample_range / nu
 
-        profiles.append(u)
+        idx99 = np.where(u > 0.99 * u_inf)[0][0]
+        delta = ys[idx99]
+        delta_theory = 0.37 * x * Re_x**-0.2
 
-        # u = math.sqrt((2 * (p0 - p)) / rho)
+        integrand_disp = 1 - u / u_inf
+        delta_star = np.trapezoid(integrand_disp, ys)
+        delta_star_theory = 0.048 * x * Re_x**-0.2
+
+        C_D_theory = 0.074 * Re_x**-0.2
+
+        [du_dy_wall, _] = np.polyfit(ys[0:4], u[0:4], 1)
+        tau_w = mu * du_dy_wall
+        C_f_theory = 0.058 * Re_x**-0.2
+        tau_w_theory = C_f_theory * 0.5 * rho * u_inf**2
+
+        profiles.append(u)
 
 
 ys_mm = ys * 1000
@@ -83,7 +95,7 @@ z = np.array(profiles).T
 plt.figure(1)
 
 plt.contourf(sample_range, y, z)
-plt.colorbar(label="Velocity [m/s]")
+plt.colorbar(label="u [m/s]")
 
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
