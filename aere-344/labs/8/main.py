@@ -13,7 +13,10 @@ Delta_y = 4 / 1000
 
 is_ = list(range(1, 39))
 
-broken_indices = [56]
+# broken_indices = [1, 7, 10, 16, 17, 21, 22, 33, 35]
+broken_indices = [2, 11, 17, 21, 22]
+broken_indices = np.array(broken_indices)
+broken_indices -= 1
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
 xs = [x_in * in_to_m for x_in in xs_in]
@@ -26,7 +29,7 @@ profiles = []
 
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
-    x = x_in * in_to_m
+    sample_range = x_in * in_to_m
 
     with open(path) as file:
         reader = csv.reader(file)
@@ -47,6 +50,13 @@ for x_in in xs_in:
             total_sample = np.array(sample[38])
             static_sample = np.array(sample[39])
 
+            valid = np.ones(len(rake_sample), dtype=bool)
+            valid[broken_indices] = False
+            sample_range = np.arange(len(rake_sample))
+            rake_sample = np.interp(
+                sample_range, sample_range[valid], rake_sample[valid]
+            )
+
             rake_samples.append(rake_sample)
             total_samples.append(total_sample)
             static_samples.append(static_sample)
@@ -58,7 +68,7 @@ for x_in in xs_in:
         u = np.sqrt((2 * np.abs(p0 - p_inf)) / rho)
         u_inf = np.sqrt((2 * (p0_inf - p_inf)) / rho)
 
-        Re_x = u * x / nu
+        Re_x = u * sample_range / nu
 
         profiles.append(u)
 
@@ -67,21 +77,21 @@ for x_in in xs_in:
 
 ys_mm = ys * 1000
 
-x, y = np.meshgrid(xs_in, ys_mm)
+sample_range, y = np.meshgrid(xs_in, ys_mm)
 z = np.array(profiles).T
 
 plt.figure(1)
 
-plt.contourf(x, y, z, levels=2**8)
+plt.contourf(sample_range, y, z, levels=2**8)
 plt.colorbar(label="Velocity [m/s]")
 
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
 
-plt.title("Velocity profile vs x (linear)")
+plt.title("Velocity Profile vs x (Linear)")
 plt.savefig("out/velocity_profile_vs_x_linear.png")
 
 plt.yscale("log")
 
-plt.title("Velocity profile vs x (logarithmic)")
+plt.title("Velocity Profile vs x (Logarithmic)")
 plt.savefig("out/velocity_profile_vs_x_logarithmic.png")
