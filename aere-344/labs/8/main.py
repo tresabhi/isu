@@ -11,12 +11,10 @@ rho = 1.225
 nu = 1.57e-5
 Delta_y = 4 / 1000
 
-is_ = list(range(1, 39))
+is_ = list(range(0, 39))
 
-# broken_indices = [1, 7, 10, 16, 17, 21, 22, 33, 35]
 broken_indices = [2, 11, 17, 21, 22]
 broken_indices = np.array(broken_indices)
-broken_indices -= 1
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
 xs = [x_in * in_to_m for x_in in xs_in]
@@ -45,10 +43,10 @@ for x_in in xs_in:
             chunk_2 = row[36:52]
             chunk_3 = row[70:86]
 
-            sample = chunk_1 + chunk_2 + chunk_3
-            rake_sample = np.array(sample[0:38])
-            total_sample = np.array(sample[38])
-            static_sample = np.array(sample[39])
+            sample = [0] + chunk_1 + chunk_2 + chunk_3
+            rake_sample = np.array(sample[0:39])
+            total_sample = np.array(sample[39])
+            static_sample = np.array(sample[40])
 
             valid = np.ones(len(rake_sample), dtype=bool)
             valid[broken_indices] = False
@@ -65,8 +63,10 @@ for x_in in xs_in:
         p0_inf = np.mean(total_samples)
         p_inf = np.mean(static_samples)
 
-        u = np.sqrt((2 * np.abs(p0 - p_inf)) / rho)
+        u = np.sqrt((2 * np.maximum(0, p0 - p_inf)) / rho)
         u_inf = np.sqrt((2 * (p0_inf - p_inf)) / rho)
+
+        u[0] = 0
 
         Re_x = u * sample_range / nu
 
@@ -82,16 +82,18 @@ z = np.array(profiles).T
 
 plt.figure(1)
 
-plt.contourf(sample_range, y, z, levels=2**8)
+plt.contourf(sample_range, y, z)
 plt.colorbar(label="Velocity [m/s]")
 
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
 
 plt.title("Velocity Profile vs Downstream Position (Linear)")
-plt.savefig("out/velocity_profile_vs_downstream_position_linear.png")
+plt.savefig("out/velocity_profile_vs_downstream_position_linear_filled_contour.png")
 
-plt.yscale("log")
+plt.yscale("symlog")
 
 plt.title("Velocity Profile vs Downstream Position (Logarithmic)")
-plt.savefig("out/velocity_profile_vs_downstream_position_linear_logarithmic.png")
+plt.savefig(
+    "out/velocity_profile_vs_downstream_position_linear_logarithmic_filled_contour.png"
+)
