@@ -11,6 +11,10 @@ nu = 1.57e-5
 mu = nu * rho
 Delta_y = 4 / 1000
 
+Re_tr = 5e5
+x_tr = (Re_tr * nu) / u_inf
+delta_tr = 5 * x_tr / np.sqrt(Re_tr)
+
 is_ = list(range(0, 39))
 
 # broken_indices = [2, 11, 17, 22]
@@ -34,6 +38,7 @@ def boundary_model(y, d):
 deltas = []
 deltas_theoretical = []
 thetas = []
+profiles = []
 
 
 def plt_figure_1(name):
@@ -43,12 +48,12 @@ def plt_figure_1(name):
     plt.ylabel("y [mm]")
     plt.xlabel("u / u_inf")
     plt.xlim(left=0.75, right=1)
-    plt.ylim(bottom=0, top=1)
+    plt.ylim(bottom=0, top=1.75)
 
 
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
-    sample_range = x_in * in_to_m
+    profile_range = x_in * in_to_m
     x = x_in * in_to_m
 
     with open(path) as file:
@@ -78,13 +83,16 @@ for x_in in xs_in:
 
         p0_pitot = mean_sample[39 - 1]
         p_inf = mean_sample[40 - 1]
-        p0 = np.array(mean_sample[0:39])
+        p0 = np.array(mean_sample[0:38])
 
         q_inf = p0_pitot - p_inf
         q = np.maximum(0, p0 - p_inf)
 
         u_inf = np.sqrt((2 / rho) * q_inf)
         u = np.sqrt((2 / rho) * q)
+        u = [0] + list(u)
+
+        profiles.append(u)
 
         idx = np.argmax(u >= 0.99 * u_inf)
 
@@ -95,7 +103,13 @@ for x_in in xs_in:
 
         Re_x = u_inf * x / nu
         delta = y1 + (0.99 * u_inf - u1) * (y2 - y1) / (u2 - u1)
-        delta_theoretical = 0.37 * x * Re_x ** (-0.2)
+
+        if x < x_tr:
+            delta_theoretical = 5 * x / np.sqrt(Re_x)
+        else:
+            delta_theoretical = delta_tr + 0.37 * (
+                x / (Re_x ** (1 / 5)) - x_tr / (Re_tr ** (1 / 5))
+            )
 
         deltas.append(delta)
         deltas_theoretical.append(delta_theoretical)
@@ -142,85 +156,20 @@ plt.xlim(left=0, right=xs_in[-1])
 plt.grid()
 plt.savefig(f"out/momentum_thickness.png")
 
-# rake_sample = np.array(sample[0:38] + [0])
-# total_sample = np.array(sample[38])
-# static_sample = np.array(sample[39])
+plt.clf()
 
-# valid = np.ones(len(rake_sample), dtype=bool)
-# valid[broken_indices] = False
-# sample_range = np.arange(len(rake_sample))
-# rake_sample = np.interp(
-#     sample_range, sample_range[valid], rake_sample[valid]
-# )
+profile_range, y = np.meshgrid(xs_in, ys_mm)
+z = np.array(profiles).T
 
-# rake_sample = np.flip(rake_sample)
-# rake_samples.append(rake_sample)
-# total_samples.append(total_sample)
-# static_samples.append(static_sample)
+plt.contourf(profile_range, y, z)
+plt.colorbar(label="u [m/s]")
+plt.xlabel("x [in]")
+plt.ylabel("y [mm]")
 
-# p0 = np.mean(rake_samples, axis=0)
-# p0_inf = np.mean(total_samples)
-# p_inf = np.mean(static_samples)
+plt.title("Velocity Profile vs Downstream Position (Linear)")
+plt.savefig("out/velocity_profile_linear.png")
 
-# # print(p0)
+plt.yscale("symlog")
 
-# u = np.sqrt((2 * np.maximum(0, p0 - p_inf)) / rho)
-# u_inf = np.sqrt((2 * (p0_inf - p_inf)) / rho)
-# u[0] = 0
-
-# Re_x = u_inf * x / nu
-
-# popt, _ = curve_fit(boundary_model, ys, u / u_inf)
-# d_fit = popt[0]
-# delta = -d_fit * np.log(0.01)
-# delta_theory = 0.37 * x * Re_x**-0.2
-
-# idx99 = np.where(u > 0.99 * u_inf)[0][0]
-# delta_last = ys[idx99]
-
-# print(delta, delta_last, delta_theory)
-
-# integrand_disp = 1 - u / u_inf
-# delta_star = np.trapezoid(integrand_disp, ys)
-# delta_star_theory = 0.048 * x * Re_x**-0.2
-
-# C_D_theory = 0.074 * Re_x**-0.2
-
-# [du_dy_wall, _] = np.polyfit(ys[0:4], u[0:4], 1)
-# tau_w = mu * du_dy_wall
-# C_f_theory = 0.058 * Re_x**-0.2
-# tau_w_theory = C_f_theory * 0.5 * rho * u_inf**2
-
-# theta = sum((u / u_inf) * (1 - u / u_inf) * Delta_y)
-
-# profiles.append(u)
-# deltas.append(delta)
-# thetas.append(theta)
-
-# ys_mm = ys * 1000
-
-# sample_range, y = np.meshgrid(xs_in, ys_mm)
-# z = np.array(profiles).T
-
-# plt.figure(1)
-
-# plt.contourf(sample_range, y, z)
-# plt.colorbar(label="u [m/s]")
-
-# plt.xlabel("x [in]")
-# plt.ylabel("y [mm]")
-
-# plt.title("Velocity Profile vs Downstream Position (Linear)")
-# plt.savefig("out/velocity_profile_vs_downstream_position_linear_filled_contour.png")
-
-# plt.yscale("symlog")
-
-# plt.title("Velocity Profile vs Downstream Position (Logarithmic)")
-# plt.savefig(
-#     "out/velocity_profile_vs_downstream_position_linear_logarithmic_filled_contour.png"
-# )
-
-# plt.figure(2)
-
-# plt.plot(xs_in, deltas)
-# plt.savefig("out/boundary_thickness_vs_downstream_position.png")
+plt.title("Velocity Profile vs Downstream Position (Logarithmic)")
+plt.savefig("out/velocity_profile_logarithmic.png")
