@@ -173,3 +173,23 @@ plt.yscale("symlog")
 
 plt.title("Velocity Profile vs Downstream Position (Logarithmic)")
 plt.savefig("out/velocity_profile_logarithmic.png")
+
+plt.clf()
+
+d_theta = np.diff(thetas)
+d_x = np.diff(xs)
+C_f = 2 * d_theta / d_x
+
+Re_x = u_inf * xs / nu
+C_f_theoretical = 0.0583 / (Re_x**0.2)
+
+plt.plot(xs_in[:-1], C_f, label="Empirical")
+plt.plot(xs_in[:-1], C_f_theoretical[:-1], label="Theoretical")
+plt.title("Local Shear Stress vs Downstream Position")
+plt.xlabel("x [in]")
+plt.ylabel("C_f")
+plt.xlim(left=0, right=xs_in[-1])
+plt.ylim(bottom=0, top=0.01)
+plt.legend()
+plt.grid()
+plt.savefig(f"out/locale_shear_stress.png")
