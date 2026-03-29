@@ -1,7 +1,6 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
 
 in_to_m = 1 / 39.37
 
@@ -17,18 +16,12 @@ delta_tr = 5 * x_tr / np.sqrt(Re_tr)
 
 is_ = list(range(0, 39))
 
-# broken_indices = [2, 11, 17, 22]
-broken_indices = []
-broken_indices = [1, 20, 21]
+broken_indices = [1, 15, 20, 21]
 broken_indices = np.array(broken_indices)
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
-xs = [x_in * in_to_m for x_in in xs_in]
-ys = [Delta_y * i for i in is_]
-
-xs = np.array(xs)
-ys = np.array(ys)
-
+xs = np.array([x_in * in_to_m for x_in in xs_in])
+ys = np.array([Delta_y * i for i in is_])
 ys_mm = ys * 1000
 
 
@@ -41,21 +34,21 @@ deltas_theoretical = []
 thetas = []
 velocity_profiles = []
 pressure_profiles = []
+dynamic_pressure_profiles = []
 
 
 def plt_figure_1(name):
     plt.grid()
     plt.legend()
     plt.title(f"Velocity Profile vs Downstream Position ({name})")
-    plt.ylabel("y [mm]")
+    plt.ylabel("y / delta")
     plt.xlabel("u / u_inf")
     plt.xlim(left=0.75, right=1)
-    plt.ylim(bottom=0, top=1.75)
+    plt.ylim(bottom=0, top=2)
 
 
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
-    profile_range = x_in * in_to_m
     x = x_in * in_to_m
 
     with open(path) as file:
@@ -77,7 +70,6 @@ for x_in in xs_in:
 
         for broken in broken_indices:
             distance = 1 if broken < 18 else 2
-
             mean_sample[broken] = (
                 mean_sample[broken - distance] + mean_sample[broken + distance]
             ) / 2
@@ -90,14 +82,11 @@ for x_in in xs_in:
         q = np.maximum(0, p0 - p_inf)
 
         pressure_profiles.append([p0[0]] + list(p0))
+        dynamic_pressure_profiles.append([0] + list(q))
 
         u_inf = np.sqrt((2 / rho) * q_inf)
         u = np.sqrt((2 / rho) * q)
-        u = [0] + list(u)
-
-        # plt.clf()
-        # plt.plot(is_, list(u))
-        # plt.savefig(f"out/{x_in}in.png")
+        u = np.array([0] + list(u))
 
         velocity_profiles.append(u)
 
@@ -109,6 +98,7 @@ for x_in in xs_in:
         y2 = ys[idx]
 
         Re_x = u_inf * x / nu
+
         delta = y1 + (0.99 * u_inf - u1) * (y2 - y1) / (u2 - u1)
 
         if x < x_tr:
@@ -121,6 +111,7 @@ for x_in in xs_in:
         deltas.append(delta)
         deltas_theoretical.append(delta_theoretical)
 
+        # Plot normalized profile
         plt.plot(u / u_inf, ys / delta, label=f"x = {x_in}in")
 
         theta = np.sum((u / u_inf) * (1 - u / u_inf) * Delta_y)
@@ -135,11 +126,16 @@ for x_in in xs_in:
 
 plt_figure_1("Back")
 plt.savefig(f"out/velocity_profiles_back.png")
-
 plt.clf()
 
-deltas_mm = np.array(deltas) * 1000
-deltas_theoretical_mm = np.array(deltas_theoretical) * 1000
+
+# Boundary thickness plot
+
+deltas = np.array(deltas)
+deltas_theoretical = np.array(deltas_theoretical)
+
+deltas_mm = deltas * 1000
+deltas_theoretical_mm = deltas_theoretical * 1000
 
 plt.plot(xs_in, deltas_mm, label="Empirical")
 plt.plot(xs_in, deltas_theoretical_mm, label="Theoretical")
@@ -154,6 +150,9 @@ plt.savefig(f"out/boundary_thickness.png")
 
 plt.clf()
 
+
+# Momentum thickness
+
 plt.plot(xs_in, thetas)
 plt.title("Momentum Thickness vs Downstream Position")
 plt.xlabel("x [in]")
@@ -163,35 +162,52 @@ plt.xlim(left=0, right=xs_in[-1])
 plt.grid()
 plt.savefig(f"out/momentum_thickness.png")
 
+# 3D Pressure plot
+
 fig = plt.figure()
 ax = fig.add_subplot(projection="3d")
-
-profile_range, y = np.meshgrid(xs_in, ys_mm)
+profile_range, y = np.meshgrid(xs_in, ys)
+y_normalized = ys[:, None] / deltas[None, :]
 z = np.array(pressure_profiles).T
+surf = ax.plot_surface(profile_range, y_normalized, z, cmap="viridis")
 
-# 3D surface plot
-surf = ax.plot_surface(profile_range, y, z, cmap="viridis")
-
-# Colorbar
 fig.colorbar(surf, ax=ax, label="p0 [Pa]")
-
-# Labels
 ax.set_xlabel("x [in]")
-ax.set_ylabel("y [mm]")
+ax.set_ylabel("y / delta")
 ax.set_zlabel("p0 [Pa]")
-
 ax.set_title("Pressure Profile vs Downstream Position (3D)")
 
-plt.savefig("out/dynamic_pressure_profile_3d.png")
 
+plt.savefig("out/pressure_pressure_profile_3d.png")
 plt.clf()
+
+# Dynamic Pressure plot
+
+fig = plt.figure()
+ax = fig.add_subplot(projection="3d")
+profile_range, y = np.meshgrid(xs_in, ys)
+y_normalized = ys[:, None] / deltas[None, :]
+z = np.array(dynamic_pressure_profiles).T
+surf = ax.plot_surface(profile_range, y_normalized, z, cmap="viridis")
+
+fig.colorbar(surf, ax=ax, label="p0 [Pa]")
+ax.set_xlabel("x [in]")
+ax.set_ylabel("y / delta")
+ax.set_zlabel("p0 [Pa]")
+ax.set_title("Dynamic Profile vs Downstream Position (3D)")
+
+plt.savefig("out/dynamic_pressure_profile_3d.png")
+plt.clf()
+
+# Velocity contour plots
 
 z = np.array(velocity_profiles).T
 
-plt.contourf(profile_range, y, z)
+plt.contourf(profile_range, y_normalized, z)
 plt.colorbar(label="u [m/s]")
 plt.xlabel("x [in]")
-plt.ylabel("y [mm]")
+plt.ylabel("y / delta")
+
 
 plt.title("Velocity Profile vs Downstream Position (Linear)")
 plt.savefig("out/velocity_profile_linear.png")
@@ -205,6 +221,7 @@ plt.clf()
 
 d_theta = np.diff(thetas)
 d_x = np.diff(xs)
+
 C_f = 2 * d_theta / d_x
 
 Re_x = u_inf * xs / nu
@@ -221,6 +238,7 @@ plt.legend()
 plt.grid()
 plt.savefig(f"out/locale_shear_stress.png")
 
+# Drag coefficient
 L = 65 * in_to_m
 C_D = 2 * thetas[-1] / L
 C_D_theoretical = 0.075 / (Re_x[-1] ** 0.2)
