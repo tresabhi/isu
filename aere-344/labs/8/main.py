@@ -88,10 +88,10 @@ plt.colorbar(label="Velocity [m/s]")
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
 
-plt.title("Velocity Profile vs x (Linear)")
-plt.savefig("out/velocity_profile_vs_x_linear.png")
+plt.title("Velocity Profile vs Downstream Position (Linear)")
+plt.savefig("out/velocity_profile_vs_downstream_position_linear.png")
 
 plt.yscale("log")
 
-plt.title("Velocity Profile vs x (Logarithmic)")
-plt.savefig("out/velocity_profile_vs_x_logarithmic.png")
+plt.title("Velocity Profile vs Downstream Position (Logarithmic)")
+plt.savefig("out/velocity_profile_vs_downstream_position_linear_logarithmic.png")
