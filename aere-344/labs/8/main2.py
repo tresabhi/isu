@@ -1,25 +1,46 @@
+from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
+in_to_m = 1 / 39.37
+
 rho = 1.225
+nu = 1.57e-5
 Delta_y_mm = 4
+u_inf = 13
 Delta_y = Delta_y_mm / 1000
 
-broken_indices = [2, 16, 21, 22, 35]
+Re_tr = 5e5
+x_tr = (Re_tr * nu) / u_inf
+delta_tr = 5 * x_tr / np.sqrt(Re_tr)
+
+broken_pressures = [2, 16, 21, 22, 35]
+broken_deltas = 3
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
 ys = np.array(range(39)) * Delta_y
 ys_mm = ys * 1000
+
+
+def u_model(y, a, b):
+    return a * np.sqrt(y) + b
+
+
+def u_fit(y):
+    return a * np.sqrt(y) + b
+
 
 u_profiles = []
 u_profiles_normalized = []
 y_profiles = []
 q_profiles = []
 deltas = []
+deltas_theoretical = []
 
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
+    x = x_in * in_to_m
 
     with open(path) as file:
         reader = csv.reader(file)
@@ -39,7 +60,7 @@ for x_in in xs_in:
 
         p_static = mean_sample[40 - 1]
 
-        for i in broken_indices:
+        for i in broken_pressures:
             d = 1 if i < 20 else 2
             mean_sample[i - 1] = (mean_sample[i - 1 - d] + mean_sample[i - 1 + d]) / 2
             # mean_sample[i - 1] = p_static
@@ -54,15 +75,31 @@ for x_in in xs_in:
         u_inf = np.sqrt((2 / rho) * q_pitot)
         u_rake = np.sqrt((2 / rho) * q_rake)
 
-        idx = np.argmax(u_rake >= 0.99 * u_inf)
+        if len(deltas) < len(xs_in) - broken_deltas:
+            u99 = 0.99 * u_inf
 
-        u1 = u_rake[idx - 1]
-        u2 = u_rake[idx]
-        y1 = ys[idx - 1]
-        y2 = ys[idx]
+            # coeffs = np.polyfit(ys, u_rake, 16)
+            # poly = np.poly1d(coeffs)
+            # roots = np.roots(poly - u99)
+            # roots = roots[np.isreal(roots)].real
+            # delta = max(roots)
 
-        u99 = 0.99 * u_inf
-        delta = y1 + ((u99 - u1) / (u2 - u1)) * (y2 - y1)
+            params, _ = curve_fit(u_model, ys, u_rake)
+            a, b = params
+            delta = ((u99 - b) / a) ** 2
+        else:
+            delta = deltas[-1]
+
+        x = max(0.000001, x)
+        Re_x = u_inf * x / nu
+
+        if x < x_tr:
+            delta_theoretical = 5 * x / np.sqrt(Re_x)
+        else:
+            delta_theoretical = delta_tr + 0.37 * (
+                x / (Re_x ** (1 / 5)) - x_tr / (Re_tr ** (1 / 5))
+            )
+
         y_profile = ys / delta
 
         u_profiles.append(u_rake)
@@ -70,6 +107,7 @@ for x_in in xs_in:
         y_profiles.append(y_profile)
         q_profiles.append(q_rake)
         deltas.append(delta)
+        deltas_theoretical.append(delta_theoretical)
 
 Q = np.array(q_profiles)
 
@@ -101,11 +139,15 @@ plt.ylabel("y [mm]")
 
 deltas = np.array(deltas)
 deltas_mm = deltas * 1000
+deltas_theoretical = np.array(deltas_theoretical)
+deltas_theoretical_mm = deltas_theoretical * 1000
 
 plt.figure()
 plt.title("Delta vs Downstream Position")
-plt.plot(xs_in, deltas_mm)
+plt.plot(xs_in, deltas_mm, label="delta")
+plt.plot(xs_in, deltas_theoretical_mm, label="delta_theoretical")
 plt.xlabel("x [in]")
 plt.ylabel("delta [mm]")
+plt.legend()
 
 plt.show()
