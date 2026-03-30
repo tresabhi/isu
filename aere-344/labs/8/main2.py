@@ -6,12 +6,16 @@ rho = 1.225
 Delta_y_mm = 4
 Delta_y = Delta_y_mm / 1000
 
+broken_indices = [2, 16, 21, 22, 35]
+
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
 ys = np.array(range(39)) * Delta_y
+ys_mm = ys * 1000
 
-velocity_profiles = []
-velocity_profiles_normalized = []
+u_profiles = []
+u_profiles_normalized = []
 y_profiles = []
+q_profiles = []
 deltas = []
 
 for x_in in xs_in:
@@ -33,8 +37,14 @@ for x_in in xs_in:
 
         mean_sample = np.mean(samples, axis=0)
 
-        p_pitot = mean_sample[39 - 1]
         p_static = mean_sample[40 - 1]
+
+        for i in broken_indices:
+            d = 1 if i < 20 else 2
+            mean_sample[i - 1] = (mean_sample[i - 1 - d] + mean_sample[i - 1 + d]) / 2
+            # mean_sample[i - 1] = p_static
+
+        p_pitot = mean_sample[39 - 1]
         p_rake = np.array(mean_sample[0:38])
 
         q_rake = np.maximum(0, p_rake - p_static)
@@ -55,17 +65,36 @@ for x_in in xs_in:
         delta = y1 + ((u99 - u1) / (u2 - u1)) * (y2 - y1)
         y_profile = ys / delta
 
-        velocity_profiles.append(u_rake)
-        velocity_profiles_normalized.append(u_rake / u_inf)
+        u_profiles.append(u_rake)
+        u_profiles_normalized.append(u_rake / u_inf)
         y_profiles.append(y_profile)
+        q_profiles.append(q_rake)
         deltas.append(delta)
 
+Q = np.array(q_profiles)
 
-U = np.array(velocity_profiles)
+plt.figure()
+plt.title("Dynamic Pressure Field")
+plt.imshow(
+    Q.T,
+    aspect="auto",
+    origin="lower",
+    extent=[min(xs_in), max(xs_in), min(ys_mm), max(ys_mm)],
+)
+plt.colorbar(label="q [Pa]")
+plt.xlabel("x [in]")
+plt.ylabel("y [mm]")
+
+U = np.array(u_profiles)
 
 plt.figure()
 plt.title("Velocity Field")
-plt.imshow(U.T, aspect="auto", origin="lower")
+plt.imshow(
+    U.T,
+    aspect="auto",
+    origin="lower",
+    extent=[min(xs_in), max(xs_in), min(ys_mm), max(ys_mm)],
+)
 plt.colorbar(label="u [m/s]")
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
