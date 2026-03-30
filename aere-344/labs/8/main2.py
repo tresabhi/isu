@@ -37,6 +37,7 @@ y_profiles = []
 q_profiles = []
 deltas = []
 deltas_theoretical = []
+thetas = []
 
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
@@ -73,18 +74,12 @@ for x_in in xs_in:
         q_pitot = p_pitot - p_static
 
         u_inf = np.sqrt((2 / rho) * q_pitot)
-        u_rake = np.sqrt((2 / rho) * q_rake)
+        u = np.sqrt((2 / rho) * q_rake)
 
         if len(deltas) < len(xs_in) - broken_deltas:
             u99 = 0.99 * u_inf
 
-            # coeffs = np.polyfit(ys, u_rake, 16)
-            # poly = np.poly1d(coeffs)
-            # roots = np.roots(poly - u99)
-            # roots = roots[np.isreal(roots)].real
-            # delta = max(roots)
-
-            params, _ = curve_fit(u_model, ys, u_rake)
+            params, _ = curve_fit(u_model, ys, u)
             a, b = params
             delta = ((u99 - b) / a) ** 2
         else:
@@ -100,14 +95,17 @@ for x_in in xs_in:
                 x / (Re_x ** (1 / 5)) - x_tr / (Re_tr ** (1 / 5))
             )
 
+        theta = np.sum((u / u_inf) * (1 - u / u_inf) * Delta_y)
+
         y_profile = ys / delta
 
-        u_profiles.append(u_rake)
-        u_profiles_normalized.append(u_rake / u_inf)
+        u_profiles.append(u)
+        u_profiles_normalized.append(u / u_inf)
         y_profiles.append(y_profile)
         q_profiles.append(q_rake)
         deltas.append(delta)
         deltas_theoretical.append(delta_theoretical)
+        thetas.append(theta)
 
 Q = np.array(q_profiles)
 
@@ -149,5 +147,11 @@ plt.plot(xs_in, deltas_theoretical_mm, label="delta_theoretical")
 plt.xlabel("x [in]")
 plt.ylabel("delta [mm]")
 plt.legend()
+
+plt.figure()
+plt.title("Theta vs Downstream Position")
+plt.plot(xs_in, thetas)
+plt.xlabel("x [in]")
+plt.ylabel("theta")
 
 plt.show()
