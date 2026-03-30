@@ -10,6 +10,7 @@ xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
 ys = np.array(range(39)) * Delta_y
 
 velocity_profiles = []
+velocity_profiles_normalized = []
 y_profiles = []
 deltas = []
 
@@ -52,17 +53,27 @@ for x_in in xs_in:
 
         u99 = 0.99 * u_inf
         delta = y1 + ((u99 - u1) / (u2 - u1)) * (y2 - y1)
-        print(delta)
         y_profile = ys / delta
 
         velocity_profiles.append(u_rake)
+        velocity_profiles_normalized.append(u_rake / u_inf)
         y_profiles.append(y_profile)
         deltas.append(delta)
+
+
+U = np.array(velocity_profiles)
+
+plt.figure()
+plt.title("Velocity Field")
+plt.imshow(U.T, aspect="auto", origin="lower")
+plt.colorbar(label="u [m/s]")
+plt.xlabel("x [in]")
+plt.ylabel("y [mm]")
 
 deltas = np.array(deltas)
 deltas_mm = deltas * 1000
 
-plt.figure(1)
+plt.figure()
 plt.title("Delta vs Downstream Position")
 plt.plot(xs_in, deltas_mm)
 plt.xlabel("x [in]")
