@@ -53,3 +53,6 @@
 [submodule "aere-361/labs/8"]
 	path = aere-361/labs/8
 	url = https://github.com/AERE-361/lab-8-machine-numbers-ieee-754-s2026-tresabhi.git
+[submodule "aere-361/labs/9"]
+	path = aere-361/labs/9
+	url = https://github.com/AERE-361/lab-9-s2026-tresabhi.git
