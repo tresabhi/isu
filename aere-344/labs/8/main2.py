@@ -19,6 +19,8 @@ broken_pressures = [2, 16, 21, 22, 35]
 broken_deltas = 3
 
 xs_in = list(range(10)) + list(range(10, 65 + 5, 5))
+xs_in = np.array(xs_in)
+xs = xs_in * in_to_m
 ys = np.array(range(39)) * Delta_y
 ys_mm = ys * 1000
 
@@ -133,6 +135,8 @@ for x_in in xs_in:
 
 ax1.legend()
 ax2.legend()
+ax1.grid()
+ax2.grid()
 
 Q = np.array(q_profiles)
 
@@ -147,6 +151,7 @@ plt.imshow(
 plt.colorbar(label="q [Pa]")
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
+plt.grid()
 
 U = np.array(u_profiles)
 
@@ -161,6 +166,7 @@ plt.imshow(
 plt.colorbar(label="u [m/s]")
 plt.xlabel("x [in]")
 plt.ylabel("y [mm]")
+plt.grid()
 
 deltas = np.array(deltas)
 deltas_mm = deltas * 1000
@@ -173,6 +179,7 @@ plt.plot(xs_in, deltas_mm, label="delta")
 plt.plot(xs_in, deltas_theoretical_mm, label="delta_theoretical")
 plt.xlabel("x [in]")
 plt.ylabel("delta [mm]")
+plt.grid()
 plt.legend()
 
 plt.figure(6)
@@ -180,5 +187,31 @@ plt.title("Theta vs Downstream Position")
 plt.plot(xs_in, thetas)
 plt.xlabel("x [in]")
 plt.ylabel("theta")
+plt.grid()
+
+plt.figure(7)
+
+d_theta = np.diff(thetas)
+d_x = np.diff(xs)
+C_f = 2 * d_theta / d_x
+Re_x = u_inf * xs / nu
+C_f_theoretical = 0.0583 / (Re_x**0.2)
+
+plt.plot(xs_in[:-1], C_f, label="Empirical")
+plt.plot(xs_in[:-1], C_f_theoretical[:-1], label="Theoretical")
+plt.title("Local Shear Stress vs Downstream Position")
+plt.xlabel("x [in]")
+plt.ylabel("C_f")
+plt.xlim(left=0, right=xs_in[-1])
+plt.ylim(bottom=0, top=0.01)
+plt.legend()
+plt.grid()
+
+L = 65 * in_to_m
+C_D = 2 * thetas[-1] / L
+C_D_theoretical = 0.075 / (Re_x[-1] ** 0.2)
+
+print(f"C_D = {C_D}")
+print(f"C_D_theoretical = {C_D_theoretical}")
 
 plt.show()
