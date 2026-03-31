@@ -33,12 +33,28 @@ def u_fit(y):
 
 u_profiles = []
 u_profiles_normalized = []
-y_profiles = []
 q_profiles = []
 deltas = []
 deltas_theoretical = []
 thetas = []
 
+
+fig1, ax1 = plt.subplots()
+fig2, ax2 = plt.subplots()
+
+ax1.set_xlabel("u / u_inf")
+ax1.set_ylabel("y / delta")
+ax1.set_title("Velocity Profile vs Downstream Position")
+ax1.set_xlim(left=0.6, right=1)
+ax1.set_ylim(bottom=0, top=1.25)
+
+ax2.set_xlabel("u / u_inf")
+ax2.set_ylabel("y / delta")
+ax2.set_title("Velocity Profile vs Downstream Position")
+ax2.set_xlim(left=0.6, right=1)
+ax2.set_ylim(bottom=0, top=1.4)
+
+i = 0
 for x_in in xs_in:
     path = f"data/{x_in}in.csv"
     x = x_in * in_to_m
@@ -61,9 +77,11 @@ for x_in in xs_in:
 
         p_static = mean_sample[40 - 1]
 
-        for i in broken_pressures:
-            d = 1 if i < 20 else 2
-            mean_sample[i - 1] = (mean_sample[i - 1 - d] + mean_sample[i - 1 + d]) / 2
+        for broken in broken_pressures:
+            d = 1 if broken < 20 else 2
+            mean_sample[broken - 1] = (
+                mean_sample[broken - 1 - d] + mean_sample[broken - 1 + d]
+            ) / 2
             # mean_sample[i - 1] = p_static
 
         p_pitot = mean_sample[39 - 1]
@@ -74,12 +92,12 @@ for x_in in xs_in:
         q_pitot = p_pitot - p_static
 
         u_inf = np.sqrt((2 / rho) * q_pitot)
-        u = np.sqrt((2 / rho) * q_rake)
+        us = np.sqrt((2 / rho) * q_rake)
 
         if len(deltas) < len(xs_in) - broken_deltas:
             u99 = 0.99 * u_inf
 
-            params, _ = curve_fit(u_model, ys, u)
+            params, _ = curve_fit(u_model, ys, us)
             a, b = params
             delta = ((u99 - b) / a) ** 2
         else:
@@ -95,21 +113,30 @@ for x_in in xs_in:
                 x / (Re_x ** (1 / 5)) - x_tr / (Re_tr ** (1 / 5))
             )
 
-        theta = np.sum((u / u_inf) * (1 - u / u_inf) * Delta_y)
+        theta = np.sum((us / u_inf) * (1 - us / u_inf) * Delta_y)
 
-        y_profile = ys / delta
+        if i > 10:
+            ax = ax2
+        else:
+            ax = ax1
 
-        u_profiles.append(u)
-        u_profiles_normalized.append(u / u_inf)
-        y_profiles.append(y_profile)
+        ax.plot(us / u_inf, ys / delta, label=f"x = {x_in}in")
+
+        u_profiles.append(us)
+        u_profiles_normalized.append(us / u_inf)
         q_profiles.append(q_rake)
         deltas.append(delta)
         deltas_theoretical.append(delta_theoretical)
         thetas.append(theta)
 
+    i += 1
+
+ax1.legend()
+ax2.legend()
+
 Q = np.array(q_profiles)
 
-plt.figure()
+plt.figure(3)
 plt.title("Dynamic Pressure Field")
 plt.imshow(
     Q.T,
@@ -123,7 +150,7 @@ plt.ylabel("y [mm]")
 
 U = np.array(u_profiles)
 
-plt.figure()
+plt.figure(4)
 plt.title("Velocity Field")
 plt.imshow(
     U.T,
@@ -140,7 +167,7 @@ deltas_mm = deltas * 1000
 deltas_theoretical = np.array(deltas_theoretical)
 deltas_theoretical_mm = deltas_theoretical * 1000
 
-plt.figure()
+plt.figure(5)
 plt.title("Delta vs Downstream Position")
 plt.plot(xs_in, deltas_mm, label="delta")
 plt.plot(xs_in, deltas_theoretical_mm, label="delta_theoretical")
@@ -148,7 +175,7 @@ plt.xlabel("x [in]")
 plt.ylabel("delta [mm]")
 plt.legend()
 
-plt.figure()
+plt.figure(6)
 plt.title("Theta vs Downstream Position")
 plt.plot(xs_in, thetas)
 plt.xlabel("x [in]")
