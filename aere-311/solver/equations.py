@@ -31,6 +31,7 @@ composite_equations = [
     (T_star_T2, T_star / T2),
     #
     (p2_p1, p2 / p1),
+    (p3_p1, p3 / p1),
     (p0_p1, p0 / p1),
     (p0_p2, p0 / p2),
     (p02_p01, p02 / p01),
@@ -65,6 +66,7 @@ state_equations = [
     (p0, rho0 * R * T0),
     (p1, rho1 * R * T1),
     (p2, rho2 * R * T2),
+    (p3, rho3 * R * T3),
     (p01, rho01 * R * T01),
     # (p02, rho02 * R * T02),
     (p_star, rho_star * R * T_star),
@@ -142,12 +144,15 @@ static_equations = [
 shock_static_equations = {
     (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
     (T02_T2, 1 + ((gamma - 1) / 2) * M2**2),
+    (T03_T3, 1 + ((gamma - 1) / 2) * M3**2),
     #
     (p01_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
     (p02_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
+    (p03_p3, (1 + ((gamma - 1) / 2) * M3**2) ** (gamma / (gamma - 1))),
     #
     (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+    (rho03_rho3, (1 + ((gamma - 1) / 2) * M3**2) ** (1 / (gamma - 1))),
 }
 
 bernoulli_equations = [
@@ -304,4 +309,76 @@ prandtl_meyer_equations = [
         ((1 + ((gamma - 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M2**2))
         ** (gamma / (gamma - 1)),
     ),
+]
+
+DANGEROUSLY_INCOMPLIANT_flat_plate_equations = [
+    #
+    # generics
+    (theta2, alpha),
+    (theta3, alpha),
+    (cl, (2 / (gamma * M1**2)) * (p3_p1 - p2_p1) * sp.cos(alpha)),
+    #
+    # top plate: prandtl-meyer
+    (
+        nu1,
+        sp.sqrt((gamma + 1) / (gamma - 1))
+        * sp.atan(sp.sqrt(((gamma - 1) / (gamma + 1)) * (M1**2 - 1)))
+        - sp.atan(sp.sqrt(M1**2 - 1)),
+    ),
+    (
+        nu2,
+        sp.sqrt((gamma + 1) / (gamma - 1))
+        * sp.atan(sp.sqrt(((gamma - 1) / (gamma + 1)) * (M2**2 - 1)))
+        - sp.atan(sp.sqrt(M2**2 - 1)),
+    ),
+    (theta2, nu2 - nu1),
+    (sp.tan(mu1), 1 / sp.sqrt(M1**2 - 1)),
+    (sp.tan(mu2), 1 / sp.sqrt(M2**2 - 1)),
+    (T02, T01),
+    (p02, p01),
+    (T2_T1, T2_T02 / T1_T01),
+    (p2_p1, p2_p02 / p1_p01),
+    (T2_T1, (1 + ((gamma - 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M2**2)),
+    (
+        p2_p1,
+        ((1 + ((gamma - 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M2**2))
+        ** (gamma / (gamma - 1)),
+    ),
+    #
+    # bottom plate: oblique
+    (w1, w3),
+    (Mn1, M1 * sp.sin(beta_weak)),
+    (Mn3**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
+    (rho3_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
+    (p3_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+    (T3_T1, p3_p1 / rho3_rho1),
+    (M3, Mn3 / sp.sin(beta_weak - theta3)),
+    (sp.tan(beta_weak), u1 / w1),
+    (sp.tan(beta_weak - theta), u3 / w3),
+    (sp.tan(beta_weak - theta) / sp.tan(beta_weak), u3_u1),
+    (u3_u1, 1 / rho3_rho1),
+    (
+        u3_u1,
+        (2 + (gamma - 1) * M1**2 * sp.sin(beta_weak) ** 2)
+        / ((gamma + 1) * M1**2 * sp.sin(beta_weak) ** 2),
+    ),
+    (
+        sp.tan(theta3),
+        2
+        * sp.cot(beta_weak)
+        * (
+            (M1**2 * sp.sin(beta_weak) ** 2 - 1)
+            / (M1**2 * (gamma + sp.cos(2 * beta_weak)) + 2)
+        ),
+    ),
+    (
+        sp.tan(theta3),
+        2
+        * sp.cot(beta_strong)
+        * (
+            (M1**2 * sp.sin(beta_strong) ** 2 - 1)
+            / (M1**2 * (gamma + sp.cos(2 * beta_strong)) + 2)
+        ),
+    ),
+    (theta3, beta_weak - sp.atan((1 / rho3_rho1) * sp.tan(beta_weak))),
 ]
