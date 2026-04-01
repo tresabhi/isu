@@ -25,7 +25,7 @@ if __name__ == "__main__":
     solver.solve(
         {
             **air,
-            alpha: 10 * ur.deg,
-            M1: 7,
+            alpha: 4 * ur.deg,
+            M1: 2.6,
         }
     )

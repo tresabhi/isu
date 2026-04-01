@@ -166,3 +166,4 @@ nu2 = S("nu2", "radian", "Flow turning angle (2)")
 
 alpha = S("alpha", "radian", "Angle of attack")
 cl = S("cl", None, "Lift coefficient")
+cd = S("cd", None, "Drag coefficient")

@@ -317,6 +317,7 @@ DANGEROUSLY_INCOMPLIANT_flat_plate_equations = [
     (theta2, alpha),
     (theta3, alpha),
     (cl, (2 / (gamma * M1**2)) * (p3_p1 - p2_p1) * sp.cos(alpha)),
+    (cd, (2 / (gamma * M1**2)) * (p3_p1 - p2_p1) * sp.sin(alpha)),
     #
     # top plate: prandtl-meyer
     (
