@@ -336,9 +336,14 @@ diamond_wedge_equations = [
     # these are my derivations; use at your own risk
     (t / c, sp.tan(epsilon)),
     #
-    (cr, ((cr4 + cr5) - (cr2 + cr3)) * sp.cos(epsilon)),
-    (cl, cr * sp.cos(alpha)),
-    (cd, cr * sp.sin(alpha)),
+    (cl, ((cr4 + cr5) - (cr2 + cr3)) * sp.cos(alpha + epsilon)),
+    (
+        cd,
+        cr2 * sp.sin(-alpha + epsilon)
+        + cr3 * sp.sin(-alpha - epsilon)
+        + cr4 * sp.sin(alpha + epsilon)
+        + cr5 * sp.sin(alpha - epsilon),
+    ),
     #
     (cr2, (2 / (gamma * M1**2)) * (p2_p1 - 1)),
     (cr3, (2 / (gamma * M1**2)) * (p3_p1 - 1)),
