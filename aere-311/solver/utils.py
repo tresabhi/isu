@@ -26,6 +26,7 @@ def flat_plate(knowns, output_units=durbin_output_units):
     )
     flat_plate_solver = Solver(
         equations=[
+            *dynamic_equations,
             *flat_plate_equations,
         ],
         output_units=output_units,
@@ -45,6 +46,8 @@ def flat_plate(knowns, output_units=durbin_output_units):
 
     flat_plate_knowns = {
         **knowns,
+        p2: top_solutions[p2],
+        p3: bottom_solutions[p2],
         p2_p1: top_solutions[p2_p1],
         p3_p1: bottom_solutions[p2_p1],
     }

@@ -306,6 +306,27 @@ expansion_wave_equations = [
     ),
 ]
 
+dynamic_equations = [
+    #
+    # Chapter 9.7
+    (q1, (gamma / 2) * p1 * M1**2),
+    (q2, (gamma / 2) * p2 * M2**2),
+]
+
 flat_plate_equations = [
+    #
+    # Chapter 9.7
+    (R_prime, (p3 - p2) * c),
+    (L_prime, (p3 - p2) * c * sp.cos(alpha)),
+    (D_prime, (p3 - p2) * c * sp.sin(alpha)),
+    #
+    (cl, L_prime / (q1 * S)),
+    (cl, L_prime / ((gamma / 2) * p1 * M1**2 * c)),
     (cl, (2 / (gamma * M1**2)) * (p3_p1 - p2_p1) * sp.cos(alpha)),
+    #
+    (cd, D_prime / (q1 * S)),
+    (cd, D_prime / ((gamma / 2) * p1 * M1**2 * c)),
+    (cd, (2 / (gamma * M1**2)) * (p3_p1 - p2_p1) * sp.sin(alpha)),
+    #
+    (cd / cl, sp.tan(alpha)),
 ]

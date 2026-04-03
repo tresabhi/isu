@@ -5,9 +5,13 @@ durbin_output_units = {
     p0: ur.atm,
     p1: ur.atm,
     p2: ur.atm,
+    p3: ur.atm,
     p01: ur.atm,
     p02: ur.atm,
     p_star: ur.atm,
+    #
+    q1: ur.atm,
+    q2: ur.atm,
     #
     mu1: ur.deg,
     mu2: ur.deg,
