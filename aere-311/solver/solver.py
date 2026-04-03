@@ -15,9 +15,12 @@ class Solver:
     terminal_size = shutil.get_terminal_size()
     working_dir = Path(__file__).resolve().parent
     name_file = working_dir / "name.txt"
+    has_printed = False
 
     def __init__(self, equations, output_units, sig_figs=5):
-        self.print_name()
+        if not self.__class__.has_printed:
+            self.print_name()
+            self.__class__.has_printed = True
 
         self.equations = equations
         self.output_units = output_units
