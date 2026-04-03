@@ -36,6 +36,9 @@ class Solver:
         knowns = {}
 
         for key, value in original_knowns.items():
+            if value is None:
+                continue
+
             if isinstance(value, Quantity):
                 knowns[key] = value.to(key.unit).magnitude
             elif key.unit == ur.dimensionless:

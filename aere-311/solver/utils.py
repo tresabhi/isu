@@ -34,11 +34,11 @@ def flat_plate(knowns, output_units=durbin_output_units):
 
     top_knowns = {
         **knowns,
-        theta: knowns[alpha],
+        theta: knowns.get(alpha),
     }
     bottom_knowns = {
         **knowns,
-        theta: knowns[alpha],
+        theta: knowns.get(alpha),
     }
 
     top_solutions = expansion_wave_solver.solve(top_knowns)
@@ -46,10 +46,10 @@ def flat_plate(knowns, output_units=durbin_output_units):
 
     flat_plate_knowns = {
         **knowns,
-        p2: top_solutions[p2],
-        p3: bottom_solutions[p2],
-        p2_p1: top_solutions[p2_p1],
-        p3_p1: bottom_solutions[p2_p1],
+        p2: top_solutions.get(p2),
+        p3: bottom_solutions.get(p2),
+        p2_p1: top_solutions.get(p2_p1),
+        p3_p1: bottom_solutions.get(p2_p1),
     }
 
     flat_plate_solutions = flat_plate_solver.solve(flat_plate_knowns)
