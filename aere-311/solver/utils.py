@@ -152,13 +152,3 @@ def diamond_wedge(knowns, output_units=durbin_output_units):
             p5_p4: bottom_right_solutions.get(p2_p1),
         }
     )
-
-    # diamond_wedge_solver.solve(
-    #     {
-    #         **knowns_superset,
-    #         p2_p1: top_left_solutions.get(p2_p1),
-    #         p3_p2: top_right_solutions.get(p2_p1),
-    #         p4_p1: bottom_left_solutions.get(p2_p1),
-    #         p5_p4: bottom_right_solutions.get(p2_p1),
-    #     }
-    # )

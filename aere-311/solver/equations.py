@@ -331,24 +331,34 @@ flat_plate_equations = [
     (cd / cl, sp.tan(alpha)),
 ]
 
+linearized_flat_plate_equations = [
+    (cl, (4 * alpha) / sp.sqrt(M1**2 - 1)),
+    (cd, (4 * alpha**2) / sp.sqrt(M1**2 - 1)),
+]
+
 diamond_wedge_equations = [
     #
     # these are my derivations; use at your own risk
     (t / c, sp.tan(epsilon)),
     #
-    (cl, ((cr4 + cr5) - (cr2 + cr3)) * sp.cos(alpha + epsilon)),
+    (
+        cl,
+        (2 / (gamma * M1**2))
+        * (1 / (2 * sp.cos(epsilon)))
+        * (
+            (p4_p1 - p3_p1) * sp.cos(alpha + epsilon)
+            + (p5_p1 - p2_p1) * sp.cos(alpha - epsilon)
+        ),
+    ),
     (
         cd,
-        cr2 * sp.sin(-alpha + epsilon)
-        + cr3 * sp.sin(-alpha - epsilon)
-        + cr4 * sp.sin(alpha + epsilon)
-        + cr5 * sp.sin(alpha - epsilon),
+        (2 / (gamma * M1**2))
+        * (1 / (2 * sp.cos(epsilon)))
+        * (
+            (p4_p1 - p3_p1) * sp.sin(alpha + epsilon)
+            + (p5_p1 - p2_p1) * sp.sin(alpha - epsilon)
+        ),
     ),
-    #
-    (cr2, (2 / (gamma * M1**2)) * (p2_p1 - 1)),
-    (cr3, (2 / (gamma * M1**2)) * (p3_p1 - 1)),
-    (cr4, (2 / (gamma * M1**2)) * (p4_p1 - 1)),
-    (cr5, (2 / (gamma * M1**2)) * (p5_p1 - 1)),
     #
     (p3_p1, p3_p2 * p2_p1),
     (p5_p1, p5_p4 * p4_p1),

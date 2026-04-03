@@ -159,11 +159,6 @@ epsilon = Symbol("epsilon", "radian", "Diamond wedge inner half angle")
 
 cl = Symbol("cl", None, "Lift coefficient", positive=None)
 cd = Symbol("cd", None, "Drag coefficient", positive=None)
-cr = Symbol("cr", None, "Reaction coefficient")
-cr2 = Symbol("cr2", None, "Reaction coefficient (top-left)", positive=None)
-cr3 = Symbol("cr3", None, "Reaction coefficient (top-right)", positive=None)
-cr4 = Symbol("cr4", None, "Reaction coefficient (bottom-left)", positive=None)
-cr5 = Symbol("cr5", None, "Reaction coefficient (bottom-right)", positive=None)
 
 c = Symbol("c", "m", "Chord length")
 t = Symbol("t", "m", "Airfoil max thickness")

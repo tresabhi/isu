@@ -10,23 +10,19 @@ air = {
     R: 287.05 * ur.J / (ur.kg * ur.K),
 }
 
-# solver = Solver(
-#     equations=[
-#         *composite_equations,
-#         *shock_static_equations,
-#         *state_equations,
-#         *specific_heat_equations,
-#         *diamond_wedge_equations,
-#     ],
-#     output_units=durbin_output_units,
-# )
+solver = Solver(
+    equations=[
+        *linearized_flat_plate_equations,
+    ],
+    output_units=durbin_output_units,
+)
 
 if __name__ == "__main__":
     diamond_wedge(
         {
             **air,
-            M1: 3,
             epsilon: 10 * ur.deg,
             alpha: 15 * ur.deg,
+            M1: 3,
         }
     )
