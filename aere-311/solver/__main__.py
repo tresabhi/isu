@@ -25,7 +25,7 @@ if __name__ == "__main__":
     flat_plate(
         {
             **air,
-            M1: 5,
+            M1: 3,
             alpha: 5 * ur.deg,
         }
     )

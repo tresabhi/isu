@@ -21,6 +21,8 @@ durbin_output_units = {
     #
     nu1: ur.deg,
     nu2: ur.deg,
+    #
+    alpha: ur.deg,
 }
 
 imperial_output_units = {
