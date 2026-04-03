@@ -22,10 +22,11 @@ air = {
 # )
 
 if __name__ == "__main__":
-    flat_plate(
+    diamond_wedge(
         {
             **air,
             M1: 3,
-            alpha: 5 * ur.deg,
+            epsilon: 10 * ur.deg,
+            alpha: 15 * ur.deg,
         }
     )

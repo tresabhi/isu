@@ -5,6 +5,7 @@ import sympy as sp
 from tabulate import tabulate
 from logger import logger
 from registry import ur
+import symbols as symbols_module
 
 EQUIVALENCY_THRESHOLD = 0.001
 

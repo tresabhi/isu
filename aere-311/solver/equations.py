@@ -330,3 +330,21 @@ flat_plate_equations = [
     #
     (cd / cl, sp.tan(alpha)),
 ]
+
+diamond_wedge_equations = [
+    #
+    # these are my derivations; use at your own risk
+    (t / c, sp.tan(epsilon)),
+    #
+    (cr, ((cr4 + cr5) - (cr2 + cr3)) * sp.cos(epsilon)),
+    (cl, cr * sp.cos(alpha)),
+    (cd, cr * sp.sin(alpha)),
+    #
+    (cr2, (2 / (gamma * M1**2)) * (p2_p1 - 1)),
+    (cr3, (2 / (gamma * M1**2)) * (p3_p1 - 1)),
+    (cr4, (2 / (gamma * M1**2)) * (p4_p1 - 1)),
+    (cr5, (2 / (gamma * M1**2)) * (p5_p1 - 1)),
+    #
+    (p3_p1, p3_p2 * p2_p1),
+    (p5_p1, p5_p4 * p4_p1),
+]
