@@ -17,6 +17,7 @@
     "bindec",
     "binormal",
     "bmatrix",
+    "calloc",
     "clabel",
     "clahe",
     "cmap",
