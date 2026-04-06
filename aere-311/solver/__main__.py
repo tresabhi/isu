@@ -12,17 +12,16 @@ air = {
 
 solver = Solver(
     equations=[
-        *linearized_flat_plate_equations,
+        *ratio_equations,
+        *quasi_1d_flow_equations,
     ],
     output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
-    diamond_wedge(
+    solver.solve(
         {
             **air,
-            epsilon: 10 * ur.deg,
-            alpha: 15 * ur.deg,
-            M1: 3,
+            A_A_star: 2,
         }
     )

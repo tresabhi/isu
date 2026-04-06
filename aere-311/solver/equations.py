@@ -15,7 +15,7 @@ continuity_equations = [
     (F, m_dot * (u2 - u1) + (p2 * A2 - p1 * A1)),
 ]
 
-composite_equations = [
+ratio_equations = [
     (delta_s, s2 - s1),
     (delta_h, h2 - h1),
     (delta_e, e2 - e1),
@@ -362,4 +362,51 @@ diamond_wedge_equations = [
     #
     (p3_p1, p3_p2 * p2_p1),
     (p5_p1, p5_p4 * p4_p1),
+]
+
+quasi_1d_flow_equations = [
+    #
+    # 10.2
+    (rho1 * u1 * A1, rho2 * u2 * A2),
+    (h1 + u1**2 / 2, h2 + u2**2 / 2),
+    # (h01, h02),
+    (p1, rho1 * R * T1),
+    (p2, rho2 * R * T2),
+    (h1, cp * T1),
+    (h2, cp * T2),
+    #
+    # 10.3
+    (rho_star * u_star * A_star, rho1 * u1 * A1),
+    (rho_star * u_star * A_star, rho2 * u2 * A2),
+    #
+    (A1_A_star, rho_star_rho1 * a_star_u1),
+    (A2_A_star, rho_star_rho2 * a_star_u2),
+    #
+    (A1_A_star, rho_star_rho01 * rho01_rho1 * a_star_u1),
+    (A2_A_star, rho_star_rho02 * rho02_rho2 * a_star_u2),
+    #
+    (rho_star_rho01, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
+    (rho_star_rho02, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
+    #
+    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
+    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+    #
+    (u1_a_star, M1_star),
+    (u2_a_star, M2_star),
+    #
+    (M1_star, (((gamma + 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M1**2)),
+    (M2_star, (((gamma + 1) / 2) * M2**2) / (1 + ((gamma - 1) / 2) * M2**2)),
+    #
+    (
+        A1_A_star**2,
+        (1 / (M1**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M1**2))
+        ** ((gamma + 1) / (gamma - 1)),
+    ),
+    (
+        A2_A_star**2,
+        (1 / (M2**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M2**2))
+        ** ((gamma + 1) / (gamma - 1)),
+    ),
 ]

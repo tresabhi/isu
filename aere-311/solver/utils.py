@@ -6,7 +6,7 @@ from units import *
 def flat_plate(knowns, output_units=durbin_output_units):
     expansion_wave_solver = Solver(
         equations=[
-            *composite_equations,
+            *ratio_equations,
             *shock_static_equations,
             *state_equations,
             *specific_heat_equations,
@@ -16,7 +16,7 @@ def flat_plate(knowns, output_units=durbin_output_units):
     )
     oblique_shock_solver = Solver(
         equations=[
-            *composite_equations,
+            *ratio_equations,
             *shock_static_equations,
             *state_equations,
             *specific_heat_equations,
@@ -60,7 +60,7 @@ def flat_plate(knowns, output_units=durbin_output_units):
 def diamond_wedge(knowns, output_units=durbin_output_units):
     expansion_wave_solver = Solver(
         equations=[
-            *composite_equations,
+            *ratio_equations,
             *shock_static_equations,
             *state_equations,
             *specific_heat_equations,
@@ -70,7 +70,7 @@ def diamond_wedge(knowns, output_units=durbin_output_units):
     )
     oblique_shock_solver = Solver(
         equations=[
-            *composite_equations,
+            *ratio_equations,
             *shock_static_equations,
             *state_equations,
             *specific_heat_equations,
