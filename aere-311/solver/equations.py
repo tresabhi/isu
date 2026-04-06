@@ -50,13 +50,22 @@ ratio_equations = [
     (rho_star_rho0, rho_star / rho0),
     (rho_star_rho1, rho_star / rho1),
     (rho_star_rho2, rho_star / rho2),
+    (rho_star_rho01, rho_star / rho01),
+    (rho_star_rho02, rho_star / rho02),
     #
     (u2_u1, u2 / u1),
+    (a_star_u1, a_star / u1),
+    (a_star_u2, a_star / u2),
+    (u1_a_star, u1 / a_star),
+    (u2_a_star, u2 / a_star),
     #
     (M1, u1 / a1),
     (M2, u2 / a2),
     #
     (h2_h1, h2 / h1),
+    #
+    (A1_A_star, A1 / A_star),
+    (A2_A_star, A2 / A_star),
 ]
 
 state_equations = [
@@ -139,7 +148,7 @@ static_equations = [
     (rho0_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
 ]
 
-shock_static_equations = {
+shock_static_equations = [
     (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
     (T02_T2, 1 + ((gamma - 1) / 2) * M2**2),
     #
@@ -148,7 +157,7 @@ shock_static_equations = {
     #
     (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
-}
+]
 
 bernoulli_equations = [
     (p0, p1 + (1 / 2) * rho1 * u1**2),
@@ -209,7 +218,7 @@ sonic_equations = [
     (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
     # 1
     (M1**2, 2 / ((gamma + 1) / M1_star**2 - (gamma - 1))),
-    (M2**2, 2 / ((gamma + 1) / M1_star**2 - (gamma - 1))),
+    (M2**2, 2 / ((gamma + 1) / M2_star**2 - (gamma - 1))),
     #
     (M1_star**2, ((gamma + 1) * M1**2) / (2 + (gamma - 1) * M1**2)),
     (M2_star**2, ((gamma + 1) * M2**2) / (2 + (gamma - 1) * M2**2)),

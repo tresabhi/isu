@@ -13,15 +13,18 @@ air = {
 solver = Solver(
     equations=[
         *ratio_equations,
+        *shock_static_equations,
         *quasi_1d_flow_equations,
     ],
-    output_units=durbin_output_units,
+    output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
     solver.solve(
         {
             **air,
-            A_A_star: 2,
+            A2_A_star: 10.25,
+            p02: 5 * ur.atm,
+            T02: 600 * ur.rankine,
         }
     )
