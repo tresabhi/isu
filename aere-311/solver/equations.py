@@ -392,7 +392,7 @@ diamond_wedge_equations = [
     (p5_p1, p5_p4 * p4_p1),
 ]
 
-quasi_1d_flow_equations = [
+nozzle_flow_equations = [
     #
     # 10.2
     (p_sub, rho_sub * R * T_sub),
