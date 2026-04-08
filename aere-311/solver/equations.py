@@ -52,12 +52,20 @@ ratio_equations = [
     (rho_star_rho2, rho_star / rho2),
     (rho_star_rho01, rho_star / rho01),
     (rho_star_rho02, rho_star / rho02),
+    (rho_star_rho_sub, rho_star / rho_sub),
+    (rho_star_rho_sup, rho_star / rho_sup),
+    (rho0_rho_sub, rho0 / rho_sub),
+    (rho0_rho_sup, rho0 / rho_sup),
     #
     (u2_u1, u2 / u1),
     (a_star_u1, a_star / u1),
     (a_star_u2, a_star / u2),
+    (a_star_u_sub, a_star / u_sub),
+    (a_star_u_sup, a_star / u_sup),
     (u1_a_star, u1 / a_star),
     (u2_a_star, u2 / a_star),
+    (u_sub_a_star, u_sub / a_star),
+    (u_sup_a_star, u_sup / a_star),
     #
     (M1, u1 / a1),
     (M2, u2 / a2),
@@ -66,6 +74,7 @@ ratio_equations = [
     #
     (A1_A_star, A1 / A_star),
     (A2_A_star, A2 / A_star),
+    (A_A_star, A / A_star),
 ]
 
 state_equations = [
@@ -376,46 +385,42 @@ diamond_wedge_equations = [
 quasi_1d_flow_equations = [
     #
     # 10.2
-    (rho1 * u1 * A1, rho2 * u2 * A2),
-    (h1 + u1**2 / 2, h2 + u2**2 / 2),
-    # (h01, h02),
-    (p1, rho1 * R * T1),
-    (p2, rho2 * R * T2),
-    (h1, cp * T1),
-    (h2, cp * T2),
+    (p_sub, rho_sub * R * T_sub),
+    (p_sup, rho_sup * R * T_sup),
+    (h_sub, cp * T_sub),
+    (h_sup, cp * T_sup),
     #
     # 10.3
-    (rho_star * u_star * A_star, rho1 * u1 * A1),
-    (rho_star * u_star * A_star, rho2 * u2 * A2),
+    (rho_star * u_star * A_star, rho_sub * u_sub * A),
+    (rho_star * u_star * A_star, rho_sup * u_sup * A),
     #
-    (A1_A_star, rho_star_rho1 * a_star_u1),
-    (A2_A_star, rho_star_rho2 * a_star_u2),
+    (A_A_star, rho_star_rho_sub * a_star_u_sub),
+    (A_A_star, rho_star_rho_sup * a_star_u_sup),
     #
-    (A1_A_star, rho_star_rho01 * rho01_rho1 * a_star_u1),
-    (A2_A_star, rho_star_rho02 * rho02_rho2 * a_star_u2),
+    (A_A_star, rho_star_rho0 * rho0_rho_sub * a_star_u_sub),
+    (A_A_star, rho_star_rho0 * rho0_rho_sup * a_star_u_sup),
     #
-    (rho_star_rho01, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
-    (rho_star_rho02, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
+    (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
     #
-    (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
-    (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
     #
-    (u1_a_star, M1_star),
-    (u2_a_star, M2_star),
+    (u_sub_a_star, M_star),
+    (u_sup_a_star, M_star),
     #
-    (M1_star, (((gamma + 1) / 2) * M1**2) / (1 + ((gamma - 1) / 2) * M1**2)),
-    (M2_star, (((gamma + 1) / 2) * M2**2) / (1 + ((gamma - 1) / 2) * M2**2)),
+    (M_star, (((gamma + 1) / 2) * M_sub**2) / (1 + ((gamma - 1) / 2) * M_sub**2)),
+    (M_star, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
     #
     (
-        A1_A_star**2,
-        (1 / (M1**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M1**2))
+        A_A_star**2,
+        (1 / (M_sub**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
     (
-        A2_A_star**2,
-        (1 / (M2**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M2**2))
+        A_A_star**2,
+        (1 / (M_sup**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
 ]

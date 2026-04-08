@@ -4,6 +4,7 @@ from registry import ur
 import math
 
 symbols: list["Symbol"] = []
+EPSILON = 2**-5
 
 
 class Symbol(sp.Symbol):
@@ -34,6 +35,11 @@ d2 = Symbol("d2", "m", "Diameter (2)")
 
 A1 = Symbol("A1", "m", "Area (1)")
 A2 = Symbol("A2", "m", "Area (2)")
+A_star = Symbol("A*", "m^2", "Area (critical)")
+A1_A_star = Symbol("A1/A*", None, "Area (1 / critical)")
+A2_A_star = Symbol("A2/A*", None, "Area (2 / critical)")
+A = Symbol("A", "m^2", "Area")
+A_A_star = Symbol("A_sub/A*", None, "Area (subsonic / critical)")
 
 V_dot1 = Symbol("V_dot1", "m^3 / s", "Volumetric flow rate (1)")
 V_dot2 = Symbol("V_dot2", "m^3 / s", "Volumetric flow rate (2)")
@@ -57,6 +63,8 @@ h1 = Symbol("h1", "J / kg", "Enthalpy (1)")
 h2 = Symbol("h2", "J / kg", "Enthalpy (2)")
 delta_h = Symbol("h2-h1", "J / kg", "Enthalpy (2 - 1)")
 h2_h1 = Symbol("h2/h1", None, "Enthalpy ratio (2/1)")
+h_sub = Symbol("h_sub", "J / kg", "Enthalpy (subsonic)")
+h_sup = Symbol("h_sup", "J / kg", "Enthalpy (supersonic)")
 
 s1 = Symbol("s1", "J / (kg * K)", "Entropy (1)")
 s2 = Symbol("s2", "J / (kg * K)", "Entropy (2)")
@@ -70,11 +78,25 @@ a_star_u1 = Symbol("a*/u1", None, "Speed of sound / velocity (critical / 1)")
 a_star_u2 = Symbol("a*/u2", None, "Speed of sound / velocity (critical / 2)")
 u1_a_star = Symbol("u1/a*", None, "Velocity (1) / speed of sound (critical)")
 u2_a_star = Symbol("u2/a*", None, "Velocity (2) / speed of sound (critical)")
+u_sub = Symbol("u_sub", "m / s", "Velocity (subsonic)")
+u_sup = Symbol("u_sup", "m / s", "Velocity (supersonic)")
+u_sub_a_star = Symbol(
+    "u_sub/a*", None, "Velocity (subsonic) / speed of sound (critical)"
+)
+u_sup_a_star = Symbol(
+    "u_sup/a*", None, "Velocity (supersonic) / speed of sound (critical)"
+)
 
 a0 = Symbol("a0", "m / s", "Speed of sound (stagnant)")
 a1 = Symbol("a1", "m / s", "Speed of sound (1)")
 a2 = Symbol("a2", "m / s", "Speed of sound (2)")
 a_star = Symbol("a*", "m / s", "Speed of sound (critical)")
+a_star_u_sub = Symbol(
+    "a*/u_sub", None, "Speed of sound / velocity (critical / subsonic)"
+)
+a_star_u_sup = Symbol(
+    "a*/u_sup", None, "Speed of sound / velocity (critical / supersonic)"
+)
 
 M1 = Symbol("M1", None, "Mach number (1)", initial=2)
 M2 = Symbol("M2", None, "Mach number (2)", initial=2)
@@ -82,6 +104,9 @@ Mn1 = Symbol("Mn1", None, "Mach number (normal 1)", initial=2)
 Mn2 = Symbol("Mn2", None, "Mach number (normal 2)", initial=2)
 M1_star = Symbol("M1*", None, "Mach number (critical 1)", initial=2)
 M2_star = Symbol("M2*", None, "Mach number (critical 2)", initial=2)
+M_sub = Symbol("M_sub", None, "Mach number (subsonic)", initial=EPSILON)
+M_sup = Symbol("M_sup", None, "Mach number (supersonic)", initial=1 + EPSILON)
+M_star = Symbol("M*", None, "Mach number (critical)", initial=2)
 
 p0 = Symbol("p0", "Pa", "Pressure (stagnant)")
 p1 = Symbol("p1", "Pa", "Pressure (1)")
@@ -108,6 +133,8 @@ p_star = Symbol("p*", "Pa", "Pressure (critical)")
 p_star_p0 = Symbol("p*/p0", None, "Pressure ratio (critical / stagnant)")
 p_star_p1 = Symbol("p*/p1", None, "Pressure ratio (critical / 1)")
 p_star_p2 = Symbol("p*/p2", None, "Pressure ratio (critical / 2)")
+p_sub = Symbol("p_sub", "Pa", "Pressure (subsonic)")
+p_sup = Symbol("p_sup", "Pa", "Pressure (supersonic)")
 
 rho0 = Symbol("rho0", "kg / m^3", "Density (stagnant)")
 rho1 = Symbol("rho1", "kg / m^3", "Density (1)")
@@ -125,6 +152,12 @@ rho_star_rho1 = Symbol("rho*/rho_1", None, "Density (critical / 1)")
 rho_star_rho2 = Symbol("rho*/rho_2", None, "Density (critical / 2)")
 rho_star_rho01 = Symbol("rho*/rho_01", None, "Density (critical / stagnant 1)")
 rho_star_rho02 = Symbol("rho*/rho_02", None, "Density (critical / stagnant 2)")
+rho_sub = Symbol("rho_sub", "kg / m^3", "Density (subsonic)")
+rho_sup = Symbol("rho_sup", "kg / m^3", "Density (supersonic)")
+rho_star_rho_sub = Symbol("rho*/rho_sub", None, "Density ratio (critical / subsonic)")
+rho_star_rho_sup = Symbol("rho*/rho_sup", None, "Density ratio (critical / supersonic)")
+rho0_rho_sub = Symbol("rho0/rho_sub", None, "Density ratio (stagnant / subsonic)")
+rho0_rho_sup = Symbol("rho0/rho_sup", None, "Density ratio (stagnant / supersonic)")
 
 T0 = Symbol("T0", "K", "Temperature (stagnant)")
 T1 = Symbol("T1", "K", "Temperature (1)")
@@ -143,6 +176,8 @@ T_star = Symbol("T*", "K", "Temperature (critical)")
 T_star_T0 = Symbol("T*/T0", None, "Temperature ratio (critical / stagnant)")
 T_star_T1 = Symbol("T*/T1", None, "Temperature ratio (critical / 1)")
 T_star_T2 = Symbol("T*/T2", None, "Temperature ratio (critical / 2)")
+T_sub = Symbol("T_sub", "K", "Temperature (subsonic)")
+T_sup = Symbol("T_sup", "K", "Temperature (supersonic)")
 
 d = Symbol("d", "m", "Distance")
 H = Symbol("H", "m", "Elevation")
@@ -150,7 +185,7 @@ H = Symbol("H", "m", "Elevation")
 mu1 = Symbol("mu1", "radian", "Mach line (1)")
 mu2 = Symbol("mu2", "radian", "Mach line (2)")
 theta = Symbol("theta", "radian", "Angle (generic)")
-beta_weak = Symbol("beta_weak", "radian", "Shock angle (weak)", initial=0.001)
+beta_weak = Symbol("beta_weak", "radian", "Shock angle (weak)", initial=EPSILON)
 beta_strong = Symbol(
     "beta_strong", "radian", "Shock angle (strong)", initial=math.pi / 2
 )
@@ -178,7 +213,3 @@ S = Symbol("S", "m^2", "Planform area")
 
 q1 = Symbol("q1", "Pa", "Dynamic pressure (1)")
 q2 = Symbol("q2", "Pa", "Dynamic pressure (2)")
-
-A_star = Symbol("A*", "m^2", "Cross-sectional area (critical)")
-A1_A_star = Symbol("A1/A*", None, "Cross-sectional area (1 / critical)")
-A2_A_star = Symbol("A2/A*", None, "Cross-sectional area (2 / critical)")
