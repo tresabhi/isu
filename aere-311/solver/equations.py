@@ -29,6 +29,8 @@ ratio_equations = [
     (T_star_T0, T_star / T0),
     (T_star_T1, T_star / T1),
     (T_star_T2, T_star / T2),
+    (T0_T_sub, T0 / T_sub),
+    (T0_T_sup, T0 / T_sup),
     #
     (p2_p1, p2 / p1),
     (p0_p1, p0 / p1),
@@ -41,6 +43,8 @@ ratio_equations = [
     (p_star_p0, p_star / p0),
     (p_star_p1, p_star / p1),
     (p_star_p2, p_star / p2),
+    (p0_p_sub, p0 / p_sub),
+    (p0_p_sup, p0 / p_sup),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
@@ -160,12 +164,18 @@ static_equations = [
 shock_static_equations = [
     (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
     (T02_T2, 1 + ((gamma - 1) / 2) * M2**2),
+    (T0_T_sub, 1 + ((gamma - 1) / 2) * M_sub**2),
+    (T0_T_sup, 1 + ((gamma - 1) / 2) * M_sup**2),
     #
     (p01_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
     (p02_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
+    (p0_p_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (gamma / (gamma - 1))),
+    (p0_p_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (gamma / (gamma - 1))),
     #
     (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
 ]
 
 bernoulli_equations = [
@@ -405,11 +415,11 @@ quasi_1d_flow_equations = [
     (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
     (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
     #
-    (u_sub_a_star, M_star),
-    (u_sup_a_star, M_star),
+    (u_sub_a_star, M_star_sub),
+    (u_sup_a_star, M_star_sup),
     #
-    (M_star, (((gamma + 1) / 2) * M_sub**2) / (1 + ((gamma - 1) / 2) * M_sub**2)),
-    (M_star, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
+    (M_star_sub, (((gamma + 1) / 2) * M_sub**2) / (1 + ((gamma - 1) / 2) * M_sub**2)),
+    (M_star_sup, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
     #
     (
         A_A_star**2,
