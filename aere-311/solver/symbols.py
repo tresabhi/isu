@@ -38,17 +38,21 @@ A2 = Symbol("A2", "m", "Area (2)")
 A_star = Symbol("A*", "m^2", "Area (critical)")
 A1_A_star = Symbol("A1/A*", None, "Area (1 / critical)")
 A2_A_star = Symbol("A2/A*", None, "Area (2 / critical)")
-A_sub = Symbol("A", "m^2", "Area (subsonic)")
-A_sup = Symbol("A", "m^2", "Area (supersonic)")
+A_sub = Symbol("A_sub", "m^2", "Area (subsonic)")
+A_sup = Symbol("A_sup", "m^2", "Area (supersonic)")
 A_sub_A_star = Symbol("A_sub/A*", None, "Area (subsonic / critical)")
 A_sup_A_star = Symbol("A_sup/A*", None, "Area (supersonic / critical)")
 
 V_dot1 = Symbol("V_dot1", "m^3 / s", "Volumetric flow rate (1)")
 V_dot2 = Symbol("V_dot2", "m^3 / s", "Volumetric flow rate (2)")
+V_dot_sub = Symbol("V_dot", "m^3 / s", "Volumetric flow rate (subsonic)")
+V_dot_sup = Symbol("V_dot", "m^3 / s", "Volumetric flow rate (supersonic)")
 
 m_dot = Symbol("m_dot", "kg / s", "Mass flow rate (generic)")
 m_dot1 = Symbol("m_dot1", "kg / s", "Mass flow rate (1)")
 m_dot2 = Symbol("m_dot2", "kg / s", "Mass flow rate (2)")
+m_dot_sub = Symbol("m_dot_sub", "kg / s", "Mass flow rate (subsonic)")
+m_dot_sup = Symbol("m_dot_sup", "kg / s", "Mass flow rate (supersonic)")
 
 F = Symbol("F", "N", "Force")
 
@@ -93,6 +97,8 @@ a0 = Symbol("a0", "m / s", "Speed of sound (stagnant)")
 a1 = Symbol("a1", "m / s", "Speed of sound (1)")
 a2 = Symbol("a2", "m / s", "Speed of sound (2)")
 a_star = Symbol("a*", "m / s", "Speed of sound (critical)")
+a_sub = Symbol("a_sub", "m / s", "Speed of sound (subsonic)")
+a_sup = Symbol("a_sup", "m / s", "Speed of sound (supersonic)")
 a_star_u_sub = Symbol(
     "a*/u_sub", None, "Speed of sound / velocity (critical / subsonic)"
 )

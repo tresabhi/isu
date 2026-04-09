@@ -91,6 +91,9 @@ state_equations = [
     (p01, rho01 * R * T01),
     # (p02, rho02 * R * T02),
     (p_star, rho_star * R * T_star),
+    #
+    (p_sub, rho_sub * R * T_sub),
+    (p_sup, rho_sup * R * T_sup),
 ]
 
 entropy_equations = [
@@ -133,6 +136,9 @@ calorically_perfect_equations = [  #
     (a1, sp.sqrt(gamma * R * T1)),
     (a2, sp.sqrt(gamma * R * T2)),
     (a_star, sp.sqrt(gamma * R * T_star)),
+    #
+    (a_sub, sp.sqrt(gamma * R * T_sub)),
+    (a_sup, sp.sqrt(gamma * R * T_sup)),
 ]
 
 adiabatic_equations = [
@@ -394,34 +400,6 @@ diamond_wedge_equations = [
 ]
 
 nozzle_flow_equations = [
-    #
-    # 10.2
-    (p_sub, rho_sub * R * T_sub),
-    (p_sup, rho_sup * R * T_sup),
-    (h_sub, cp * T_sub),
-    (h_sup, cp * T_sup),
-    #
-    # 10.3
-    (rho_star * u_star * A_star, rho_sub * u_sub * A_sub),
-    (rho_star * u_star * A_star, rho_sup * u_sup * A_sup),
-    #
-    (A_sub_A_star, rho_star_rho_sub * a_star_u_sub),
-    (A_sup_A_star, rho_star_rho_sup * a_star_u_sup),
-    #
-    (A_sub_A_star, rho_star_rho0 * rho0_rho_sub * a_star_u_sub),
-    (A_sup_A_star, rho_star_rho0 * rho0_rho_sup * a_star_u_sup),
-    #
-    (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
-    #
-    (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
-    (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
-    #
-    (u_sub_a_star, M_star_sub),
-    (u_sup_a_star, M_star_sup),
-    #
-    (M_star_sub, (((gamma + 1) / 2) * M_sub**2) / (1 + ((gamma - 1) / 2) * M_sub**2)),
-    (M_star_sup, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
-    #
     (
         A_sub_A_star**2,
         (1 / (M_sub**2))
@@ -434,4 +412,65 @@ nozzle_flow_equations = [
         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
+    #
+    (M_sub, u_sub / a_sub),
+    (M_sup, u_sup / a_sup),
+    #
+    (V_dot_sub, u_sub * A_sub),
+    (V_dot_sup, u_sup * A_sup),
+    #
+    (m_dot_sub, rho_sub * V_dot_sub),
+    (m_dot_sup, rho_sup * V_dot_sup),
 ]
+
+# nozzle_flow_equations = [
+#     #
+#     # 10.2
+#     (p_sub, rho_sub * R * T_sub),
+#     (p_sup, rho_sup * R * T_sup),
+#     (h_sub, cp * T_sub),
+#     (h_sup, cp * T_sup),
+#     #
+#     # 10.3
+#     (rho_star * u_star * A_star, rho_sub * u_sub * A_sub),
+#     (rho_star * u_star * A_star, rho_sup * u_sup * A_sup),
+#     #
+#     (A_sub_A_star, rho_star_rho_sub * a_star_u_sub),
+#     (A_sup_A_star, rho_star_rho_sup * a_star_u_sup),
+#     #
+#     (A_sub_A_star, rho_star_rho0 * rho0_rho_sub * a_star_u_sub),
+#     (A_sup_A_star, rho_star_rho0 * rho0_rho_sup * a_star_u_sup),
+#     #
+#     (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
+#     #
+#     (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
+#     (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
+#     #
+#     (u_sub_a_star, M_star_sub),
+#     (u_sup_a_star, M_star_sup),
+#     #
+#     (M_star_sub, (((gamma + 1) / 2) * M_sub**2) / (1 + ((gamma - 1) / 2) * M_sub**2)),
+#     (M_star_sup, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
+#     #
+# (
+#     A_sub_A_star**2,
+#     (1 / (M_sub**2))
+#     * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
+#     ** ((gamma + 1) / (gamma - 1)),
+# ),
+#     (
+#         A_sup_A_star**2,
+#         (1 / (M_sup**2))
+#         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
+#         ** ((gamma + 1) / (gamma - 1)),
+#     ),
+#     #
+#     # (M_sub, u_sub / a_sub),
+#     # (M_sup, u_sup / a_sup),
+#     # #
+#     # (V_dot_sub, u_sub * A_sub),
+#     # (V_dot_sup, u_sup * A_sup),
+#     # #
+#     # (m_dot_sub, rho_sub * V_dot_sub),
+#     # (m_dot_sup, rho_sup * V_dot_sup),
+# ]

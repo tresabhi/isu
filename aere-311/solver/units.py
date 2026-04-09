@@ -53,6 +53,12 @@ imperial_output_units = {
     rho01: ur.slug / ur.ft**3,
     rho02: ur.slug / ur.ft**3,
     rho_star: ur.slug / ur.ft**3,
+    #
+    m_dot: ur.slug / ur.s,
+    m_dot1: ur.slug / ur.s,
+    m_dot2: ur.slug / ur.s,
+    m_dot_sub: ur.slug / ur.s,
+    m_dot_sup: ur.slug / ur.s,
 }
 
 ephemeral_units = {

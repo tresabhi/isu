@@ -14,16 +14,20 @@ solver = Solver(
     equations=[
         *ratio_equations,
         *shock_static_equations,
+        *state_equations,
+        *calorically_perfect_equations,
         *nozzle_flow_equations,
     ],
-    output_units=durbin_output_units,
+    output_units=imperial_output_units,
 )
 
 if __name__ == "__main__":
     solver.solve(
         {
             **air,
-            p0: 1 * ur.atm,
-            p_sup: 0.371 * ur.atm,
+            p0: 5 * ur.atm,
+            T0: 520 * ur.rankine,
+            A_star: 4.100 * ur.inch**2,
+            A_sup_A_star: 2.193,
         }
     )
