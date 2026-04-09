@@ -78,7 +78,8 @@ ratio_equations = [
     #
     (A1_A_star, A1 / A_star),
     (A2_A_star, A2 / A_star),
-    (A_A_star, A / A_star),
+    (A_sub_A_star, A_sub / A_star),
+    (A_sup_A_star, A_sup / A_star),
 ]
 
 state_equations = [
@@ -401,14 +402,14 @@ nozzle_flow_equations = [
     (h_sup, cp * T_sup),
     #
     # 10.3
-    (rho_star * u_star * A_star, rho_sub * u_sub * A),
-    (rho_star * u_star * A_star, rho_sup * u_sup * A),
+    (rho_star * u_star * A_star, rho_sub * u_sub * A_sub),
+    (rho_star * u_star * A_star, rho_sup * u_sup * A_sup),
     #
-    (A_A_star, rho_star_rho_sub * a_star_u_sub),
-    (A_A_star, rho_star_rho_sup * a_star_u_sup),
+    (A_sub_A_star, rho_star_rho_sub * a_star_u_sub),
+    (A_sup_A_star, rho_star_rho_sup * a_star_u_sup),
     #
-    (A_A_star, rho_star_rho0 * rho0_rho_sub * a_star_u_sub),
-    (A_A_star, rho_star_rho0 * rho0_rho_sup * a_star_u_sup),
+    (A_sub_A_star, rho_star_rho0 * rho0_rho_sub * a_star_u_sub),
+    (A_sup_A_star, rho_star_rho0 * rho0_rho_sup * a_star_u_sup),
     #
     (rho_star_rho0, (2 / (gamma + 1)) ** (1 / (gamma - 1))),
     #
@@ -422,13 +423,13 @@ nozzle_flow_equations = [
     (M_star_sup, (((gamma + 1) / 2) * M_sup**2) / (1 + ((gamma - 1) / 2) * M_sup**2)),
     #
     (
-        A_A_star**2,
+        A_sub_A_star**2,
         (1 / (M_sub**2))
         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
     (
-        A_A_star**2,
+        A_sup_A_star**2,
         (1 / (M_sup**2))
         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
         ** ((gamma + 1) / (gamma - 1)),

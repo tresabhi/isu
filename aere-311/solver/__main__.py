@@ -20,18 +20,10 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    s1 = solver.solve(
-        {
-            **air,
-            M_sub: 0.32,
-            A: 2.8 * ur.m**2,
-        }
-    )
-
     solver.solve(
         {
             **air,
-            A_star: 1.311 * ur.m**2,
-            A: s1[A],
+            p0: 1 * ur.atm,
+            p_sup: 0.371 * ur.atm,
         }
     )
