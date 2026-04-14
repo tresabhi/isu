@@ -13,13 +13,26 @@ air = {
 solver = Solver(
     equations=[
         *ratio_equations,
-        *subsonic_nozzle_flow_equations,
+        *shock_static_equations,
+        *area_mach_equations,
     ],
-    output_units=imperial_output_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
-    solver.solve({
-        **air,
-        
-    })
+    solver.solve(
+        {
+            **air,
+            A_A_star: 1.53,
+            p0: 1 * ur.atm,
+        }
+    )
+
+    solver.solve(
+        {
+            **air,
+            p_sub: 0.94 * ur.atm,
+            p_sup: 0.94 * ur.atm,
+            p0: 1 * ur.atm,
+        }
+    )

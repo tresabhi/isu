@@ -29,7 +29,8 @@ ratio_equations = [
     (T_star_T0, T_star / T0),
     (T_star_T1, T_star / T1),
     (T_star_T2, T_star / T2),
-    (T0_T, T0 / T),
+    (T0_T_sub, T0 / T_sub),
+    (T0_T_sup, T0 / T_sup),
     #
     (p2_p1, p2 / p1),
     (p0_p1, p0 / p1),
@@ -42,8 +43,10 @@ ratio_equations = [
     (p_star_p0, p_star / p0),
     (p_star_p1, p_star / p1),
     (p_star_p2, p_star / p2),
-    (p0_p, p0 / p),
-    (p_p0, 1 / p0_p),
+    (p0_p_sub, p0 / p_sub),
+    (p0_p_sup, p0 / p_sup),
+    (p_sub_p0, 1 / p0_p_sub),
+    (p_sup_p0, 1 / p0_p_sup),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
@@ -90,7 +93,8 @@ state_equations = [
     # (p02, rho02 * R * T02),
     (p_star, rho_star * R * T_star),
     #
-    (p, rho_sub * R * T),
+    (p_sub, rho_sub * R * T_sub),
+    (p_sup, rho_sup * R * T_sup),
 ]
 
 entropy_equations = [
@@ -134,7 +138,8 @@ calorically_perfect_equations = [  #
     (a2, sp.sqrt(gamma * R * T2)),
     (a_star, sp.sqrt(gamma * R * T_star)),
     #
-    (a_sub, sp.sqrt(gamma * R * T)),
+    (a_sub, sp.sqrt(gamma * R * T_sub)),
+    (a_sup, sp.sqrt(gamma * R * T_sup)),
 ]
 
 adiabatic_equations = [
@@ -167,15 +172,18 @@ static_equations = [
 shock_static_equations = [
     (T01_T1, 1 + ((gamma - 1) / 2) * M1**2),
     (T02_T2, 1 + ((gamma - 1) / 2) * M2**2),
-    (T0_T, 1 + ((gamma - 1) / 2) * M**2),
+    (T0_T_sub, 1 + ((gamma - 1) / 2) * M_sub**2),
+    (T0_T_sup, 1 + ((gamma - 1) / 2) * M_sup**2),
     #
     (p01_p1, (1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1))),
     (p02_p2, (1 + ((gamma - 1) / 2) * M2**2) ** (gamma / (gamma - 1))),
-    (p0_p, (1 + ((gamma - 1) / 2) * M**2) ** (gamma / (gamma - 1))),
+    (p0_p_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (gamma / (gamma - 1))),
+    (p0_p_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (gamma / (gamma - 1))),
     #
     (rho01_rho1, (1 + ((gamma - 1) / 2) * M1**2) ** (1 / (gamma - 1))),
     (rho02_rho2, (1 + ((gamma - 1) / 2) * M2**2) ** (1 / (gamma - 1))),
-    (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sub, (1 + ((gamma - 1) / 2) * M_sub**2) ** (1 / (gamma - 1))),
+    (rho0_rho_sup, (1 + ((gamma - 1) / 2) * M_sup**2) ** (1 / (gamma - 1))),
 ]
 
 bernoulli_equations = [
@@ -392,12 +400,22 @@ diamond_wedge_equations = [
     (p5_p1, p5_p4 * p4_p1),
 ]
 
-subsonic_nozzle_flow_equations = [
+# subsonic_nozzle_flow_equations = [
+#     ,
+#     (p0_p, (1 + ((gamma - 1) / 2) * M**2) ** (1 / (gamma - 1))),
+# ]
+
+area_mach_equations = [
     (
         A_A_star**2,
-        (1 / (M**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))
+        (1 / (M_sub**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
-    (p0_p, (1 + ((gamma - 1) / 2) * M**2) ** (1 / (gamma - 1))),
+    (
+        A_A_star**2,
+        (1 / (M_sup**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
+        ** ((gamma + 1) / (gamma - 1)),
+    ),
 ]
