@@ -23,6 +23,15 @@ if __name__ == "__main__":
     solver.solve(
         {
             **air,
+            M_sub: 1,
+            M_sup: 1,
+            p0: 1 * ur.atm,
+        }
+    )
+
+    solver.solve(
+        {
+            **air,
             A_A_star: 1.53,
             p0: 1 * ur.atm,
         }
