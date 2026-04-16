@@ -54,10 +54,10 @@ def principal(epsilon_x, epsilon_y, gamma_xy):
     print()
 
 
-transform(-500, 250, 0, -15)
-transform(240, 160, 150, 60)
-transform(-800, 450, 200, 25)
-transform(0, 320, -100, -30)
+transform(-500, 250, 0, 15)
+transform(240, 160, 150, -60)
+transform(-800, 450, 200, -25)
+transform(0, 320, -100, 30)
 
 principal(-260, -60, 480)
 principal(-600, -400, 350)
