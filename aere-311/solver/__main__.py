@@ -16,15 +16,23 @@ solver = Solver(
         *shock_static_equations,
         *area_mach_equations,
     ],
-    output_units=imperial_output_units,
+    output_units=durbin_output_units,
 )
 
 if __name__ == "__main__":
     solver.solve(
         {
             **air,
-            A_A_star: 10.25,
-            p0: 5 * ur.atm,
-            T0: 600 * ur.rankine,
+            p0: 1 * ur.atm,
+            A_A_star: 1.53,
+        }
+    )
+
+    solver.solve(
+        {
+            **air,
+            p0: 1 * ur.atm,
+            # p_sub: 0.154 * ur.atm,
+            p_sup: 0.154 * ur.atm,
         }
     )
