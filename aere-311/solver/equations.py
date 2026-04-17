@@ -6,11 +6,15 @@ continuity_equations = [
     (A2, (sp.pi / 4) * d2**2),
     (V_dot1, A1 * u1),
     (V_dot2, A2 * u2),
+    (V_dot_sub, A_sub * u_sub),
+    (V_dot_sup, A_sup * u_sup),
     #
     (m_dot1, rho1 * V_dot1),
     (m_dot2, rho2 * V_dot2),
     (m_dot, m_dot1),
     (m_dot, m_dot2),
+    (m_dot_sub, rho_sub * V_dot_sub),
+    (m_dot_sup, rho_sup * V_dot_sup),
     #
     (F, m_dot * (u2 - u1) + (p2 * A2 - p1 * A1)),
 ]
@@ -73,6 +77,9 @@ ratio_equations = [
     (u_sub_a_star, u_sub / a_star),
     (u_sup_a_star, u_sup / a_star),
     #
+    (M_sub, u_sub / a_sub),
+    (M_sup, u_sup / a_sup),
+    #
     (M1, u1 / a1),
     (M2, u2 / a2),
     #
@@ -80,7 +87,8 @@ ratio_equations = [
     #
     (A1_A_star, A1 / A_star),
     (A2_A_star, A2 / A_star),
-    (A_A_star, A / A_star),
+    (A_A_star, A_sub / A_star),
+    (A_A_star, A_sup / A_star),
 ]
 
 state_equations = [
