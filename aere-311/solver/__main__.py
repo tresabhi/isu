@@ -20,19 +20,27 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    solver.solve(
+    solver.equations = [
+        *oblique_shock_equations,
+    ]
+
+    s1 = solver.solve(
         {
             **air,
-            p0: 1 * ur.atm,
-            A_A_star: 1.53,
+            theta: 20 * ur.deg,
+            beta_weak: 52.80 * ur.deg,
         }
     )
+
+    solver.equations = [
+        *ratio_equations,
+        *shock_static_equations,
+        *area_mach_equations,
+    ]
 
     solver.solve(
         {
             **air,
-            p0: 1 * ur.atm,
-            # p_sub: 0.154 * ur.atm,
-            p_sup: 0.154 * ur.atm,
+            M_sup: s1[M1],
         }
     )
