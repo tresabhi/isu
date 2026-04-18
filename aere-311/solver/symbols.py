@@ -4,7 +4,7 @@ from registry import ur
 import math
 
 symbols: list["Symbol"] = []
-EPSILON = 2**-5
+EPSILON = 2**-2
 
 
 class Symbol(sp.Symbol):
