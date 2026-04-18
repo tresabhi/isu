@@ -63,6 +63,13 @@ imperial_output_units = {
     m_dot2: ur.slug / ur.s,
     m_dot_sub: ur.slug / ur.s,
     m_dot_sup: ur.slug / ur.s,
+    #
+    A1: ur.ft**2,
+    A2: ur.ft**2,
+    A_star: ur.ft**2,
+    A: ur.ft**2,
+    A_sub: ur.ft**2,
+    A_sup: ur.ft**2,
 }
 
 ephemeral_units = {

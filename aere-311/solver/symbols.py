@@ -40,6 +40,8 @@ A1_A_star = Symbol("A1/A*", None, "Area (1 / critical)")
 A2_A_star = Symbol("A2/A*", None, "Area (2 / critical)")
 A = Symbol("A", "m^2", "Area")
 A_A_star = Symbol("A/A*", None, "Area (generic / critical)")
+A_sub = Symbol("A_sub", "m^2", "Area (subsonic)")
+A_sup = Symbol("A_sup", "m^2", "Area (supersonic)")
 
 V_dot1 = Symbol("V_dot1", "m^3 / s", "Volumetric flow rate (1)")
 V_dot2 = Symbol("V_dot2", "m^3 / s", "Volumetric flow rate (2)")
