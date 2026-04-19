@@ -59,27 +59,23 @@ l41 = l41.to_base_units().magnitude
 t = t.to_base_units().magnitude
 Sy = Sy.to_base_units().magnitude
 
-# qs0, q12, q25, q53, q34, q41 = sympy.symbols("qs0 q12 q25 q53 q34 q41")
-qs0 = sympy.symbols("qs0")
+qb0 = sympy.symbols("qs0")
 zeta, Vy = sympy.symbols("zeta Vy")
 
-eq0 = sympy.Eq(
+eq_torque = sympy.Eq(
     Vy * zeta,
-    qb12 * Vy * 2 * A12
-    + qb25 * Vy * 2 * A25
-    + qb53 * Vy * 2 * A53
-    + qb34 * Vy * 2 * A34
-    + qb41 * Vy * 2 * A41
-    + qs0 * 2 * A,
+    (qb12 + qb0) * Vy * 2 * A12
+    + (qb25 + qb0) * Vy * 2 * A25
+    + (qb53 + qb0) * Vy * 2 * A53
+    + (qb34 + qb0) * Vy * 2 * A34
+    + (qb41 + qb0) * Vy * 2 * A41,
 )
-[eq0_qs0] = sympy.solve(eq0, qs0)
-eq0_qs0 = sympy.Eq(qs0, sympy.simplify(eq0_qs0))
 
-q12 = qb12 * Vy * 2 * A12 + qs0
-q25 = qb25 * Vy * 2 * A25 + qs0
-q53 = qb53 * Vy * 2 * A53 + qs0
-q34 = qb34 * Vy * 2 * A34 + qs0
-q41 = qb41 * Vy * 2 * A41 + qs0
+q12 = (qb12 + qb0) * Vy * 2 * A12
+q25 = (qb25 + qb0) * Vy * 2 * A25
+q53 = (qb53 + qb0) * Vy * 2 * A53
+q34 = (qb34 + qb0) * Vy * 2 * A34
+q41 = (qb41 + qb0) * Vy * 2 * A41
 
 eq_q_sum = sympy.Eq(
     0,
@@ -90,11 +86,14 @@ eq_q_sum = sympy.Eq(
     + (q41 / t) * l41,
 )
 
-eq_sub = eq_q_sum.subs(qs0, eq0_qs0.rhs)
-eq_numeric = eq_sub.subs(Vy, Sy)
+sympy.pretty_print(eq_torque)
+sympy.pretty_print(eq_q_sum)
 
-[zeta_solution] = sympy.solve(eq_numeric, zeta)
-zeta_solution = float(zeta_solution) * ur.m
-zeta_solution = zeta_solution.to(ur.cm)
+print()
 
-print(zeta_solution)
+zeta_sol = sympy.solve(eq_torque.subs(qb0, sympy.solve(eq_q_sum, qb0)[0]), zeta)[0]
+zeta_sol = float(zeta_sol)
+zeta_sol *= ur.m
+zeta_sol = zeta_sol.to(ur.cm)
+
+print("zeta =", zeta_sol)
