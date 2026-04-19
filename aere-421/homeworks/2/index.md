@@ -72,6 +72,20 @@ Transcribing that onto a drawing:
 
 ![](https://i.imgur.com/9yAqZod.png)
 
+## 3.
+
+I am making a cut here:
+
+![](https://i.imgur.com/BIut23jm.png)
+
+And the area of $A_{25}$ in my code is found by subtracting these two triangles:
+
+![](https://i.imgur.com/zv1M4ok.png)
+
+Similarly, for $A_{53}$:
+
+![](https://i.imgur.com/GjJ92Pw.png)
+
 ## 4.
 
 Once again, I wrote Python to speed things up a bit:
