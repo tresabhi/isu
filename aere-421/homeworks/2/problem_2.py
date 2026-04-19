@@ -23,7 +23,7 @@ q12 = q41 - (Sy / Ixx) * Br * y1
 
 # measuring about 3
 A34 = 0 * ur.m**2
-A41 = (1 / 2) * w * 2 * r + math.pi * r**2
+A41 = (1 / 2) * w * 2 * r + (1 / 2) * math.pi * r**2
 A12 = (1 / 2) * w * 2 * r
 
 T34 = 2 * A34 * q34

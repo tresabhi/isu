@@ -38,7 +38,7 @@ q12 = q41 - (Sy / Ixx) * Br * y1
 
 # measuring about 3
 A34 = 0 * ur.m**2
-A41 = (1 / 2) * w * 2 * r + math.pi * r**2
+A41 = (1 / 2) * w * 2 * r + (1 / 2) * math.pi * r**2
 A12 = (1 / 2) * w * 2 * r
 
 T34 = 2 * A34 * q34
@@ -65,12 +65,12 @@ And the output:
 q34 = 8.333333333333332 newton / millimeter
 q41 = 16.666666666666664 newton / millimeter
 q12 = 8.333333333333332 newton / millimeter
-epsilon = 75.19911184307752 centimeter
+epsilon = 56.34955592153876 centimeter
 ```
 
 Transcribing that onto a drawing:
 
-![](https://i.imgur.com/9yAqZod.png)
+![](https://i.imgur.com/Dn8pm74.png)
 
 ## 3.
 
