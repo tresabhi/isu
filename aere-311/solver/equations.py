@@ -53,6 +53,7 @@ ratio_equations = [
     (p_sup_p0, 1 / p0_p_sup),
     (p01_p02, p01 / p02),
     (p01_p02, 1 / p02_p01),
+    (pB_p0, pB / p0),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
@@ -435,4 +436,6 @@ diffuser_equations = [
     (M1, Me),
     (At1, At),
     (At2_At1, p01_p02),
+    #
+    (eta_D, pB_p0 / p02_p01),
 ]

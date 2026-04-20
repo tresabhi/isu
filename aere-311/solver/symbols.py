@@ -156,6 +156,8 @@ p0_p_sup = Symbol("p0/p_sup", None, "Pressure ratio (stagnant / supersonic)")
 p_sub_p0 = Symbol("p_sub/p0", None, "Pressure ratio (subsonic / stagnant)")
 p_sup_p0 = Symbol("p_sup/p0", None, "Pressure ratio (supersonic / stagnant)")
 pe = Symbol("pe", "Pa", "Pressure (exit)")
+pB_p0 = Symbol("pB/p0", None, "Pressure ratio (back pressure / stagnant)")
+pB = Symbol("pB", "Pa", "Back pressure")
 
 rho0 = Symbol("rho0", "kg / m^3", "Density (stagnant)")
 rho1 = Symbol("rho1", "kg / m^3", "Density (1)")
@@ -236,3 +238,5 @@ S = Symbol("S", "m^2", "Planform area")
 
 q1 = Symbol("q1", "Pa", "Dynamic pressure (1)")
 q2 = Symbol("q2", "Pa", "Dynamic pressure (2)")
+
+eta_D = Symbol("eta_D", "dimensionless", "Diffuser efficiency")
