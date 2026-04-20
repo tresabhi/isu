@@ -31,7 +31,7 @@ if __name__ == "__main__":
     #     }
     # )
 
-    nozzle_shock(1.53)
+    nozzle_shock(1.53, 1)
 
     # s1 = solver.solve(
     #     {

@@ -154,17 +154,17 @@ def diamond_wedge(knowns, output_units=durbin_output_units):
     )
 
 
-def nozzle_shock(Ae_At, gamma=1.4, R=287.05):
+def nozzle_shock(Ae_At, p0, gamma=1.4, R=287.05):
     step = (Ae_At - 1) / 2
     A2_A1_star = 1 + step
     A2_A1_star = 1.204
 
     # pe = pe_p02 * p02_p01 * p01
 
-    _M1 = sp.symbols("M1")
+    _M = sp.symbols("M1")
     M1 = sp.nsolve(
-        (1 / (_M1**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M1**2))
+        (1 / (_M**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M**2))
         ** ((gamma + 1) / (gamma - 1))
         - A2_A1_star**2,
         2,
@@ -185,7 +185,16 @@ def nozzle_shock(Ae_At, gamma=1.4, R=287.05):
         ** ((gamma + 1) / (gamma - 1))
     )
     Ae_A2_star = Ae_At * At_A2 * A2_A2_star
+    Me = sp.nsolve(
+        (1 / (_M**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M**2))
+        ** ((gamma + 1) / (gamma - 1))
+        - Ae_A2_star**2,
+        0.001,
+    )
+    p02_pe = (1 + ((gamma - 1) / 2) * Me**2) ** (gamma / (gamma - 1))
 
-    print(M2, A2_A2_star, Ae_A2_star)
+    pe_p02 = 1 / p02_pe
+    pe = pe_p02 * p02_p01 * p0
 
-    pass
+    print(pe)
