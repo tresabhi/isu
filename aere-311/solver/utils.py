@@ -1,6 +1,7 @@
 from solver import Solver
 from equations import *
 from units import *
+from scipy.optimize import root_scalar, minimize_scalar
 
 
 def flat_plate(knowns, output_units=durbin_output_units):
@@ -154,21 +155,21 @@ def diamond_wedge(knowns, output_units=durbin_output_units):
     )
 
 
-def nozzle_shock(Ae_At, p0, gamma=1.4, R=287.05):
-    step = (Ae_At - 1) / 2
-    A2_A1_star = 1 + step
-    A2_A1_star = 1.204
-
-    # pe = pe_p02 * p02_p01 * p01
-
+def nozzle_mach(ratio, supersonic, gamma=1.4):
     _M = sp.symbols("M1")
-    M1 = sp.nsolve(
+    M = sp.nsolve(
         (1 / (_M**2))
         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M**2))
         ** ((gamma + 1) / (gamma - 1))
-        - A2_A1_star**2,
-        2,
+        - ratio**2,
+        2 if supersonic else EPSILON,
     )
+
+    return M
+
+
+def nozzle_exit_pressure(Ae_At, A2_A1_star, p0, gamma=1.4, R=287.05):
+    M1 = nozzle_mach(A2_A1_star, True, gamma)
     M2 = math.sqrt((1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2))
 
     cp = (gamma * R) / (gamma - 1)
@@ -185,16 +186,38 @@ def nozzle_shock(Ae_At, p0, gamma=1.4, R=287.05):
         ** ((gamma + 1) / (gamma - 1))
     )
     Ae_A2_star = Ae_At * At_A2 * A2_A2_star
-    Me = sp.nsolve(
-        (1 / (_M**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M**2))
-        ** ((gamma + 1) / (gamma - 1))
-        - Ae_A2_star**2,
-        0.001,
-    )
+
+    Me = nozzle_mach(Ae_A2_star, False, gamma)
     p02_pe = (1 + ((gamma - 1) / 2) * Me**2) ** (gamma / (gamma - 1))
 
     pe_p02 = 1 / p02_pe
     pe = pe_p02 * p02_p01 * p0
 
-    print(pe)
+    return pe, Me
+
+
+def nozzle_shock(Ae_At, p0, pe, gamma=1.4, R=287.05):
+    lower_bound = 1
+    upper_bound = 2
+    # Ae_At_guess = (Ae_At - 1) / 2 + 1
+    Ae_At_guess = 1.204
+    pe_guess, Me_guess = nozzle_exit_pressure(Ae_At, Ae_At_guess, p0, gamma, R)
+    pe_error = pe_guess - pe
+
+    while abs(pe_error) > 1e-8:
+        # print(pe_guess, pe, pe_error)
+
+        if pe_error > 0:
+            lower_bound = Ae_At_guess
+            step = (upper_bound - Ae_At_guess) / 2
+            Ae_At_guess += step
+        else:
+            upper_bound = Ae_At_guess
+            step = (Ae_At_guess - lower_bound) / 2
+            Ae_At_guess -= step
+
+        pe_guess, Me_guess = nozzle_exit_pressure(Ae_At, Ae_At_guess, p0, gamma, R)
+        pe_error = pe_guess - pe
+
+        # print(pe_guess, Me_guess)
+        print(Me_guess)
