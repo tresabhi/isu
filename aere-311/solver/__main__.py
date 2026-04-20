@@ -23,16 +23,7 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    # s1 = solver.solve(
-    #     {
-    #         **air,
-    #         A_A_star: 1.53,
-    #         p0: 1.0 * ur.atm,
-    #     }
-    # )
-
-    # 1.53, 1, 0.75
-    nozzle_shock(
+    s1 = nozzle_exit(
         {
             **air,
             Ae_At: 1.53,
@@ -40,11 +31,3 @@ if __name__ == "__main__":
             pe: 0.75 * ur.atm,
         }
     )
-
-    # s1 = solver.solve(
-    #     {
-    #         **air,
-    #         p01: 1.0 * ur.atm,
-    #         p1: 0.94 * ur.atm,
-    #     }
-    # )

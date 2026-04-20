@@ -5,6 +5,7 @@ import sympy as sp
 from tabulate import tabulate
 from logger import logger
 from registry import ur
+from units import durbin_output_units
 
 EQUIVALENCY_THRESHOLD = 0.001
 
@@ -16,15 +17,15 @@ class Solver:
     working_dir = Path(__file__).resolve().parent
     name_file = working_dir / "name.txt"
     has_printed = False
+    sig_figs = 5
 
-    def __init__(self, equations, output_units, sig_figs=5):
+    def __init__(self, equations, output_units):
         if not self.__class__.has_printed:
             self.print_name()
             self.__class__.has_printed = True
 
         self.equations = equations
         self.output_units = output_units
-        self.sig_figs = sig_figs
 
     def normalize_equations(self):
         self.equations = [
@@ -46,6 +47,15 @@ class Solver:
                 knowns[key] = value
             else:
                 raise TypeError(f"Expected units for {key} in input")
+
+        return knowns
+
+    @staticmethod
+    def convolute_knowns(original_knowns):
+        knowns = {}
+
+        for key, value in original_knowns.items():
+            knowns[key] = value * key.unit
 
         return knowns
 
@@ -140,11 +150,13 @@ class Solver:
 
         self.print_divider()
 
-    def print_divider(self):
-        line = "─" * self.terminal_size.columns
-        self.log.info(f"\n<white>{line}</white>\n")
+    @staticmethod
+    def print_divider():
+        line = "─" * Solver.terminal_size.columns
+        Solver.log.info(f"\n<white>{line}</white>\n")
 
-    def print_solutions(self, knowns, original_knowns):
+    @staticmethod
+    def print_solutions(knowns, original_knowns, output_units=durbin_output_units):
         solved_dict = {}
         ordered_known_symbols = sorted(
             knowns.keys(), key=lambda symbol: symbol.name.replace("\\", "").lower()
@@ -152,18 +164,14 @@ class Solver:
         table = []
 
         for symbol in ordered_known_symbols:
-            unit = (
-                self.output_units[symbol]
-                if symbol in self.output_units
-                else symbol.unit
-            )
+            unit = output_units[symbol] if symbol in output_units else symbol.unit
             value = knowns[symbol]
             value_with_unit = (float(value) * symbol.unit).to(unit)
 
             solved_dict[symbol] = value_with_unit
             name = f"{symbol}"
             memo = symbol.memo
-            magnitude = f"{value_with_unit.magnitude:.{self.sig_figs}g}"
+            magnitude = f"{value_with_unit.magnitude:.{Solver.sig_figs}g}"
             pretty_unit = (
                 ""
                 if value_with_unit.units == ur.dimensionless
@@ -187,7 +195,7 @@ class Solver:
             line = lines[index + 3]
 
             if is_input:
-                self.log.info(f"<blue>{line}</blue>")
+                Solver.log.info(f"<blue>{line}</blue>")
             else:
                 print(line)
 
@@ -201,7 +209,7 @@ class Solver:
         knowns = self.normalize_knowns(original_knowns)
 
         self.solve_equations(knowns)
-        solved_dict = self.print_solutions(knowns, original_knowns)
+        solved_dict = self.print_solutions(knowns, original_knowns, self.output_units)
 
         self.print_divider()
 

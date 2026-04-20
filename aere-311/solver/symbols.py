@@ -116,6 +116,7 @@ M2_star = Symbol("M2*", None, "Mach number (critical 2)", initial=2)
 M_star = Symbol("M*", None, "Mach number (critical)", initial=2)
 M_sub = Symbol("M_sub", None, "Mach number (generic)", initial=EPSILON)
 M_sup = Symbol("M_sup", None, "Mach number (generic)", initial=2)
+Me = Symbol("Me", None, "Mach number (exit)")
 
 p0 = Symbol("p0", "Pa", "Pressure (stagnant)")
 p1 = Symbol("p1", "Pa", "Pressure (1)")

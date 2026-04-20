@@ -169,7 +169,7 @@ def nozzle_mach(_A_A_star, supersonic, gamma=1.4):
     return _M
 
 
-def nozzle_exit_pressure(Ae_At, A2_At, p0, gamma, R, cp):
+def nozzle_exit_guess(Ae_At, A2_At, p0, gamma, R, cp):
     M1 = nozzle_mach(A2_At, True, gamma)
     M2 = math.sqrt((1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2))
 
@@ -196,8 +196,8 @@ def nozzle_exit_pressure(Ae_At, A2_At, p0, gamma, R, cp):
     return pe, Me
 
 
-def nozzle_shock(knowns):
-    knowns = Solver.normalize_knowns(knowns)
+def nozzle_exit(original_knowns):
+    knowns = Solver.normalize_knowns(original_knowns)
 
     _R = knowns[R]
     _gamma = knowns[gamma]
@@ -211,9 +211,7 @@ def nozzle_shock(knowns):
     _A2_At_b = 2
     _A2_At_guess = (_Ae_At - 1) / 2 + 1
 
-    _pe_guess, _Me_guess = nozzle_exit_pressure(
-        _Ae_At, _A2_At_guess, _p0, _gamma, _R, _cp
-    )
+    _pe_guess, _Me_guess = nozzle_exit_guess(_Ae_At, _A2_At_guess, _p0, _gamma, _R, _cp)
     _pe_error = _pe_guess - _pe
 
     while abs(_pe_error) > 1:
@@ -226,9 +224,16 @@ def nozzle_shock(knowns):
             step = (_A2_At_guess - _A2_At_a) / 2
             _A2_At_guess -= step
 
-        _pe_guess, _Me_guess = nozzle_exit_pressure(
+        _pe_guess, _Me_guess = nozzle_exit_guess(
             _Ae_At, _A2_At_guess, _p0, _gamma, _R, _cp
         )
         _pe_error = _pe_guess - _pe
 
-        print(_Me_guess)
+    knowns = {
+        **knowns,
+        Me: _Me_guess,
+    }
+
+    Solver.print_solutions(knowns, original_knowns)
+
+    return knowns
