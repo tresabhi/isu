@@ -152,3 +152,40 @@ def diamond_wedge(knowns, output_units=durbin_output_units):
             p5_p4: bottom_right_solutions.get(p2_p1),
         }
     )
+
+
+def nozzle_shock(Ae_At, gamma=1.4, R=287.05):
+    step = (Ae_At - 1) / 2
+    A2_A1_star = 1 + step
+    A2_A1_star = 1.204
+
+    # pe = pe_p02 * p02_p01 * p01
+
+    _M1 = sp.symbols("M1")
+    M1 = sp.nsolve(
+        (1 / (_M1**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * _M1**2))
+        ** ((gamma + 1) / (gamma - 1))
+        - A2_A1_star**2,
+        2,
+    )
+    M2 = math.sqrt((1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2))
+
+    cp = (gamma * R) / (gamma - 1)
+    delta_s = cp * math.log(
+        (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
+        * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2))
+    ) - R * sp.ln(1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
+    p02_p01 = math.exp(-delta_s / R)
+
+    At_A2 = 1 / A2_A1_star
+    A2_A2_star = math.sqrt(
+        (1 / (M2**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M2**2))
+        ** ((gamma + 1) / (gamma - 1))
+    )
+    Ae_A2_star = Ae_At * At_A2 * A2_A2_star
+
+    print(M2, A2_A2_star, Ae_A2_star)
+
+    pass

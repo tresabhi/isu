@@ -23,19 +23,20 @@ solver = Solver(
 )
 
 if __name__ == "__main__":
-    s1 = solver.solve(
-        {
-            **air,
-            A_A_star: 1.616,
-            p0: 1.0 * ur.atm,
-        }
-    )
+    # s1 = solver.solve(
+    #     {
+    #         **air,
+    #         A_A_star: 1.53,
+    #         p0: 1.0 * ur.atm,
+    #     }
+    # )
 
-    solver.solve(
-        {
-            **air,
-            p_sub: 0.914 * ur.atm,
-            p_sup: 0.914 * ur.atm,
-            p0: 1.0 * ur.atm,
-        }
-    )
+    nozzle_shock(1.53)
+
+    # s1 = solver.solve(
+    #     {
+    #         **air,
+    #         p01: 1.0 * ur.atm,
+    #         p1: 0.94 * ur.atm,
+    #     }
+    # )
