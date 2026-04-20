@@ -71,6 +71,9 @@ imperial_output_units = {
     A: ur.ft**2,
     A_sub: ur.ft**2,
     A_sup: ur.ft**2,
+    At: ur.ft**2,
+    At1: ur.ft**2,
+    At2: ur.ft**2,
 }
 
 ephemeral_units = {

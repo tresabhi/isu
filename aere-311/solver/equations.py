@@ -51,6 +51,8 @@ ratio_equations = [
     (p0_p_sup, p0 / p_sup),
     (p_sub_p0, 1 / p0_p_sub),
     (p_sup_p0, 1 / p0_p_sup),
+    (p01_p02, p01 / p02),
+    (p01_p02, 1 / p02_p01),
     #
     (rho2_rho1, rho2 / rho1),
     (rho0_rho1, rho0 / rho1),
@@ -89,6 +91,7 @@ ratio_equations = [
     (A2_A_star, A2 / A_star),
     (A_A_star, A_sub / A_star),
     (A_A_star, A_sup / A_star),
+    (At2_At1, At2 / At1),
 ]
 
 state_equations = [
@@ -414,16 +417,22 @@ diamond_wedge_equations = [
 # ]
 
 area_mach_equations = [
-    (
-        A_A_star**2,
-        (1 / (M_sub**2))
-        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
-        ** ((gamma + 1) / (gamma - 1)),
-    ),
+    # (
+    #     A_A_star**2,
+    #     (1 / (M_sub**2))
+    #     * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
+    #     ** ((gamma + 1) / (gamma - 1)),
+    # ),
     (
         A_A_star**2,
         (1 / (M_sup**2))
         * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sup**2))
         ** ((gamma + 1) / (gamma - 1)),
     ),
+]
+
+diffuser_equations = [
+    (M1, Me),
+    (At1, At),
+    (At2_At1, p01_p02),
 ]
