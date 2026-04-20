@@ -31,7 +31,15 @@ if __name__ == "__main__":
     #     }
     # )
 
-    nozzle_shock(1.53, 1, 0.75)
+    # 1.53, 1, 0.75
+    nozzle_shock(
+        {
+            **air,
+            Ae_At: 1.53,
+            p0: 1.0 * ur.atm,
+            pe: 0.75 * ur.atm,
+        }
+    )
 
     # s1 = solver.solve(
     #     {

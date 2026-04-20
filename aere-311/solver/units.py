@@ -17,6 +17,7 @@ durbin_output_units = {
     p_star: ur.atm,
     p_sub: ur.atm,
     p_sup: ur.atm,
+    pe: ur.atm,
     #
     q1: ur.atm,
     q2: ur.atm,

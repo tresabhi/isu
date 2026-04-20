@@ -32,7 +32,8 @@ class Solver:
             for equation in self.equations
         ]
 
-    def normalize_knowns(self, original_knowns):
+    @staticmethod
+    def normalize_knowns(original_knowns):
         knowns = {}
 
         for key, value in original_knowns.items():
