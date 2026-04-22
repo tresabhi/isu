@@ -157,6 +157,7 @@ calorically_perfect_equations = [  #
 adiabatic_equations = [
     #
     # Chapter 8
+        *ratio_equations,
     (h1 + u1**2 / 2, h2 + u2**2 / 2),
     (cp * T1 + u1**2 / 2, cp * T2 + u2**2 / 2),
     (a1**2 / (gamma - 1) + u1**2 / 2, a2**2 / (gamma - 1) + u2**2 / 2),
@@ -418,12 +419,12 @@ diamond_wedge_equations = [
 # ]
 
 area_mach_equations = [
-    # (
-    #     A_A_star**2,
-    #     (1 / (M_sub**2))
-    #     * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
-    #     ** ((gamma + 1) / (gamma - 1)),
-    # ),
+    (
+        A_A_star**2,
+        (1 / (M_sub**2))
+        * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M_sub**2))
+        ** ((gamma + 1) / (gamma - 1)),
+    ),
     (
         A_A_star**2,
         (1 / (M_sup**2))

@@ -173,6 +173,8 @@ def nozzle_exit_guess(Ae_At, A2_At, p0, gamma, R, cp):
     M1 = nozzle_mach(A2_At, True, gamma)
     M2 = math.sqrt((1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2))
 
+    # print(M1, M2)
+
     delta_s = cp * math.log(
         (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1))
         * ((2 + (gamma - 1) * M1**2) / ((gamma + 1) * M1**2))
@@ -186,6 +188,8 @@ def nozzle_exit_guess(Ae_At, A2_At, p0, gamma, R, cp):
         ** ((gamma + 1) / (gamma - 1))
     )
     Ae_A2_star = Ae_At * At_A2 * A2_A2_star
+
+    print(Ae_A2_star)
 
     Me = nozzle_mach(Ae_A2_star, False, gamma)
     p02_pe = (1 + ((gamma - 1) / 2) * Me**2) ** (gamma / (gamma - 1))
@@ -208,7 +212,7 @@ def nozzle_exit(original_knowns):
     _pe = knowns[pe]
 
     _A2_At_a = 1
-    _A2_At_b = 2
+    _A2_At_b = _Ae_At
     _A2_At_guess = (_Ae_At - 1) / 2 + 1
 
     _pe_guess, _Me_guess = nozzle_exit_guess(_Ae_At, _A2_At_guess, _p0, _gamma, _R, _cp)
@@ -228,6 +232,8 @@ def nozzle_exit(original_knowns):
             _Ae_At, _A2_At_guess, _p0, _gamma, _R, _cp
         )
         _pe_error = _pe_guess - _pe
+
+        # print(_Me_guess)
 
     knowns = {
         **knowns,
