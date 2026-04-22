@@ -10,9 +10,11 @@ class Hopper:
     givens = []
 
     def greet(self):
-        if not self.__class__.has_greeted:
-            self.__class__.has_greeted = True
-            print("This is Solvitas 2.0\n")
+        if self.__class__.has_greeted:
+            return
+
+        self.__class__.has_greeted = True
+        print("This is Solvitas 2.0\n")
 
     def knowns(self, knowns):
         for symbol, convoluted_value in knowns.items():
@@ -31,7 +33,7 @@ class Hopper:
 
         print()
 
-    def hop(self):
+    def solve(self):
         solved = 0
         iteration = 0
 
@@ -98,7 +100,8 @@ class Hopper:
     def __init__(self, knowns):
         self.greet()
         self.knowns(knowns)
-        self.hop()
+        self.solve()
+        self.present()
 
         print(self.values)
 
