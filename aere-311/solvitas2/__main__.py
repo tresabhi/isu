@@ -13,7 +13,7 @@ air = {
 nh = PerfectlyExpandedSubsonicNozzleHopper(
     {
         **air,
-        A_At: 4,
+        A_At: 1.53,
         p0: 1 * ur("atm"),
     }
 )

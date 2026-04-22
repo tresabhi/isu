@@ -1,5 +1,6 @@
 from symbols import *
 import pint
+from curries import *
 
 
 class Hopper:
@@ -49,22 +50,43 @@ class Hopper:
 
                 free = lhs_subbed.free_symbols | rhs_subbed.free_symbols
 
-                print(f"  ({index + 1}): ", end="")
+                prefix = f"  ({index + 1}): "
 
                 if len(free) > 1:
-                    print(f"{free} free symbols; skipping...")
+                    print(f"{prefix}{free} free symbols; skipping...")
                 elif len(free) == 1:
                     symbol = free.pop()
                     initial = symbol.initial
+                    expression = rhs_subbed - lhs_subbed
 
-                    value = sympy.nsolve(rhs_subbed - lhs_subbed, symbol, initial)
+                    try:
+                        value = sympy.nsolve(expression, symbol, initial)
+
+                        print(f"{prefix}{symbol} = {value}")
+                    except:
+                        print(f"{prefix} nsolve failed; trying symbolic...")
+
+                        values = sympy.solve(expression, symbol)
+
+                        if len(values) > 1:
+                            value = values[-1]
+
+                            print(
+                                f"{prefix} symbolic solver found {len(values)} solutions; using last..."
+                            )
+                            print(f"{prefix}{symbol} = {value}")
+                        elif len(values) == 1:
+                            value = values[0]
+
+                            print(f"{prefix}{symbol} = {value}")
+                        else:
+                            raise ValueError(f"Could not solve {expression}")
 
                     self.values[symbol] = value
                     solved += 1
 
-                    print(f"{symbol} = {value}")
                 else:
-                    print(f"{lhs_subbed} == {rhs_subbed}")
+                    print(f"{prefix}{lhs_subbed} == {rhs_subbed}")
 
                 index += 1
 
@@ -78,6 +100,8 @@ class Hopper:
         self.knowns(knowns)
         self.hop()
 
+        print(self.values)
+
 
 class PerfectlyExpandedSubsonicNozzleHopper(Hopper):
     equations = [
@@ -86,5 +110,10 @@ class PerfectlyExpandedSubsonicNozzleHopper(Hopper):
             (1 / (M**2))
             * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))
             ** ((gamma + 1) / (gamma - 1)),
-        )
+        ),
+        #
+        *state_curry(
+            M,
+            (p, p0, p_p0, p0_p),
+        ),
     ]
