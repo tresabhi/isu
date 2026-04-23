@@ -157,7 +157,7 @@ calorically_perfect_equations = [  #
 adiabatic_equations = [
     #
     # Chapter 8
-        *ratio_equations,
+    *ratio_equations,
     (h1 + u1**2 / 2, h2 + u2**2 / 2),
     (cp * T1 + u1**2 / 2, cp * T2 + u2**2 / 2),
     (a1**2 / (gamma - 1) + u1**2 / 2, a2**2 / (gamma - 1) + u2**2 / 2),

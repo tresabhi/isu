@@ -11,10 +11,16 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-nh = PerfectlyExpandedSubsonicNozzleHopper(
+PerfectlyExpandedSubsonicNozzle(
     {
         **air,
         A_At: 1.53,
         p0: 1 * ur("atm"),
+    }
+)
+
+Isentropic(
+    {
+        **air,
     }
 )
