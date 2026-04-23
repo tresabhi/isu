@@ -1,5 +1,6 @@
 from coupler import *
 from hoppers import *
+from utils import *
 
 
 class NormalShockNozzle(Coupler):
@@ -15,22 +16,18 @@ class NormalShockNozzle(Coupler):
             }
         ).knowns
 
-        _M1 = pre_shock[M]
-
         shock = NormalShock(
             {
                 **invariants,
-                # **to_state_space(pre_shock, "generic", 1),
-                M1: _M1,
+                **to_state_space(pre_shock, "generic", 1),
             }
         ).knowns
 
-        _M2 = shock[M2]
-
+        post_shock_state_space = to_state_space(shock, 2, "generic")
         post_shock_back = PerfectlyExpandedSubsonicNozzle(
             {
                 **invariants,
-                M: _M2,
+                **post_shock_state_space,
             }
         ).knowns
 
@@ -40,6 +37,7 @@ class NormalShockNozzle(Coupler):
         post_shock_forward = PerfectlyExpandedSubsonicNozzle(
             {
                 **invariants,
+                # **post_shock_state_space,
                 A_At: _Ae_At2,
             }
         ).knowns
