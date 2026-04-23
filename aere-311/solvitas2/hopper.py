@@ -11,13 +11,15 @@ class Hopper:
     threshold = 2**-8
 
     def greet(self):
-        if self.__class__.has_greeted:
+        if self.has_greeted:
             return
 
-        self.__class__.has_greeted = True
+        self.has_greeted = True
         logger.log("Solvitas 2.0\n")
 
     def knowns(self, knowns):
+        print("Basing:")
+
         for symbol, convoluted_value in knowns.items():
             self.givens.append(symbol)
 
@@ -28,7 +30,9 @@ class Hopper:
 
             value = value.to(symbol.unit)
 
-            print(f"{symbol}: {convoluted_value} -> {value}")
+            print(f"  {symbol}")
+            print(f"    {convoluted_value} ⤵")
+            print(f"    {value}")
 
             self.values[symbol] = value.magnitude
 
@@ -56,11 +60,14 @@ class Hopper:
                 prefix = f"  ({index + 1}): "
 
                 if len(free) > 1:
-                    print(f"{prefix}{len(free)} free symbols; skipping...")
+                    print(f"{prefix}{len(free)} free symbols {free}; skipping...")
                 elif len(free) == 1:
                     symbol = free.pop()
-                    initial = symbol.initial
                     expression = rhs_subbed - lhs_subbed
+                    initial = symbol.initial
+
+                    if symbol in self.initials:
+                        initial = self.initials[symbol]
 
                     try:
                         value = float(sympy.nsolve(expression, symbol, initial))
@@ -109,15 +116,24 @@ class Hopper:
                 break
 
     def convolute(self):
+        print("Convoluting:")
+
         convoluted_values = {}
 
         for symbol, value in self.values.items():
             convoluted_values[symbol] = value * symbol.unit
 
+            print(f"  {symbol}")
+            print(f"    {value} {symbol.unit} ⤵")
+
             if symbol.unit in self.units:
                 convoluted_values[symbol] = convoluted_values[symbol].to(
                     self.units[symbol.unit]
                 )
+
+            print(f"    {convoluted_values[symbol]}")
+
+        print()
 
         return convoluted_values
 
@@ -158,6 +174,8 @@ class Hopper:
     def __init__(self, knowns):
         self.values = {}
         self.givens = []
+
+        self.initials = getattr(self, "initials", {})
 
         self.greet()
         self.knowns(knowns)

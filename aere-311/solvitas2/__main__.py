@@ -19,6 +19,14 @@ PerfectlyExpandedSubsonicNozzle(
     }
 )
 
+PerfectlyExpandedSupersonicNozzle(
+    {
+        **air,
+        A_At: 1.53,
+        p0: 1 * ur("atm"),
+    }
+)
+
 State(
     {
         **air,
