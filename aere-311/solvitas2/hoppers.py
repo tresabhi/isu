@@ -111,8 +111,8 @@ class SubsonicNozzle(Hopper):
 
 class PostShockNozzle(Hopper):
     equations = [
+        (Ae_At2, Ae_At1 / As_At1 * As_At2),
         (
-            (Ae_At2, Ae_At1 * At1_A1 * A1_At2),
             Ae_At2**2,
             (1 / (M**2))
             * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))

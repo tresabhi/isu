@@ -32,28 +32,22 @@ air = {
 NormalShockNozzle(
     [
         {
-            **air,
-            p0: 1 * ur("atm"),
+            "invariants": {
+                **air,
+                p0: 1 * ur("atm"),
+            },
+            "variant": A_At,
         },
-        {**air},
-        {**air},
+        {"invariants": air},
+        {"invariants": air},
         {
-            **air,
-            Ae_At: 1.53,
+            "invariants": {
+                **air,
+                Ae_At1: 1.53,
+            },
+            "variant": As_At1,
+            "target": {pe: 0.525 * ur("atm")},
         },
     ],
-    [
-        {},
-        {},
-        {},
-        {
-            pe: 0.525 * ur("atm"),
-        },
-    ],
-    [
-        {A_At: 1.204},
-        {},
-        {},
-        {},
-    ],
+    (1, 1.53),
 )

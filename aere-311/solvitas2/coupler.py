@@ -2,14 +2,21 @@ import utils
 
 
 class Coupler:
-    def __init__(self, invariants, targets, variants):
+    def __init__(self, hops, variant_range):
+        a, b = variant_range
+        x = (a + b) / 2
+        x = 1.204
+
         solutions = None
 
         for i in range(len(self.hoppers)):
-            knowns = {
-                **invariants[i],
-                **variants[i],
-            }
+            knowns = {**hops[i]["invariants"]}
+
+            if "variant" in hops[i]:
+                knowns = {
+                    **knowns,
+                    hops[i]["variant"]: x,
+                }
 
             if i > 0:
                 knowns = {

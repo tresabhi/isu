@@ -79,4 +79,8 @@ u2_u1 = Symbol("u2/u1")
 
 # ephemeral symbols
 
-Ae_At = Symbol("Ae/At")
+Ae_At1 = Symbol("Ae/At1")
+Ae_At2 = Symbol("Ae/At2")
+As_At1 = Symbol("As/At1")
+As_At2 = Symbol("As/At2")
+pe = Symbol("pe")

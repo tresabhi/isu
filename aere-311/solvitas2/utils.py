@@ -32,6 +32,8 @@ state_space_bindings = {
         rho02,
         T02,
     ),
+    "nozzle_post_shock": (A_At, p0),
+    "nozzle_post_shock_exit": (As_At2, p0),
 }
 
 
