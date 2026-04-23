@@ -20,7 +20,7 @@ class Hopper:
         if self.verbose:
             logger.log("Solvitas 2.0\n")
 
-    def knowns(self, knowns):
+    def consume(self, knowns):
         if self.verbose:
             print("Basing:")
 
@@ -159,15 +159,14 @@ class Hopper:
         if self.verbose:
             print()
 
-        return convoluted_values
+        self.knowns = convoluted_values
 
     def present(self):
-        convoluted_values = self.convolute()
         ordered = sorted(self.values.keys(), key=lambda symbol: symbol.name.lower())
         table = []
 
         for symbol in ordered:
-            value = convoluted_values[symbol]
+            value = self.knowns[symbol]
             name = f"{symbol}"
             magnitude = f"{value.magnitude:.{self.sig_figs}g}"
             pretty_unit = "" if value.units == ur.dimensionless else f"{value.units:~}"
@@ -203,6 +202,7 @@ class Hopper:
         self.initials = getattr(self, "initials", {})
 
         self.greet()
-        self.knowns(knowns)
+        self.consume(knowns)
         self.solve()
+        self.convolute()
         self.present()
