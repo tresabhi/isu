@@ -3,6 +3,17 @@ from curries import *
 from hopper import Hopper
 
 
+class State(Hopper):
+    equations = [
+        *state_curry(
+            M,
+            (p, p0, p_p0, p0_p),
+            (rho, rho0, rho_rho0, rho0_rho),
+            (T, T0, T_T0, T0_T),
+        ),
+    ]
+
+
 class Isentropic(Hopper):
     equations = [
         (p2_p1, rho2_rho1**gamma),

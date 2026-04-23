@@ -10,9 +10,6 @@ class Hopper:
     sig_figs = 5
     threshold = 2**-8
 
-    values = {}
-    givens = []
-
     def greet(self):
         if self.__class__.has_greeted:
             return
@@ -59,7 +56,7 @@ class Hopper:
                 prefix = f"  ({index + 1}): "
 
                 if len(free) > 1:
-                    print(f"{prefix}{free} free symbols; skipping...")
+                    print(f"{prefix}{len(free)} free symbols; skipping...")
                 elif len(free) == 1:
                     symbol = free.pop()
                     initial = symbol.initial
@@ -159,6 +156,9 @@ class Hopper:
         print(f"{lines[-1]}\n")
 
     def __init__(self, knowns):
+        self.values = {}
+        self.givens = []
+
         self.greet()
         self.knowns(knowns)
         self.solve()

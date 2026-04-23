@@ -19,8 +19,10 @@ PerfectlyExpandedSubsonicNozzle(
     }
 )
 
-Isentropic(
+State(
     {
         **air,
+        p: 0.94 * ur("atm"),
+        p0: 1 * ur("atm"),
     }
 )
