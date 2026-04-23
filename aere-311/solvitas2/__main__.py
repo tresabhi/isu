@@ -6,6 +6,7 @@ from units import *
 from hopper import *
 
 Hopper.units = anderson_units
+# Hopper.verbose = True
 
 air = {
     gamma: 7 / 5,
@@ -29,14 +30,30 @@ air = {
 # )
 
 NormalShockNozzle(
-    {
-        **air,
-        Ae_At: 1.53,
-    },
-    {
-        p0: 1 * ur("atm"),
-    },
-    {
-        p: 0.525 * ur("atm"),
-    },
+    [
+        {
+            **air,
+            p0: 1 * ur("atm"),
+        },
+        {**air},
+        {**air},
+        {
+            **air,
+            Ae_At: 1.53,
+        },
+    ],
+    [
+        {},
+        {},
+        {},
+        {
+            pe: 0.525 * ur("atm"),
+        },
+    ],
+    [
+        {A_At: 1.204},
+        {},
+        {},
+        {},
+    ],
 )

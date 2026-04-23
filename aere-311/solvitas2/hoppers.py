@@ -87,14 +87,33 @@ class NormalShock(Hopper):
     ]
 
 
-class PerfectlyExpandedSubsonicNozzle(Hopper):
+class SubsonicNozzle(Hopper):
+    equations = [
+        (
+            A_At**2,
+            (1 / (M**2))
+            * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))
+            ** ((gamma + 1) / (gamma - 1)),
+        ),
+        #
+        *state_curry(
+            M,
+            (p, p0, p_p0, p0_p),
+            (rho, rho0, rho_rho0, rho0_rho),
+            (T, T0, T_T0, T0_T),
+        ),
+    ]
+
     initials = {
         M: 0.5,
     }
 
+
+class PostShockNozzle(Hopper):
     equations = [
         (
-            A_At**2,
+            (Ae_At2, Ae_At1 * At1_A1 * A1_At2),
+            Ae_At2**2,
             (1 / (M**2))
             * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))
             ** ((gamma + 1) / (gamma - 1)),
@@ -108,24 +127,12 @@ class PerfectlyExpandedSubsonicNozzle(Hopper):
         ),
     ]
 
+    initials = SubsonicNozzle.initials
 
-class PerfectlyExpandedSupersonicNozzle(Hopper):
+
+class SupersonicNozzle(Hopper):
+    equations = SubsonicNozzle.equations
+
     initials = {
         M: 2,
     }
-
-    equations = [
-        (
-            A_At**2,
-            (1 / (M**2))
-            * ((2 / (gamma + 1)) * (1 + ((gamma - 1) / 2) * M**2))
-            ** ((gamma + 1) / (gamma - 1)),
-        ),
-        #
-        *state_curry(
-            M,
-            (p, p0, p_p0, p0_p),
-            (rho, rho0, rho_rho0, rho0_rho),
-            (T, T0, T_T0, T0_T),
-        ),
-    ]

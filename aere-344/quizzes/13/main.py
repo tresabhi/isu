@@ -68,7 +68,7 @@ def quiz(name):
     plt.scatter(best_alpha, best_ld, label="max L/D")
     plt.xlabel("Alpha (deg)")
     plt.ylabel("L/D")
-    plt.title(name)
+    # plt.title(name)
     plt.legend()
     plt.grid()
 
