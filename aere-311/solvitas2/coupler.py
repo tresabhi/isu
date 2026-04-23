@@ -2,7 +2,7 @@ import utils
 
 
 class Coupler:
-    def __init__(self, hops, variant_range):
+    def __init__(self, hops, variant_range, target):
         a, b = variant_range
         x = (a + b) / 2
         x = 1.204

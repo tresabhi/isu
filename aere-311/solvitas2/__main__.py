@@ -46,8 +46,9 @@ NormalShockNozzle(
                 Ae_At1: 1.53,
             },
             "variant": As_At1,
-            "target": {pe: 0.525 * ur("atm")},
+            "target": p,
         },
     ],
     (1, 1.53),
+    0.75 * ur("atm"),
 )
