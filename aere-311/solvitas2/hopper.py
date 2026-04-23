@@ -7,6 +7,7 @@ from registry import *
 
 class Hopper:
     has_greeted = False
+    verbose = False
     sig_figs = 5
     threshold = 2**-8
 
@@ -15,10 +16,13 @@ class Hopper:
             return
 
         self.has_greeted = True
-        logger.log("Solvitas 2.0\n")
+
+        if self.verbose:
+            logger.log("Solvitas 2.0\n")
 
     def knowns(self, knowns):
-        print("Basing:")
+        if self.verbose:
+            print("Basing:")
 
         for symbol, convoluted_value in knowns.items():
             self.givens.append(symbol)
@@ -30,13 +34,15 @@ class Hopper:
 
             value = value.to(symbol.unit)
 
-            print(f"  {symbol}")
-            print(f"    {convoluted_value} ⤵")
-            print(f"    {value}")
+            if self.verbose:
+                print(f"  {symbol}")
+                print(f"    {convoluted_value} ⤵")
+                print(f"    {value}")
 
             self.values[symbol] = value.magnitude
 
-        print()
+        if self.verbose:
+            print()
 
     def solve(self):
         solved = 0
@@ -60,7 +66,8 @@ class Hopper:
                 prefix = f"  ({index + 1}): "
 
                 if len(free) > 1:
-                    print(f"{prefix}{len(free)} free symbols {free}; skipping...")
+                    if self.verbose:
+                        print(f"{prefix}{len(free)} free symbols {free}; skipping...")
                 elif len(free) == 1:
                     symbol = free.pop()
                     expression = rhs_subbed - lhs_subbed
@@ -71,7 +78,9 @@ class Hopper:
 
                     try:
                         value = float(sympy.nsolve(expression, symbol, initial))
-                        logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
+
+                        if self.verbose:
+                            logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                     except:
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
@@ -89,7 +98,8 @@ class Hopper:
                         elif len(values) == 1:
                             value = float(values[0])
 
-                            print(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
+                            if self.verbose:
+                                print(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                         else:
                             logger.log(f"{prefix}<red>symbolic solver failed</red>")
 
@@ -100,9 +110,10 @@ class Hopper:
                     error = abs(1 - lhs_subbed / rhs_subbed)
 
                     if error < self.threshold:
-                        print(
-                            f"{prefix}{lhs_subbed:.{self.sig_figs}g} == {rhs_subbed:.{self.sig_figs}g}"
-                        )
+                        if self.verbose:
+                            print(
+                                f"{prefix}{lhs_subbed:.{self.sig_figs}g} == {rhs_subbed:.{self.sig_figs}g}"
+                            )
                     else:
                         logger.log(
                             f"{prefix}<red>{lhs_subbed:.{self.sig_figs}g} != {rhs_subbed:.{self.sig_figs}g}</red>"
@@ -116,24 +127,28 @@ class Hopper:
                 break
 
     def convolute(self):
-        print("Convoluting:")
+        if self.verbose:
+            print("Convoluting:")
 
         convoluted_values = {}
 
         for symbol, value in self.values.items():
             convoluted_values[symbol] = value * symbol.unit
 
-            print(f"  {symbol}")
-            print(f"    {value} {symbol.unit} ⤵")
+            if self.verbose:
+                print(f"  {symbol}")
+                print(f"    {value} {symbol.unit} ⤵")
 
             if symbol.unit in self.units:
                 convoluted_values[symbol] = convoluted_values[symbol].to(
                     self.units[symbol.unit]
                 )
 
-            print(f"    {convoluted_values[symbol]}")
+            if self.verbose:
+                print(f"    {convoluted_values[symbol]}")
 
-        print()
+        if self.verbose:
+            print()
 
         return convoluted_values
 
