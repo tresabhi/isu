@@ -49,7 +49,8 @@ class Hopper:
         iteration = 0
 
         while True:
-            print(f"Iteration {iteration + 1}:")
+            if self.verbose:
+                print(f"Iteration {iteration + 1}:")
 
             iteration += 1
             solved = 0
@@ -107,9 +108,13 @@ class Hopper:
                     solved += 1
 
                 else:
-                    error = abs(1 - lhs_subbed / rhs_subbed)
+                    lhs_float = float(lhs_subbed)
+                    rhs_float = float(rhs_subbed)
 
-                    if error < self.threshold:
+                    if (
+                        lhs_float == rhs_float
+                        or abs(1 - lhs_float / rhs_float) < self.threshold
+                    ):
                         if self.verbose:
                             print(
                                 f"{prefix}{lhs_subbed:.{self.sig_figs}g} == {rhs_subbed:.{self.sig_figs}g}"
@@ -121,10 +126,14 @@ class Hopper:
 
                 index += 1
 
-            print()
+            if self.verbose:
+                print()
 
             if solved == 0:
                 break
+
+        if not self.verbose:
+            print()
 
     def convolute(self):
         if self.verbose:
@@ -172,6 +181,7 @@ class Hopper:
         )
         lines = lines.splitlines()
 
+        print(self.__class__.__name__)
         print(f"{"\n".join(lines[0:3])}")
 
         for index in range(len(ordered)):

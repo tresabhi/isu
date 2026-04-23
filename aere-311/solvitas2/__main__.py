@@ -1,4 +1,5 @@
 from hoppers import *
+from couplers import *
 from registry import *
 from symbols import *
 from units import *
@@ -27,10 +28,14 @@ PerfectlyExpandedSupersonicNozzle(
     }
 )
 
-State(
+NormalShock(
     {
         **air,
-        p: 0.94 * ur("atm"),
-        p0: 1 * ur("atm"),
+        T1: 288 * ur("K"),
+        p1: 1 * ur("atm"),
+        M1: 2,
+        # Ae_At: 4,
+        # p01: 1 * ur("atm"),
+        # pe: 0.525 * ur("atm"),
     }
 )

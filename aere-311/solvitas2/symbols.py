@@ -1,7 +1,16 @@
 from symbol import *
 
+h1 = Symbol("h1", "J / kg")
+h2 = Symbol("h2", "J / kg")
+h1_h2 = Symbol("h1/h2")
+h2_h1 = Symbol("h2/h1")
+
+delta_s = Symbol("delta_s", "J / (kg * K)")
+
 gamma = Symbol("gamma")
 R = Symbol("R", "J / (kg * K)")
+cp = Symbol("cp", "J / (kg * K)")
+cv = Symbol("cv", "J / (kg * K)")
 
 M = Symbol("M")
 M1 = Symbol("M1")
@@ -23,6 +32,8 @@ p2_p02 = Symbol("p2/p02")
 p0_p = Symbol("p0/p")
 p01_p1 = Symbol("p01/p1")
 p02_p2 = Symbol("p02/p2")
+p01_p02 = Symbol("p01/p02")
+p02_p01 = Symbol("p02/p01")
 
 rho = Symbol("rho", "kg / m^3")
 rho1 = Symbol("rho1", "kg / m^3")
@@ -59,3 +70,9 @@ T01_T1 = Symbol("T01/T1")
 T02_T2 = Symbol("T02/T2")
 
 A_At = Symbol("A/At")
+
+u1 = Symbol("u1", "m/s")
+u2 = Symbol("u2", "m/s")
+
+u1_u2 = Symbol("u1/u2")
+u2_u1 = Symbol("u2/u1")
