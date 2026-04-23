@@ -2,6 +2,7 @@ from hoppers import *
 from registry import *
 from symbols import *
 from units import *
+from hopper import *
 
 Hopper.units = anderson_units
 
