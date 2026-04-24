@@ -61,7 +61,7 @@ class Hopper:
             lhs_subbed = lhs.subs(self.values)
             rhs_subbed = rhs.subs(self.values)
 
-            frees.append(lhs_subbed.free_symbols | rhs_subbed.free_symbols)
+            frees.append((lhs_subbed.free_symbols, rhs_subbed.free_symbols))
             subbed.append((lhs_subbed, rhs_subbed))
             resolved.append(False)
 
@@ -73,14 +73,16 @@ class Hopper:
             solved = 0
 
             for i in range(len(self.equations)):
-                free_count = len(frees[i])
+                lhs_free, rhs_free = frees[i]
+                free_union = lhs_free | rhs_free
+                free_count = len(free_union)
 
                 if resolved[i] or free_count > 1:
                     continue
 
                 if free_count == 1:
                     prefix = f"  ({i + 1}): "
-                    symbol = frees[i].pop()
+                    symbol = free_union.pop()
                     initial = symbol.initial
 
                     lhs_subbed, rhs_subbed = subbed[i]
@@ -124,18 +126,31 @@ class Hopper:
                     solved += 1
 
                     for j in range(len(self.equations)):
-                        if i == j or symbol not in frees[j]:
+                        if i == j:
+                            continue
+
+                        lhs_free, rhs_free = frees[j]
+                        is_in_lhs = symbol in lhs_free
+                        is_in_rhs = symbol in rhs_free
+
+                        if not is_in_lhs and not is_in_rhs:
                             continue
 
                         lhs_subbed, rhs_subbed = subbed[j]
 
-                        lhs_subbed = lhs_subbed.subs(symbol, value)
-                        rhs_subbed = rhs_subbed.subs(symbol, value)
+                        if is_in_lhs:
+                            lhs_free.remove(symbol)
+                            lhs_subbed = lhs_subbed.subs(symbol, value)
+
+                        if is_in_rhs:
+                            rhs_free.remove(symbol)
+                            rhs_subbed = rhs_subbed.subs(symbol, value)
 
                         subbed[j] = (lhs_subbed, rhs_subbed)
-                        frees[j].remove(symbol)
+                        free_union = lhs_free | rhs_free
+                        frees[j] = (lhs_free, rhs_free)
 
-                        if len(frees[j]) != 0:
+                        if len(free_union) != 0:
                             continue
 
                         lhs_float = float(lhs_subbed)
