@@ -87,7 +87,7 @@ class Hopper:
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
-                        print(expression, symbol, initial)
+                        # print(expression, symbol, initial)
 
                         values = sympy.solve(expression, symbol)
 

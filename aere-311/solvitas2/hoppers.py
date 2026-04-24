@@ -19,6 +19,10 @@ class Isentropic(Hopper):
         (p2_p1, rho2_rho1**gamma),
         (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
         #
+        (p01, p02),
+        (rho01, rho02),
+        (T01, T02),
+        #
         *state_curry(
             M1,
             (p1, p01, p1_p01, p01_p1),
@@ -35,6 +39,68 @@ class Isentropic(Hopper):
         *ratio_curry(p1, p2, p1_p2, p2_p1),
         *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
         *ratio_curry(T1, T2, T1_T2, T2_T1),
+    ]
+
+
+class Rayleigh(Hopper):
+    equations = [
+        (p2_p1, (1 + gamma * M1**2) / (1 + gamma * M2**2)),
+        (T2_T1, (p2_p1 * (M2 / M1)) ** 2),
+        #
+        (p1_p_star, (1 + gamma) / (1 + gamma * M1**2)),
+        (p2_p_star, (1 + gamma) / (1 + gamma * M2**2)),
+        #
+        (T1_T_star, M1**2 * (((1 + gamma) ** 2) / ((1 + gamma * M1**2) ** 2))),
+        (T2_T_star, M2**2 * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))),
+        #
+        (rho_star_rho1, u1_u_star),
+        (rho_star_rho2, u2_u_star),
+        #
+        (rho_star_rho1, M1**2 * ((1 + gamma) / (1 + gamma * M1**2))),
+        (rho_star_rho2, M2**2 * ((1 + gamma) / (1 + gamma * M2**2))),
+        #
+        (
+            T01_T0_star,
+            M1**2
+            * (((1 + gamma) ** 2) / ((1 + gamma * M1**2) ** 2))
+            * ((2 + (gamma - 1) * M1**2) / (2 + (gamma - 1))),
+        ),
+        (
+            T02_T0_star,
+            M2**2
+            * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
+            * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
+        ),
+        #
+        *delta_curry(T01, T02, delta_T0),
+        #
+        *state_curry(
+            M1,
+            (p1, p01, p1_p01, p01_p1),
+            (rho1, rho01, rho1_rho01, rho01_rho1),
+            (T1, T01, T1_T01, T01_T1),
+        ),
+        *state_curry(
+            M2,
+            (p2, p02, p2_p02, p02_p2),
+            (rho2, rho02, rho2_rho02, rho02_rho2),
+            (T2, T02, T2_T02, T02_T2),
+        ),
+        #
+        *ratio_curry(p1, p2, p1_p2, p2_p1),
+        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
+        *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *ratio_curry(p1, p_star, p1_p_star, p_star_p1),
+        *ratio_curry(p2, p_star, p2_p_star, p_star_p2),
+        *ratio_curry(T1, T_star, T1_T_star, T_star_T1),
+        *ratio_curry(T2, T_star, T2_T_star, T_star_T2),
+        *ratio_curry(T01, T0_star, T01_T0_star, T0_star_T01),
+        *ratio_curry(T02, T0_star, T02_T0_star, T0_star_T02),
+        *ratio_curry(rho1, rho_star, rho1_rho_star, rho_star_rho1),
+        *ratio_curry(rho2, rho_star, rho2_rho_star, rho_star_rho2),
+        *ratio_curry(u1, u_star, u1_u_star, u_star_u1),
+        *ratio_curry(u2, u_star, u2_u_star, u_star_u2),
     ]
 
 

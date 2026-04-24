@@ -23,3 +23,9 @@ def state_curry(M, _p, _rho, _T):
         *ratio_curry(*_rho),
         *ratio_curry(*_T),
     ]
+
+
+def delta_curry(x1, x2, delta_x):
+    return [
+        (delta_x, x2 - x1),
+    ]
