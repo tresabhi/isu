@@ -51,4 +51,4 @@ NormalShockNozzle(
     ],
     (1, 1.53),
     0.75 * ur("atm"),
-)
+).solve()

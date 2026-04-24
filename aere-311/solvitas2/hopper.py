@@ -117,11 +117,11 @@ class Hopper:
                     ):
                         if self.verbose:
                             print(
-                                f"{prefix}{lhs_subbed:.{self.sig_figs}g} == {rhs_subbed:.{self.sig_figs}g}"
+                                f"{prefix}{lhs_float:.{self.sig_figs}g} == {rhs_float:.{self.sig_figs}g}"
                             )
                     else:
                         logger.log(
-                            f"{prefix}<red>{lhs_subbed:.{self.sig_figs}g} != {rhs_subbed:.{self.sig_figs}g}</red>"
+                            f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
                         )
 
                 index += 1

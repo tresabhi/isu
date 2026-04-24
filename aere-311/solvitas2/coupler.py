@@ -3,16 +3,14 @@ import utils
 
 class Coupler:
     tolerance = 2**-8
+    max_iterations = 2**9
 
-    def __init__(self, hops, variant_range, target, derivative=1):
-        a, b = variant_range
-        x = (a + b) / 2
-
+    def hop(self, x):
         solutions = None
         target_value = None
 
         for i in range(len(self.hoppers)):
-            hop = hops[i]
+            hop = self.hops[i]
             knowns = {**hop["invariants"]}
 
             if "variant" in hop:
@@ -39,13 +37,35 @@ class Coupler:
 
                 target_value = solutions[hop["target"]]
 
-        error = target_value / target - 1
+        return target_value
 
-        if abs(error) < self.tolerance:
-            pass
-        elif (error > 0) == (derivative > 0):
-            b = x
-        else:
-            a = x
+    def solve(self):
+        a, b = self.range
 
-        x = (a + b) / 2
+        for _ in range(self.max_iterations):
+            x = (a + b) / 2
+
+            value = self.hop(x)
+            error = abs(value / self.target - 1)
+
+            if error < self.tolerance:
+                return x
+
+            if (value > self.target) == self.increasing:
+                b = x
+            else:
+                a = x
+
+        raise Exception(f"Failed to converge in {self.max_iterations} iterations")
+
+    def __init__(self, hops, variant_range, target):
+        self.hops = hops
+        self.range = variant_range
+        self.target = target
+
+        a, b = self.range
+
+        value_a = self.hop(a)
+        value_b = self.hop(b)
+
+        self.increasing = value_b > value_a
