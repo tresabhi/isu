@@ -3,13 +3,14 @@ import pint
 import tabulate
 import logger
 from registry import *
+import math
 
 
 class Hopper:
     has_greeted = False
     verbose = False
     sig_figs = 5
-    threshold = 2**-8
+    tolerance = 2**-10
 
     def greet(self):
         if self.has_greeted:
@@ -45,6 +46,8 @@ class Hopper:
             print()
 
     def solve(self):
+        precision = -math.log10(self.tolerance)
+
         solved = 0
         iteration = 0
 
@@ -79,7 +82,9 @@ class Hopper:
                         initial = self.initials[symbol]
 
                     try:
-                        value = float(sympy.nsolve(expression, symbol, initial))
+                        value = float(
+                            sympy.nsolve(expression, symbol, initial, prec=precision)
+                        )
 
                         if self.verbose:
                             logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
@@ -87,7 +92,6 @@ class Hopper:
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
-                        # print(expression, symbol, initial)
 
                         values = sympy.solve(expression, symbol)
 
@@ -115,7 +119,7 @@ class Hopper:
 
                     if (
                         lhs_float == rhs_float
-                        or abs(1 - lhs_float / rhs_float) < self.threshold
+                        or abs(1 - lhs_float / rhs_float) < self.tolerance
                     ):
                         if self.verbose:
                             print(

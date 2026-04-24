@@ -1,9 +1,9 @@
 import utils
+from hopper import *
 
 
 class Coupler:
-    tolerance = 2**-8
-    max_iterations = 2**9
+    max_iterations = 2**5
 
     def hop(self, x):
         solutions = None
@@ -48,7 +48,7 @@ class Coupler:
             value = self.hop(x)
             error = abs(value / self.target - 1)
 
-            if error < self.tolerance:
+            if error < Hopper.tolerance:
                 return x
 
             if (value > self.target) == self.increasing:
