@@ -16,9 +16,10 @@ air = {
 SubsonicRayleigh(
     {
         **air,
-        M1: 0.3,
-        T1: 300 * ur("K"),
-        Q: 20.09e04 * ur("J / kg"),
+        p1: 1 * ur("atm"),
+        u1: 110 * ur("m / s"),
+        T1: 325 * ur("K"),
+        delta_T0: 150 * ur("K"),
     }
 )
 

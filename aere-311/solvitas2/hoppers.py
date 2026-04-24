@@ -76,6 +76,14 @@ class SubsonicRayleigh(Hopper):
             * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
         ),
         #
+        (a1, sympy.sqrt((gamma * p1) / rho1)),
+        (a2, sympy.sqrt((gamma * p2) / rho2)),
+        (a1, sympy.sqrt(gamma * R * T1)),
+        (a2, sympy.sqrt(gamma * R * T2)),
+        #
+        (M1, u1 / a1),
+        (M2, u2 / a2),
+        #
         *specific_heat_curry(),
         #
         *delta_curry(T01, T02, delta_T0),

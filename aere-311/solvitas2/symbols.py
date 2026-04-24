@@ -109,6 +109,9 @@ u2_u_star = Symbol("u2/u*")
 u_star_u1 = Symbol("u*/u1")
 u_star_u2 = Symbol("u*/u2")
 
+a1 = Symbol("a1", "m/s")
+a2 = Symbol("a2", "m/s")
+
 # ephemeral symbols
 
 Ae_At1 = Symbol("Ae/At1")
