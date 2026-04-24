@@ -11,6 +11,7 @@ gamma = Symbol("gamma")
 R = Symbol("R", "J / (kg * K)")
 cp = Symbol("cp", "J / (kg * K)")
 cv = Symbol("cv", "J / (kg * K)")
+Q = Symbol("Q", "J / kg")
 
 M = Symbol("M")
 M1 = Symbol("M1")

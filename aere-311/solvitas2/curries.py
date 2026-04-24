@@ -29,3 +29,13 @@ def delta_curry(x1, x2, delta_x):
     return [
         (delta_x, x2 - x1),
     ]
+
+
+def specific_heat_curry():
+    return [
+        (cp, (gamma * R) / (gamma - 1)),
+        (cv, R / (gamma - 1)),
+        (gamma, cp / cv),
+        #
+        (delta_T0, Q / cp),
+    ]

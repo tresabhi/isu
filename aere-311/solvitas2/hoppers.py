@@ -42,7 +42,11 @@ class Isentropic(Hopper):
     ]
 
 
-class Rayleigh(Hopper):
+class SubsonicRayleigh(Hopper):
+    initials = {
+        M2: 0.5,
+    }
+
     equations = [
         (p2_p1, (1 + gamma * M1**2) / (1 + gamma * M2**2)),
         (T2_T1, (p2_p1 * (M2 / M1)) ** 2),
@@ -71,6 +75,8 @@ class Rayleigh(Hopper):
             * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
             * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
         ),
+        #
+        *specific_heat_curry(),
         #
         *delta_curry(T01, T02, delta_T0),
         #
@@ -102,6 +108,14 @@ class Rayleigh(Hopper):
         *ratio_curry(u1, u_star, u1_u_star, u_star_u1),
         *ratio_curry(u2, u_star, u2_u_star, u_star_u2),
     ]
+
+
+class SupersonicRayleigh(Hopper):
+    initials = {
+        M2: 2,
+    }
+
+    equations = SubsonicRayleigh.equations
 
 
 class NormalShock(Hopper):
@@ -154,6 +168,10 @@ class NormalShock(Hopper):
 
 
 class SubsonicNozzle(Hopper):
+    initials = {
+        M: 2**-8,
+    }
+
     equations = [
         (
             A_At**2,
@@ -170,12 +188,10 @@ class SubsonicNozzle(Hopper):
         ),
     ]
 
-    initials = {
-        M: 2**-8,
-    }
-
 
 class PostShockNozzle(Hopper):
+    initials = SubsonicNozzle.initials
+
     equations = [
         (Ae_At2, Ae_At1 / As_At1 * As_At2),
         (
@@ -193,12 +209,10 @@ class PostShockNozzle(Hopper):
         ),
     ]
 
-    initials = SubsonicNozzle.initials
-
 
 class SupersonicNozzle(Hopper):
-    equations = SubsonicNozzle.equations
-
     initials = {
         M: 2,
     }
+
+    equations = SubsonicNozzle.equations

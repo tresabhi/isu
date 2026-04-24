@@ -13,15 +13,23 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-Rayleigh(
+SubsonicRayleigh(
     {
         **air,
-        M1: 1.75,
-        T01: 650 * ur("K"),
-        p01: 1 * ur("atm"),
-        delta_T0: 110 * ur("K"),
+        M1: 0.3,
+        T1: 300 * ur("K"),
+        Q: 20.09e04 * ur("J / kg"),
     }
 )
+
+# SupersonicRayleigh(
+#     {
+#         **air,
+#         M1: 2.8,
+#         T1: 210 * ur("K"),
+#         Q: 2e5 * ur("J / kg"),
+#     }
+# )
 
 # PerfectlyExpandedSubsonicNozzle(
 #     {
