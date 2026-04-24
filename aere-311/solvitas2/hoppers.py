@@ -105,7 +105,7 @@ class SubsonicNozzle(Hopper):
     ]
 
     initials = {
-        M: 0.5,
+        M: 2**-8,
     }
 
 

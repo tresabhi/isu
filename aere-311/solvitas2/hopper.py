@@ -65,6 +65,7 @@ class Hopper:
                 free = lhs_subbed.free_symbols | rhs_subbed.free_symbols
 
                 prefix = f"  ({index + 1}): "
+                # prefix = f"  ({rhs_subbed} = {lhs_subbed}): "
 
                 if len(free) > 1:
                     if self.verbose:
@@ -86,6 +87,7 @@ class Hopper:
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
+                        print(expression, symbol, initial)
 
                         values = sympy.solve(expression, symbol)
 

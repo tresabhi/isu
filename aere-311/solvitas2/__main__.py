@@ -38,17 +38,21 @@ NormalShockNozzle(
             },
             "variant": A_At,
         },
-        {"invariants": air},
-        {"invariants": air},
+        {
+            "invariants": air,
+        },
+        {
+            "invariants": air,
+        },
         {
             "invariants": {
                 **air,
-                Ae_At1: 1.53,
+                Ae_At1: 4,
             },
             "variant": As_At1,
             "target": p,
         },
     ],
-    (1, 1.53),
-    0.75 * ur("atm"),
+    (1, 4),
+    0.525 * ur("atm"),
 ).solve()
