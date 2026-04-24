@@ -52,6 +52,8 @@ class Hopper:
         iteration = 0
 
         subbed = []
+        frees = []
+        resolved = []
 
         for equation in self.equations:
             lhs, rhs = equation
@@ -59,7 +61,9 @@ class Hopper:
             lhs_subbed = lhs.subs(self.values)
             rhs_subbed = rhs.subs(self.values)
 
+            frees.append(lhs_subbed.free_symbols | rhs_subbed.free_symbols)
             subbed.append((lhs_subbed, rhs_subbed))
+            resolved.append(False)
 
         while True:
             if self.verbose:
@@ -67,26 +71,20 @@ class Hopper:
 
             iteration += 1
             solved = 0
-            index = 0
 
-            for equation in self.equations:
-                lhs_subbed, rhs_subbed = subbed[index]
-                lhs_subbed = lhs_subbed.subs(self.values)
-                rhs_subbed = rhs_subbed.subs(self.values)
-                subbed[index] = (lhs_subbed, rhs_subbed)
+            for i in range(len(self.equations)):
+                free_count = len(frees[i])
 
-                free = lhs_subbed.free_symbols | rhs_subbed.free_symbols
+                if resolved[i] or free_count > 1:
+                    continue
 
-                prefix = f"  ({index + 1}): "
-                # prefix = f"  ({rhs_subbed} = {lhs_subbed}): "
-
-                if len(free) > 1:
-                    if self.verbose:
-                        print(f"{prefix}{len(free)} free symbols {free}; skipping...")
-                elif len(free) == 1:
-                    symbol = free.pop()
-                    expression = rhs_subbed - lhs_subbed
+                if free_count == 1:
+                    prefix = f"  ({i + 1}): "
+                    symbol = frees[i].pop()
                     initial = symbol.initial
+
+                    lhs_subbed, rhs_subbed = subbed[i]
+                    expression = rhs_subbed - lhs_subbed
 
                     if symbol in self.initials:
                         initial = self.initials[symbol]
@@ -119,28 +117,42 @@ class Hopper:
                                 print(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                         else:
                             logger.log(f"{prefix}<red>symbolic solver failed</red>")
+                            continue
 
                     self.values[symbol] = value
+                    resolved[i] = True
                     solved += 1
 
-                else:
-                    lhs_float = float(lhs_subbed)
-                    rhs_float = float(rhs_subbed)
+                    for j in range(len(self.equations)):
+                        if i == j or symbol not in frees[j]:
+                            continue
 
-                    if (
-                        lhs_float == rhs_float
-                        or abs(1 - lhs_float / rhs_float) < self.tolerance
-                    ):
-                        if self.verbose:
-                            print(
-                                f"{prefix}{lhs_float:.{self.sig_figs}g} == {rhs_float:.{self.sig_figs}g}"
+                        lhs_subbed, rhs_subbed = subbed[j]
+
+                        lhs_subbed = lhs_subbed.subs(symbol, value)
+                        rhs_subbed = rhs_subbed.subs(symbol, value)
+
+                        subbed[j] = (lhs_subbed, rhs_subbed)
+                        frees[j].remove(symbol)
+
+                        if len(frees[j]) != 0:
+                            continue
+
+                        lhs_float = float(lhs_subbed)
+                        rhs_float = float(rhs_subbed)
+
+                        if (
+                            lhs_float == rhs_float
+                            or abs(1 - lhs_float / rhs_float) < self.tolerance
+                        ):
+                            resolved[j] = True
+                        else:
+                            logger.log(
+                                f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
                             )
-                    else:
-                        logger.log(
-                            f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
-                        )
 
-                index += 1
+                else:
+                    raise ValueError("Equation is unresolved and has 0 free symbols")
 
             if self.verbose:
                 print()
