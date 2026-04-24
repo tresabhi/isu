@@ -51,6 +51,16 @@ class Hopper:
         solved = 0
         iteration = 0
 
+        subbed = []
+
+        for equation in self.equations:
+            lhs, rhs = equation
+
+            lhs_subbed = lhs.subs(self.values)
+            rhs_subbed = rhs.subs(self.values)
+
+            subbed.append((lhs_subbed, rhs_subbed))
+
         while True:
             if self.verbose:
                 print(f"Iteration {iteration + 1}:")
@@ -60,10 +70,10 @@ class Hopper:
             index = 0
 
             for equation in self.equations:
-                lhs, rhs = equation
-
-                lhs_subbed = lhs.subs(self.values)
-                rhs_subbed = rhs.subs(self.values)
+                lhs_subbed, rhs_subbed = subbed[index]
+                lhs_subbed = lhs_subbed.subs(self.values)
+                rhs_subbed = rhs_subbed.subs(self.values)
+                subbed[index] = (lhs_subbed, rhs_subbed)
 
                 free = lhs_subbed.free_symbols | rhs_subbed.free_symbols
 
