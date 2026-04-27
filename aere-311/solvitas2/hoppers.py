@@ -229,6 +229,13 @@ class SupersonicNozzle(Hopper):
 class PrandtlGlauertRule(Hopper):
     equations = [
         (Cp, Cp0 / sympy.sqrt(1 - M_inf**2)),
+        (
+            p_p_inf,
+            ((1 + ((gamma - 1) / 2) * M_inf**2) / (1 + ((gamma - 1) / 2) * M**2))
+            ** (gamma / (gamma - 1)),
+        ),
+        #
+        *ratio_curry(p, p_inf, p_p_inf, p_inf_p),
     ]
 
 
@@ -243,13 +250,6 @@ class PrandtlGlauertCriticalRule(Hopper):
                 - 1
             ),
         ),
-        (
-            p_cr_p_inf,
-            ((1 + ((gamma - 1) / 2) * M_inf**2) / (1 + ((gamma - 1) / 2) * M_cr**2))
-            ** (gamma / (gamma - 1)),
-        ),
-        #
-        *ratio_curry(p_cr, p_inf, p_cr_p_inf, p_inf_p_cr),
     ]
 
 

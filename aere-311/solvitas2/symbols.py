@@ -46,8 +46,8 @@ p2_p_star = Symbol("p2/p*")
 p_star_p1 = Symbol("p*/p1")
 p_star_p2 = Symbol("p*/p2")
 
-p_cr_p_inf = Symbol("p_cr/p_inf")
-p_inf_p_cr = Symbol("p_inf/p_cr")
+p_p_inf = Symbol("p/p_inf")
+p_inf_p = Symbol("p_inf/p")
 
 rho = Symbol("rho", "kg / m^3")
 rho1 = Symbol("rho1", "kg / m^3")
