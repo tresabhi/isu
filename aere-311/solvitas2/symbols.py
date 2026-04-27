@@ -26,6 +26,8 @@ p0 = Symbol("p0", "Pa")
 p01 = Symbol("p01", "Pa")
 p02 = Symbol("p02", "Pa")
 p_star = Symbol("p*", "Pa")
+p_cr = Symbol("p_cr", "Pa")
+p_inf = Symbol("p_inf", "Pa")
 
 p1_p2 = Symbol("p1/p2")
 p2_p1 = Symbol("p2/p1")
@@ -43,6 +45,9 @@ p1_p_star = Symbol("p1/p*")
 p2_p_star = Symbol("p2/p*")
 p_star_p1 = Symbol("p*/p1")
 p_star_p2 = Symbol("p*/p2")
+
+p_cr_p_inf = Symbol("p_cr/p_inf")
+p_inf_p_cr = Symbol("p_inf/p_cr")
 
 rho = Symbol("rho", "kg / m^3")
 rho1 = Symbol("rho1", "kg / m^3")
