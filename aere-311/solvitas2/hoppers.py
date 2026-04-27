@@ -224,3 +224,9 @@ class SupersonicNozzle(Hopper):
     }
 
     equations = SubsonicNozzle.equations
+
+
+class PrandtlGlauert(Hopper):
+    equations = [
+        (Cp, Cp0 / sympy.sqrt(1 - M**2)),
+    ]

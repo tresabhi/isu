@@ -112,10 +112,13 @@ u_star_u2 = Symbol("u*/u2")
 a1 = Symbol("a1", "m/s")
 a2 = Symbol("a2", "m/s")
 
-# ephemeral symbols
+# to do: finalize these ephemeral symbols
 
 Ae_At1 = Symbol("Ae/At1")
 Ae_At2 = Symbol("Ae/At2")
 As_At1 = Symbol("As/At1")
 As_At2 = Symbol("As/At2")
 pe = Symbol("pe")
+
+Cp = Symbol("Cp")
+Cp0 = Symbol("Cp0")
