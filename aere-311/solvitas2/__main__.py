@@ -13,7 +13,7 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-PrandtlGlauert(
+KarmanTsien(
     {
         Cp0: 0.54,
         M: 0.68,

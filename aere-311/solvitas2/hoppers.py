@@ -230,3 +230,13 @@ class PrandtlGlauert(Hopper):
     equations = [
         (Cp, Cp0 / sympy.sqrt(1 - M**2)),
     ]
+
+
+class KarmanTsien(Hopper):
+    equations = [
+        (
+            Cp,
+            Cp0
+            / (sympy.sqrt(1 - M**2) + (M**2 / (1 + sympy.sqrt(1 - M**2))) * (Cp0 / 2)),
+        ),
+    ]
