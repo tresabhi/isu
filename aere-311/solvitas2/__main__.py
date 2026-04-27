@@ -13,10 +13,9 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-PrandtlGlauertRule(
+s1 = PrandtlGlauertCriticalRule(
     {
         **air,
-        M: 1,
-        M_inf: 0.84,
+        Cp_cr: -0.41,
     }
 ).solve()
