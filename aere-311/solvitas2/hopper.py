@@ -8,9 +8,6 @@ import math
 
 class Hopper:
     has_greeted = False
-    verbose = False
-    sig_figs = 5
-    tolerance = 2**-10
 
     def greet(self):
         if self.has_greeted:
@@ -45,7 +42,7 @@ class Hopper:
         if self.verbose:
             print()
 
-    def solve(self):
+    def propagate(self):
         precision = -math.log10(self.tolerance)
 
         solved = 0
@@ -204,7 +201,7 @@ class Hopper:
 
         self.knowns = convoluted_values
 
-    def present(self):
+    def print_table(self):
         ordered = sorted(self.values.keys(), key=lambda symbol: symbol.name.lower())
         table = []
 
@@ -238,14 +235,32 @@ class Hopper:
 
         print(f"{lines[-1]}\n")
 
-    def __init__(self, knowns):
+    def solve(self):
+        self.propagate()
+        self.convolute()
+
+        if self.tabulate:
+            self.print_table()
+
+        return self.knowns
+
+    def __init__(
+        self,
+        knowns,
+        tabulate=True,
+        verbose=False,
+        sig_figs=5,
+        tolerance=2**-10,
+    ):
         self.values = {}
         self.givens = []
+
+        self.tabulate = tabulate
+        self.verbose = verbose
+        self.sig_figs = sig_figs
+        self.tolerance = tolerance
 
         self.initials = getattr(self, "initials", {})
 
         self.greet()
         self.consume(knowns)
-        self.solve()
-        self.convolute()
-        self.present()

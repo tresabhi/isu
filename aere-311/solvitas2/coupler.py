@@ -3,8 +3,6 @@ from hopper import *
 
 
 class Coupler:
-    max_iterations = 2**5
-
     def hop(self, x):
         solutions = None
         target_value = None
@@ -29,7 +27,11 @@ class Coupler:
                 }
 
             Hopper = self.hoppers[i]
-            solutions = Hopper(knowns).knowns
+            solutions = Hopper(
+                knowns,
+                # tabulate=False,
+                tolerance=self.tolerance,
+            ).solve()
 
             if "target" in hop:
                 if target_value is not None:
@@ -48,7 +50,7 @@ class Coupler:
             value = self.hop(x)
             error = abs(value / self.target - 1)
 
-            if error < Hopper.tolerance:
+            if error < self.tolerance:
                 return x
 
             if (value > self.target) == self.increasing:
@@ -58,10 +60,19 @@ class Coupler:
 
         raise Exception(f"Failed to converge in {self.max_iterations} iterations")
 
-    def __init__(self, hops, variant_range, target):
+    def __init__(
+        self,
+        hops,
+        variant_range,
+        target,
+        tolerance=2**-10,
+        max_iterations=2**5,
+    ):
         self.hops = hops
         self.range = variant_range
         self.target = target
+        self.tolerance = tolerance
+        self.max_iterations = max_iterations
 
         a, b = self.range
 

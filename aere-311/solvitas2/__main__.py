@@ -7,7 +7,6 @@ from units import *
 from hopper import *
 
 Hopper.units = anderson_units
-Hopper.verbose = True
 
 air = {
     gamma: 7 / 5,
