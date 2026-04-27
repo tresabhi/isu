@@ -13,8 +13,9 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-KarmanTsien(
+LaitoneRule(
     {
+        **air,
         Cp0: 0.54,
         M: 0.68,
     }
