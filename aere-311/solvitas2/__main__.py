@@ -13,10 +13,9 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-LaitoneRule(
+PrandtlGlauertCriticalRule(
     {
         **air,
-        Cp0: 0.54,
-        M: 0.68,
+        Cp_cr: 0.41,
     }
 ).solve()

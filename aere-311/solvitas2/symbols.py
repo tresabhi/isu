@@ -16,6 +16,8 @@ Q = Symbol("Q", "J / kg")
 M = Symbol("M")
 M1 = Symbol("M1")
 M2 = Symbol("M2")
+M_inf = Symbol("M_inf")
+M_cr = Symbol("M_cr")
 
 p = Symbol("p", "Pa")
 p1 = Symbol("p1", "Pa")
@@ -112,6 +114,10 @@ u_star_u2 = Symbol("u*/u2")
 a1 = Symbol("a1", "m/s")
 a2 = Symbol("a2", "m/s")
 
+Cp = Symbol("Cp")
+Cp0 = Symbol("Cp0")
+Cp_cr = Symbol("Cp_cr")
+
 # to do: finalize these ephemeral symbols
 
 Ae_At1 = Symbol("Ae/At1")
@@ -119,6 +125,3 @@ Ae_At2 = Symbol("Ae/At2")
 As_At1 = Symbol("As/At1")
 As_At2 = Symbol("As/At2")
 pe = Symbol("pe")
-
-Cp = Symbol("Cp")
-Cp0 = Symbol("Cp0")

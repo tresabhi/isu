@@ -228,7 +228,21 @@ class SupersonicNozzle(Hopper):
 
 class PrandtlGlauertRule(Hopper):
     equations = [
-        (Cp, Cp0 / sympy.sqrt(1 - M**2)),
+        (Cp, Cp0 / sympy.sqrt(1 - M_inf**2)),
+    ]
+
+
+class PrandtlGlauertCriticalRule(Hopper):
+    equations = [
+        (
+            Cp_cr,
+            (2 / (gamma * M_cr**2))
+            * (
+                ((1 + ((gamma - 1) / 2) * M_cr**2) / (1 + (gamma - 1) / 2))
+                ** (gamma / (gamma - 1))
+                - 1
+            ),
+        )
     ]
 
 
@@ -237,7 +251,10 @@ class KarmanTsienRule(Hopper):
         (
             Cp,
             Cp0
-            / (sympy.sqrt(1 - M**2) + (M**2 / (1 + sympy.sqrt(1 - M**2))) * (Cp0 / 2)),
+            / (
+                sympy.sqrt(1 - M_inf**2)
+                + (M_inf**2 / (1 + sympy.sqrt(1 - M_inf**2))) * (Cp0 / 2)
+            ),
         ),
     ]
 
@@ -248,8 +265,12 @@ class LaitoneRule(Hopper):
             Cp,
             Cp0
             / (
-                sympy.sqrt(1 - M**2)
-                + (M**2 * (1 + ((gamma - 1) / 2) * M**2) / (2 * sympy.sqrt(1 - M**2)))
+                sympy.sqrt(1 - M_inf**2)
+                + (
+                    M_inf**2
+                    * (1 + ((gamma - 1) / 2) * M_inf**2)
+                    / (2 * sympy.sqrt(1 - M_inf**2))
+                )
                 * Cp0
             ),
         ),
