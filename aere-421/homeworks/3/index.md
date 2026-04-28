@@ -52,5 +52,5 @@ The output:
 Or, in $\LaTeX$, wit better sig-figs:
 
 $$
-X = 0.51\text{mm}
+\boxed{X = 0.51\text{mm}}
 $$
