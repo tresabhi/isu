@@ -62,3 +62,6 @@
 [submodule "aere-361/labs/11"]
 	path = aere-361/labs/11
 	url = https://github.com/AERE-361/lab-11-s2026-tresabhi.git
+[submodule "aere-361/labs/12"]
+	path = aere-361/labs/12
+	url = https://github.com/AERE-361/lab-12-ode-solver-s2026-tresabhi.git
