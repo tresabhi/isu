@@ -13,7 +13,7 @@ omega_solutions = sympy.solve(det, omega)
 
 print(omega_solutions)
 
-u1 = omega_solutions[2]
+u1 = omega_solutions[3]
 
 a = a.subs(omega, u1)
 b = b.subs(omega, u1)

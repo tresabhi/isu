@@ -350,10 +350,43 @@ $$
 \begin{bmatrix}
   \bar{u}_2 \\
   \bar{u}_3 \\
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix} = \boxed{\begin{bmatrix}
   0.7704 \\
   1 \\
-\end{bmatrix}
+\end{bmatrix}}
+$$
+
+Extending the script for the second frequency:
+
+```py
+a = a.subs(omega, u1)
+b = b.subs(omega, u1)
+c = c.subs(omega, u1)
+d = d.subs(omega, u1)
+
+print(a, b, c, d)
+```
+
+The output:
+
+```
+-631686920.835412 -161070526.774961 -161070526.774961 -41070526.7749609
+```
+
+From the same logic as above:
+
+$$
+\bar{u}_2 = 161070526.774961 / -631686920.835412 = -0.2550
+$$
+
+$$
+\begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3 \\
+\end{bmatrix} = \boxed{\begin{bmatrix}
+  -0.2550 \\
+  1 \\
+\end{bmatrix}}
 $$
 
 ## 5.
