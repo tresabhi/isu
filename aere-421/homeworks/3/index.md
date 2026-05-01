@@ -16,7 +16,58 @@ Critically damped is when damping ratio is greater that 1: **False**
 
 ## 4.
 
-TODO
+From the problem:
+
+$$
+A_1 = 600mm^2 = 6*10^{-4} m^2
+$$
+
+$$
+A_2 = 300mm^2 = 3*10^{-4} m^2
+$$
+
+$$
+L_1 = 500mm = 0.5m
+$$
+
+$$
+L_2 = 350mm = 0.35m
+$$
+
+$$
+\rho = 2850 kg/m^3
+$$
+
+$$
+E = 70GPa = 70*10^9Pa
+$$
+
+Expanding the $\alpha$'s:
+
+$$
+\alpha_1
+$$
+
+From the hint (I am pretty sure there was a typo in the notes; the $A_2 A_2$ should've been $A_2 L_2$):
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} \begin{bmatrix}
+  \ddot{u_2} \\
+  \ddot{u_3}
+\end{bmatrix} + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} \begin{bmatrix}
+  u_2 \\
+  u_3
+\end{bmatrix} = \begin{bmatrix}
+  0 \\
+  0
+\end{bmatrix}
+$$
 
 ## 5.
 
