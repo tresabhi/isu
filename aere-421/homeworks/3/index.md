@@ -1,5 +1,7 @@
 # AERE 421 Homework 2
 
+Hello, grader of my homework! I am once again trying out GitHub-flavored Markdown with embedded $\LaTeX$ for my homeworks. I will be submitted my work as a PDF on Canvas but you can see the source code [here](https://github.com/tresabhi/isu/blob/main/aere-421/homeworks/3/index.md).
+
 ## 1.
 
 This is the frequency at which the system oscillates if there is no damping, which lets it go back and forth forever, sinusoidally.
@@ -222,6 +224,57 @@ $$
   0.3848 & 0.04988 \\
   0.04988 & 0.04988
 \end{bmatrix} kg
+$$
+
+Combined matrix:
+
+$$
+\det \begin{bmatrix}
+  14.8\times10^7 - \omega^2(0.38475) & -6\times10^7 - \omega^2(0.049875) \\
+  -6\times10^7 - \omega^2(0.049875) & 6\times10^7 - \omega^2(0.049875)
+\end{bmatrix} = 0
+$$
+
+$$
+\det \begin{bmatrix}
+  a & b \\
+  c & d
+\end{bmatrix} = ad - bc
+$$
+
+This is going to get very ugly, so I will let a symbolic solver handle the rest:
+
+```py
+import sympy
+
+omega = sympy.Symbol("omega")
+
+a = 14.8 * 10**7 - omega**2 * 0.38475
+b = -6 * 10**7 - omega**2 * 0.049875
+c = -6 * 10**7 - omega**2 * 0.049875
+d = 6 * 10**7 - omega**2 * 0.049875
+
+det = a * d - b * c
+
+omega_solutions = sympy.solve(det, omega)
+
+print(omega_solutions)
+```
+
+The output:
+
+```
+[-45016.4050910056, -12490.0257387210, 12490.0257387210, 45016.4050910056]
+```
+
+The negative solutions are due to the square root, so, assuming principal roots, the $\omega$ values are:
+
+$$
+\omega_1 = 12490Hz
+$$
+
+$$
+\omega_2 = 45016Hz
 $$
 
 ## 5.
