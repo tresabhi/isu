@@ -1,4 +1,4 @@
-# AERE 421 Homework 2
+# AERE 421 Homework 3
 
 Hello, grader of my homework! I am once again trying out GitHub-flavored Markdown with embedded $\LaTeX$ for my homeworks. I will be submitted my work as a PDF on Canvas but you can see the source code [here](https://github.com/tresabhi/isu/blob/main/aere-421/homeworks/3/index.md).
 
