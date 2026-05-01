@@ -73,6 +73,157 @@ $$
 \end{bmatrix}
 $$
 
+Substitutions:
+
+$$
+u_2 = \bar{u}_2 \cos \omega t
+$$
+
+$$
+u_3 = \bar{u}_3 \cos \omega t
+$$
+
+$$
+\ddot{u}_2 = -\omega^2 \bar{u}_2 \cos \omega t
+$$
+
+$$
+\ddot{u}_3 = -\omega^2 \bar{u}_3 \cos \omega t
+$$
+
+Putting them in:
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} \begin{bmatrix}
+  -\omega^2 \bar{u}_2 \cos \omega t \\
+  -\omega^2 \bar{u}_3 \cos \omega t
+\end{bmatrix} + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \cos \omega t \\
+  \bar{u}_3 \cos \omega t
+\end{bmatrix} = \begin{bmatrix}
+  0 \\
+  0
+\end{bmatrix}
+$$
+
+Pulling out the cosine:
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} \begin{bmatrix}
+  -\omega^2 \bar{u}_2 \\
+  -\omega^2 \bar{u}_3
+\end{bmatrix} \cos \omega t + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3
+\end{bmatrix} \cos \omega t = 0
+$$
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} \begin{bmatrix}
+  -\omega^2 \bar{u}_2 \\
+  -\omega^2 \bar{u}_3
+\end{bmatrix} + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3
+\end{bmatrix} = 0
+$$
+
+Pulling out the $\omega$:
+
+$$
+-\omega^2 \frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3
+\end{bmatrix} + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3
+\end{bmatrix} = 0
+$$
+
+$$
+-\omega^2 \frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} + \begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} = 0
+$$
+
+The second matrix, I have numbers for in base units:
+
+$$
+\begin{bmatrix}
+  \alpha_1 + \alpha_2 & -\alpha_2 \\
+  -\alpha_2 & \alpha_2
+\end{bmatrix} = \begin{bmatrix}
+  8.4 + 6 & -6 \\
+  -6 & 6
+\end{bmatrix} ×10^7 N/m = \begin{bmatrix}
+  14.8 & -6 \\
+  -6 & 6
+\end{bmatrix} ×10^7 N/m
+$$
+
+The first matrix:
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix}
+$$
+
+$$
+\frac{\rho}{6} 2 L_1 A_1 = \frac{2850 kg/m^3}{6} * 2 * 500mm * 600mm^2 = 0.285 kg
+$$
+
+$$
+\frac{\rho}{6} 2 L_2 A_2 = \frac{2850 kg/m^3}{6} * 2 * 350mm * 300mm^2 = 0.09975 kg
+$$
+
+$$
+\frac{\rho}{6} 2 L_1 A_1 + \frac{\rho}{6} 2 L_2 A_2 = 0.285 kg + 0.09975 kg = 0.3848 kg
+$$
+
+$$
+\frac{\rho}{6} A_2 L_2 = \frac{2850 kg/m^3}{6} * 350mm * 300mm^2 = 0.04988 kg
+$$
+
+$$
+\frac{\rho}{6} \begin{bmatrix}
+  2 L_1 A_1 + 2 L_2 A_2 & A_2 L_2 \\
+  A_2 L_2 & 2 A_2 L_2
+\end{bmatrix} = \begin{bmatrix}
+  0.3848 & 0.04988 \\
+  0.04988 & 0.04988
+\end{bmatrix} kg
+$$
+
 ## 5.
 
 I wrote a script for Quiz 5, so I will be using it again here:
@@ -107,5 +258,11 @@ The output:
 Or, in $\LaTeX$, wit better sig-figs:
 
 $$
+
 \boxed{X = 0.51\text{mm}}
+
+
+$$
+
+$$
 $$
