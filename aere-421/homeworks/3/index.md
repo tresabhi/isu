@@ -19,19 +19,19 @@ Critically damped is when damping ratio is greater that 1: **False**
 From the problem:
 
 $$
-A_1 = 600mm^2 = 6*10^{-4} m^2
+A_1 = 600mm^2
 $$
 
 $$
-A_2 = 300mm^2 = 3*10^{-4} m^2
+A_2 = 300mm^2
 $$
 
 $$
-L_1 = 500mm = 0.5m
+L_1 = 500mm
 $$
 
 $$
-L_2 = 350mm = 0.35m
+L_2 = 350mm
 $$
 
 $$
@@ -39,13 +39,17 @@ $$
 $$
 
 $$
-E = 70GPa = 70*10^9Pa
+E = 70GPa
 $$
 
 Expanding the $\alpha$'s:
 
 $$
-\alpha_1
+\alpha_1 = \frac{A_1 E}{L_1} = \frac{600mm^2 * 70GPa}{500mm} = 8.4×10^7 N/m
+$$
+
+$$
+\alpha_2 = \frac{A_2 E}{L_2} = \frac{300mm^2 * 70GPa}{350mm} = 6×10^7 N/m
 $$
 
 From the hint (I am pretty sure there was a typo in the notes; the $A_2 A_2$ should've been $A_2 L_2$):
