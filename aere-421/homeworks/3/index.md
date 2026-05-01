@@ -277,6 +277,85 @@ $$
 \omega_2 = \boxed{45016Hz}
 $$
 
+And to get the eigenvector, or the mode shapes, I extended the script to compute $a$, $b$, $c$, and $d$ using the first, positive solution:
+
+```py
+u1 = omega_solutions[2]
+
+a = a.subs(omega, u1)
+b = b.subs(omega, u1)
+c = c.subs(omega, u1)
+d = d.subs(omega, u1)
+
+print(a, b, c, d)
+```
+
+The output:
+
+```
+87978714.1484822 -67780537.0548264 -67780537.0548264 52219462.9451736
+```
+
+That's:
+
+$$
+a = 87978714.1484822
+$$
+
+$$
+b = -67780537.0548264
+$$
+
+$$
+c = -67780537.0548264
+$$
+
+$$
+d = 52219462.9451736
+$$
+
+$$
+\begin{bmatrix}
+  a & b \\
+  c & d
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3
+\end{bmatrix} = 0
+$$
+
+Setting $\bar{u}_3 = 1$:
+
+$$
+\begin{bmatrix}
+  a & b \\
+  c & d
+\end{bmatrix} \begin{bmatrix}
+  \bar{u}_2 \\
+  1
+\end{bmatrix} = 0
+$$
+
+$$
+a \bar{u}_2 + b = 0
+$$
+
+$$
+\bar{u}_2 = -b / a = 67780537.0548264 / 87978714.1484822 = 0.7704
+$$
+
+So for $\omega_1$, that's:
+
+$$
+\begin{bmatrix}
+  \bar{u}_2 \\
+  \bar{u}_3 \\
+\end{bmatrix} = \begin{bmatrix}
+  0.7704 \\
+  1 \\
+\end{bmatrix}
+$$
+
 ## 5.
 
 I wrote a script for Quiz 5, so I will be using it again here:
@@ -311,11 +390,5 @@ The output:
 Or, in $\LaTeX$, wit better sig-figs:
 
 $$
-
 \boxed{X = 0.51\text{mm}}
-
-
-$$
-
-$$
 $$

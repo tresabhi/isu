@@ -12,3 +12,12 @@ det = a * d - b * c
 omega_solutions = sympy.solve(det, omega)
 
 print(omega_solutions)
+
+u1 = omega_solutions[2]
+
+a = a.subs(omega, u1)
+b = b.subs(omega, u1)
+c = c.subs(omega, u1)
+d = d.subs(omega, u1)
+
+print(a, b, c, d)
