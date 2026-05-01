@@ -270,11 +270,11 @@ The output:
 The negative solutions are due to the square root, so, assuming principal roots, the $\omega$ values are:
 
 $$
-\omega_1 = 12490Hz
+\omega_1 = \boxed{12490Hz}
 $$
 
 $$
-\omega_2 = 45016Hz
+\omega_2 = \boxed{45016Hz}
 $$
 
 ## 5.
