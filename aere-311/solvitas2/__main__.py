@@ -15,13 +15,13 @@ air = {
 s1 = LinearizedFlatPlate(
     {
         **air,
-        alpha: 5 * ur("deg"),
+        alpha: 15 * ur("deg"),
         M_inf: 2.600,
     }
 ).solve()
 
-true_cl = 0.148
-true_cd = 0.0129
+true_cl = 0.452
+true_cd = 0.121
 
 e_cl = abs(s1[cl] - true_cl) / true_cl
 e_cd = abs(s1[cd] - true_cd) / true_cd
