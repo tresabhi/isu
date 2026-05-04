@@ -1,24 +1,28 @@
+c = [1, 1, -1, -1, -1]
+# c = [1, 1, -1, -1]
+
+wi = 1
+w1 = 2
+
 epsilon = 1e-8
-# c = [1, 1, -1, -1, -1]
-c = [1, 1, -1, -1]
 
 N = len(c) - 1
 x = [0] * N
 
 
-def polynomial():
-    global c, x
+def f(x):
+    global c
 
     y = c[0]
 
     for i in range(N):
         power = i + 1
-        y += c[power] * x[i] ** power
+        y += c[power] * x**power
 
     return y
 
 
-y = polynomial()
+y = f(x[0])
 
 iterations = 0
 
@@ -31,9 +35,9 @@ while abs(y) >= epsilon:
     x[0] = -c[0] / c_
 
     for i in range(2, N + 1):
-        x[i - 1] = (x[i - 1] + x[0]) / 2
+        x[i - 1] = (wi * x[i - 1] + w1 * x[0]) / (wi + w1)
 
-    y = polynomial()
+    y = f(x[0])
 
     iterations += 1
-    print(iterations, y, x)
+    print(f"({iterations}) f({x[0]}) = {y}")
