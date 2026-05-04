@@ -8,6 +8,7 @@ import math
 
 class Hopper:
     has_greeted = False
+    verbose = False
 
     def greet(self):
         if self.has_greeted:
@@ -23,6 +24,9 @@ class Hopper:
             print("Basing:")
 
         for symbol, convoluted_value in knowns.items():
+            if convoluted_value is None:
+                continue
+
             self.givens.append(symbol)
 
             if isinstance(convoluted_value, pint.Quantity):
@@ -95,7 +99,7 @@ class Hopper:
 
                         if self.verbose:
                             logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
-                    except:
+                    except Exception:
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
@@ -248,7 +252,6 @@ class Hopper:
         self,
         knowns,
         tabulate=True,
-        verbose=False,
         sig_figs=5,
         tolerance=2**-10,
     ):
@@ -256,7 +259,6 @@ class Hopper:
         self.givens = []
 
         self.tabulate = tabulate
-        self.verbose = verbose
         self.sig_figs = sig_figs
         self.tolerance = tolerance
 

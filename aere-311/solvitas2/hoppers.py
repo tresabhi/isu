@@ -337,6 +337,11 @@ class DiamondWedge(Hopper):
 
 
 class ExpansionWave(Hopper):
+    initials = {
+        M1: 2,
+        M2: 2,
+    }
+
     equations = [
         (
             nu1,
