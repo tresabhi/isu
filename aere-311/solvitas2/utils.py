@@ -61,7 +61,7 @@ def diamond_wedge(knowns):
         }
     ).solve()
 
-    DiamondWedge(
+    return DiamondWedge(
         {
             **knowns_superset,
             p2_p1: top_left_solutions.get(p2_p1),
