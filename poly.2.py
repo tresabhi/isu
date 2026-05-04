@@ -1,8 +1,9 @@
-c = [1, 1, -1, -1, -1]
+# c = [1, 1, -1, -1, -1]
 # c = [1, 1, -1, -1]
+c = [1, 0, -4]
 
 wi = 1
-w1 = 2
+w1 = 1
 
 epsilon = 1e-8
 
@@ -14,10 +15,11 @@ def f(x):
     global c
 
     y = c[0]
+    x_powered = 1
 
     for i in range(N):
-        power = i + 1
-        y += c[power] * x**power
+        y += c[i + 1] * x_powered
+        x_powered *= x
 
     return y
 
