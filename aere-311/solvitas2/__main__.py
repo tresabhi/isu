@@ -15,13 +15,13 @@ air = {
 s1 = LinearizedFlatPlate(
     {
         **air,
-        alpha: 5 * ur("deg"),
+        alpha: 15 * ur("deg"),
         M_inf: 2.600,
     }
 ).solve()
 
-true_p2_p_inf = 0.7022
-true_p3_p_inf = 1.403
+true_p2_p_inf = 0.315
+true_p3_p_inf = 2.529
 
 error_p2_p_inf = abs(s1[p2_p_inf] - true_p2_p_inf) / true_p2_p_inf
 error_p3_p_inf = abs(s1[p3_p_inf] - true_p3_p_inf) / true_p3_p_inf
