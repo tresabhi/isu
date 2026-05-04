@@ -1,6 +1,5 @@
 from coupler import *
 from hoppers import *
-from utils import *
 
 
 class NormalShockNozzle(Coupler):

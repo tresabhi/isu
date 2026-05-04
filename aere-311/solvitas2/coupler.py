@@ -1,4 +1,4 @@
-import utils
+import states
 from hopper import *
 
 
@@ -20,7 +20,7 @@ class Coupler:
             if i > 0:
                 knowns = {
                     **knowns,
-                    **utils.to_state_space(
+                    **states.to_state_space(
                         solutions,
                         *self.transformers[i - 1],
                     ),
