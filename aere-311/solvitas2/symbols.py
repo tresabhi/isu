@@ -18,11 +18,15 @@ M1 = Symbol("M1")
 M2 = Symbol("M2")
 M_inf = Symbol("M_inf")
 M_cr = Symbol("M_cr")
+Mn1 = Symbol("Mn1")
+Mn2 = Symbol("Mn2")
 
 p = Symbol("p", "Pa")
 p1 = Symbol("p1", "Pa")
 p2 = Symbol("p2", "Pa")
 p3 = Symbol("p3", "Pa")
+p4 = Symbol("p4", "Pa")
+p5 = Symbol("p5", "Pa")
 p0 = Symbol("p0", "Pa")
 p01 = Symbol("p01", "Pa")
 p02 = Symbol("p02", "Pa")
@@ -32,6 +36,16 @@ p_inf = Symbol("p_inf", "Pa")
 
 p1_p2 = Symbol("p1/p2")
 p2_p1 = Symbol("p2/p1")
+p1_p3 = Symbol("p1/p3")
+p3_p1 = Symbol("p3/p1")
+p1_p4 = Symbol("p1/p4")
+p4_p1 = Symbol("p4/p1")
+p1_p5 = Symbol("p1/p5")
+p5_p1 = Symbol("p5/p1")
+p2_p3 = Symbol("p2/p3")
+p3_p2 = Symbol("p3/p2")
+p4_p5 = Symbol("p4/p5")
+p5_p4 = Symbol("p5/p4")
 
 p_p0 = Symbol("p/p0")
 p1_p01 = Symbol("p1/p01")
@@ -113,6 +127,9 @@ u1 = Symbol("u1", "m/s")
 u2 = Symbol("u2", "m/s")
 u_star = Symbol("u*", "m/s")
 
+w1 = Symbol("w1", "m/s")
+w2 = Symbol("w2", "m/s")
+
 u1_u2 = Symbol("u1/u2")
 u2_u1 = Symbol("u2/u1")
 
@@ -133,6 +150,20 @@ Cl = Symbol("Cl")
 Cd = Symbol("Cd")
 
 alpha = Symbol("alpha", "rad")
+theta = Symbol("theta", "rad")
+
+epsilon = Symbol("epsilon", "rad")
+
+nu1 = Symbol("nu1", "rad")
+nu2 = Symbol("nu2", "rad")
+mu1 = Symbol("mu1", "rad")
+mu2 = Symbol("mu2", "rad")
+
+beta_weak = Symbol("beta_weak", "rad")
+beta_strong = Symbol("beta_strong", "rad")
+
+t = Symbol("t", "m")
+c = Symbol("c", "m")
 
 # to do: finalize these ephemeral symbols
 

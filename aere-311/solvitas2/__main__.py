@@ -4,6 +4,7 @@ from registry import *
 from symbols import *
 from units import *
 from hopper import *
+from utils import *
 
 Hopper.units = anderson_units
 
@@ -12,22 +13,11 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s1 = LinearizedFlatPlate(
+diamond_wedge(
     {
         **air,
-        alpha: 30 * ur("deg"),
-        M_inf: 2.600,
+        epsilon: 10 * ur("deg"),
+        alpha: 15 * ur("deg"),
+        M1: 3.150,
     }
-).solve()
-
-true_p2_p_inf = 0.0725
-true_p3_p_inf = 5.687
-
-error_p2_p_inf = abs(s1[p2_p_inf] - true_p2_p_inf) / true_p2_p_inf
-error_p3_p_inf = abs(s1[p3_p_inf] - true_p3_p_inf) / true_p3_p_inf
-
-error_p2_p_inf *= 100
-error_p3_p_inf *= 100
-
-print(f"p2_p_inf error: {error_p2_p_inf}%")
-print(f"p3_p_inf error: {error_p3_p_inf}%")
+)

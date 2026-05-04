@@ -18,6 +18,8 @@ def state_curry(M, _p, _rho, _T):
         (p0_p, (1 + ((gamma - 1) / 2) * M**2) ** (gamma / (gamma - 1))),
         (rho0_rho, (1 + ((gamma - 1) / 2) * M**2) ** (1 / (gamma - 1))),
         (T0_T, 1 + ((gamma - 1) / 2) * M**2),
+        (p, rho * R * T),
+        (p0, rho0 * R * T0),
         #
         *ratio_curry(*_p),
         *ratio_curry(*_rho),
