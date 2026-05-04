@@ -1,8 +1,9 @@
 epsilon = 1e-8
-c = [1, 1, -1, -1, -1]
+# c = [1, 1, -1, -1, -1]
+c = [1, 1, -1, -1]
 
 N = len(c) - 1
-x = [0] * (N + 1)
+x = [0] * N
 
 
 def polynomial():
@@ -25,12 +26,12 @@ while abs(y) >= epsilon:
     c_ = c[N]
 
     for i in range(N - 1, 0, -1):
-        c_ = c_ * x[i] + c[i]
+        c_ = c_ * x[i - 1] + c[i - 2]
 
     x[0] = -c[0] / c_
 
-    for i in range(1, N + 1):
-        x[i] = (x[i] + x[i - 1]) / 2
+    for i in range(2, N + 1):
+        x[i - 1] = (x[i - 1] + x[0]) / 2
 
     y = polynomial()
 
