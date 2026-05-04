@@ -188,6 +188,7 @@ class Hopper:
                 print(f"  {symbol}")
                 print(f"    {value} {symbol.unit} ⤵")
 
+            print(ur("radian") == ur("dimensionless"))
             if symbol.unit in self.units:
                 convoluted_values[symbol] = convoluted_values[symbol].to(
                     self.units[symbol.unit]

@@ -1,4 +1,3 @@
-import time
 from hoppers import *
 from couplers import *
 from registry import *
@@ -13,9 +12,22 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s1 = PrandtlGlauertCriticalRule(
+s1 = LinearizedFlatPlate(
     {
         **air,
-        Cp_cr: -0.41,
+        alpha: 5 * ur("deg"),
+        M_inf: 2.600,
     }
 ).solve()
+
+true_cl = 0.148
+true_cd = 0.0129
+
+e_cl = abs(s1[cl] - true_cl) / true_cl
+e_cd = abs(s1[cd] - true_cd) / true_cd
+
+e_cl *= 100
+e_cd *= 100
+
+print(f"cl error = {e_cl}%")
+print(f"cd error = {e_cd}%")

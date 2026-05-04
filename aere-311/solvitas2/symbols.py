@@ -122,6 +122,10 @@ a2 = Symbol("a2", "m/s")
 Cp = Symbol("Cp")
 Cp0 = Symbol("Cp0")
 Cp_cr = Symbol("Cp_cr")
+cl = Symbol("cl")
+cd = Symbol("cd")
+
+alpha = Symbol("alpha", "rad")
 
 # to do: finalize these ephemeral symbols
 

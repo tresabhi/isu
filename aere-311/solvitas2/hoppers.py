@@ -282,3 +282,10 @@ class LaitoneRule(Hopper):
             ),
         ),
     ]
+
+
+class LinearizedFlatPlate(Hopper):
+    equations = [
+        (cl, (4 * alpha) / sympy.sqrt(M_inf**2 - 1)),
+        (cd, (4 * alpha**2) / sympy.sqrt(M_inf**2 - 1)),
+    ]
