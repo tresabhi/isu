@@ -8,6 +8,10 @@ anderson_units = {
 imperial_units = {
     **anderson_units,
     #
+    ur("K"): ur("rankine"),
     ur("m"): ur("ft"),
     ur("kg / m^3"): ur("slug / ft^3"),
+    #
+    ur("J / kg"): ur("(ft * lbf) / slug"),
+    ur("J / (K * kg)"): ur("(ft * lbf) / (slug * rankine)"),
 }

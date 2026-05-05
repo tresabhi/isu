@@ -17,7 +17,7 @@ air = {
 s = Isentropic(
     {
         **air,
-        T01: 982 * ur.rankine,
+        T01: 936 * ur.rankine,
         p01: 7.8 * ur.atm,
     }
 ).solve()

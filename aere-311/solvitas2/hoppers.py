@@ -39,6 +39,11 @@ class Isentropic(Hopper):
         *ratio_curry(p1, p2, p1_p2, p2_p1),
         *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
         *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *specific_heat_curry(T1, (h1, e1)),
+        *specific_heat_curry(T01, (h01, e01)),
+        *specific_heat_curry(T2, (h2, e2)),
+        *specific_heat_curry(T02, (h02, e02)),
     ]
 
 

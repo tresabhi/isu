@@ -1,16 +1,28 @@
 from symbol import *
 
+h = Symbol("h", "J / kg")
 h1 = Symbol("h1", "J / kg")
 h2 = Symbol("h2", "J / kg")
+h01 = Symbol("h01", "J / kg")
+h02 = Symbol("h02", "J / kg")
+
 h1_h2 = Symbol("h1/h2")
 h2_h1 = Symbol("h2/h1")
+
+e = Symbol("e", "J / kg")
+e1 = Symbol("e1", "J / kg")
+e2 = Symbol("e2", "J / kg")
+e01 = Symbol("e01", "J / kg")
+e02 = Symbol("e02", "J / kg")
 
 delta_s = Symbol("delta_s", "J / (kg * K)")
 
 gamma = Symbol("gamma")
 R = Symbol("R", "J / (kg * K)")
+
 cp = Symbol("cp", "J / (kg * K)")
 cv = Symbol("cv", "J / (kg * K)")
+
 Q = Symbol("Q", "J / kg")
 
 M = Symbol("M")
