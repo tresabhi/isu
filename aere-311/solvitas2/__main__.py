@@ -14,21 +14,35 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = LinearizedFlatPlate(
+# linear_diamond_wedge(
+#     {
+#         **air,
+#         epsilon: 10 * ur("deg"),
+#         alpha: 15 * ur("deg"),
+#         M1: 3.150,
+#     }
+# )
+
+s = LinearDiamondWedge(
     {
         **air,
-        alpha: 5 * ur("deg"),
-        M_inf: 2.600,
+        epsilon: 10 * ur("deg"),
+        alpha: 15 * ur("deg"),
+        M1: 3.150,
     }
 ).solve()
 
-rounded_cl = 0.145
-rounded_cd = 0.0127
-true_cl = 0.148
-true_cd = 0.0129
+true_cl = 0.418
+true_cd = 0.169
 
-percent_error_cl = ((true_cl - rounded_cl) / (true_cl)) * 100
-percent_error_cd = ((true_cd - rounded_cd) / (true_cd)) * 100
+error_cl = (s[Cl] - true_cl) / true_cl
+error_cd = (s[Cd] - true_cd) / true_cd
 
-print("percent error in cl:", percent_error_cl)
-print("percent error in cd:", percent_error_cd)
+error_cl *= 100
+error_cd *= 100
+
+error_cl = abs(error_cl)
+error_cd = abs(error_cd)
+
+print(f"Cl error = {error_cl}%")
+print(f"Cd error = {error_cd}%")

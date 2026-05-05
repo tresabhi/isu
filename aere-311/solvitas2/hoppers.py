@@ -349,15 +349,38 @@ class LinearDiamondWedge(Hopper):
         (Cp4, (2 * alpha4) / sympy.sqrt(M1**2 - 1)),
         (Cp3, (2 * alpha3) / sympy.sqrt(M1**2 - 1)),
         (Cp5, (2 * alpha5) / sympy.sqrt(M1**2 - 1)),
+        (Cp2, (2 / (gamma * M1**2)) * (p2_p1 - 1)),
+        (Cp4, (2 / (gamma * M1**2)) * (p4_p1 - 1)),
+        (Cp3, (2 / (gamma * M1**2)) * (p3_p2 - 1)),
+        (Cp5, (2 / (gamma * M1**2)) * (p5_p4 - 1)),
         #
-        (Cl, -Cp2 - Cp3 + Cp4 + Cp5),
+        (p3_p1, p3_p2 * p2_p1),
+        (p5_p1, p5_p4 * p4_p1),
+        #
+        (
+            Cl,
+            (2 / (gamma * M1**2))
+            * (1 / (2 * sympy.cos(epsilon)))
+            * (
+                (p4_p1 - p3_p1) * sympy.cos(alpha + epsilon)
+                + (p5_p1 - p2_p1) * sympy.cos(alpha - epsilon)
+            ),
+        ),
         (
             Cd,
-            Cp2 * (epsilon - alpha)
-            - Cp3 * (epsilon + alpha)
-            + Cp4 * (epsilon + alpha)
-            - Cp5 * (epsilon - alpha),
+            (2 / (gamma * M1**2))
+            * (1 / (2 * sympy.cos(epsilon)))
+            * (
+                (p4_p1 - p3_p1) * sympy.sin(alpha + epsilon)
+                + (p5_p1 - p2_p1) * sympy.sin(alpha - epsilon)
+            ),
         ),
+        #
+        *ratio_curry(p1, p3, p1_p3, p3_p1),
+        *ratio_curry(p1, p4, p1_p4, p4_p1),
+        *ratio_curry(p1, p5, p1_p5, p5_p1),
+        *ratio_curry(p2, p3, p2_p3, p3_p2),
+        *ratio_curry(p4, p5, p4_p5, p5_p4),
     ]
 
 
