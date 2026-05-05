@@ -7,5 +7,7 @@ anderson_units = {
 
 imperial_units = {
     **anderson_units,
+    #
     ur("m"): ur("ft"),
+    ur("kg / m^3"): ur("slug / ft^3"),
 }
