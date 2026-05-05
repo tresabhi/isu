@@ -336,6 +336,31 @@ class DiamondWedge(Hopper):
     ]
 
 
+class LinearDiamondWedge(Hopper):
+    equations = [
+        #
+        # these are my derivations; use at your own risk
+        (alpha2, epsilon - alpha),
+        (alpha4, epsilon + alpha),
+        (alpha3, -2 * epsilon),
+        (alpha5, -2 * epsilon),
+        #
+        (Cp2, (2 * alpha2) / sympy.sqrt(M1**2 - 1)),
+        (Cp4, (2 * alpha4) / sympy.sqrt(M1**2 - 1)),
+        (Cp3, (2 * alpha3) / sympy.sqrt(M1**2 - 1)),
+        (Cp5, (2 * alpha5) / sympy.sqrt(M1**2 - 1)),
+        #
+        (Cl, -Cp2 - Cp3 + Cp4 + Cp5),
+        (
+            Cd,
+            Cp2 * (epsilon - alpha)
+            - Cp3 * (epsilon + alpha)
+            + Cp4 * (epsilon + alpha)
+            - Cp5 * (epsilon - alpha),
+        ),
+    ]
+
+
 class ExpansionWave(Hopper):
     initials = {
         M1: 2,

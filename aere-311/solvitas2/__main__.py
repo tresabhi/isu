@@ -14,14 +14,15 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = diamond_wedge(
+s = LinearDiamondWedge(
     {
         **air,
         epsilon: 10 * ur("deg"),
         alpha: 15 * ur("deg"),
+        # alpha: 0 * ur("deg"),
         M1: 3.150,
     }
-)
+).solve()
 
 true_cl = 0.418
 true_cd = 0.169

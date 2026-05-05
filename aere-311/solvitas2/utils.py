@@ -1,5 +1,6 @@
 from symbols import *
 from hoppers import *
+from states import *
 
 
 def diamond_wedge(knowns):
@@ -43,21 +44,15 @@ def diamond_wedge(knowns):
     top_right_solutions = ExpansionWave(
         {
             **knowns_superset,
+            **to_state_space(top_left_solutions, 2, 1),
             theta: theta_top_right,
-            M1: top_left_solutions.get(M2),
-            p1: top_left_solutions.get(p2),
-            T1: top_left_solutions.get(T2),
-            rho1: top_left_solutions.get(rho2),
         }
     ).solve()
     bottom_right_solutions = ExpansionWave(
         {
             **knowns_superset,
+            **to_state_space(bottom_left_solutions, 2, 1),
             theta: theta_bottom_right,
-            M1: bottom_left_solutions.get(M2),
-            p1: bottom_left_solutions.get(p2),
-            T1: bottom_left_solutions.get(T2),
-            rho1: bottom_left_solutions.get(rho2),
         }
     ).solve()
 
