@@ -14,13 +14,36 @@ class State(Hopper):
     ]
 
 
-class Isentropic(Hopper):
+class Adiabatic(Hopper):
     initials = {
         M1: 2,
         M2: 2,
     }
 
     equations = [
+        (h0, h1 + u1**2 / 2),
+        (h0, h2 + u2**2 / 2),
+        #
+        *ratio_curry(p1, p2, p1_p2, p2_p1),
+        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
+        *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *specific_heat_curry(T0, (h0, e0)),
+        *specific_heat_curry(T1, (h1, e1)),
+        *specific_heat_curry(T2, (h2, e2)),
+        #
+        *delta_curry(h1, h2, delta_h),
+        *delta_curry(e1, e2, delta_e),
+        *delta_curry(s1, s2, delta_s),
+    ]
+
+
+class Isentropic(Adiabatic):
+    equations = [
+        *Adiabatic.equations,
+        #
+        (delta_s, 0),
+        #
         (p2_p1, rho2_rho1**gamma),
         (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
         #
@@ -36,18 +59,6 @@ class Isentropic(Hopper):
             (rho2, rho0, rho2_rho0, rho0_rho2),
             (T2, T0, T2_T0, T0_T2),
         ),
-        #
-        *ratio_curry(p1, p2, p1_p2, p2_p1),
-        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
-        *ratio_curry(T1, T2, T1_T2, T2_T1),
-        #
-        *specific_heat_curry(T0, (h0, e0)),
-        *specific_heat_curry(T1, (h1, e1)),
-        *specific_heat_curry(T2, (h2, e2)),
-        #
-        *delta_curry(h1, h2, delta_h),
-        *delta_curry(e1, e2, delta_e),
-        *delta_curry(s1, s2, delta_s),
     ]
 
 

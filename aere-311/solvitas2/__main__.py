@@ -14,11 +14,10 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = Isentropic(
+s = Adiabatic(
     {
         **air,
-        T0: 440.0,
-        p0: 10 * ur("atm"),
-        p1: 1 * ur("atm"),
+        T0: 950 * ur("K"),
+        T2: 600 * ur("K"),
     }
 ).solve()
