@@ -18,7 +18,7 @@ imperial_units = {
 }
 
 ephemeral_units = {
-    **imperial_units,
+    **anderson_units,
     #
-    ur("Pa"): ur("lbf / ft^2"),
+    ur("Pa"): ur("N/m^2"),
 }

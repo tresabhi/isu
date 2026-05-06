@@ -81,6 +81,9 @@ p2_p0 = Symbol("p2/p0")
 p0_p1 = Symbol("p0/p1")
 p0_p2 = Symbol("p0/p2")
 
+p02_p1 = Symbol("p02/p1")
+p1_p02 = Symbol("p1/p02")
+
 p1_p_star = Symbol("p1/p*")
 p2_p_star = Symbol("p2/p*")
 p_star_p1 = Symbol("p*/p1")
