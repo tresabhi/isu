@@ -6,7 +6,7 @@ from hopper import *
 class State(Hopper):
     equations = [
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
@@ -47,17 +47,33 @@ class Isentropic(Adiabatic):
         (p2_p1, rho2_rho1**gamma),
         (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
         #
+        (M1_star, u1 / a_star),
+        (M2_star, u2 / a_star),
+        #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p0, p1_p0, p0_p1),
             (rho1, rho0, rho1_rho0, rho0_rho1),
             (T1, T0, T1_T0, T0_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p0, p2_p0, p0_p2),
             (rho2, rho0, rho2_rho0, rho0_rho2),
             (T2, T0, T2_T0, T0_T2),
+        ),
+        *state_curry(
+            (u_star, a_star, 1),
+            (p_star, p0, p_star_p0, p0_p_star),
+            (rho_star, rho0, rho_star_rho0, rho0_rho_star),
+            (T_star, T0, T_star_T0, T0_T_star),
+        ),
+        #
+        *critical_curry(
+            (p0, rho0, T0),
+            (p_star, rho_star, T_star),
+            (p0_p_star, rho0_rho_star, T0_T_star),
+            (p_star_p0, rho_star_rho0, T_star_T0),
         ),
     ]
 
@@ -96,11 +112,6 @@ class SubsonicRayleigh(Hopper):
             * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
         ),
         #
-        (a1, sympy.sqrt((gamma * p1) / rho1)),
-        (a2, sympy.sqrt((gamma * p2) / rho2)),
-        (a1, sympy.sqrt(gamma * R * T1)),
-        (a2, sympy.sqrt(gamma * R * T2)),
-        #
         (M1, u1 / a1),
         (M2, u2 / a2),
         #
@@ -109,13 +120,13 @@ class SubsonicRayleigh(Hopper):
         *delta_curry(T01, T02, delta_T0),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -181,13 +192,13 @@ class NormalShock(Hopper):
         *ratio_curry(p01, p02, p01_p02, p02_p01),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -218,7 +229,7 @@ class SubsonicNozzle(Hopper):
         ),
         #
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
@@ -239,7 +250,7 @@ class PostShockNozzle(Hopper):
         ),
         #
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
@@ -453,13 +464,13 @@ class ExpansionWave(Hopper):
         *ratio_curry(p1, p2, p1_p2, p2_p1),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -515,13 +526,13 @@ class ObliqueShock(Hopper):
         *ratio_curry(T1, T2, T1_T2, T2_T1),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -539,13 +550,13 @@ class Bernoulli(Hopper):
         (q2, (1 / 2) * rho2 * u2**2),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p0, p1_p0, p0_p1),
             (rho1, rho0, rho1_rho0, rho0_rho1),
             (T1, T0, T1_T0, T0_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p0, p2_p0, p0_p2),
             (rho2, rho0, rho2_rho0, rho0_rho2),
             (T2, T0, T2_T0, T0_T2),

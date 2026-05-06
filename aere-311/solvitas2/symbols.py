@@ -39,6 +39,8 @@ M_inf = Symbol("M_inf")
 M_cr = Symbol("M_cr")
 Mn1 = Symbol("Mn1")
 Mn2 = Symbol("Mn2")
+M1_star = Symbol("M1*")
+M2_star = Symbol("M2*")
 
 p = Symbol("p", "Pa")
 p1 = Symbol("p1", "Pa")
@@ -84,6 +86,9 @@ p2_p_star = Symbol("p2/p*")
 p_star_p1 = Symbol("p*/p1")
 p_star_p2 = Symbol("p*/p2")
 
+p0_p_star = Symbol("p0/p*")
+p_star_p0 = Symbol("p*/p0")
+
 p_p_inf = Symbol("p/p_inf")
 p_inf_p = Symbol("p_inf/p")
 p2_p_inf = Symbol("p2/p_inf")
@@ -121,6 +126,9 @@ rho2_rho_star = Symbol("rho2/rho*")
 rho_star_rho1 = Symbol("rho*/rho1")
 rho_star_rho2 = Symbol("rho*/rho2")
 
+rho0_rho_star = Symbol("rho0/rho*")
+rho_star_rho0 = Symbol("rho*/rho0")
+
 T = Symbol("T", "K")
 T0 = Symbol("T0", "K")
 T1 = Symbol("T1", "K")
@@ -155,8 +163,12 @@ T2_T_star = Symbol("T2/T*")
 T_star_T1 = Symbol("T*/T1")
 T_star_T2 = Symbol("T*/T2")
 
+T0_T_star = Symbol("T0/T*")
+T_star_T0 = Symbol("T*/T0")
+
 A_At = Symbol("A/At")
 
+u = Symbol("u", "m/s")
 u1 = Symbol("u1", "m/s")
 u2 = Symbol("u2", "m/s")
 u_star = Symbol("u*", "m/s")
@@ -172,8 +184,10 @@ u2_u_star = Symbol("u2/u*")
 u_star_u1 = Symbol("u*/u1")
 u_star_u2 = Symbol("u*/u2")
 
+a = Symbol("a", "m/s")
 a1 = Symbol("a1", "m/s")
 a2 = Symbol("a2", "m/s")
+a_star = Symbol("a*", "m/s")
 
 Cp = Symbol("Cp")
 Cp2 = Symbol("Cp2")
