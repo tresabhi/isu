@@ -56,6 +56,8 @@ class Hopper:
         frees = []
         resolved = []
 
+        self.resolved_equations = 0
+
         for equation in self.equations:
             lhs, rhs = equation
 
@@ -127,6 +129,7 @@ class Hopper:
 
                     self.values[symbol] = value
                     resolved[i] = True
+                    self.resolved_equations += 1
                     solved += 1
 
                     for j in range(len(self.equations)):
@@ -227,7 +230,11 @@ class Hopper:
         )
         lines = lines.splitlines()
 
-        print(self.__class__.__name__)
+        name = self.__class__.__name__
+        eqs = len(self.equations)
+        solved = round((self.resolved_equations / eqs) * 100)
+
+        print(f"{name} ({eqs} eqs. | {solved}% resolved)")
         print(f"{"\n".join(lines[0:3])}")
 
         for index in range(len(ordered)):

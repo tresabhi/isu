@@ -18,7 +18,7 @@ s = NormalShock(
     {
         **air,
         #
-        p02: 1.245 * ur("atm"),
+        p01: 1.245 * ur("atm"),
         p1: 0.1 * ur("atm"),
     }
 ).solve()
