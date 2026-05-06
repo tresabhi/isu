@@ -18,7 +18,6 @@ Isentropic(
     {
         **air,
         #
-        M1: 36,
-        T1: 350 * ur("K"),
+        M1: 1.5,
     }
 ).solve()
