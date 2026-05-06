@@ -6,7 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = imperial_units
+Hopper.units = anderson_units
 # Hopper.verbose = True
 
 air = {
@@ -14,10 +14,12 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = Isentropic(
+s = NormalShock(
     {
         **air,
-        T01: 936 * ur.rankine,
-        p01: 7.8 * ur.atm,
+        T1: 288 * ur("K"),
+        p1: 1 * ur("atm"),
+        # T2: 698 * ur("K"),
+        p2: 8.656 * ur("atm"),
     }
 ).solve()

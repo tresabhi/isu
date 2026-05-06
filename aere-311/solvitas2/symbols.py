@@ -15,6 +15,11 @@ e2 = Symbol("e2", "J / kg")
 e01 = Symbol("e01", "J / kg")
 e02 = Symbol("e02", "J / kg")
 
+s1 = Symbol("s1", "J / (kg * K)")
+s2 = Symbol("s2", "J / (kg * K)")
+
+delta_h = Symbol("delta_h", "J / kg")
+delta_e = Symbol("delta_e", "J / kg")
 delta_s = Symbol("delta_s", "J / (kg * K)")
 
 gamma = Symbol("gamma")

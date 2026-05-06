@@ -44,6 +44,10 @@ class Isentropic(Hopper):
         *specific_heat_curry(T01, (h01, e01)),
         *specific_heat_curry(T2, (h2, e2)),
         *specific_heat_curry(T02, (h02, e02)),
+        #
+        *delta_curry(h1, h2, delta_h),
+        *delta_curry(e1, e2, delta_e),
+        *delta_curry(s1, s2, delta_s),
     ]
 
 
@@ -177,6 +181,15 @@ class NormalShock(Hopper):
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
         ),
+        #
+        *specific_heat_curry(T1, (h1, e1)),
+        *specific_heat_curry(T01, (h01, e01)),
+        *specific_heat_curry(T2, (h2, e2)),
+        *specific_heat_curry(T02, (h02, e02)),
+        #
+        *delta_curry(h1, h2, delta_h),
+        *delta_curry(e1, e2, delta_e),
+        *delta_curry(s1, s2, delta_s),
     ]
 
 
