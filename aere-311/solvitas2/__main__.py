@@ -18,8 +18,8 @@ diamond_wedge(
     {
         **air,
         #
-        alpha: 15 * ur("deg"),
-        epsilon: 10 * ur("deg"),
-        M1: 3,
+        alpha: 0,
+        M1: 5,
+        epsilon: 5 * ur("deg"),
     }
 )
