@@ -14,12 +14,11 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = NormalShock(
+s = Isentropic(
     {
         **air,
-        T1: 288 * ur("K"),
+        T0: 440.0,
+        p0: 10 * ur("atm"),
         p1: 1 * ur("atm"),
-        # T2: 698 * ur("K"),
-        p2: 8.656 * ur("atm"),
     }
 ).solve()
