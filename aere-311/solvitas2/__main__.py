@@ -14,13 +14,19 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-WeakObliqueShock(
+s = WeakObliqueShock(
     {
         **air,
         #
-        theta: 22.5 * ur("deg"),
-        M1: 2.5,
-        p1: 2 * ur("atm"),
-        T1: 280 * ur("K"),
+        theta: 30.2 * ur("deg"),
+        M1: 3.5,
+        p1: 0.5 * ur("atm"),
+    }
+).solve()
+
+NormalShock(
+    {
+        **air,
+        **to_state_space(s, 2, 1),
     }
 ).solve()
