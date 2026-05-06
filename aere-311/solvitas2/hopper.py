@@ -67,9 +67,33 @@ class Hopper:
             lhs_subbed = lhs.subs(self.values)
             rhs_subbed = rhs.subs(self.values)
 
-            frees.append((lhs_subbed.free_symbols, rhs_subbed.free_symbols))
-            subbed.append((lhs_subbed, rhs_subbed))
-            resolved.append(False)
+            lhs_free = lhs_subbed.free_symbols
+            rhs_free = rhs_subbed.free_symbols
+
+            free_union = lhs_free | rhs_free
+
+            if len(free_union) == 0:
+                lhs_float = float(lhs_subbed)
+                rhs_float = float(rhs_subbed)
+
+                if (
+                    lhs_float == rhs_float
+                    or abs(lhs_float - rhs_float) < self.tolerance
+                    or abs((rhs_float - lhs_float) / rhs_float) < self.tolerance
+                ):
+                    self.resolved_equations += 1
+                    resolved.append(True)
+                    frees.append((set(), set()))
+                    subbed.append((lhs_subbed, rhs_subbed))
+
+                else:
+                    print(lhs_float, rhs_float)
+                    raise Exception(f"Fed input is incompliant")
+
+            else:
+                frees.append((lhs_subbed.free_symbols, rhs_subbed.free_symbols))
+                subbed.append((lhs_subbed, rhs_subbed))
+                resolved.append(False)
 
         while True:
             if self.verbose:
@@ -165,11 +189,11 @@ class Hopper:
 
                         if (
                             lhs_float == rhs_float
-                            or abs(1 - lhs_float / rhs_float) < self.tolerance
+                            or abs(lhs_float - rhs_float) < self.tolerance
+                            or abs((rhs_float - lhs_float) / rhs_float) < self.tolerance
                         ):
                             resolved[j] = True
                         else:
-                            print(lhs, "=", rhs)
                             logger.log(
                                 f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
                             )

@@ -18,15 +18,17 @@ s = WeakObliqueShock(
     {
         **air,
         #
-        theta: 30.2 * ur("deg"),
-        M1: 3.5,
-        p1: 0.5 * ur("atm"),
+        M1: 3,
+        T1: 280 * ur("K"),
+        p1: 3 * ur("atm"),
+        theta: 30.6 * ur("deg"),
     }
 ).solve()
 
-NormalShock(
+ExpansionWave(
     {
         **air,
         **to_state_space(s, 2, 1),
+        theta: s[theta],
     }
 ).solve()
