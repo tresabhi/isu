@@ -6,7 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = ephemeral_units
+Hopper.units = imperial_units
 # Hopper.verbose = True
 
 air = {
@@ -14,13 +14,11 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = Isentropic(
+s = NormalShock(
     {
         **air,
         #
-        M1: 0.82,
-        M2: 0.78,
-        p1: 1455.6 * ur("lbf/ft^2"),
-        T1: 483.04 * ur("rankine"),
+        p02: 1.245 * ur("atm"),
+        p1: 0.1 * ur("atm"),
     }
 ).solve()

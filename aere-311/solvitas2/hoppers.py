@@ -158,6 +158,10 @@ class SupersonicRayleigh(Hopper):
 
 
 class NormalShock(Hopper):
+    initials = {
+        M1: 2,
+    }
+
     equations = [
         (M2**2, (1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2)),
         #
