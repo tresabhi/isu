@@ -91,6 +91,9 @@ p_inf_p2 = Symbol("p_inf/p2")
 p3_p_inf = Symbol("p3/p_inf")
 p_inf_p3 = Symbol("p_inf/p3")
 
+q1 = Symbol("q1", "Pa")
+q2 = Symbol("q2", "Pa")
+
 rho = Symbol("rho", "kg / m^3")
 rho1 = Symbol("rho1", "kg / m^3")
 rho2 = Symbol("rho2", "kg / m^3")

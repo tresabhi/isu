@@ -529,3 +529,25 @@ class ObliqueShock(Hopper):
         #
         *specific_heat_curry(),
     ]
+
+
+class Bernoulli(Hopper):
+    equations = [
+        (p1 + q1, p2 + q2),
+        (rho1, rho2),
+        (q1, (1 / 2) * rho1 * u1**2),
+        (q2, (1 / 2) * rho2 * u2**2),
+        #
+        *state_curry(
+            M1,
+            (p1, p0, p1_p0, p0_p1),
+            (rho1, rho0, rho1_rho0, rho0_rho1),
+            (T1, T0, T1_T0, T0_T1),
+        ),
+        *state_curry(
+            M2,
+            (p2, p0, p2_p0, p0_p2),
+            (rho2, rho0, rho2_rho0, rho0_rho2),
+            (T2, T0, T2_T0, T0_T2),
+        ),
+    ]
