@@ -6,7 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = ephemeral_units
+Hopper.units = anderson_units
 # Hopper.verbose = True
 
 air = {
@@ -18,9 +18,9 @@ WeakObliqueShock(
     {
         **air,
         #
-        beta: 30 * ur.deg,
-        M1: 4,
-        p1: 2.65e4 * ur.N / ur.m**2,
-        T1: 223.3 * ur.K,
+        theta: 22.5 * ur("deg"),
+        M1: 2.5,
+        p1: 2 * ur("atm"),
+        T1: 280 * ur("K"),
     }
 ).solve()

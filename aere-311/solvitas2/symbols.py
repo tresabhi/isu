@@ -216,7 +216,7 @@ nu2 = Symbol("nu2", "rad")
 mu1 = Symbol("mu1", "rad")
 mu2 = Symbol("mu2", "rad")
 
-beta = Symbol("beta_weak", "rad")
+beta = Symbol("beta", "rad")
 
 t = Symbol("t", "m")
 c = Symbol("c", "m")
