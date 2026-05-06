@@ -6,8 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = anderson_units
-# Hopper.units = imperial_units
+Hopper.units = ephemeral_units
 # Hopper.verbose = True
 
 air = {
@@ -19,8 +18,9 @@ s = Isentropic(
     {
         **air,
         #
-        T1: 300 * ur("K"),
-        p1: 1.2 * ur("atm"),
-        u1: 305.0 * ur("m/s"),
+        M1: 0.82,
+        M2: 0.78,
+        p1: 1455.6 * ur("lbf/ft^2"),
+        T1: 483.04 * ur("rankine"),
     }
 ).solve()

@@ -15,3 +15,9 @@ imperial_units = {
     ur("J / kg"): ur("(ft * lbf) / slug"),
     ur("J / (K * kg)"): ur("(ft * lbf) / (slug * rankine)"),
 }
+
+ephemeral_units = {
+    **imperial_units,
+    #
+    ur("Pa"): ur("lbf / ft^2"),
+}
