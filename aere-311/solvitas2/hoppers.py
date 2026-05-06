@@ -305,6 +305,8 @@ class SubsonicNozzle(Hopper):
             ** ((gamma + 1) / (gamma - 1)),
         ),
         #
+        *ratio_curry(A, At, A_At, At_A),
+        #
         *state_curry(
             (u, a, M),
             (p, p0, p_p0, p0_p),
@@ -312,6 +314,14 @@ class SubsonicNozzle(Hopper):
             (T, T0, T_T0, T0_T),
         ),
     ]
+
+
+class SupersonicNozzle(Hopper):
+    initials = {
+        M: 2,
+    }
+
+    equations = SubsonicNozzle.equations
 
 
 class PostShockNozzle(Hopper):
@@ -333,14 +343,6 @@ class PostShockNozzle(Hopper):
             (T, T0, T_T0, T0_T),
         ),
     ]
-
-
-class SupersonicNozzle(Hopper):
-    initials = {
-        M: 2,
-    }
-
-    equations = SubsonicNozzle.equations
 
 
 class PrandtlGlauertRule(Hopper):

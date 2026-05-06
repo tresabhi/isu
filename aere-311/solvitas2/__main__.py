@@ -14,12 +14,11 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-diamond_wedge(
+SubsonicNozzle(
     {
         **air,
         #
-        alpha: 0,
-        M1: 5,
-        epsilon: 5 * ur("deg"),
+        A: 2.8,
+        M: 0.32,
     }
-)
+).solve()

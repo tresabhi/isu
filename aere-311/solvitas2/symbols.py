@@ -169,7 +169,11 @@ T_star_T2 = Symbol("T*/T2")
 T0_T_star = Symbol("T0/T*")
 T_star_T0 = Symbol("T*/T0")
 
+A = Symbol("A", "m^2")
+At = Symbol("At", "m^2")
+
 A_At = Symbol("A/At")
+At_A = Symbol("At/A")
 
 u = Symbol("u", "m/s")
 u1 = Symbol("u1", "m/s")
