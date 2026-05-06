@@ -20,9 +20,9 @@ e02 = Symbol("e02", "J / kg")
 s1 = Symbol("s1", "J / (kg * K)")
 s2 = Symbol("s2", "J / (kg * K)")
 
-delta_h = Symbol("delta_h", "J / kg")
-delta_e = Symbol("delta_e", "J / kg")
-delta_s = Symbol("delta_s", "J / (kg * K)")
+delta_h = Symbol("delta h", "J / kg")
+delta_e = Symbol("delta e", "J / kg")
+delta_s = Symbol("delta s", "J / (kg * K)")
 
 gamma = Symbol("gamma")
 R = Symbol("R", "J / (kg * K)")
@@ -141,7 +141,7 @@ T02 = Symbol("T02", "K")
 T_star = Symbol("T*", "K")
 T0_star = Symbol("T0*", "K")
 
-delta_T0 = Symbol("delta_T0", "K")
+delta_T0 = Symbol("delta T0", "K")
 
 T1_T2 = Symbol("T1/T2")
 T2_T1 = Symbol("T2/T1")
@@ -216,8 +216,7 @@ nu2 = Symbol("nu2", "rad")
 mu1 = Symbol("mu1", "rad")
 mu2 = Symbol("mu2", "rad")
 
-beta_weak = Symbol("beta_weak", "rad")
-beta_strong = Symbol("beta_strong", "rad")
+beta = Symbol("beta_weak", "rad")
 
 t = Symbol("t", "m")
 c = Symbol("c", "m")

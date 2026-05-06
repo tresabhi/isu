@@ -226,6 +226,72 @@ class NormalShock(Hopper):
     ]
 
 
+class WeakObliqueShock(Hopper):
+    initials = {
+        beta: math.pi / 4,
+    }
+
+    equations = [
+        (w1, w2),
+        #
+        (Mn1, M1 * sympy.sin(beta)),
+        (M2, Mn2 / sympy.sin(beta - theta)),
+        (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
+        #
+        (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+        (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
+        (T2_T1, p2_p1 * rho1_rho2),
+        #
+        (
+            sympy.tan(theta),
+            2
+            * sympy.cot(beta)
+            * (
+                (M1**2 * sympy.sin(beta) ** 2 - 1)
+                / (M1**2 * (gamma + sympy.cos(2 * beta)) + 2)
+            ),
+        ),
+        #
+        (
+            delta_s,
+            cp
+            * sympy.ln(
+                (1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1))
+                * ((2 + (gamma - 1) * Mn1**2) / ((gamma + 1) * Mn1**2))
+            )
+            - R * sympy.ln(1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+        ),
+        (p02_p01, sympy.exp(-delta_s / R)),
+        #
+        *specific_heat_curry(),
+        #
+        *ratio_curry(p1, p2, p1_p2, p2_p1),
+        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
+        *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *state_curry(
+            (u1, a1, M1),
+            (p1, p01, p1_p01, p01_p1),
+            (rho1, rho01, rho1_rho01, rho01_rho1),
+            (T1, T01, T1_T01, T01_T1),
+        ),
+        *state_curry(
+            (u2, a2, M2),
+            (p2, p02, p2_p02, p02_p2),
+            (rho2, rho02, rho2_rho02, rho02_rho2),
+            (T2, T02, T2_T02, T02_T2),
+        ),
+    ]
+
+
+class StrongObliqueShock(Hopper):
+    initials = {
+        beta: math.pi / 2,
+    }
+
+    equations = WeakObliqueShock.equations
+
+
 class SubsonicNozzle(Hopper):
     initials = {
         M: 2**-8,
@@ -473,68 +539,6 @@ class ExpansionWave(Hopper):
         #
         *ratio_curry(T1, T2, T1_T2, T2_T1),
         *ratio_curry(p1, p2, p1_p2, p2_p1),
-        #
-        *state_curry(
-            (u1, a1, M1),
-            (p1, p01, p1_p01, p01_p1),
-            (rho1, rho01, rho1_rho01, rho01_rho1),
-            (T1, T01, T1_T01, T01_T1),
-        ),
-        *state_curry(
-            (u2, a2, M2),
-            (p2, p02, p2_p02, p02_p2),
-            (rho2, rho02, rho2_rho02, rho02_rho2),
-            (T2, T02, T2_T02, T02_T2),
-        ),
-        #
-        *specific_heat_curry(),
-    ]
-
-
-class ObliqueShock(Hopper):
-    equations = [
-        # (w1, w2),
-        #
-        (Mn1, M1 * sympy.sin(beta_weak)),
-        (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
-        (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
-        (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
-        (T2_T1, p2_p1 / rho2_rho1),
-        (M2, Mn2 / sympy.sin(beta_weak - theta)),
-        #
-        (sympy.tan(beta_weak), u1 / w1),
-        (sympy.tan(beta_weak - theta), u2 / w2),
-        (sympy.tan(beta_weak - theta) / sympy.tan(beta_weak), u2_u1),
-        (u2_u1, 1 / rho2_rho1),
-        (
-            u2_u1,
-            (2 + (gamma - 1) * M1**2 * sympy.sin(beta_weak) ** 2)
-            / ((gamma + 1) * M1**2 * sympy.sin(beta_weak) ** 2),
-        ),
-        #
-        (
-            sympy.tan(theta),
-            2
-            * sympy.cot(beta_weak)
-            * (
-                (M1**2 * sympy.sin(beta_weak) ** 2 - 1)
-                / (M1**2 * (gamma + sympy.cos(2 * beta_weak)) + 2)
-            ),
-        ),
-        (
-            sympy.tan(theta),
-            2
-            * sympy.cot(beta_strong)
-            * (
-                (M1**2 * sympy.sin(beta_strong) ** 2 - 1)
-                / (M1**2 * (gamma + sympy.cos(2 * beta_strong)) + 2)
-            ),
-        ),
-        (theta, beta_weak - sympy.atan((1 / rho2_rho1) * sympy.tan(beta_weak))),
-        #
-        *ratio_curry(p1, p2, p1_p2, p2_p1),
-        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
-        *ratio_curry(T1, T2, T1_T2, T2_T1),
         #
         *state_curry(
             (u1, a1, M1),

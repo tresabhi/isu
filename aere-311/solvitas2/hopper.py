@@ -169,6 +169,7 @@ class Hopper:
                         ):
                             resolved[j] = True
                         else:
+                            print(lhs, "=", rhs)
                             logger.log(
                                 f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
                             )
