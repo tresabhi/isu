@@ -14,20 +14,12 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s2 = ExpansionWave(
+diamond_wedge(
     {
         **air,
         #
-        theta: 4 * ur("deg"),
-        M1: 2.6,
+        alpha: 15 * ur("deg"),
+        epsilon: 10 * ur("deg"),
+        M1: 3,
     }
-).solve()
-
-s3 = WeakObliqueShock(
-    {
-        **air,
-        #
-        theta: 4 * ur("deg"),
-        M1: 2.6,
-    }
-).solve()
+)
