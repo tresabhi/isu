@@ -14,11 +14,20 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = ExpansionWave(
+s2 = ExpansionWave(
     {
         **air,
         #
-        M1: 1.00001,
-        M2: 99999999,
+        theta: 4 * ur("deg"),
+        M1: 2.6,
+    }
+).solve()
+
+s3 = WeakObliqueShock(
+    {
+        **air,
+        #
+        theta: 4 * ur("deg"),
+        M1: 2.6,
     }
 ).solve()
