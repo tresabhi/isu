@@ -59,6 +59,9 @@ class Hopper:
         for equation in self.equations:
             lhs, rhs = equation
 
+            lhs = sympy.sympify(lhs)
+            rhs = sympy.sympify(rhs)
+
             lhs_subbed = lhs.subs(self.values)
             rhs_subbed = rhs.subs(self.values)
 

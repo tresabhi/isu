@@ -6,7 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = anderson_units
+Hopper.units = imperial_units
 # Hopper.verbose = True
 
 air = {
@@ -14,10 +14,12 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-s = Adiabatic(
+s = Isentropic(
     {
         **air,
-        T0: 950 * ur("K"),
-        T2: 600 * ur("K"),
+        T0: 936 * ur("rankine"),
+        p0: 7.8 * ur("atm"),
+        M1: 3,
+        T2: 600 * ur("rankine"),
     }
 ).solve()
