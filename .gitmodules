@@ -14,9 +14,6 @@
 	path = me-280/homeworks/4/src/turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 	branch = humble
-[submodule "me-280/project"]
-	path = me-280/project
-	url = https://github.com/tresabhi/me-280-project.git
 [submodule "aere-361/labs/1"]
 	path = aere-361/labs/1
 	url = https://github.com/AERE-361/lab-1-s2026-tresabhi.git
@@ -68,3 +65,6 @@
 [submodule "aere-351/project"]
 	path = aere-351/project
 	url = https://github.com/tresabhi/isu-aere-351-project.git
+[submodule "me-280/project"]
+	path = me-280/project
+	url = https://github.com/tresabhi/isu-me-280-project.git
