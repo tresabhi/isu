@@ -3,33 +3,48 @@ from symbols import *
 state_space_bindings = {
     "generic": (
         M,
-        p_p0,
-        rho_rho0,
-        T_T0,
+        #
+        p,
+        rho,
+        T,
         #
         p0,
         rho0,
         T0,
+        #
+        p_p0,
+        rho_rho0,
+        T_T0,
     ),
     1: (
         M1,
-        p1_p01,
-        rho1_rho01,
-        T1_T01,
+        #
+        p1,
+        rho1,
+        T1,
         #
         p01,
         rho01,
         T01,
+        #
+        p1_p01,
+        rho1_rho01,
+        T1_T01,
     ),
     2: (
         M2,
-        p2_p02,
-        rho2_rho02,
-        T2_T02,
+        #
+        p2,
+        rho2,
+        T2,
         #
         p02,
         rho02,
         T02,
+        #
+        p2_p02,
+        rho2_rho02,
+        T2_T02,
     ),
     "nozzle_post_shock": (A_At, p0),
     "nozzle_post_shock_exit": (As_At2, p0),

@@ -5,6 +5,7 @@ from symbols import *
 from units import *
 from hopper import *
 from utils import *
+from shakers import *
 
 Hopper.units = anderson_units
 # Hopper.verbose = True
@@ -14,13 +15,22 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-Isentropic(
-    {
-        **air,
-        #
-        p1: 0.947 * ur("atm"),
-        T0: 300 * ur("K"),
-        p0: 1 * ur("atm"),
-        A1: 1.616 * 0.3 * ur("m^2"),
-    }
-).solve()
+NormalShockNozzleShaker(
+    [
+        {
+            **air,
+            p0: 1 * ur("atm"),
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+            Ae_At1: 1.53,
+            p: 0.75 * ur("atm"),
+        },
+    ],
+)
