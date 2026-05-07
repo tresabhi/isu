@@ -7,13 +7,48 @@ class Coupler:
         self.range = range
         self.target = target
         self.hoppers_count = len(self.hoppers)
-        self.states = [{**hop} for hop in hops]
+        self.hops = hops
 
+    def solve(self, tolerance=1e-6, max_iterations=100):
         a, b = self.range
 
-        self.go(True, (a + b) / 2)
+        best_guess = None
+        best_error = float("inf")
 
-    def go(self, forward, guess):
+        for _ in range(max_iterations):
+            width = b - a
+
+            if width < tolerance:
+                break
+
+            m1 = a + width / 3
+            m2 = b - width / 3
+
+            y1 = self.go(True, m1, [{**hop} for hop in self.hops])
+            y2 = self.go(True, m2, [{**hop} for hop in self.hops])
+
+            e1 = abs(y1 / self.target - 1)
+            e2 = abs(y2 / self.target - 1)
+
+            if e1 < best_error:
+                best_error = e1
+                best_guess = m1
+
+            if e2 < best_error:
+                best_error = e2
+                best_guess = m2
+
+            if best_error < tolerance:
+                break
+
+            if e1 < e2:
+                b = m2
+            else:
+                a = m1
+
+        return best_guess
+
+    def go(self, forward, guess, states):
         indices = (
             range(self.hoppers_count)
             if forward
@@ -26,7 +61,7 @@ class Coupler:
             passed_state = {}
             target_key = None
 
-            for key, value in self.states[i].items():
+            for key, value in states[i].items():
                 if value is x:
                     passed_state[key] = guess
                 elif value is y:
@@ -38,9 +73,9 @@ class Coupler:
             solutions = hopper.solve()
 
             if target_key is not None and target_key in solutions:
-                return target_key
+                return solutions[target_key]
 
-            self.states[i] = {**solutions, **self.states[i]}
+            states[i] = {**solutions, **states[i]}
 
             merge_criteria = self.hoppers_count - 1 if forward else 0
 
@@ -52,7 +87,7 @@ class Coupler:
 
                 next_i = i + 1 if forward else i - 1
 
-                self.states[next_i] = {
-                    **self.states[next_i],
-                    **to_state_space(self.states[i], stateA, stateB),
+                states[next_i] = {
+                    **states[next_i],
+                    **to_state_space(states[i], stateA, stateB),
                 }
