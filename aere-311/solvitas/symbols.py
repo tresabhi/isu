@@ -58,6 +58,7 @@ p_star = Symbol("p*", "Pa")
 pt = Symbol("pt", "Pa")
 p_cr = Symbol("p_cr", "Pa")
 p_inf = Symbol("p_inf", "Pa")
+pB = Symbol("pB", "Pa")
 
 p1_p2 = Symbol("p1/p2")
 p2_p1 = Symbol("p2/p1")
@@ -84,6 +85,9 @@ p1_p0 = Symbol("p1/p0")
 p2_p0 = Symbol("p2/p0")
 p0_p1 = Symbol("p0/p1")
 p0_p2 = Symbol("p0/p2")
+
+pB_p0 = Symbol("pB/p0")
+p0_pB = Symbol("p0/pB")
 
 p01_p2 = Symbol("p01/p2")
 p2_p01 = Symbol("p2/p01")
@@ -251,6 +255,8 @@ beta = Symbol("beta", "rad")
 
 t = Symbol("t", "m")
 c = Symbol("c", "m")
+
+eta_D = Symbol("eta_D")
 
 # to do: finalize these ephemeral symbols
 

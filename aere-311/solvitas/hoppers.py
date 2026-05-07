@@ -251,7 +251,9 @@ class Diffuser(Hopper):
         *NormalShock.equations,
         #
         (At2_At1, p01_p02),
+        (eta_D, pB_p0 / p02_p01),
         #
+        *ratio_curry(pB, p0, pB_p0, p0_pB),
         *ratio_curry(At1, At2, At1_At2, At2_At1),
     ]
 

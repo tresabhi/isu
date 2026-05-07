@@ -39,21 +39,13 @@ air = {
 #     0.75 * ur("atm"),
 # ).solve()
 
-s = SupersonicNozzle(
-    {
-        **air,
-        #
-        M: 3.100,
-        m_dot: 1 * ur("slug / s"),
-        p: 2116 * ur("lbf / ft^2"),
-        T: 519 * ur("rankine"),
-    }
-).solve()
 
 Diffuser(
     {
         **air,
         #
-        **to_state_space(s, "generic", 1),
+        M1: 3,
+        pB: 1 * ur("atm"),
+        eta_D: 1.000,
     }
 ).solve()
