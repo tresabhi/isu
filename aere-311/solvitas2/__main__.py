@@ -16,21 +16,19 @@ air = {
 }
 
 NormalShockNozzleShaker(
-    [
-        {
-            **air,
-            p0: 1 * ur("atm"),
-        },
-        {
-            **air,
-        },
-        {
-            **air,
-        },
-        {
-            **air,
-            Ae_At1: 1.53,
-            p: 0.75 * ur("atm"),
-        },
-    ],
+    {
+        **air,
+        p0: 1 * ur("atm"),
+    },
+    {
+        **air,
+    },
+    {
+        **air,
+    },
+    {
+        **air,
+        Ae_At1: 1.53,
+        p: 0.75 * ur("atm"),
+    },
 )
