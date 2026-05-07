@@ -14,9 +14,6 @@
 	path = me-280/homeworks/4/src/turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 	branch = humble
-[submodule "me-280/homeworks/4/src/me2800_hw4"]
-	path = me-280/homeworks/4/src/me2800_hw4
-	url = https://github.com/tresabhi/me2800_hw4.git
 [submodule "me-280/project"]
 	path = me-280/project
 	url = https://github.com/tresabhi/me-280-project.git
@@ -65,3 +62,9 @@
 [submodule "aere-361/labs/12"]
 	path = aere-361/labs/12
 	url = https://github.com/AERE-361/lab-12-ode-solver-s2026-tresabhi.git
+[submodule "me-280/homeworks/4/src/me2800_hw4"]
+	path = me-280/homeworks/4/src/me2800_hw4
+	url = https://github.com/tresabhi/isu-me-280-homework-4.git
+[submodule "aere-351/project"]
+	path = aere-351/project
+	url = https://github.com/tresabhi/isu-aere-351-project.git
