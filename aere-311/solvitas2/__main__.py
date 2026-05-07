@@ -14,11 +14,33 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-SubsonicNozzle(
+s1 = SubsonicNozzle(
     {
         **air,
         #
         A: 2.8,
         M: 0.32,
+    }
+).solve()
+
+s2 = SubsonicNozzle(
+    {
+        **air,
+        #
+        A: 1.311,
+        M: 0.32,
+    }
+).solve()
+
+_At = s2[At]
+_A = s1[A]
+_A_At = _A / _At
+
+print(_A, _At)
+
+SubsonicNozzle(
+    {
+        **air,
+        A_At: 2.8 / 1.311,
     }
 ).solve()
