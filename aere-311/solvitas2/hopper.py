@@ -10,6 +10,9 @@ class Hopper:
     has_greeted = False
     verbose = False
 
+    sig_figs = 5
+    tolerance = 2**-10
+
     def greet(self):
         if self.has_greeted:
             return
@@ -285,19 +288,11 @@ class Hopper:
 
         return self.knowns
 
-    def __init__(
-        self,
-        knowns,
-        tabulate=True,
-        sig_figs=5,
-        tolerance=2**-10,
-    ):
+    def __init__(self, knowns, tabulate=True):
         self.values = {}
         self.givens = []
 
         self.tabulate = tabulate
-        self.sig_figs = sig_figs
-        self.tolerance = tolerance
 
         self.initials = getattr(self, "initials", {})
 

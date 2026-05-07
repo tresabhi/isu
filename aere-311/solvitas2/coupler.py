@@ -3,22 +3,25 @@ from hopper import *
 
 
 class Coupler:
+    tolerance = 2**-10
+    max_iterations = 64
+
     def __init__(self, hops, range, target):
         self.range = range
         self.target = target
         self.hoppers_count = len(self.hoppers)
         self.hops = hops
 
-    def solve(self, tolerance=1e-6, max_iterations=100):
+    def solve(self):
         a, b = self.range
 
         best_guess = None
         best_error = float("inf")
 
-        for _ in range(max_iterations):
+        for _ in range(self.max_iterations):
             width = b - a
 
-            if width < tolerance:
+            if width < self.tolerance:
                 break
 
             m1 = a + width / 3
@@ -38,7 +41,7 @@ class Coupler:
                 best_error = e2
                 best_guess = m2
 
-            if best_error < tolerance:
+            if best_error < self.tolerance:
                 break
 
             if e1 < e2:
