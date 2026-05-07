@@ -211,8 +211,6 @@ class NormalShock(Hopper):
             * ((1 - gamma + 2 * gamma * M2**2) / (gamma + 1)),
         ),
         #
-        (At2_At1, p01_p02),
-        #
         *ratio_curry(u1, u2, u1_u2, u2_u1),
         *ratio_curry(h1, h2, h1_h2, h2_h1),
         *ratio_curry(p1, p2, p1_p2, p2_p1),
@@ -243,6 +241,16 @@ class NormalShock(Hopper):
         *delta_curry(h1, h2, delta_h),
         *delta_curry(e1, e2, delta_e),
         *delta_curry(s1, s2, delta_s),
+    ]
+
+
+class Diffuser(Hopper):
+    # initials = NormalShock.initials
+
+    equations = [
+        *NormalShock.equations,
+        #
+        (At2_At1, p01_p02),
         #
         *ratio_curry(At1, At2, At1_At2, At2_At1),
     ]

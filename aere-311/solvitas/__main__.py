@@ -50,7 +50,7 @@ s = SupersonicNozzle(
     }
 ).solve()
 
-NormalShock(
+Diffuser(
     {
         **air,
         #
