@@ -305,6 +305,9 @@ class SubsonicNozzle(Hopper):
             ** ((gamma + 1) / (gamma - 1)),
         ),
         #
+        (m_dot, rho * A * u),
+        (m_dot, rhot * At * ut),
+        #
         *ratio_curry(A, At, A_At, At_A),
         #
         *state_curry(
@@ -312,6 +315,12 @@ class SubsonicNozzle(Hopper):
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
+        ),
+        *state_curry(
+            (ut, at, 1),
+            (pt, p0, pt_p0, p0_pt),
+            (rhot, rho0, rhot_rho0, rho0_rhot),
+            (Tt, T0, Tt_T0, T0_Tt),
         ),
     ]
 

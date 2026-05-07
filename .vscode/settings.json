@@ -110,6 +110,7 @@
     "randint",
     "randn",
     "Raphson",
+    "rhot",
     "rosbag",
     "Runge",
     "scanf",
