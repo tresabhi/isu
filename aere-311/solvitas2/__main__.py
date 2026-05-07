@@ -5,6 +5,7 @@ from symbols import *
 from units import *
 from hopper import *
 from utils import *
+from shakers import *
 
 Hopper.units = anderson_units
 # Hopper.verbose = True
@@ -14,35 +15,26 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-# linear_diamond_wedge(
-#     {
-#         **air,
-#         epsilon: 10 * ur("deg"),
-#         alpha: 15 * ur("deg"),
-#         M1: 3.150,
-#     }
-# )
-
-s = LinearDiamondWedge(
-    {
-        **air,
-        epsilon: 10 * ur("deg"),
-        alpha: 15 * ur("deg"),
-        M1: 3.150,
-    }
+NormalShockNozzle(
+    [
+        {
+            **air,
+            p0: 1 * ur("atm"),
+            A_At: x,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+            Ae_At1: 1.53,
+            As_At1: x,
+            p: y,
+        },
+    ],
+    (1, 2),
+    0.75 * ur("atm"),
 ).solve()
-
-true_cl = 0.418
-true_cd = 0.169
-
-error_cl = (s[Cl] - true_cl) / true_cl
-error_cd = (s[Cd] - true_cd) / true_cd
-
-error_cl *= 100
-error_cd *= 100
-
-error_cl = abs(error_cl)
-error_cd = abs(error_cd)
-
-print(f"Cl error = {error_cl}%")
-print(f"Cd error = {error_cd}%")

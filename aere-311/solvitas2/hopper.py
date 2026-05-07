@@ -10,6 +10,9 @@ class Hopper:
     has_greeted = False
     verbose = False
 
+    sig_figs = 5
+    tolerance = 2**-10
+
     def greet(self):
         if self.has_greeted:
             return
@@ -56,15 +59,44 @@ class Hopper:
         frees = []
         resolved = []
 
+        self.resolved_equations = 0
+
         for equation in self.equations:
             lhs, rhs = equation
+
+            lhs = sympy.sympify(lhs)
+            rhs = sympy.sympify(rhs)
 
             lhs_subbed = lhs.subs(self.values)
             rhs_subbed = rhs.subs(self.values)
 
-            frees.append((lhs_subbed.free_symbols, rhs_subbed.free_symbols))
-            subbed.append((lhs_subbed, rhs_subbed))
-            resolved.append(False)
+            lhs_free = lhs_subbed.free_symbols
+            rhs_free = rhs_subbed.free_symbols
+
+            free_union = lhs_free | rhs_free
+
+            if len(free_union) == 0:
+                lhs_float = float(lhs_subbed)
+                rhs_float = float(rhs_subbed)
+
+                if (
+                    lhs_float == rhs_float
+                    or abs(lhs_float - rhs_float) < self.tolerance
+                    or abs((rhs_float - lhs_float) / rhs_float) < self.tolerance
+                ):
+                    self.resolved_equations += 1
+                    resolved.append(True)
+                    frees.append((set(), set()))
+                    subbed.append((lhs_subbed, rhs_subbed))
+
+                else:
+                    print(lhs_float, rhs_float)
+                    raise Exception(f"Fed input is incompliant")
+
+            else:
+                frees.append((lhs_subbed.free_symbols, rhs_subbed.free_symbols))
+                subbed.append((lhs_subbed, rhs_subbed))
+                resolved.append(False)
 
         while True:
             if self.verbose:
@@ -100,9 +132,11 @@ class Hopper:
                         if self.verbose:
                             logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                     except Exception:
+                        print(self.givens)
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
+                        print(self.__class__.__name__, rhs_subbed - lhs_subbed)
 
                         values = sympy.solve(expression, symbol)
 
@@ -124,6 +158,7 @@ class Hopper:
 
                     self.values[symbol] = value
                     resolved[i] = True
+                    self.resolved_equations += 1
                     solved += 1
 
                     for j in range(len(self.equations)):
@@ -159,7 +194,8 @@ class Hopper:
 
                         if (
                             lhs_float == rhs_float
-                            or abs(1 - lhs_float / rhs_float) < self.tolerance
+                            or abs(lhs_float - rhs_float) < self.tolerance
+                            or abs((rhs_float - lhs_float) / rhs_float) < self.tolerance
                         ):
                             resolved[j] = True
                         else:
@@ -176,7 +212,7 @@ class Hopper:
             if solved == 0:
                 break
 
-        if not self.verbose:
+        if not self.verbose and self.tabulate:
             print()
 
     def convolute(self):
@@ -224,7 +260,11 @@ class Hopper:
         )
         lines = lines.splitlines()
 
-        print(self.__class__.__name__)
+        name = self.__class__.__name__
+        eqs = len(self.equations)
+        solved = round((self.resolved_equations / eqs) * 100)
+
+        print(f"{name} ({eqs} eqs. | {solved}% resolved)")
         print(f"{"\n".join(lines[0:3])}")
 
         for index in range(len(ordered)):
@@ -248,19 +288,11 @@ class Hopper:
 
         return self.knowns
 
-    def __init__(
-        self,
-        knowns,
-        tabulate=True,
-        sig_figs=5,
-        tolerance=2**-10,
-    ):
+    def __init__(self, knowns, tabulate=True):
         self.values = {}
         self.givens = []
 
         self.tabulate = tabulate
-        self.sig_figs = sig_figs
-        self.tolerance = tolerance
 
         self.initials = getattr(self, "initials", {})
 

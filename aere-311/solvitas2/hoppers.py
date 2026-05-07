@@ -6,7 +6,7 @@ from hopper import *
 class State(Hopper):
     equations = [
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
@@ -14,31 +14,70 @@ class State(Hopper):
     ]
 
 
-class Isentropic(Hopper):
+class Adiabatic(Hopper):
+    initials = {
+        M1: 2,
+        M2: 2,
+    }
+
     equations = [
-        (p2_p1, rho2_rho1**gamma),
-        (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
-        #
-        (p01, p02),
-        (rho01, rho02),
-        (T01, T02),
-        #
-        *state_curry(
-            M1,
-            (p1, p01, p1_p01, p01_p1),
-            (rho1, rho01, rho1_rho01, rho01_rho1),
-            (T1, T01, T1_T01, T01_T1),
-        ),
-        *state_curry(
-            M2,
-            (p2, p02, p2_p02, p02_p2),
-            (rho2, rho02, rho2_rho02, rho02_rho2),
-            (T2, T02, T2_T02, T02_T2),
-        ),
+        (h0, h1 + u1**2 / 2),
+        (h0, h2 + u2**2 / 2),
         #
         *ratio_curry(p1, p2, p1_p2, p2_p1),
         *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
         *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *specific_heat_curry(T0, (h0, e0)),
+        *specific_heat_curry(T1, (h1, e1)),
+        *specific_heat_curry(T2, (h2, e2)),
+        #
+        *delta_curry(h1, h2, delta_h),
+        *delta_curry(e1, e2, delta_e),
+        *delta_curry(s1, s2, delta_s),
+    ]
+
+
+class Isentropic(Adiabatic):
+    equations = [
+        *Adiabatic.equations,
+        #
+        (delta_s, 0),
+        #
+        (p2_p1, rho2_rho1**gamma),
+        (p2_p1, T2_T1 ** (gamma / (gamma - 1))),
+        #
+        (M1_star, u1 / a_star),
+        (M2_star, u2 / a_star),
+        #
+        (m_dot, rho1 * u1 * A1),
+        (m_dot, rho2 * u2 * A2),
+        #
+        *state_curry(
+            (u1, a1, M1),
+            (p1, p0, p1_p0, p0_p1),
+            (rho1, rho0, rho1_rho0, rho0_rho1),
+            (T1, T0, T1_T0, T0_T1),
+        ),
+        *state_curry(
+            (u2, a2, M2),
+            (p2, p0, p2_p0, p0_p2),
+            (rho2, rho0, rho2_rho0, rho0_rho2),
+            (T2, T0, T2_T0, T0_T2),
+        ),
+        *state_curry(
+            (u_star, a_star, 1),
+            (p_star, p0, p_star_p0, p0_p_star),
+            (rho_star, rho0, rho_star_rho0, rho0_rho_star),
+            (T_star, T0, T_star_T0, T0_T_star),
+        ),
+        #
+        *critical_curry(
+            (p0, rho0, T0),
+            (p_star, rho_star, T_star),
+            (p0_p_star, rho0_rho_star, T0_T_star),
+            (p_star_p0, rho_star_rho0, T_star_T0),
+        ),
     ]
 
 
@@ -76,11 +115,6 @@ class SubsonicRayleigh(Hopper):
             * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
         ),
         #
-        (a1, sympy.sqrt((gamma * p1) / rho1)),
-        (a2, sympy.sqrt((gamma * p2) / rho2)),
-        (a1, sympy.sqrt(gamma * R * T1)),
-        (a2, sympy.sqrt(gamma * R * T2)),
-        #
         (M1, u1 / a1),
         (M2, u2 / a2),
         #
@@ -89,13 +123,13 @@ class SubsonicRayleigh(Hopper):
         *delta_curry(T01, T02, delta_T0),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -127,6 +161,11 @@ class SupersonicRayleigh(Hopper):
 
 
 class NormalShock(Hopper):
+    # initials = {
+    #     M1: 0.5,
+    #     M2: 0.5,
+    # }
+
     equations = [
         (M2**2, (1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2)),
         #
@@ -152,6 +191,25 @@ class NormalShock(Hopper):
             - R * sympy.ln(1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
         ),
         (p02_p01, sympy.exp(-delta_s / R)),
+        (
+            p02_p1,
+            (((gamma + 1) ** 2 * M1**2) / (4 * gamma * M1**2 - 2 * (gamma - 1)))
+            ** (gamma / (gamma - 1))
+            * ((1 - gamma + 2 * gamma * M1**2) / (gamma + 1)),
+        ),
+        # (
+        #     p01_p2,
+        #     ((1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1)))
+        #     / (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+        # ),
+        (
+            p01_p2,
+            (
+                (((gamma + 1) ** 2 * M2**2) / (4 * gamma * M2**2 - 2 * (gamma - 1)))
+                ** (gamma / (gamma - 1))
+            )
+            * ((1 - gamma + 2 * gamma * M2**2) / (gamma + 1)),
+        ),
         #
         *ratio_curry(u1, u2, u1_u2, u2_u1),
         *ratio_curry(h1, h2, h1_h2, h2_h1),
@@ -159,20 +217,97 @@ class NormalShock(Hopper):
         *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
         *ratio_curry(T1, T2, T1_T2, T2_T1),
         *ratio_curry(p01, p02, p01_p02, p02_p01),
+        *ratio_curry(p01, p2, p01_p2, p2_p01),
+        *ratio_curry(p02, p1, p02_p1, p1_p02),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
+            (p2, p02, p2_p02, p02_p2),
+            (rho2, rho02, rho2_rho02, rho02_rho2),
+            (T2, T02, T2_T02, T02_T2),
+        ),
+        #
+        *specific_heat_curry(T1, (h1, e1)),
+        *specific_heat_curry(T01, (h01, e01)),
+        *specific_heat_curry(T2, (h2, e2)),
+        *specific_heat_curry(T02, (h02, e02)),
+        #
+        *delta_curry(h1, h2, delta_h),
+        *delta_curry(e1, e2, delta_e),
+        *delta_curry(s1, s2, delta_s),
+    ]
+
+
+class WeakObliqueShock(Hopper):
+    initials = {
+        beta: math.pi / 4,
+    }
+
+    equations = [
+        (w1, w2),
+        #
+        (Mn1, M1 * sympy.sin(beta)),
+        (M2, Mn2 / sympy.sin(beta - theta)),
+        (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
+        #
+        (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+        (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
+        (T2_T1, p2_p1 * rho1_rho2),
+        #
+        (
+            sympy.tan(theta),
+            2
+            * sympy.cot(beta)
+            * (
+                (M1**2 * sympy.sin(beta) ** 2 - 1)
+                / (M1**2 * (gamma + sympy.cos(2 * beta)) + 2)
+            ),
+        ),
+        #
+        (
+            delta_s,
+            cp
+            * sympy.ln(
+                (1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1))
+                * ((2 + (gamma - 1) * Mn1**2) / ((gamma + 1) * Mn1**2))
+            )
+            - R * sympy.ln(1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
+        ),
+        (p02_p01, sympy.exp(-delta_s / R)),
+        #
+        *specific_heat_curry(),
+        #
+        *ratio_curry(p1, p2, p1_p2, p2_p1),
+        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
+        *ratio_curry(T1, T2, T1_T2, T2_T1),
+        #
+        *state_curry(
+            (u1, a1, M1),
+            (p1, p01, p1_p01, p01_p1),
+            (rho1, rho01, rho1_rho01, rho01_rho1),
+            (T1, T01, T1_T01, T01_T1),
+        ),
+        *state_curry(
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
         ),
     ]
+
+
+class StrongObliqueShock(Hopper):
+    initials = {
+        beta: math.pi / 2,
+    }
+
+    equations = WeakObliqueShock.equations
 
 
 class SubsonicNozzle(Hopper):
@@ -188,13 +323,32 @@ class SubsonicNozzle(Hopper):
             ** ((gamma + 1) / (gamma - 1)),
         ),
         #
+        (m_dot, rho * A * u),
+        (m_dot, rhot * At * ut),
+        #
+        *ratio_curry(A, At, A_At, At_A),
+        #
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
         ),
+        *state_curry(
+            (ut, at, 1),
+            (pt, p0, pt_p0, p0_pt),
+            (rhot, rho0, rhot_rho0, rho0_rhot),
+            (Tt, T0, Tt_T0, T0_Tt),
+        ),
     ]
+
+
+class SupersonicNozzle(Hopper):
+    initials = {
+        M: 2,
+    }
+
+    equations = SubsonicNozzle.equations
 
 
 class PostShockNozzle(Hopper):
@@ -210,20 +364,12 @@ class PostShockNozzle(Hopper):
         ),
         #
         *state_curry(
-            M,
+            (u, a, M),
             (p, p0, p_p0, p0_p),
             (rho, rho0, rho_rho0, rho0_rho),
             (T, T0, T_T0, T0_T),
         ),
     ]
-
-
-class SupersonicNozzle(Hopper):
-    initials = {
-        M: 2,
-    }
-
-    equations = SubsonicNozzle.equations
 
 
 class PrandtlGlauertRule(Hopper):
@@ -424,13 +570,13 @@ class ExpansionWave(Hopper):
         *ratio_curry(p1, p2, p1_p2, p2_p1),
         #
         *state_curry(
-            M1,
+            (u1, a1, M1),
             (p1, p01, p1_p01, p01_p1),
             (rho1, rho01, rho1_rho01, rho01_rho1),
             (T1, T01, T1_T01, T01_T1),
         ),
         *state_curry(
-            M2,
+            (u2, a2, M2),
             (p2, p02, p2_p02, p02_p2),
             (rho2, rho02, rho2_rho02, rho02_rho2),
             (T2, T02, T2_T02, T02_T2),
@@ -440,63 +586,23 @@ class ExpansionWave(Hopper):
     ]
 
 
-class ObliqueShock(Hopper):
+class Bernoulli(Hopper):
     equations = [
-        (w1, w2),
-        #
-        (Mn1, M1 * sympy.sin(beta_weak)),
-        (Mn2**2, (1 + ((gamma - 1) / 2) * Mn1**2) / (gamma * Mn1**2 - (gamma - 1) / 2)),
-        (rho2_rho1, ((gamma + 1) * Mn1**2) / (2 + (gamma - 1) * Mn1**2)),
-        (p2_p1, 1 + ((2 * gamma) / (gamma + 1)) * (Mn1**2 - 1)),
-        (T2_T1, p2_p1 / rho2_rho1),
-        (M2, Mn2 / sympy.sin(beta_weak - theta)),
-        #
-        (sympy.tan(beta_weak), u1 / w1),
-        (sympy.tan(beta_weak - theta), u2 / w2),
-        (sympy.tan(beta_weak - theta) / sympy.tan(beta_weak), u2_u1),
-        (u2_u1, 1 / rho2_rho1),
-        (
-            u2_u1,
-            (2 + (gamma - 1) * M1**2 * sympy.sin(beta_weak) ** 2)
-            / ((gamma + 1) * M1**2 * sympy.sin(beta_weak) ** 2),
-        ),
-        #
-        (
-            sympy.tan(theta),
-            2
-            * sympy.cot(beta_weak)
-            * (
-                (M1**2 * sympy.sin(beta_weak) ** 2 - 1)
-                / (M1**2 * (gamma + sympy.cos(2 * beta_weak)) + 2)
-            ),
-        ),
-        (
-            sympy.tan(theta),
-            2
-            * sympy.cot(beta_strong)
-            * (
-                (M1**2 * sympy.sin(beta_strong) ** 2 - 1)
-                / (M1**2 * (gamma + sympy.cos(2 * beta_strong)) + 2)
-            ),
-        ),
-        (theta, beta_weak - sympy.atan((1 / rho2_rho1) * sympy.tan(beta_weak))),
-        #
-        *ratio_curry(p1, p2, p1_p2, p2_p1),
-        *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
-        *ratio_curry(T1, T2, T1_T2, T2_T1),
+        (p1 + q1, p2 + q2),
+        (rho1, rho2),
+        (q1, (1 / 2) * rho1 * u1**2),
+        (q2, (1 / 2) * rho2 * u2**2),
         #
         *state_curry(
-            M1,
-            (p1, p01, p1_p01, p01_p1),
-            (rho1, rho01, rho1_rho01, rho01_rho1),
-            (T1, T01, T1_T01, T01_T1),
+            (u1, a1, M1),
+            (p1, p0, p1_p0, p0_p1),
+            (rho1, rho0, rho1_rho0, rho0_rho1),
+            (T1, T0, T1_T0, T0_T1),
         ),
         *state_curry(
-            M2,
-            (p2, p02, p2_p02, p02_p2),
-            (rho2, rho02, rho2_rho02, rho02_rho2),
-            (T2, T02, T2_T02, T02_T2),
+            (u2, a2, M2),
+            (p2, p0, p2_p0, p0_p2),
+            (rho2, rho0, rho2_rho0, rho0_rho2),
+            (T2, T0, T2_T0, T0_T2),
         ),
-        #
-        *specific_heat_curry(),
     ]

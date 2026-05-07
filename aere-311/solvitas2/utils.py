@@ -19,7 +19,7 @@ def diamond_wedge(knowns):
             }
         ).solve()
     else:
-        top_left_solutions = ObliqueShock(
+        top_left_solutions = WeakObliqueShock(
             {
                 **knowns_superset,
                 theta: theta_top_left,
@@ -34,7 +34,7 @@ def diamond_wedge(knowns):
             }
         ).solve()
     else:
-        bottom_left_solutions = ObliqueShock(
+        bottom_left_solutions = WeakObliqueShock(
             {
                 **knowns_superset,
                 theta: theta_bottom_left,
