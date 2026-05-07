@@ -1,5 +1,11 @@
-from loguru import logger
+import loguru
 import sys
 
-logger.remove()
-logger.add(sys.stdout, format="{message}", colorize=True)
+loguru.logger.remove()
+loguru.logger.add(sys.stdout, format="{message}", colorize=True)
+
+logger = loguru.logger.opt(colors=True)
+
+
+def log(message):
+    logger.info(message, end="asd")

@@ -1,2 +1,2 @@
 clear
-python aere-311/solvitas2
+python aere-311/solvitas

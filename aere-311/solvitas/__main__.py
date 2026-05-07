@@ -1,70 +1,40 @@
-from solver import Solver
-from registry import ur
+from hoppers import *
+from couplers import *
+from registry import *
 from symbols import *
-from equations import *
 from units import *
+from hopper import *
 from utils import *
+from shakers import *
+
+Hopper.units = anderson_units
+# Hopper.verbose = True
 
 air = {
     gamma: 7 / 5,
-    R: 287.05 * ur.J / (ur.kg * ur.K),
+    R: 287.05 * ur("J / (kg * K)"),
 }
 
-solver = Solver(
-    equations=[
-        *ratio_equations,
-        *shock_static_equations,
-        *calorically_perfect_equations,
-        *specific_heat_equations,
-        *continuity_equations,
-        *state_equations,
-        *diffuser_equations,
-        *normal_shock_equations,
+NormalShockNozzle(
+    [
+        {
+            **air,
+            p0: 1 * ur("atm"),
+            A_At: x,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+            Ae_At1: 1.53,
+            As_At1: x,
+            p: y,
+        },
     ],
-    output_units=durbin_output_units,
-)
-
-if __name__ == "__main__":
-    # solver.solve(
-    #     {
-    #         **air,
-    #     }
-    # )
-
-    nozzle_exit(
-        {
-            **air,
-            p0: 2 * ur.atm,
-            pe: 0.7 * ur.atm,
-            # Me: 0.4,
-            Ae_At: 4.005,
-        }
-    )
-
-    print(8 / 1.5704278990627394)
-
-    # solver.solve(
-    #     {
-    #         **air,
-    #         M1: 2.79196540004919,
-    #         M2: 0.4887410111514834,
-    #     }
-    # )
-
-    solver.equations = [
-        *ratio_equations,
-        *shock_static_equations,
-        *calorically_perfect_equations,
-        *specific_heat_equations,
-        *continuity_equations,
-        *state_equations,
-        *diffuser_equations,
-        *area_mach_equations,
-    ]
-
-    solver.solve(
-        {
-            **air,
-            A_A_star: 7 / 5.094153004270078,
-        }
-    )
+    (1, 2),
+    0.75 * ur("atm"),
+).solve()
