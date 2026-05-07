@@ -35,9 +35,6 @@
 [submodule "aere-361/labs/5"]
 	path = aere-361/labs/5
 	url = https://github.com/AERE-361/lab-5-s2026-tresabhi.git
-[submodule "cpre-287/labs/6"]
-	path = cpre-287/labs/6
-	url = https://github.com/tresabhi/cpre-287-lab-6
 [submodule "aere-361/labs/6"]
 	path = aere-361/labs/6
 	url = https://github.com/AERE-361/lab-6-s2026-tresabhi
@@ -68,3 +65,24 @@
 [submodule "me-280/project"]
 	path = me-280/project
 	url = https://github.com/tresabhi/isu-me-280-project.git
+[submodule "cpre-287/labs/6"]
+	path = cpre-287/labs/6
+	url = https://github.com/tresabhi/isu-cpre-287-lab-6.git
+[submodule "cpre-287/labs/7"]
+	path = cpre-287/labs/7
+	url = https://github.com/tresabhi/isu-cpre-287-lab-7.git
+[submodule "cpre-287/labs/8"]
+	path = cpre-287/labs/8
+	url = https://github.com/tresabhi/isu-cpre-287-lab-8.git
+[submodule "cpre-287/labs/9"]
+	path = cpre-287/labs/9
+	url = https://github.com/tresabhi/isu-cpre-287-lab-9.git
+[submodule "cpre-287/labs/10"]
+	path = cpre-287/labs/10
+	url = https://github.com/tresabhi/isu-cpre-287-lab-10.git
+[submodule "cpre-287/labs/11"]
+	path = cpre-287/labs/11
+	url = https://github.com/tresabhi/isu-cpre-287-lab-11.git
+[submodule "cpre-287/labs/final"]
+	path = cpre-287/labs/final
+	url = https://github.com/tresabhi/isu-cpre-287-lab-final.git
