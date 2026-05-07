@@ -6,10 +6,7 @@ class Shaker:
         self.hoppers_count = len(self.hoppers)
         self.states = [{**hop} for hop in hops]
 
-        # self.go(False)
         self.go(True)
-        # self.go(False)
-        # self.go(True)
 
     def go(self, forward):
         indices = (
@@ -27,7 +24,7 @@ class Shaker:
             merge_criteria = self.hoppers_count - 1 if forward else 0
 
             if i != merge_criteria:
-                stateA, stateB = self.transformers[i - 1]
+                stateA, stateB = self.transformers[i if forward else i - 1]
 
                 if not forward:
                     stateA, stateB = stateB, stateA

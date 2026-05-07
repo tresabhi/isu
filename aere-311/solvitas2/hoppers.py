@@ -161,9 +161,10 @@ class SupersonicRayleigh(Hopper):
 
 
 class NormalShock(Hopper):
-    initials = {
-        M1: 2,
-    }
+    # initials = {
+    #     M1: 0.5,
+    #     M2: 0.5,
+    # }
 
     equations = [
         (M2**2, (1 + ((gamma - 1) / 2) * M1**2) / (gamma * M1**2 - (gamma - 1) / 2)),
@@ -196,6 +197,19 @@ class NormalShock(Hopper):
             ** (gamma / (gamma - 1))
             * ((1 - gamma + 2 * gamma * M1**2) / (gamma + 1)),
         ),
+        # (
+        #     p01_p2,
+        #     ((1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1)))
+        #     / (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+        # ),
+        (
+            p01_p2,
+            (
+                (((gamma + 1) ** 2 * M2**2) / (4 * gamma * M2**2 - 2 * (gamma - 1)))
+                ** (gamma / (gamma - 1))
+            )
+            * ((1 - gamma + 2 * gamma * M2**2) / (gamma + 1)),
+        ),
         #
         *ratio_curry(u1, u2, u1_u2, u2_u1),
         *ratio_curry(h1, h2, h1_h2, h2_h1),
@@ -203,6 +217,7 @@ class NormalShock(Hopper):
         *ratio_curry(rho1, rho2, rho1_rho2, rho2_rho1),
         *ratio_curry(T1, T2, T1_T2, T2_T1),
         *ratio_curry(p01, p02, p01_p02, p02_p01),
+        *ratio_curry(p01, p2, p01_p2, p2_p01),
         *ratio_curry(p02, p1, p02_p1, p1_p02),
         #
         *state_curry(

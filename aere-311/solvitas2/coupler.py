@@ -1,82 +1,58 @@
-import states
+from states import *
 from hopper import *
 
 
 class Coupler:
-    def hop(self, x):
-        solutions = None
-        target_value = None
-
-        for i in range(len(self.hoppers)):
-            hop = self.hops[i]
-            knowns = {**hop["invariants"]}
-
-            if "variant" in hop:
-                knowns = {
-                    **knowns,
-                    hop["variant"]: x,
-                }
-
-            if i > 0:
-                knowns = {
-                    **knowns,
-                    **states.to_state_space(
-                        solutions,
-                        *self.transformers[i - 1],
-                    ),
-                }
-
-            Hopper = self.hoppers[i]
-            solutions = Hopper(
-                knowns,
-                # tabulate=False,
-                tolerance=self.tolerance,
-            ).solve()
-
-            if "target" in hop:
-                if target_value is not None:
-                    raise Exception("Multiple targets")
-
-                target_value = solutions[hop["target"]]
-
-        return target_value
-
-    def solve(self):
-        a, b = self.range
-
-        for _ in range(self.max_iterations):
-            x = (a + b) / 2
-
-            value = self.hop(x)
-            error = abs(value / self.target - 1)
-
-            if error < self.tolerance:
-                return x
-
-            if (value > self.target) == self.increasing:
-                b = x
-            else:
-                a = x
-
-        raise Exception(f"Failed to converge in {self.max_iterations} iterations")
-
-    def __init__(
-        self,
-        hops,
-        variant_range,
-        target,
-        tolerance=2**-10,
-        max_iterations=2**5,
-    ):
-        self.hops = hops
-        self.range = variant_range
+    def __init__(self, hops, range, target):
+        self.range = range
         self.target = target
-        self.tolerance = tolerance
-        self.max_iterations = max_iterations
+        self.hoppers_count = len(self.hoppers)
+        self.states = [{**hop} for hop in hops]
 
         a, b = self.range
 
-        value_a = self.hop(a)
-        value_b = self.hop(b)
+        self.go(True, (a + b) / 2)
 
-        self.increasing = value_b > value_a
+    def go(self, forward, guess):
+        indices = (
+            range(self.hoppers_count)
+            if forward
+            else range(self.hoppers_count - 1, -1, -1)
+        )
+
+        for i in indices:
+            Hopper = self.hoppers[i]
+
+            passed_state = {}
+            target_key = None
+
+            for key, value in self.states[i].items():
+                if value is x:
+                    passed_state[key] = guess
+                elif value is y:
+                    target_key = key
+                else:
+                    passed_state[key] = value
+
+            hopper = Hopper(passed_state)
+            solutions = hopper.solve()
+
+            if target_key is not None and target_key in solutions:
+                return target_key
+
+            self.states[i] = {**solutions, **self.states[i]}
+
+            merge_criteria = self.hoppers_count - 1 if forward else 0
+
+            if i != merge_criteria:
+                stateA, stateB = self.transformers[i if forward else i - 1]
+
+                if not forward:
+                    stateA, stateB = stateB, stateA
+
+                next_i = i + 1 if forward else i - 1
+
+                self.states[next_i] = {
+                    **self.states[next_i],
+                    **to_state_space(self.states[i], stateA, stateB),
+                }

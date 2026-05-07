@@ -15,20 +15,26 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-NormalShockNozzleShaker(
-    {
-        **air,
-        p0: 1 * ur("atm"),
-    },
-    {
-        **air,
-    },
-    {
-        **air,
-    },
-    {
-        **air,
-        Ae_At1: 1.53,
-        p: 0.75 * ur("atm"),
-    },
+NormalShockNozzle(
+    [
+        {
+            **air,
+            p0: 1 * ur("atm"),
+            A_At: x,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+        },
+        {
+            **air,
+            Ae_At1: 1.53,
+            As_At1: x,
+            p: y,
+        },
+    ],
+    (1, 2),
+    0.75 * ur("atm"),
 )

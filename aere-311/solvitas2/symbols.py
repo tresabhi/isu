@@ -1,5 +1,8 @@
 from symbol import *
 
+x = Symbol("x")
+y = Symbol("y")
+
 h = Symbol("h", "J / kg")
 h0 = Symbol("h0", "J / kg")
 h1 = Symbol("h1", "J / kg")
@@ -82,6 +85,8 @@ p2_p0 = Symbol("p2/p0")
 p0_p1 = Symbol("p0/p1")
 p0_p2 = Symbol("p0/p2")
 
+p01_p2 = Symbol("p01/p2")
+p2_p01 = Symbol("p2/p01")
 p02_p1 = Symbol("p02/p1")
 p1_p02 = Symbol("p1/p02")
 

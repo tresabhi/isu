@@ -129,9 +129,11 @@ class Hopper:
                         if self.verbose:
                             logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                     except Exception:
+                        print(self.givens)
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
+                        print(self.__class__.__name__, rhs_subbed - lhs_subbed)
 
                         values = sympy.solve(expression, symbol)
 
