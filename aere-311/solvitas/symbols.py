@@ -190,9 +190,13 @@ A = Symbol("A", "m^2")
 A1 = Symbol("A1", "m^2")
 A2 = Symbol("A2", "m^2")
 At = Symbol("At", "m^2")
+At1 = Symbol("At1", "m^2")
+At2 = Symbol("At2", "m^2")
 
 A_At = Symbol("A/At")
 At_A = Symbol("At/A")
+At1_At2 = Symbol("At1/At2")
+At2_At1 = Symbol("At2/At1")
 
 u = Symbol("u", "m/s")
 u1 = Symbol("u1", "m/s")

@@ -15,6 +15,9 @@ state_space_bindings = {
         p_p0,
         rho_rho0,
         T_T0,
+        #
+        A,
+        At,
     ),
     1: (
         M1,
@@ -30,6 +33,9 @@ state_space_bindings = {
         p1_p01,
         rho1_rho01,
         T1_T01,
+        #
+        A1,
+        At1,
     ),
     2: (
         M2,
@@ -45,6 +51,9 @@ state_space_bindings = {
         p2_p02,
         rho2_rho02,
         T2_T02,
+        #
+        A2,
+        At2,
     ),
     "nozzle_post_shock": (A_At, p0, rho0, T0),
     "nozzle_post_shock_exit": (As_At2, p0, rho0, T0),

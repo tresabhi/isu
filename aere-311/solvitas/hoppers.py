@@ -197,11 +197,11 @@ class NormalShock(Hopper):
             ** (gamma / (gamma - 1))
             * ((1 - gamma + 2 * gamma * M1**2) / (gamma + 1)),
         ),
-        # (
-        #     p01_p2,
-        #     ((1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1)))
-        #     / (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
-        # ),
+        (
+            p01_p2,
+            ((1 + ((gamma - 1) / 2) * M1**2) ** (gamma / (gamma - 1)))
+            / (1 + ((2 * gamma) / (gamma + 1)) * (M1**2 - 1)),
+        ),
         (
             p01_p2,
             (
@@ -210,6 +210,8 @@ class NormalShock(Hopper):
             )
             * ((1 - gamma + 2 * gamma * M2**2) / (gamma + 1)),
         ),
+        #
+        (At2_At1, p01_p02),
         #
         *ratio_curry(u1, u2, u1_u2, u2_u1),
         *ratio_curry(h1, h2, h1_h2, h2_h1),
@@ -241,6 +243,8 @@ class NormalShock(Hopper):
         *delta_curry(h1, h2, delta_h),
         *delta_curry(e1, e2, delta_e),
         *delta_curry(s1, s2, delta_s),
+        #
+        *ratio_curry(At1, At2, At1_At2, At2_At1),
     ]
 
 
