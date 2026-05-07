@@ -50,6 +50,9 @@ class Isentropic(Adiabatic):
         (M1_star, u1 / a_star),
         (M2_star, u2 / a_star),
         #
+        (m_dot, rho1 * u1 * A1),
+        (m_dot, rho2 * u2 * A2),
+        #
         *state_curry(
             (u1, a1, M1),
             (p1, p0, p1_p0, p0_p1),

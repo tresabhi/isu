@@ -182,6 +182,8 @@ Tt_T0 = Symbol("Tt/T0")
 T0_Tt = Symbol("T0/Tt")
 
 A = Symbol("A", "m^2")
+A1 = Symbol("A1", "m^2")
+A2 = Symbol("A2", "m^2")
 At = Symbol("At", "m^2")
 
 A_At = Symbol("A/At")

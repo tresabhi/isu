@@ -6,7 +6,7 @@ from units import *
 from hopper import *
 from utils import *
 
-Hopper.units = imperial_units
+Hopper.units = anderson_units
 # Hopper.verbose = True
 
 air = {
@@ -14,13 +14,13 @@ air = {
     R: 287.05 * ur("J / (kg * K)"),
 }
 
-SubsonicNozzle(
+Isentropic(
     {
         **air,
         #
-        p0: 5 * ur("atm"),
-        T0: 520 * ur("rankine"),
-        At: 4.100 * ur("in^2"),
-        A_At: 2.193,
+        p1: 0.947 * ur("atm"),
+        T0: 300 * ur("K"),
+        p0: 1 * ur("atm"),
+        A1: 1.616 * 0.3 * ur("m^2"),
     }
 ).solve()
