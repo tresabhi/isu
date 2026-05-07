@@ -9,7 +9,7 @@ class Coupler:
     def __init__(self, hops, range, target):
         self.range = range
         self.target = target
-        self.hoppers_count = len(self.hoppers)
+        self.hoppers_count = len(hops)
         self.hops = hops
 
     def solve(self):
@@ -27,8 +27,19 @@ class Coupler:
             m1 = a + width / 3
             m2 = b - width / 3
 
-            y1 = self.go(True, m1, [{**hop} for hop in self.hops])
-            y2 = self.go(True, m2, [{**hop} for hop in self.hops])
+            y1 = self.go(
+                True,
+                m1,
+                [{**hop} for hop in self.hops],
+                tabulate=False,
+            )
+
+            y2 = self.go(
+                True,
+                m2,
+                [{**hop} for hop in self.hops],
+                tabulate=False,
+            )
 
             e1 = abs(y1 / self.target - 1)
             e2 = abs(y2 / self.target - 1)
@@ -49,17 +60,28 @@ class Coupler:
             else:
                 a = m1
 
-        return best_guess
+        final_states = [{**hop} for hop in self.hops]
 
-    def go(self, forward, guess, states):
+        final_y = self.go(
+            True,
+            best_guess,
+            final_states,
+            tabulate=True,
+        )
+
+        return best_guess, final_y
+
+    def go(self, forward, guess, states, tabulate):
         indices = (
             range(self.hoppers_count)
             if forward
             else range(self.hoppers_count - 1, -1, -1)
         )
 
+        final_value = None
+
         for i in indices:
-            Hopper = self.hoppers[i]
+            HopperClass = self.hoppers[i]
 
             passed_state = {}
             target_key = None
@@ -72,13 +94,17 @@ class Coupler:
                 else:
                     passed_state[key] = value
 
-            hopper = Hopper(passed_state)
+            hopper = HopperClass(passed_state, tabulate=tabulate)
+
             solutions = hopper.solve()
 
             if target_key is not None and target_key in solutions:
-                return solutions[target_key]
+                final_value = solutions[target_key]
 
-            states[i] = {**solutions, **states[i]}
+            states[i] = {
+                **solutions,
+                **states[i],
+            }
 
             merge_criteria = self.hoppers_count - 1 if forward else 0
 
@@ -92,5 +118,13 @@ class Coupler:
 
                 states[next_i] = {
                     **states[next_i],
-                    **to_state_space(states[i], stateA, stateB),
+                    **to_state_space(
+                        states[i],
+                        stateA,
+                        stateB,
+                    ),
                 }
+
+        print(f"y({guess}) = {final_value}")
+
+        return final_value

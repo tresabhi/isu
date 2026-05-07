@@ -212,7 +212,7 @@ class Hopper:
             if solved == 0:
                 break
 
-        if not self.verbose:
+        if not self.verbose and self.tabulate:
             print()
 
     def convolute(self):
