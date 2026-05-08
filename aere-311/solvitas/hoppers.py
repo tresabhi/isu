@@ -466,6 +466,11 @@ class PrandtlGlauertCriticalRule(Hopper):
                 - 1
             ),
         ),
+        (
+            p_p_inf,
+            ((1 + ((gamma - 1) / 2) * M_inf**2) / (1 + ((gamma - 1) / 2) * M**2))
+            ** (gamma / (gamma - 1)),
+        ),
     ]
 
 

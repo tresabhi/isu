@@ -44,7 +44,8 @@ PrandtlGlauertCriticalRule(
     {
         **air,
         #
-        Cp0: -0.41,
-        # M_inf: 0.68,
+        M_cr: 0.78,
+        M_inf: 0.78,
+        M: 1,
     }
 ).solve()
