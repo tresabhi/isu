@@ -40,13 +40,12 @@ air = {
 # ).solve()
 
 
-SupersonicRayleigh(
+SubsonicRayleigh(
     {
         **air,
         #
-        M1: 1.75,
-        T01: 650 * ur("K"),
-        p1: 1 * ur("atm"),
-        delta_T0: 110 * ur("K"),
+        M1: 0.3,
+        T1: 300 * ur("K"),
+        Q: 20.09e04 * ur("J/kg"),
     }
 ).solve()

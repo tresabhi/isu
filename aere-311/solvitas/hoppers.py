@@ -83,6 +83,8 @@ class Isentropic(Adiabatic):
 
 class BaseRayleigh(Hopper):
     equations = [
+        (delta_T0, Q / cp),
+        #
         (p2_p1, (1 + gamma * M1**2) / (1 + gamma * M2**2)),
         (T2_T1, (p2_p1 * (M2 / M1)) ** 2),
         #
