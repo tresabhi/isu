@@ -106,13 +106,6 @@ class BaseRayleigh(Hopper):
             * (((1 + gamma) ** 2) / ((1 + gamma * M1**2) ** 2))
             * ((2 + (gamma - 1) * M1**2) / (2 + (gamma - 1))),
         ),
-        # this shit makes M2 tend towards subsonic like always
-        # (
-        #     T02_T0_star,
-        #     M2**2
-        #     * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
-        #     * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
-        # ),
         #
         (a1_rayleigh, gamma**2 * (T01_T0_star - 1) + 1),
         (a2_rayleigh, gamma**2 * (T02_T0_star - 1) + 1),
@@ -178,6 +171,14 @@ class SubsonicRayleigh(Hopper):
             b2_rayleigh / a2_rayleigh
             - (b2_rayleigh / a2_rayleigh)
             * sympy.sqrt(1 - (c2_rayleigh * a2_rayleigh) / (b2_rayleigh**2)),
+        ),
+        # this shit makes M2 tend towards subsonic like always
+        # would love for it to be in the base class but god says no
+        (
+            T02_T0_star,
+            M2**2
+            * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
+            * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
         ),
     ]
 

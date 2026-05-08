@@ -44,8 +44,9 @@ SubsonicRayleigh(
     {
         **air,
         #
-        M1: 0.3,
-        T1: 300 * ur("K"),
-        Q: 20.09e04 * ur("J/kg"),
+        p01: 1 * ur("atm"),
+        T01: 294 * ur("K"),
+        delta_T0: 500 * ur("K"),
+        M2: 1,
     }
 ).solve()
