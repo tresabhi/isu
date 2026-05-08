@@ -40,13 +40,11 @@ air = {
 # ).solve()
 
 
-SubsonicRayleigh(
+PrandtlGlauertCriticalRule(
     {
         **air,
         #
-        p01: 1 * ur("atm"),
-        T01: 294 * ur("K"),
-        delta_T0: 500 * ur("K"),
-        M2: 1,
+        Cp0: -0.41,
+        # M_inf: 0.68,
     }
 ).solve()

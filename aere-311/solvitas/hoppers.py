@@ -457,6 +457,15 @@ class PrandtlGlauertCriticalRule(Hopper):
                 - 1
             ),
         ),
+        (
+            Cp0 / sympy.sqrt(1 - M_cr**2),
+            (2 / (gamma * M_cr**2))
+            * (
+                ((1 + ((gamma - 1) / 2) * M_cr**2) / (1 + (gamma - 1) / 2))
+                ** (gamma / (gamma - 1))
+                - 1
+            ),
+        ),
     ]
 
 
