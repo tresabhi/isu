@@ -81,11 +81,7 @@ class Isentropic(Adiabatic):
     ]
 
 
-class SubsonicRayleigh(Hopper):
-    initials = {
-        M2: 0.5,
-    }
-
+class BaseRayleigh(Hopper):
     equations = [
         (p2_p1, (1 + gamma * M1**2) / (1 + gamma * M2**2)),
         (T2_T1, (p2_p1 * (M2 / M1)) ** 2),
@@ -108,12 +104,20 @@ class SubsonicRayleigh(Hopper):
             * (((1 + gamma) ** 2) / ((1 + gamma * M1**2) ** 2))
             * ((2 + (gamma - 1) * M1**2) / (2 + (gamma - 1))),
         ),
-        (
-            T02_T0_star,
-            M2**2
-            * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
-            * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
-        ),
+        # this shit makes M2 tend towards subsonic like always
+        # (
+        #     T02_T0_star,
+        #     M2**2
+        #     * (((1 + gamma) ** 2) / ((1 + gamma * M2**2) ** 2))
+        #     * ((2 + (gamma - 1) * M2**2) / (2 + (gamma - 1))),
+        # ),
+        #
+        (a1_rayleigh, gamma**2 * (T01_T0_star - 1) + 1),
+        (a2_rayleigh, gamma**2 * (T02_T0_star - 1) + 1),
+        (b1_rayleigh, 1 - gamma * (T01_T0_star - 1)),
+        (b2_rayleigh, 1 - gamma * (T02_T0_star - 1)),
+        (c1_rayleigh, T01_T0_star),
+        (c2_rayleigh, T02_T0_star),
         #
         (M1, u1 / a1),
         (M2, u2 / a2),
@@ -152,12 +156,52 @@ class SubsonicRayleigh(Hopper):
     ]
 
 
+class SubsonicRayleigh(Hopper):
+    initials = {
+        M1: 0.5,
+        M2: 0.5,
+    }
+
+    equations = [
+        *BaseRayleigh.equations,
+        #
+        (
+            M1**2,
+            b1_rayleigh / a1_rayleigh
+            - (b1_rayleigh / a1_rayleigh)
+            * sympy.sqrt(1 - (c1_rayleigh * a1_rayleigh) / (b1_rayleigh**2)),
+        ),
+        (
+            M2**2,
+            b2_rayleigh / a2_rayleigh
+            - (b2_rayleigh / a2_rayleigh)
+            * sympy.sqrt(1 - (c2_rayleigh * a2_rayleigh) / (b2_rayleigh**2)),
+        ),
+    ]
+
+
 class SupersonicRayleigh(Hopper):
     initials = {
+        M1: 2,
         M2: 2,
     }
 
-    equations = SubsonicRayleigh.equations
+    equations = [
+        *BaseRayleigh.equations,
+        #
+        (
+            M1**2,
+            b1_rayleigh / a1_rayleigh
+            + (b1_rayleigh / a1_rayleigh)
+            * sympy.sqrt(1 - (c1_rayleigh * a1_rayleigh) / (b1_rayleigh**2)),
+        ),
+        (
+            M2**2,
+            b2_rayleigh / a2_rayleigh
+            + (b2_rayleigh / a2_rayleigh)
+            * sympy.sqrt(1 - (c2_rayleigh * a2_rayleigh) / (b2_rayleigh**2)),
+        ),
+    ]
 
 
 class NormalShock(Hopper):

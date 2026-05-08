@@ -132,11 +132,11 @@ class Hopper:
                         if self.verbose:
                             logger.log(f"{prefix}{symbol} = {value:.{self.sig_figs}g}")
                     except Exception:
-                        print(self.givens)
+                        # print(self.givens)
                         logger.log(
                             f"{prefix}<yellow>nsolve failed; trying symbolic...</yellow>"
                         )
-                        print(self.__class__.__name__, rhs_subbed - lhs_subbed)
+                        # print(self.__class__.__name__, rhs_subbed - lhs_subbed)
 
                         values = sympy.solve(expression, symbol)
 
@@ -199,9 +199,11 @@ class Hopper:
                         ):
                             resolved[j] = True
                         else:
+                            # print(lhs - rhs)
                             logger.log(
                                 f"{prefix}<red>{lhs_float:.{self.sig_figs}g} != {rhs_float:.{self.sig_figs}g}</red>"
                             )
+                            resolved[j] = True
 
                 else:
                     raise ValueError("Equation is unresolved and has 0 free symbols")

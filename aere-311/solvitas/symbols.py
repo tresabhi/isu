@@ -258,6 +258,13 @@ c = Symbol("c", "m")
 
 eta_D = Symbol("eta_D")
 
+a1_rayleigh = Symbol("a1_rayleigh")
+a2_rayleigh = Symbol("a2_rayleigh")
+b1_rayleigh = Symbol("b1_rayleigh")
+b2_rayleigh = Symbol("b2_rayleigh")
+c1_rayleigh = Symbol("c1_rayleigh")
+c2_rayleigh = Symbol("c2_rayleigh")
+
 # to do: finalize these ephemeral symbols
 
 Ae_At1 = Symbol("Ae/At1")
