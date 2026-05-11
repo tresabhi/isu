@@ -14,48 +14,12 @@
 	path = me-280/homeworks/4/src/turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 	branch = humble
-[submodule "aere-361/labs/1"]
-	path = aere-361/labs/1
-	url = https://github.com/AERE-361/lab-1-s2026-tresabhi.git
 [submodule "cpre-287/labs/2"]
 	path = cpre-287/labs/2
 	url = https://git.ece.iastate.edu/tpdeerin/cpre287x-l2.git
-[submodule "aere-361/labs/2"]
-	path = aere-361/labs/2
-	url = https://github.com/AERE-361/lab-2-s2026-tresabhi.git
 [submodule "cpre-287/labs/3"]
 	path = cpre-287/labs/3
 	url = https://git.ece.iastate.edu/tpdeerin/smart-hvac-project-skeleton-group-1.git
-[submodule "aere-361/labs/3"]
-	path = aere-361/labs/3
-	url = https://github.com/AERE-361/lab-3-s2026-tresabhi.git
-[submodule "aere-361/labs/4"]
-	path = aere-361/labs/4
-	url = https://github.com/AERE-361/lab-4-s2026-tresabhi.git
-[submodule "aere-361/labs/5"]
-	path = aere-361/labs/5
-	url = https://github.com/AERE-361/lab-5-s2026-tresabhi.git
-[submodule "aere-361/labs/6"]
-	path = aere-361/labs/6
-	url = https://github.com/AERE-361/lab-6-s2026-tresabhi
-[submodule "aere-361/labs/7"]
-	path = aere-361/labs/7
-	url = https://github.com/AERE-361/lab-7-s2026-tresabhi.git
-[submodule "aere-361/labs/8"]
-	path = aere-361/labs/8
-	url = https://github.com/AERE-361/lab-8-machine-numbers-ieee-754-s2026-tresabhi.git
-[submodule "aere-361/labs/9"]
-	path = aere-361/labs/9
-	url = https://github.com/AERE-361/lab-9-s2026-tresabhi.git
-[submodule "aere-361/labs/10"]
-	path = aere-361/labs/10
-	url = https://github.com/AERE-361/lab-10-s2026-tresabhi.git
-[submodule "aere-361/labs/11"]
-	path = aere-361/labs/11
-	url = https://github.com/AERE-361/lab-11-s2026-tresabhi.git
-[submodule "aere-361/labs/12"]
-	path = aere-361/labs/12
-	url = https://github.com/AERE-361/lab-12-ode-solver-s2026-tresabhi.git
 [submodule "me-280/homeworks/4/src/me2800_hw4"]
 	path = me-280/homeworks/4/src/me2800_hw4
 	url = https://github.com/tresabhi/isu-me-280-homework-4.git
