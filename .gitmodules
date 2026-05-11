@@ -50,3 +50,51 @@
 [submodule "cpre-287/labs/final"]
 	path = cpre-287/labs/final
 	url = https://github.com/tresabhi/isu-cpre-287-lab-final.git
+[submodule "aere-361/labs/1"]
+	path = aere-361/labs/1
+	url = https://github.com/tresabhi/isu-aere-361-lab-1.git
+	branch = develop
+[submodule "aere-361/labs/2"]
+	path = aere-361/labs/2
+	url = https://github.com/tresabhi/isu-aere-361-lab-2.git
+	branch = develop
+[submodule "aere-361/labs/3"]
+	path = aere-361/labs/3
+	url = https://github.com/tresabhi/isu-aere-361-lab-3.git
+	branch = develop
+[submodule "aere-361/labs/4"]
+	path = aere-361/labs/4
+	url = https://github.com/tresabhi/isu-aere-361-lab-4.git
+	branch = develop
+[submodule "aere-361/labs/5"]
+	path = aere-361/labs/5
+	url = https://github.com/tresabhi/isu-aere-361-lab-5.git
+	branch = develop
+[submodule "aere-361/labs/6"]
+	path = aere-361/labs/6
+	url = https://github.com/tresabhi/isu-aere-361-lab-6.git
+	branch = develop
+[submodule "aere-361/labs/7"]
+	path = aere-361/labs/7
+	url = https://github.com/tresabhi/isu-aere-361-lab-7.git
+	branch = develop
+[submodule "aere-361/labs/8"]
+	path = aere-361/labs/8
+	url = https://github.com/tresabhi/isu-aere-361-lab-8.git
+	branch = develop
+[submodule "aere-361/labs/9"]
+	path = aere-361/labs/9
+	url = https://github.com/tresabhi/isu-aere-361-lab-9.git
+	branch = develop
+[submodule "aere-361/labs/10"]
+	path = aere-361/labs/10
+	url = https://github.com/tresabhi/isu-aere-361-lab-10.git
+	branch = develop
+[submodule "aere-361/labs/11"]
+	path = aere-361/labs/11
+	url = https://github.com/tresabhi/isu-aere-361-lab-11.git
+	branch = develop
+[submodule "aere-361/labs/12"]
+	path = aere-361/labs/12
+	url = https://github.com/tresabhi/isu-aere-361-lab-12.git
+	branch = develop
