@@ -1,0 +1,90 @@
+<!doctype html>
+
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+
+        font-family:
+          "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        color: white;
+
+        background-color: #000000;
+
+        main {
+          --size: min(calc(min(100dvw, 100dvh) - 2 * 5rem), 30rem);
+
+          width: var(--size);
+          min-height: var(--size);
+
+          background-color: #0f0f0f;
+
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: start;
+
+          padding: 3rem;
+
+          .title {
+            font-size: 2rem;
+
+            font-weight: 900;
+          }
+
+          .location {
+            margin-top: 0.25rem;
+            opacity: 50%;
+          }
+
+          .description {
+            margin-top: 0.75rem;
+
+            &[data-first] {
+              margin-top: 1.5rem;
+            }
+
+            a {
+              color: #50e8ff;
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <span class="title">Hello, I'm Abhi!</span>
+      <span class="location">
+        Aerospace Engineering • Cyber Physical Systems
+      </span>
+
+      <span class="description" data-first>
+        Hailing from St. Louis, I am studying aerospace engineering with a minor
+        in cyber-physical systems with a focus on aerospace robotics and
+        intelligent systems.
+      </span>
+
+      <span class="description">
+        I have been making web apps for a decade and am taking
+        <code>COMS 106</code> to make it <em>"official"</em>, with a focus on
+        content driven static PWAs, currently working almost exclusively with
+        the Astro meta-framework.
+      </span>
+
+      <span class="description">
+        <a href="https://blitzkit.app/tanks/e-100/" target="_blank">BlitzKit</a>
+        is my most popular web app, serving millions. Wider range of work:
+        <a href="https://abhi-deep.com/" target="_blank">Portfolio</a>.
+      </span>
+    </main>
+  </body>
+</html>
