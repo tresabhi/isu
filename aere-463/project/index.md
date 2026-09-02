@@ -1,6 +1,6 @@
 # Tank Armor Optimization
 
-AERE 463 Individual Project - Abhigyaan Deep
+AERE 463 Individual Project
 
 ## Nomenclature
 
@@ -188,14 +188,18 @@ $$
 f(m_0, m_1, \dots, m_n, v_0, v_1, \dots, v_n) = \frac{m}{K}
 $$
 
-## Simplifications and Assumptions: No Spaced Armor Over Tracks
+## Simplifications: Spaced Armor Over Tracks
 
 It's somewhat common to dedicate the space above the tracks to spaced armor, as shown by the German E-100 below. I will not be optimizing this external spaced armor for this project. Thus, this will not be present in the mesh, leaving it completely rectangular, though I will be adding it for presentation purposes after the optimization.
 
 ![](https://i.imgur.com/tRosYnA.png)
 
-## Simplifications and Assumptions: Rectangular Plates
+## Simplifications: Rectangular Plates
 
 While the a rectangular frontal projection of armor for hulls is extremely common for tanks even in the modern world, parts like the turrets often use cutouts on the sides as they're more exposed to incoming off-axis shots as often turn far more than the hull, as displayed by the American M1 Abrams:
 
 ![](https://i.imgur.com/VwAiJmp.png)
+
+## Simplifications: Regions of Protection
+
+I am calculating the resistance here as a giant sum of all plates. In reality, you would assign higher weights to some plates than others to diminish/increase their significance, depending on factors like crew survivability, visibility, etc. This is ignored for this project.
