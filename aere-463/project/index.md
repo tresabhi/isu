@@ -81,7 +81,112 @@ $$
 K = \frac{V \sqrt{P}}{B \sqrt{D}}
 $$
 
-Looking at this formula, one may be concerned about the units.
+Looking at this formula, one may be concerned about the units:
+
+$$
+\left[ \frac{V \sqrt{P}}{B \sqrt{D}} \right] = \frac{m/s \sqrt{kg}}{m \sqrt{m}}
+$$
+
+That does not simplify to anything meaningful. This is a quirk of notation abuse. Really, the Krupp formula is a proportionality discovered through the Buckingham theorem:
+
+$$
+K \propto \frac{V \sqrt{P}}{B \sqrt{D}}
+$$
+
+However, if we use standard units of this field ($[V] = m/s$, $[P] = kg$, $[B] = mm$, $[D] = mm$), we get $K$ in the correct magnitudes. For reference, the standard $K$ value for Soviet Union armor in WW2 was $K = 2400$. I am of course hoping to beat this value.
+
+The story does not stop here. The thickness of the armor is dependant on the angle of the armor:
+
+![](https://i.imgur.com/Raz5oHM.png)
+
+The effective thickness for an armor plate of thickness $t_i$ is:
+
+$$
+\cos \theta_i = \frac{t_i}{t_i'} \implies t_i' = t_i \sec \theta_i
+$$
+
+$B$ can be swapped out with $t_i'$:
+
+$$
+K = \frac{V \sqrt{P}}{t_i \sec \theta_i \sqrt{D}} = \frac{V \sqrt{P}}{t_i \sqrt{D}} \cos \theta_i
+$$
+
+The last thing we need is the angle of the armor plate $\theta_i$. Thankfully, this is a solved problem directly coming from computer graphics. We define our vertices in a counter-clockwise fashion:
+
+![](https://i.imgur.com/lKGBVUQ.png)
+
+This lets us define the positions of our vertices in order:
+
+$$
+\left( 0, 0, v_0 \right) \\
+\left( \Delta x, 0, v_1 \right) \\
+\left( \Delta x, \Delta y, v_2 \right) \\
+$$
+
+This triangle has the classic winding order of $0 \to 1 \to 2$ so we can use $v_0 \to v_1$ and $v_0 \to v_2$ for form the orthogonal vectors of the triangle:
+
+![](https://i.imgur.com/JWWj7A4.png)
+
+Those vectors are:
+
+$$
+\left( \Delta x, 0, v_1 \right) - \left( 0, 0, v_0 \right) = \left( \Delta x, 0, v_1 - v_0 \right) \\
+\left( \Delta x, \Delta y, v_2 \right) - \left( 0, 0, v_0 \right) = \left( \Delta x, \Delta y, v_2 - v_0 \right)
+$$
+
+The normal vector of these two vectors would be:
+
+$$
+\vec{n} = \begin{bmatrix}
+  (v_0 - v_1) \Delta y \\
+  (v_1 - v_2) \Delta x \\
+  \Delta x \Delta y
+\end{bmatrix}
+$$
+
+Finally, we arrive at $\theta$:
+
+$$
+\cos \theta_i = \hat{n} \cdot \hat{k} = \frac{\vec{n}}{|\vec{n}|} \cdot \hat{k}
+$$
+
+The $\hat{k}$ simply strips the everything but the $z$ component, so we get:
+
+$$
+\cos \theta_i = \frac{\Delta x \Delta y}{|\vec{n}|}
+$$
+
+And here, $|\vec{n}|$ of course is:
+
+$$
+|\vec{n}| = \sqrt{(v_0 - v_1)^2 \Delta y^2 + (v_1 - v_2)^2 \Delta x^2 + \Delta x^2 \Delta y^2}
+$$
+
+The total resistance factor for a complete plate is:
+
+$$
+K = \sum_i K_i
+$$
+
+$$
+K_i = \frac{V \sqrt{P}}{t_i \sqrt{D}} \cos \theta_i
+$$
+
+$$
+\cos \theta_i = \frac{\Delta x \Delta y}{|\vec{n}_i|}
+$$
+
+$$
+|\vec{n}_i| = \sqrt{(v_{i0} - v_{i1})^2 \Delta y^2 + (v_{i1} - v_{i2})^2 \Delta x^2 + \Delta x^2 \Delta y^2}
+$$
+
+## Object Function: Everything Put Together
+
+$m$ must be decreased while $K$ should be increased. Thus, they are combined here in a fraction:
+
+$$
+f(m_0, m_1, \dots, m_n, v_0, v_1, \dots, v_n) = \frac{m}{K}
+$$
 
 ## Simplifications and Assumptions: No Spaced Armor Over Tracks
 
