@@ -1,4 +1,4 @@
-# Tank Armor Optimization
+# Optimizing Tank Armor
 
 AERE 463 Individual Project
 
@@ -21,7 +21,7 @@ This passion subject of mine strays away from Aerospace Engineering quite a bit,
 
 ## Problem Statement
 
-Given constraints on the minimum volume enclosed by the hull and turret and minimum effective thickness of armor plates, the optimizer must maximize the thickness of the armor in front of the tank while reducing the weight and geometric complexity.
+Given constraints on the minimum volume enclosed by the hull and turret and minimum effective thickness of armor plates, the optimizer must maximize the thickness of the armor in front of the tank while reducing the weight and manufacturing complexity.
 
 The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP shell weighing $25kg$ and traveling at $790m/s$, as was often fired by the Soviet IS-2 tank in WW2.
 
@@ -43,13 +43,13 @@ Inspired by computer graphics, a group of $3$ vertices form a triangle. A mesh w
 
 ![](https://i.imgur.com/YxdPdht.png)
 
-## Control Nodes: Vertices
+## Vertices
 
 Every vertex of the mesh is a control node. However, the axis of perturbation will be limited to just the $z$ axis while the $x$ and $y$ components of the vertices are determined by the resolution of the mesh, aligned to a uniform grid.
 
 ![](https://i.imgur.com/lKGBVUQ.png)
 
-## Control Nodes: Thicknesses
+## Armor Weight
 
 For every group of $3$ vertices, a thickness will be available for mutation. An increase in thickness improves the effectiveness of the armor while also increasing the weight. The mass is given by:
 
@@ -61,7 +61,19 @@ Computing $A_i$ for a plate of armor will be discussed later.
 
 ![](https://i.imgur.com/mIjqAld.png)
 
-## Objective Function: Effective Armor Thickness
+## Wall Weight
+
+To discourage the optimizer front infinitely expanding the armor forwards, away from the tank as it wrestles with optimization, the total mass will also include the weight of the walls.
+
+For every pair of vertices on the edge of the block of armor, a wall mass will be computed, using a thickness $t_w$. For instance, this is the mass of a vertical wall with vertices $v_0$ and $v_1$:
+
+$$
+m_j = \frac{v_0 + v_1}{2} \Delta y t_w \rho = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta y
+$$
+
+![](https://i.imgur.com/SdHspWx.png)
+
+## Effective Armor Thickness
 
 The thickness of every plate of armor does not paint the full picture. The angle the plate lies at changes the effective thickness:
 
@@ -132,7 +144,23 @@ $$
 A_i = \frac{|\vec{n}_i|}{2}
 $$
 
-## Objective Function: Putting Everything Together
+## Volumetric Constraints
+
+The insides of a tank are filled with equipment, crew, ammunition bays, vision ports, etc. Thus, there is a minimum volume that must be enclosed by the armor. A large tank is also not desirable due to cross-sectional considerations for stealth and added weight. In this project, the volumetric constrain will be represented by a minimum depth a vertex can be.
+
+$$
+v_i \ge v_{i, \text{min}}
+$$
+
+This minimum depth mesh will be defined by the user. In the case of this project, the internal layout of the Chinese 114 SP2 will be used:
+
+![](https://i.imgur.com/SDXCtdp.png)
+
+## Manufacturing Complexity
+
+I haven't decided how this is evaluated yet.
+
+## Objective Function
 
 For every triangle, the following can be computed:
 
@@ -156,10 +184,16 @@ $$
 m_i = \rho A_i t_i
 $$
 
+For every edge vertex pair, the wall mass will be:
+
+$$
+m_j = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta y
+$$
+
 The total mass of the block of armor would be:
 
 $$
-\mu = \sum_i m_i
+\mu = \sum_i m_i + \sum_j m_i'
 $$
 
 And the total effective thickness would be:
