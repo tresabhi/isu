@@ -57,6 +57,8 @@ def make_B(Us):
 # A is constant I just realized lol, let's avoid recomputing it every time
 A = make_A()
 
+print(A)
+
 # I tried doing a while loop for t < t1 but due to floating point issues it
 # would often go over t1, so imma just use a step counter instead
 
@@ -69,7 +71,7 @@ while step < steps:
     t += delta_t
     step += 1
 
-print(f"{t=}")
+print(f"final t = {t}")
 
 plt.plot(xs, Us, marker="o")
 

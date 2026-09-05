@@ -133,7 +133,8 @@ def make_B(Us):
     # first condition
     b[0, 0] = 5
 
-    # second (useless, but explicit)
+    # second conditions (I know they're all 0 by default but I wanted to be
+    # explicit about the fact that I DID consider the second one too here)
     b[-1, 0] = 0
 
     for i in range(1, len(xs) - 1):
@@ -144,11 +145,13 @@ def make_B(Us):
     return b
 
 
-# A is constant I just realized; let's cache it
+# A is constant I just realized lol, let's avoid recomputing it every time
 A = make_A()
 
+print(A)
+
 # I tried doing a while loop for t < t1 but due to floating point issues it
-# would often go over t1, so here's a fixed step count
+# would often go over t1, so imma just use a step counter instead
 
 step = 0
 steps = int(t1 / delta_t)
@@ -159,7 +162,7 @@ while step < steps:
     t += delta_t
     step += 1
 
-print(f"{t=}")
+print(f"final t = {t}")
 
 plt.plot(xs, Us, marker="o")
 
@@ -169,6 +172,23 @@ plt.title(f"U vs x at t = {t:.2f}")
 
 plt.grid()
 plt.show()
+
+```
+
+The $A$ matrix that it produced:
+
+```py
+[[  1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [-20. 140. -20.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [  0. -20. 140. -20.   0.   0.   0.   0.   0.   0.   0.]
+ [  0.   0. -20. 140. -20.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0. -20. 140. -20.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.   0. -20. 140. -20.   0.   0.   0.   0.]
+ [  0.   0.   0.   0.   0. -20. 140. -20.   0.   0.   0.]
+ [  0.   0.   0.   0.   0.   0. -20. 140. -20.   0.   0.]
+ [  0.   0.   0.   0.   0.   0.   0. -20. 140. -20.   0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0. -20. 140. -20.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   1.  -2.   1.]]
 ```
 
 And the plot that this makes:
