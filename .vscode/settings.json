@@ -46,6 +46,7 @@
     "fopen",
     "fprintf",
     "fputs",
+    "framerates",
     "fread",
     "fscanf",
     "fwrite",

@@ -29,8 +29,14 @@ Commercial-off-the-shelf products
 
 ## Space Ready Cameras
 
-| Camera | Price | Fidelity | Mass (w/ battery) | Power |
-| ------ | ----- | -------- | ----------------- | ----- |
-| 
+| Camera     | Price          | Fidelity | Mass (w/ battery)   | Power |
+| ---------- | -------------- | -------- | ------------------- | ----- |
+| Astro 3265 | $5000 - $15000 | 9.3K@71  | 450 grams (no lens) | 8W+   |
 
 ### Considerations
+
+- I could find just 1 camera that meets our requirements
+  - The others were much higher resolution and very low framerates
+- Let's not do this one
+  - Not only is it hella expensive, but we'd be missing out on all the other cool radiators we'd have to make
+  - Also they don't come with lenses by default
