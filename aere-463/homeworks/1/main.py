@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 lambda_ = 2.0
 mu = 0.2
@@ -52,14 +53,28 @@ def make_B(Us):
     return b
 
 
-print(Us)
+# A is constant I just realized; let's cache it
+A = make_A()
 
-while t < t1:
-    A = make_A()
+# I tried doing a while loop for t < t1 but due to floating point issues it
+# would often go over t1, so here's a fixed step count
+
+step = 0
+steps = int(t1 / delta_t)
+
+while step < steps:
     B = make_B(Us)
-
     Us = np.linalg.solve(A, B).flatten()
-
-    print(Us)
-
     t += delta_t
+    step += 1
+
+print(f"{t=}")
+
+plt.plot(xs, Us, marker="o")
+
+plt.xlabel("x")
+plt.ylabel("U")
+plt.title(f"U vs x at t = {t:.2f}")
+
+plt.grid()
+plt.show()
