@@ -48,6 +48,16 @@ $$
 t = 0.1
 $$
 
+Discretization:
+
 $$
 \Delta t = 0.01
+$$
+
+$$
+\Delta x = 0.1
+$$
+
+$$
+\frac{U_i^{n + 1} - U_i^n}{\Delta t} + \lambda \frac{U_{i + 1}^n - U_i^n}{\Delta x} - \mu \frac{U_{i + 1}^{n + 1} - 2 U_i^{n + 1} + U_{i - 1}^{n + 1}}{\Delta x^2} = 0
 $$
