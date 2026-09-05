@@ -40,3 +40,22 @@ Commercial-off-the-shelf products
 - Let's not do this one
   - Not only is it hella expensive, but we'd be missing out on all the other cool radiators we'd have to make
   - Also they don't come with lenses by default
+
+# Microcontrollers
+
+| Controller                                     | Price |
+| ---------------------------------------------- | ----- |
+| Defense-Grade AMD Zynq™ UltraScale+™ XQ MPSoCs | $220  |
+
+## Considerations
+
+- Our only real option are FPGAs so we can build fault tolerant right into the firmware
+
+# Custom Setup
+
+Idk what the hell is going on here but I have some notes
+
+1. Sensor: Sony IMX677 (5.6K@60 -> MIPI lanes)
+2. Lane mapping: Mezzanine Card (MIPI lanes -> FPGA pins)
+3. Encoder: AMD Zynq™ UltraScale+™ MPSoC ZCU106 Evaluation Kit (10Gbps -> H.264/H.265 -> 50Mbps)
+4. Transceiver: Doodle Labs Industrial Wi-Fi Transceivers
