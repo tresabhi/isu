@@ -86,7 +86,7 @@ $$
 U_8 - 2 U_9 + U_{10} = 0
 $$
 
-Putting them together was fairly simple. The part where I had to be careful was applying the boundary conditions to the first and last rows of the matrix and now override them with the `for` loop. Nevertheless, here's what I came up with:
+Putting them together was fairly simple. The part where I had to be careful was applying the boundary conditions to the first and last rows of the matrix and not override them with the `for` loop. Nevertheless, here's what I came up with:
 
 ```py
 import numpy as np
