@@ -3,40 +3,44 @@ body {
   color: #221811;
 
   font-family: Tahoma, Arial, sans-serif;
-}
 
-header {
-  background-color: #d2b48c;
-  color: #8c3826;
+  #wrapper {
+    width: 80%;
+    margin: 0 auto;
 
-  text-align: center;
+    background-color: #fefaeb;
 
-  h1 {
-    line-height: 200%;
-  }
-}
+    header {
+      background-color: #d2b48c;
+      color: #8c3826;
 
-nav {
-  text-align: center;
+      text-align: center;
 
-  a {
-    font-weight: 700;
-  }
-}
+      h1 {
+        line-height: 200%;
+      }
+    }
 
-main {
-  h2 {
-    color: #8c3826;
-  }
-}
+    nav {
+      text-align: center;
 
-footer {
-  background-color: #d2b48c;
+      a {
+        font-weight: 700;
+      }
+    }
 
-  text-align: center;
+    main {
+      h2 {
+        color: #8c3826;
+      }
+    }
 
-  i {
-    font-size: 0.6em;
-    font-style: italic;
+    footer {
+      background-color: #d2b48c;
+
+      text-align: center;
+      font-size: 0.6em;
+      font-style: italic;
+    }
   }
 }
