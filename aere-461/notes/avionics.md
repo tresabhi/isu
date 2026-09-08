@@ -6,7 +6,7 @@ Commercial-off-the-shelf products
 
 | Camera             | Price | Fidelity | Mass (w/ battery) | Power |
 | ------------------ | ----- | -------- | ----------------- | ----- |
-| Flywoo Naked Gopro | $700  | 5.3K@60  | 47.5g             | 2S-6S |
+| Flywoo Naked Gopro | $600  | 5.3K@60  | 47.5g             | 2S-6S |
 | GoPro HERO13       | $400  | 5.3K@60  | 125g              | 5V 2A |
 
 ### Considerations
@@ -43,19 +43,35 @@ Commercial-off-the-shelf products
 
 # Microcontrollers
 
-| Controller                                     | Price |
-| ---------------------------------------------- | ----- |
-| Defense-Grade AMD Zynq™ UltraScale+™ XQ MPSoCs | $220  |
+| Controller                                                                        | Price |
+| --------------------------------------------------------------------------------- | ----- |
+| ~~Defense-Grade AMD Zynq™ UltraScale+™ XQ MPSoCs~~ (none of them have enough VCU) | $220  |
+| AMD Versal™ Prime Series Gen 2                                                    | $1500 |
 
 ## Considerations
 
 - Our only real option are FPGAs so we can build fault tolerant right into the firmware
 
-# Custom Setup
-
-Idk what the hell is going on here but I have some notes
+# Custom Setup 1
 
 1. Sensor: Sony IMX677 (5.6K@60 -> MIPI lanes)
 2. Lane mapping: Mezzanine Card (MIPI lanes -> FPGA pins)
 3. Encoder: AMD Zynq™ UltraScale+™ MPSoC ZCU106 Evaluation Kit (10Gbps -> H.264/H.265 -> 50Mbps)
 4. Transceiver: Doodle Labs Industrial Wi-Fi Transceivers
+
+# Custom Setup 2
+
+1. Flywoo Naked Gopro
+2. AMD Versal™ AI Edge Series Gen 2 VEK385 Evaluation Kit
+3. AMD Versal™ Prime Series Gen 2
+
+# Custom Setup 3
+
+| Component                                                                     | Price      |
+| ----------------------------------------------------------------------------- | ---------- |
+| FSM-IMX530 Sensor Module – 24.5 MP High-Speed Global Shutter Imaging Solution | $2,109.93  |
+| SLVS-EC                                                                       | -          |
+| Sensor Adapter for Multiple FSM Sensors – FSA-FT3/A-V1A                       | $82.30     |
+| KV260 Vision AI Starter Kit                                                   | $275       |
+| Zynq UltraScale+ EV (4K@60 through native encoder and 2K@60 through FPGA)     | $3,000     |
+| X-Band Transmitter                                                            | $34,300 💀 |
