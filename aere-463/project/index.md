@@ -6,22 +6,25 @@ AERE 463 Individual Project
 
 This passion subject of mine strays away from Aerospace Engineering quite a bit, so I shall describe a few terms that will be used in this project:
 
-| Term         | Definition                                                                                                                                            |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Armor        | A protective layer of material that blocks incoming projectiles from piercing through and damaging the interior of a vehicle.                         |
-| Plate        | A small, usually flat, subsection of armor.                                                                                                           |
-| Shell        | A projectile that is fired from a tank.                                                                                                               |
-| AP           | Armor Piercing shells are simple inertia driven shells that pierce through armor with their hard casing.                                              |
-| APCR         | Armor Penetrating Composite Rigid shells are also inertia weapons, but they use dense cores instead of solely relying on the toughness of the casing. |
-| HE           | High Explosive shells use explosives on contact to destroy armor.                                                                                     |
-| HEAT         | High Explosive Anti-Tack shells concentrate a beam of molten metal onto a tiny area of the armor, melting and piercing through.                       |
-| Spall        | Spalling is the high-velocity chipping of the interior surfaces of armor, causing injuries to the crew and damage to the equipment.                   |
-| Spaced Armor | A layer of armor in front of the primary one to prematurely trigger HEAT shells and capture spall.                                                    |
-| Tracks       | The chassis of a tank with treads and wheels.                                                                                                         |
+| Term                | Definition                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Armor               | A protective layer of material that blocks incoming projectiles from piercing through and damaging the interior of a vehicle.                         |
+| Plate               | A small, usually flat, subsection of armor.                                                                                                           |
+| Shell               | A projectile that is fired from a tank.                                                                                                               |
+| AP                  | Armor Piercing shells are simple inertia driven shells that pierce through armor with their hard casing.                                              |
+| APCR                | Armor Penetrating Composite Rigid shells are also inertia weapons, but they use dense cores instead of solely relying on the toughness of the casing. |
+| HE                  | High Explosive shells use explosives on contact to destroy armor.                                                                                     |
+| HEAT                | High Explosive Anti-Tack shells concentrate a beam of molten metal onto a tiny area of the armor, melting and piercing through.                       |
+| Spall               | Spalling is the high-velocity chipping of the interior surfaces of armor, causing injuries to the crew and damage to the equipment.                   |
+| Spaced armor        | A layer of armor in front of the primary one to prematurely trigger HEAT shells and capture spall.                                                    |
+| Tracks              | The chassis of a tank with treads and wheels.                                                                                                         |
+| Effective thickness | The increased thickness of armor due to the angle of the plate.                                                                                       |
 
 ## Problem Statement
 
-Given constraints on the minimum volume enclosed by the hull and turret and minimum effective thickness of armor plates, the optimizer must maximize the thickness of the armor in front of the tank while reducing the mass and manufacturing complexity.
+Given constraints on the minimum volume enclosed by the hull and turret and an effective thickness that all armor plates must match, the optimizer must minimize the mass of the armor and the manufacturing complexity.
+
+Different manufacturing complexities will produce different results, all of which will be documented in this report.
 
 The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP shell weighing $25kg$ and traveling at $790m/s$, as was often fired by the Soviet IS-2 tank in WW2.
 
@@ -30,18 +33,12 @@ The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP
 All blocks of armor for this project will be rectangular meshes of size $w \times h$, made up of $N \times M$ vertices. This implies the resolution of the mesh is:
 
 $$
-\left ( \Delta x, \Delta y \right ) = \left ( \frac{w}{N - 1}, \frac{h}{M - 1} \right )
-$$
-
-A user will have manual control over the resolution ($\Delta x$ and $\Delta y$) and the size of the block of armor ($w$ and $h$). Thus, the computer is responsible for computing:
-
-$$
-\left ( N, M \right ) = \left ( \frac{w}{\Delta x} + 1, \frac{h}{\Delta y} + 1 \right )
+\left ( N, M \right ) = \left ( \frac{w}{\Delta} + 1, \frac{h}{\Delta} + 1 \right )
 $$
 
 Inspired by computer graphics, a group of $3$ vertices form a triangle. A mesh with $N \times M$ vertices will have $2 (N - 1) (M - 1)$ triangles:
 
-![](https://i.imgur.com/YxdPdht.png)
+![](https://i.imgur.com/OFFHrFj.png)
 
 ## Vertices
 
@@ -68,7 +65,7 @@ To discourage the optimizer front infinitely expanding the armor forwards, away 
 For every pair of vertices on the edge of the block of armor, a wall mass will be computed, using a thickness $t_w$. For instance, this is the mass of a vertical wall with vertices $v_0$ and $v_1$:
 
 $$
-m_j = \frac{v_0 + v_1}{2} \Delta y t_w \rho = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta y
+m_j = \frac{v_0 + v_1}{2} \Delta t_w \rho = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta
 $$
 
 ![](https://i.imgur.com/SdHspWx.png)
@@ -93,8 +90,8 @@ This lets us define the positions of our vertices in the standard winding order 
 
 $$
 \left( 0, 0, v_0 \right) \\
-\left( \Delta x, 0, v_1 \right) \\
-\left( \Delta x, \Delta y, v_2 \right) \\
+\left( \Delta, 0, v_1 \right) \\
+\left( \Delta, \Delta, v_2 \right) \\
 $$
 
 We can use $v_0 \to v_1$ and $v_0 \to v_2$ to form the edge vectors of the triangle:
@@ -104,19 +101,19 @@ We can use $v_0 \to v_1$ and $v_0 \to v_2$ to form the edge vectors of the trian
 Those vectors are:
 
 $$
-\left( \Delta x, 0, v_1 \right) - \left( 0, 0, v_0 \right) = \left( \Delta x, 0, v_1 - v_0 \right) \\
-\left( \Delta x, \Delta y, v_2 \right) - \left( 0, 0, v_0 \right) = \left( \Delta x, \Delta y, v_2 - v_0 \right)
+\left( \Delta, 0, v_1 \right) - \left( 0, 0, v_0 \right) = \left( \Delta, 0, v_1 - v_0 \right) \\
+\left( \Delta, \Delta, v_2 \right) - \left( 0, 0, v_0 \right) = \left( \Delta, \Delta, v_2 - v_0 \right)
 $$
 
 A straight cross product can be used to get a normal vector:
 
 $$
 \vec{n}
-= \left( \Delta x, 0, v_1 - v_0 \right) \times \left( \Delta x, \Delta y, v_2 - v_0 \right)
+= \left( \Delta, 0, v_1 - v_0 \right) \times \left( \Delta, \Delta, v_2 - v_0 \right)
 = \begin{bmatrix}
-  (v_0 - v_1) \Delta y \\
-  (v_1 - v_2) \Delta x \\
-  \Delta x \Delta y
+  (v_0 - v_1) \Delta \\
+  (v_1 - v_2) \Delta \\
+  \Delta \Delta
 \end{bmatrix}
 $$
 
@@ -129,13 +126,13 @@ $$
 The $\hat{k}$ strips the everything but the $z$ component:
 
 $$
-\cos \theta_i = \frac{\Delta x \Delta y}{|\vec{n}_i|}
+\cos \theta_i = \frac{\Delta \Delta}{|\vec{n}_i|}
 $$
 
 And here, $|\vec{n}_i|$ of course is:
 
 $$
-|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta y^2 + (v_1 - v_2)^2 \Delta x^2 + \Delta x^2 \Delta y^2}
+|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_1 - v_2)^2 \Delta^2 + \Delta^2 \Delta^2}
 $$
 
 Another property of the cross product is of course the area of the prism that it forms, half of which is the area of the triangle:
@@ -165,7 +162,7 @@ I haven't decided how this is evaluated yet.
 For every triangle, the following can be computed:
 
 $$
-|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta y^2 + (v_1 - v_2)^2 \Delta x^2 + \Delta x^2 \Delta y^2}
+|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_1 - v_2)^2 \Delta^2 + \Delta^2 \Delta^2}
 $$
 
 $$
@@ -173,7 +170,7 @@ A_i = \frac{|\vec{n}_i|}{2}
 $$
 
 $$
-\cos \theta_i = \frac{\Delta x \Delta y}{|\vec{n}_i|}
+\cos \theta_i = \frac{\Delta \Delta}{|\vec{n}_i|}
 $$
 
 $$
@@ -187,7 +184,7 @@ $$
 For every edge vertex pair, the wall mass will be:
 
 $$
-m_j = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta y
+m_j = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta
 $$
 
 The total mass of the block of armor would be:
