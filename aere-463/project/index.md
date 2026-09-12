@@ -38,7 +38,7 @@ $$
 
 Inspired by computer graphics, a group of $3$ vertices form a triangle. A mesh with $N \times M$ vertices will have $2 (N - 1) (M - 1)$ triangles:
 
-![](https://i.imgur.com/OFFHrFj.png)
+![](https://i.imgur.com/cPmccMj.png)
 
 ## Vertices
 
@@ -84,37 +84,29 @@ $$
 
 An equation for $\theta_i$ is needed. Thankfully, this is a well known and solved problem in computer graphics. We define our vertices in a counter-clockwise fashion on the $xy$ plane with extrusion happening along the $z$ axis:
 
-![](https://i.imgur.com/lKGBVUQ.png)
+![](https://i.imgur.com/A3DtI8M.png)
 
 This lets us define the positions of our vertices in the standard winding order in computer graphics:
 
 $$
-\left( 0, 0, v_0 \right) \\
-\left( \Delta, 0, v_1 \right) \\
-\left( \Delta, \Delta, v_2 \right) \\
+(0, 0, v_0) \\
+(\Delta, 0, v_1) \\
+(0, \Delta, v_2) \\
 $$
 
-We can use $v_0 \to v_1$ and $v_0 \to v_2$ to form the edge vectors of the triangle:
-
-![](https://i.imgur.com/JWWj7A4.png)
-
-Those vectors are:
+We can use the edges of this triangle to get a normal vector. Those edges are:
 
 $$
-\left( \Delta, 0, v_1 \right) - \left( 0, 0, v_0 \right) = \left( \Delta, 0, v_1 - v_0 \right) \\
-\left( \Delta, \Delta, v_2 \right) - \left( 0, 0, v_0 \right) = \left( \Delta, \Delta, v_2 - v_0 \right)
+(0, 0, v_0) - (\Delta, 0, v_1) = (-\Delta, 0, v_0 - v_1) \\
+(0, \Delta, v_2) - (\Delta, 0, v_1) = (-\Delta, \Delta, v_2 - v_1)
 $$
 
-A straight cross product can be used to get a normal vector:
+A straight forward cross product can be used to get a normal vector:
 
 $$
 \vec{n}
-= \left( \Delta, 0, v_1 - v_0 \right) \times \left( \Delta, \Delta, v_2 - v_0 \right)
-= \begin{bmatrix}
-  (v_0 - v_1) \Delta \\
-  (v_1 - v_2) \Delta \\
-  \Delta \Delta
-\end{bmatrix}
+= (-\Delta, \Delta, v_2 - v_1) \times (-\Delta, 0, v_0 - v_1)
+= \left( (v_0 - v_1) \Delta, ~ (v_0 - v_2) \Delta, ~ \Delta^2 \right)
 $$
 
 Since we're evaluating the performance for a head-on confrontation, the incoming shells will follow a path parallel to the $z$ axis. Thus our normal vector to use for the dot product when computing $\theta$ will be $\hat{k} = \left( 0, 0, 1 \right)$:
@@ -123,16 +115,16 @@ $$
 \cos \theta = \frac{\vec{n}}{|\vec{n}|} \cdot \hat{k} = \frac{\vec{n} \cdot \hat{k}}{|\vec{n}|}
 $$
 
-The $\hat{k}$ strips the everything but the $z$ component:
+The dot product with $\hat{k}$ in the numerator strips the everything but the $z$ component:
 
 $$
-\cos \theta_i = \frac{\Delta \Delta}{|\vec{n}_i|}
+\cos \theta_i = \frac{\Delta^2}{|\vec{n}_i|}
 $$
 
 And here, $|\vec{n}_i|$ of course is:
 
 $$
-|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_1 - v_2)^2 \Delta^2 + \Delta^2 \Delta^2}
+|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_0 - v_2)^2 \Delta^2 + \Delta^4} = \Delta \sqrt{(v_0 - v_1)^2 + (v_0 - v_2)^2 + \Delta^2}
 $$
 
 Another property of the cross product is of course the area of the prism that it forms, half of which is the area of the triangle:

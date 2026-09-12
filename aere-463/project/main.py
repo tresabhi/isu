@@ -1,9 +1,14 @@
+import math
 import numpy as np
 
 w = 3  # m
 h = 3  # m
 
 Delta = 1  # m
+
+rho = 7850  # kg/m^3
+
+t_e = 250 / 1000  # m
 
 N = int(w / Delta)
 M = int(h / Delta)
@@ -14,10 +19,12 @@ n_v = (N + 1) * (M + 1)
 n_t = 2 * N * M
 
 Vs = [np.zeros((n_v, 1))]
-Ts = [np.zeros((n_t, 1))]
+Ts = [np.full((n_t, 1), t_e)]
 
 
 def f(X, T):
+    m = 0
+
     # i_tri is the index of the triangle
     for i_tri in range(n_t):
         is_bottom_left = i_tri % 2 == 0
@@ -45,7 +52,15 @@ def f(X, T):
         [v2] = X[i2]
         [t] = T[i_tri]
 
-        print(f"({v0}, {v1}, {v2}, {t})")
+        n_i_abs = Delta * math.sqrt((v0 - v1) ** 2 + (v0 - v2) ** 2 + Delta**2)
+        A_i = n_i_abs / 2
+
+        V_i = A_i * t
+        m_i = rho * V_i
+
+        m += m_i
+
+    return m
 
 
-f(Vs[-1], Ts[-1])
+print(f(Vs[-1], Ts[-1]))
