@@ -156,5 +156,5 @@
     "zlabel",
     "zorder"
   ],
-  "deno.enable": true
+  "liveServer.settings.root": "/coms-106/homeworks/3"
 }
