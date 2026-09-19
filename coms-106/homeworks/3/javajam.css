@@ -53,7 +53,7 @@ body {
     main {
       display: block;
 
-      padding: 0 2em 2em 2em 2em;
+      padding: 0 2em 2em 2em;
 
       h2 {
         color: #8c3826;
@@ -74,10 +74,10 @@ body {
 
       .details {
         padding: 0 20%;
+      }
 
-        img {
-          padding: 0 10px;
-        }
+      img {
+        margin: 0 10px;
       }
     }
 
