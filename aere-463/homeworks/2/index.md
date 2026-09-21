@@ -1,5 +1,53 @@
 # AERE 463 Homework 2
 
+Objective function
+
+$$
+f = \sum_{i = 0:10} (U_i^{t = 0.1} - V_i^{t = 0.1})^2
+$$
+
+Final $V$:
+
+$$
+V_{i = 0:10}^{t = 0.1} = [5.000, 5.009, 5.045, 5.119, 5.231, 5.371, 5.522, 5.670, 5.800, 5.904, 6.008]
+$$
+
+Initial guess for $U$:
+
+$$
+U_{i = 0:10} = 5.0
+$$
+
+Propagating the initial guess is trivialized by last week's code:
+
+```py
+A = make_A()
+
+
+def propagate(Us_initial):
+    Us = Us_initial.copy()
+
+    step = 0
+
+    while step < steps:
+        B = make_B(Us)
+        Us = np.linalg.solve(A, B).flatten()
+        t += delta_t
+        step += 1
+
+    return Us
+```
+
+---
+
+The final state (writing it in Python to copy to code easier):
+
+```py
+V_final = np.matrix(
+    [5.000, 5.009, 5.045, 5.119, 5.231, 5.371, 5.522, 5.670, 5.800, 5.904, 6.008]
+)
+```
+
 My derivations from last from for elements 1-9:
 
 $$
@@ -14,4 +62,22 @@ $$
 
 $$
 U_8 - 2 U_9 + U_{10} = 0
+$$
+
+The constants:
+
+$$
+\Delta x = 0.1
+$$
+
+$$
+\Delta t = 0.01
+$$
+
+$$
+\lambda = 2.0
+$$
+
+$$
+\mu = 0.2
 $$
