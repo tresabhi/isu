@@ -18,7 +18,7 @@ $$
 U_{i = 0:10} = 5.0
 $$
 
-Propagating the initial guess is trivialized by last week's code:
+Propagating the initial guess is trivialized by last week's code (`make_A` and `make_B` are identical to last week):
 
 ```py
 A = make_A()
@@ -36,6 +36,14 @@ def propagate(Us_initial):
         step += 1
 
     return Us
+```
+
+And the objective function:
+
+```py
+def f(Us_initial):
+    Us = propagate(Us_initial)
+    return np.sum((Us - Vs_final) ** 2)
 ```
 
 ---

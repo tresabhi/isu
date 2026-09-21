@@ -15,7 +15,6 @@ Vs_final = np.array(
 )
 
 xs = np.arange(0, 1 + delta_x, delta_x)
-Us = np.full(Vs_final.shape, 5.0)
 
 
 def make_A():
@@ -64,6 +63,7 @@ def propagate(Us_initial):
     Us = Us_initial.copy()
 
     step = 0
+    t = 0
 
     while step < steps:
         B = make_B(Us)
@@ -72,3 +72,42 @@ def propagate(Us_initial):
         step += 1
 
     return Us
+
+
+Us = np.full(Vs_final.shape, 5.0)
+
+
+def f(Us_initial):
+    Us = propagate(Us_initial)
+    return np.sum((Us - Vs_final) ** 2)
+
+
+epsilon = 1e-5
+
+
+def gradient(Us):
+    gradient = np.zeros_like(Us)
+
+    for idx in np.ndindex(Us.shape):
+        Us_plus = Us.copy()
+        Us_minus = Us.copy()
+
+        Us_plus[idx] += epsilon
+        Us_minus[idx] -= epsilon
+
+        gradient[idx] = (f(Us_plus) - f(Us_minus)) / (2 * epsilon)
+
+    return gradient
+
+
+learning_rate = 1e-4
+iteration = 0
+loss = f(Us)
+
+while loss > 0.25:
+    grad = gradient(Us)
+    iteration += 1
+    Us -= learning_rate * grad
+    loss = f(Us)
+
+    print(iteration, loss)
