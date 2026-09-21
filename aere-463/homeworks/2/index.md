@@ -46,6 +46,42 @@ def f(Us_initial):
     return np.sum((Us - Vs_final) ** 2)
 ```
 
+I tried gradient decent with finite difference:
+
+```py
+epsilon = 1e-5
+
+
+def gradient(Us):
+    gradient = np.zeros_like(Us)
+
+    for idx in np.ndindex(Us.shape):
+        Us_plus = Us.copy()
+        Us_minus = Us.copy()
+
+        Us_plus[idx] += epsilon
+        Us_minus[idx] -= epsilon
+
+        gradient[idx] = (f(Us_plus) - f(Us_minus)) / (2 * epsilon)
+
+    return gradient
+
+
+learning_rate = 1e-4
+iteration = 0
+loss = f(Us)
+
+while loss > 0.25:
+    grad = gradient(Us)
+    iteration += 1
+    Us -= learning_rate * grad
+    loss = f(Us)
+
+    print(iteration, loss)
+```
+
+But this took 7450 iterations just to get to 0.25 loss which is horrendously slow.
+
 ---
 
 The final state (writing it in Python to copy to code easier):
