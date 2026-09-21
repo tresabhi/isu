@@ -229,3 +229,26 @@ Which is pretty much the target:
 $$
 V_{i = 0:10}^{t = 0.1} = [5.000, 5.009, 5.045, 5.119, 5.231, 5.371, 5.522, 5.670, 5.800, 5.904, 6.008]
 $$
+
+Plotting code:
+
+```py
+plt.figure(figsize=(8, 5))
+
+plt.plot(xs, Us_initial, marker="o", label="U (initial guess)")
+plt.plot(xs, Vs_final, marker="s", label="V (expected final)")
+plt.plot(xs, Us, marker="^", label="U (converged)")
+plt.plot(xs, propagate(Us), marker="^", label="U (propagated)")
+
+plt.xlabel("x")
+plt.ylabel("Value")
+plt.title("U/V vs x")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+The plot shows how well the propagated $U$ matches with $V$. I also threw in the initial guess $U$ and the initial state $U$:
+
+![](https://i.imgur.com/2uhLtWZ.png)

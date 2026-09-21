@@ -150,7 +150,8 @@ def line_search(Us0, d, alpha0=1.0):
     return alpha
 
 
-Us = np.full(Vs_final.shape, 5.0)
+Us_initial = np.full(Vs_final.shape, 5.0)
+Us = Us_initial.copy()
 iteration = 0
 loss = f(Us)
 
@@ -184,3 +185,18 @@ print("Final loss:", f(Us))
 print("Final Us:", Us)
 print("Final propagated Us:", propagate(Us))
 print("Iterations:", iteration)
+
+plt.figure(figsize=(8, 5))
+
+plt.plot(xs, Us_initial, marker="o", label="U (initial guess)")
+plt.plot(xs, Vs_final, marker="s", label="V (expected final)")
+plt.plot(xs, Us, marker="^", label="U (converged)")
+plt.plot(xs, propagate(Us), marker="^", label="U (propagated)")
+
+plt.xlabel("x")
+plt.ylabel("Value")
+plt.title("U/V vs x")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
