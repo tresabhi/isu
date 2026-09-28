@@ -6,8 +6,8 @@ design_space_descriptions = [
     ("c_tip", "[m] length at tip"),
 ]
 wing_invariant_descriptions = [
-    ("p_root", "[1] cross-sectional airfoil at the root", "NACA 64-212"),
-    ("p_tip", "[1] cross-sectional airfoil at the tip", "NACA 64-212"),
+    ("p_root", "[1] cross-sectional airfoil at the root", "NACA 0012"),
+    ("p_tip", "[1] cross-sectional airfoil at the tip", "NACA 0012"),
     ("theta_root", "[deg] twist angle at the root", 0),
     ("b/2", "[m] wing semi-span", 3),
 ]
@@ -58,7 +58,7 @@ def Dispatch(U):
 
 
 def Solver(U):
-    print("Couldn't find a close solution. Dispatching humans...\n")
+    print("Couldn't find a documented solution. Dispatching humans...\n")
     Dispatch(U)
     exit(0)
 
