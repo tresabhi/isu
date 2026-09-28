@@ -1,15 +1,29 @@
 design_space_descriptions = [
-    ("alpha", "angle of attack"),
-    ("Lambda", "sweep angle"),
-    ("theta_tip", "twist angle, linearly interpolated from root to tip"),
-    ("c_root", "chord length at root"),
-    ("c_tip", "length at tip"),
+    ("alpha", "[deg] angle of attack"),
+    ("Lambda", "[deg] sweep angle"),
+    ("theta_tip", "[deg] twist angle, linearly interpolated from root to tip"),
+    ("c_root", "[m] chord length at root"),
+    ("c_tip", "[m] length at tip"),
 ]
-invariants = [""]
+wing_invariant_descriptions = [
+    ("p_root", "[1] cross-sectional airfoil at the root", "NACA 64-212"),
+    ("p_tip", "[1] cross-sectional airfoil at the tip", "NACA 64-212"),
+    ("theta_root", "[deg] twist angle at the root", 0),
+    ("b/2", "[m] wing semi-span", 3),
+]
+environment_invariant_descriptions = [
+    ("a_inf", "[m/s] speed of sound", 340),
+    ("U_inf", "[m/s] free stream velocity", 102),
+    ("rho_inf", "[kg/m^3] air density", 1.20),
+    ("mu_inf", "[Pa s] dynamic viscosity", 2.448e-5),
+    ("p_inf", "[Pa] free stream pressure", 101325),
+    ("c_ref", "[m] reference chord (used for Re; ignore)", 1.00),
+    ("A_ref", "[m^2] reference area (used for C_L and C_D)", 3.00),
+]
 solution_descriptions = [
-    ("C_L", "coefficient of lift"),
-    ("C_D", "coefficient of drag"),
-    ("V", "internal wing volume"),
+    ("C_L", "[1] coefficient of lift"),
+    ("C_D", "[1] coefficient of drag"),
+    ("V", "[m^3] internal wing volume"),
 ]
 
 Us = [
@@ -20,6 +34,41 @@ Ys = [
 ]
 
 V0 = 0
+
+
+def Dispatch(U):
+    i = 0
+
+    print("Design variables this iteration:")
+    for name, description in design_space_descriptions:
+        print(f"  {name} = {U[i]} {description}")
+        i += 1
+
+    print("\nInvariants of the wing:")
+    for name, description, value in wing_invariant_descriptions:
+        print(f"  {name} = {value} {description}")
+
+    print("\nInvariants of the environment:")
+    for name, description, value in environment_invariant_descriptions:
+        print(f"  {name} = {value} {description}")
+
+    print("\nPlease find the following:")
+    for name, description in solution_descriptions:
+        print(f"  {name} = ? {description}")
+
+
+def Solver(U):
+    print("Couldn't find a close solution. Dispatching humans...\n")
+    Dispatch(U)
+    exit(0)
+
+
+def F(X):
+    U = X[:5]
+    Lambda = X[5:17]
+    S = X[17:29]
+
+    return Augmented(U, Lambda, S)
 
 
 def Augmented(U, Lambda, S):
@@ -78,3 +127,6 @@ def constraint_7(Y, Lambda, S):
 def f(Y):
     _, C_D, _ = Y
     return C_D
+
+
+Solver(Us[0])
