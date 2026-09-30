@@ -206,13 +206,13 @@ $$
 There is an equivalency constraint on all triangles of armor:
 
 $$
-t_i = T
+t_i = t_\text{eff}
 $$
 
-Here, $T = 200mm$ is the desired effective thickness of the armor. This can be turned into constraints:
+Here, $t_\text{eff} = 200mm$ is the desired effective thickness of the armor. This can be turned into constraints:
 
 $$
-h_i = t_i - T = 0
+h_i = t_i - t_\text{eff} = 0
 $$
 
 The second and last constraint is the minimum depth for a vertex, derived from the internal layout of the tank:
@@ -251,6 +251,33 @@ F \left( \begin{bmatrix}
   \vdots \\
   \sigma_{2 (N - 1) (M - 1)}
 \end{bmatrix}, \begin{bmatrix}
+  s_0 \\
+  s_1 \\
+  \vdots \\
+  s_{2 (N - 1) (M - 1)}
+\end{bmatrix} \right) =  \gamma \mu + \sum \lambda_i h_i + \sum \sigma_i (g_i + s_i^2)
+$$
+
+The arguments can be combined:
+
+$$
+F \left( \begin{bmatrix}
+  v_0 \\
+  v_1 \\
+  \vdots \\
+  v_{NM} \\
+  t_0 \\
+  t_1 \\
+  \vdots \\
+  t_{2 (N - 1) (M - 1)} \\
+  \lambda_0 \\
+  \lambda_1 \\
+  \vdots \\
+  \lambda_{2 (N - 1) (M - 1)} \\
+  \sigma_0 \\
+  \sigma_1 \\
+  \vdots \\
+  \sigma_{2 (N - 1) (M - 1)} \\
   s_0 \\
   s_1 \\
   \vdots \\
