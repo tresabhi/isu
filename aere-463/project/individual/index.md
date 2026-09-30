@@ -26,7 +26,7 @@ Given constraints on the minimum volume enclosed by the hull and turret and an e
 
 Different manufacturing complexities will produce different results, all of which will be documented in this report.
 
-The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP shell weighing $25kg$ and traveling at $790m/s$, as was often fired by the Soviet IS-2 tank in WW2.
+The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP shell weighing $25kg$ and traveling at $790m/s$, as was often fired by the Soviet IS-2 tank in WW2. The effective thickness of the armor must be $200mm$ everywhere to safely counter the IS-2 shells' penetration of about $170mm$.
 
 ## Meshing Generation
 
@@ -154,7 +154,7 @@ I haven't decided how this is evaluated yet.
 For every triangle, the following can be computed:
 
 $$
-|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_1 - v_2)^2 \Delta^2 + \Delta^2 \Delta^2}
+|\vec{n}_i| = \Delta \sqrt{(v_0 - v_1)^2 + (v_0 - v_2)^2 + \Delta^2}
 $$
 
 $$
@@ -162,7 +162,7 @@ A_i = \frac{|\vec{n}_i|}{2}
 $$
 
 $$
-\cos \theta_i = \frac{\Delta \Delta}{|\vec{n}_i|}
+\cos \theta_i = \frac{\Delta^2}{|\vec{n}_i|}
 $$
 
 $$
@@ -179,19 +179,13 @@ $$
 m_j = \frac{1}{2} t_w \rho (v_0 + v_1) \Delta
 $$
 
-The total mass of the block of armor would be:
+The total mass of the armor would be:
 
 $$
-\mu = \sum_i m_i + \sum_j m_i'
+\mu = \sum_{i = 0}^{2(N - 1)(M - 1)} m_i + \sum_{j = 0}^{2 (N + M - 2)} m_j
 $$
 
-And the total effective thickness would be:
-
-$$
-\tau = \sum_i t_i'
-$$
-
-Thus, the objective function is:
+Thus, the objective function is as shown below. Note that it accepts two arguments. I will collapse them into one after they've been augmented.
 
 $$
 f \left( \begin{bmatrix}
@@ -204,7 +198,64 @@ f \left( \begin{bmatrix}
   t_1 \\
   \vdots \\
   t_{2 (N - 1) (M - 1)}
-\end{bmatrix} \right) =  \frac{ \gamma \mu}{\tau}
+\end{bmatrix} \right) =  \gamma \mu
+$$
+
+## Constraints
+
+There is an equivalency constraint on all triangles of armor:
+
+$$
+t_i = T
+$$
+
+Here, $T = 200mm$ is the desired effective thickness of the armor. This can be turned into constraints:
+
+$$
+h_i = t_i - T = 0
+$$
+
+The second and last constraint is the minimum depth for a vertex, derived from the internal layout of the tank:
+
+$$
+v_i \ge v_{i, \text{min}}
+$$
+
+Thus, the constraint is:
+
+$$
+g_i = v_{i, \text{min}} - v_i \le 0
+$$
+
+That makes the augmented objective function:
+
+$$
+F \left( \begin{bmatrix}
+  v_0 \\
+  v_1 \\
+  \vdots \\
+  v_{NM}
+\end{bmatrix}, \begin{bmatrix}
+  t_0 \\
+  t_1 \\
+  \vdots \\
+  t_{2 (N - 1) (M - 1)}
+\end{bmatrix}, \begin{bmatrix}
+  \lambda_0 \\
+  \lambda_1 \\
+  \vdots \\
+  \lambda_{2 (N - 1) (M - 1)}
+\end{bmatrix}, \begin{bmatrix}
+  \sigma_0 \\
+  \sigma_1 \\
+  \vdots \\
+  \sigma_{2 (N - 1) (M - 1)}
+\end{bmatrix}, \begin{bmatrix}
+  s_0 \\
+  s_1 \\
+  \vdots \\
+  s_{2 (N - 1) (M - 1)}
+\end{bmatrix} \right) =  \gamma \mu + \sum \lambda_i h_i + \sum \sigma_i (g_i + s_i^2)
 $$
 
 ## Simplification: Spaced Armor Over Tracks

@@ -21,8 +21,9 @@ n_t = 2 * N * M
 Vs = [np.zeros((n_v, 1))]
 Ts = [np.random.uniform(t_e, 2 * t_e, size=(n_t, 1))]
 
+def augmented(X, T)
 
-def f(X, T):
+def solver(X, T):
     m = 0
 
     # i_tri is the index of the triangle
