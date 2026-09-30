@@ -30,13 +30,29 @@ The armor is subject to a frontal confrontation with the enemy firing $122mm$ AP
 
 ## Meshing Generation
 
-All blocks of armor for this project will be rectangular meshes of size $w \times h$, made up of $N \times M$ vertices. This implies the resolution of the mesh is:
+All blocks of armor for this project will be rectangular meshes of size $w \times h$, made up of $N \times M$ quads. This implies the resolution of the mesh is:
 
 $$
-\left ( N, M \right ) = \left ( \frac{w}{\Delta} + 1, \frac{h}{\Delta} + 1 \right )
+\left ( N, M \right ) = \left ( \frac{w}{\Delta}, \frac{h}{\Delta} \right )
 $$
 
-Inspired by computer graphics, a group of $3$ vertices form a triangle. A mesh with $N \times M$ vertices will have $2 (N - 1) (M - 1)$ triangles:
+There's two triangles per quad:
+
+$$
+n_t = 2NM
+$$
+
+And there's vertices in the corners of every quad/triangle:
+
+$$
+n_v = (N + 1) (M + 1)
+$$
+
+But there's just a single wall between a pair of two vertices on the perimeter:
+
+$$
+n_w = 2 (N + M)
+$$
 
 ![](https://i.imgur.com/cPmccMj.png)
 
@@ -182,7 +198,7 @@ $$
 The total mass of the armor would be:
 
 $$
-\mu = \sum_{i = 0}^{2(N - 1)(M - 1)} m_i + \sum_{j = 0}^{2 (N + M - 2)} m_j
+\mu = \sum_{i = 0}^{n_t - 1} m_i + \sum_{j = 0}^{n_w - 1} m_j
 $$
 
 Thus, the objective function is as shown below. Note that it accepts two arguments. I will collapse them into one after they've been augmented.
@@ -192,12 +208,12 @@ f \left( \begin{bmatrix}
   v_0 \\
   v_1 \\
   \vdots \\
-  v_{NM}
+  v_{n_v - 1}
 \end{bmatrix}, \begin{bmatrix}
   t_0 \\
   t_1 \\
   \vdots \\
-  t_{2 (N - 1) (M - 1)}
+  t_{n_t - 1}
 \end{bmatrix} \right) =  \gamma \mu
 $$
 
@@ -227,6 +243,16 @@ $$
 g_i = v_{i, \text{min}} - v_i \le 0
 $$
 
+These shorthands will be useful:
+
+$$
+n_v = NM
+$$
+
+$$
+n_t = 2 (N - 1) (M - 1)
+$$
+
 That makes the augmented objective function:
 
 $$
@@ -234,54 +260,54 @@ F \left( \begin{bmatrix}
   v_0 \\
   v_1 \\
   \vdots \\
-  v_{NM}
+  v_{n_v - 1}
 \end{bmatrix}, \begin{bmatrix}
   t_0 \\
   t_1 \\
   \vdots \\
-  t_{2 (N - 1) (M - 1)}
+  t_{n_t - 1}
 \end{bmatrix}, \begin{bmatrix}
   \lambda_0 \\
   \lambda_1 \\
   \vdots \\
-  \lambda_{2 (N - 1) (M - 1)}
+  \lambda_{n_v - 1}
 \end{bmatrix}, \begin{bmatrix}
   \sigma_0 \\
   \sigma_1 \\
   \vdots \\
-  \sigma_{2 (N - 1) (M - 1)}
+  \sigma_{n_t - 1}
 \end{bmatrix}, \begin{bmatrix}
   s_0 \\
   s_1 \\
   \vdots \\
-  s_{2 (N - 1) (M - 1)}
+  s_{n_t - 1}
 \end{bmatrix} \right) =  \gamma \mu + \sum \lambda_i h_i + \sum \sigma_i (g_i + s_i^2)
 $$
 
 The arguments can be combined:
 
 $$
-F \left( \begin{bmatrix}
+F' \left( \begin{bmatrix}
   v_0 \\
   v_1 \\
   \vdots \\
-  v_{NM} \\
+  v_{n_v - 1} \\
   t_0 \\
   t_1 \\
   \vdots \\
-  t_{2 (N - 1) (M - 1)} \\
+  t_{n_t - 1} \\
   \lambda_0 \\
   \lambda_1 \\
   \vdots \\
-  \lambda_{2 (N - 1) (M - 1)} \\
+  \lambda_{n_v - 1} \\
   \sigma_0 \\
   \sigma_1 \\
   \vdots \\
-  \sigma_{2 (N - 1) (M - 1)} \\
+  \sigma_{n_t - 1} \\
   s_0 \\
   s_1 \\
   \vdots \\
-  s_{2 (N - 1) (M - 1)}
+  s_{n_t - 1}
 \end{bmatrix} \right) =  \gamma \mu + \sum \lambda_i h_i + \sum \sigma_i (g_i + s_i^2)
 $$
 
