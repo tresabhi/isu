@@ -10,21 +10,22 @@ prob.model.add_subsystem("constraint", om.ExecComp("g = x + y"))
 prob.driver = om.ScipyOptimizeDriver()
 prob.driver.options["optimizer"] = "SLSQP"
 
-prob.model.add_design_var("paraboloid.x", lower=-50, upper=50)
-prob.model.add_design_var("paraboloid.y", lower=-50, upper=50)
-prob.model.add_objective("paraboloid.f")
+prob.model.add_design_var("x", lower=-50, upper=50)
+prob.model.add_design_var("y", lower=-50, upper=50)
+prob.model.add_objective("f")
+prob.model.add_constraint("g", equals=0)
 
 prob.setup()
 
 # Set initial values.
-prob.set_val("paraboloid.x", 3.0)
-prob.set_val("paraboloid.y", -4.0)
+prob.set_val("x", 3.0)
+prob.set_val("y", -4.0)
 
 # run the optimization
 prob.run_driver()
 
-x_opt = prob.get_val("paraboloid.x")
-y_opt = prob.get_val("paraboloid.y")
+x_opt = prob.get_val("x")
+y_opt = prob.get_val("y")
 
 print("Optimized x:", x_opt)
 print("Optimized y:", y_opt)
