@@ -4,6 +4,7 @@ import openmdao.api as om
 prob = om.Problem()
 
 prob.model.add_subsystem("paraboloid", om.ExecComp("f = (x-3)**2 + x*y + (y+4)**2 - 3"))
+prob.model.add_subsystem("constraint", om.ExecComp("g = x + y"))
 
 # setup the optimization
 prob.driver = om.ScipyOptimizeDriver()
@@ -21,3 +22,9 @@ prob.set_val("paraboloid.y", -4.0)
 
 # run the optimization
 prob.run_driver()
+
+x_opt = prob.get_val("paraboloid.x")
+y_opt = prob.get_val("paraboloid.y")
+
+print("Optimized x:", x_opt)
+print("Optimized y:", y_opt)
