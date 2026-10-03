@@ -1,4 +1,5 @@
-from scipy.optimize import minimize
+from skopt import gp_minimize
+from skopt.space import Real
 import math
 
 design_space_descriptions = [
@@ -31,18 +32,12 @@ solution_descriptions = [
 
 Us = [
     (0, 0, 0, 1, 1),
-    (3.819660112501051, 0.0, 0.0, 1.0, 1.0),
-    (6.180339887498947, 0.0, 0.0, 1.0, 1.0),
-    (2.360679774997897, 0.0, 0.0, 1.0, 1.0),
 ]
 Ys = [
     (0.1211, 0.01100, 0.2339),
-    (0.1410, 0.01900, 0.2339),
-    (0.1977, 0.03900, 0.2339),
-    (0.1377, 0.01500, 0.2339),
 ]
 
-V0 = 0
+V0 = 0.2488
 
 
 def Dispatch(U):
@@ -77,14 +72,10 @@ def Solver(U):
             print(f"{U} -> {existing_U}")
             return existing_Y
 
-    print(
-        f"{tuple(U.tolist())} didn't match a documented solution. Dispatching humans...\n"
-    )
-    # Dispatch(U)
+    print(f"{U} didn't match a documented solution. Dispatching humans...\n")
 
-    return (0.15, 0.02, 0.2339)
-
-    # exit(0)
+    Dispatch(U)
+    exit(0)
 
 
 def objective_function(U):
@@ -98,15 +89,23 @@ def f(Y):
     return C_D
 
 
-result = minimize(
+space = [
+    Real(0, 10, name="alpha"),
+    Real(-10, 10, name="Lambda"),
+    Real(-10, 10, name="theta_tip"),
+    Real(0.2, 3, name="c_root"),
+    Real(0.2, 3, name="c_tip"),
+]
+
+
+result = gp_minimize(
     objective_function,
-    Us[0],
-    method="Powell",
-    bounds=[
-        (0, 10),  # alpha
-        (-10, 10),  # Lambda
-        (-10, 10),  # theta_tip
-        (0.2, 3),  # c_root
-        (0.2, 3),  # c_tip
-    ],
+    space,
+    x0=Us,
+    y0=[f(Y) for Y in Ys],
+    n_calls=20,
+    n_initial_points=0,
+    random_state=42,
 )
+
+print(result)
