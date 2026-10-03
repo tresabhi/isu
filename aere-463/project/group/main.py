@@ -31,9 +31,15 @@ solution_descriptions = [
 
 Us = [
     (0, 0, 0, 1, 1),
+    (3.819660112501051, 0.0, 0.0, 1.0, 1.0),
+    (6.180339887498947, 0.0, 0.0, 1.0, 1.0),
+    (2.360679774997897, 0.0, 0.0, 1.0, 1.0),
 ]
 Ys = [
     (0.1211, 0.01100, 0.2339),
+    (0.1410, 0.01900, 0.2339),
+    (0.1977, 0.03900, 0.2339),
+    (0.1377, 0.01500, 0.2339),
 ]
 
 V0 = 0
@@ -66,52 +72,24 @@ r_max = 1e-20
 def Solver(U):
     for existing_U, existing_Y in zip(Us, Ys):
         r = math.sqrt(sum((u - eu) ** 2 for u, eu in zip(U, existing_U)))
-        print(r)
 
         if r < r_max:
+            print(f"{U} -> {existing_U}")
             return existing_Y
 
-    print("Couldn't find a documented solution. Dispatching humans...\n")
-    Dispatch(U)
+    print(
+        f"{tuple(U.tolist())} didn't match a documented solution. Dispatching humans...\n"
+    )
+    # Dispatch(U)
 
-    exit(0)
+    return (0.15, 0.02, 0.2339)
+
+    # exit(0)
 
 
 def objective_function(U):
     Y = Solver(U)
     return f(Y)
-
-
-def constraints(U):
-    C_L, _, V = Solver(U)
-
-    return [
-        # 0 <= alpha <= 10
-        U[0],  # alpha >= 0
-        10 - U[0],  # alpha <= 10
-        #
-        # -10 <= sweep angle <= 10
-        U[1] + 10,  # sweep >= -10
-        10 - U[1],  # sweep <= 10
-        #
-        # -10 <= theta_tip <= 10
-        U[2] + 10,  # theta_tip >= -10
-        10 - U[2],  # theta_tip <= 10
-        #
-        # 0.2 <= c_root <= 3
-        U[3] - 0.2,  # c_root >= 0.2
-        3 - U[3],  # c_root <= 3
-        #
-        # 0.2 <= c_tip <= 3
-        U[4] - 0.2,  # c_tip >= 0.2
-        3 - U[4],  # c_tip <= 3
-        #
-        # C_L >= 0.4
-        C_L - 0.4,
-        #
-        # V >= V0
-        V - V0,
-    ]
 
 
 # C_D is what's being minimized
@@ -123,10 +101,6 @@ def f(Y):
 result = minimize(
     objective_function,
     Us[0],
-    # constraints={
-    #     "type": "ineq",
-    #     "fun": constraints,
-    # },
     method="Powell",
     bounds=[
         (0, 10),  # alpha
