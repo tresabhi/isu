@@ -20,6 +20,19 @@ header {
   padding-left: 240px;
   padding-top: 5px;
   padding-bottom: 5px;
+
+  a {
+    text-decoration: none;
+
+    &:link,
+    &:visited {
+      color: #231814;
+    }
+
+    &:hover {
+      color: #fef6c2;
+    }
+  }
 }
 
 h1 {
