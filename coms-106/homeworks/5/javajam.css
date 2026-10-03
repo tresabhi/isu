@@ -65,6 +65,8 @@ main {
 }
 
 nav {
+  float: left;
+  width: 200px;
   text-align: center;
   font-weight: bold;
   font-size: 1.5em;
@@ -72,8 +74,27 @@ nav {
   padding-bottom: 5px;
 }
 
-nav a {
-  text-decoration: none;
+nav {
+  a {
+    text-decoration: none;
+
+    &:link {
+      color: #fef6c2;
+    }
+
+    &:visited {
+      color: #d2b48c;
+    }
+
+    &:hover {
+      color: #cc9933;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
 }
 
 .details {
@@ -117,7 +138,10 @@ footer {
 
 #wrapper {
   width: 80%;
-  background-color: #fefaeb;
+
+  padding: 0;
+
+  background-color: #231814;
   margin-left: auto;
   margin-right: auto;
   min-width: 900px;
