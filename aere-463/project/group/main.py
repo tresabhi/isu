@@ -123,13 +123,16 @@ def f(Y):
 result = minimize(
     objective_function,
     Us[0],
-    constraints={
-        "type": "ineq",
-        "fun": constraints,
-    },
-    method="SLSQP",
-    options={
-        "eps": 0.1,
-        "disp": True,
-    },
+    # constraints={
+    #     "type": "ineq",
+    #     "fun": constraints,
+    # },
+    method="Powell",
+    bounds=[
+        (0, 10),  # alpha
+        (-10, 10),  # Lambda
+        (-10, 10),  # theta_tip
+        (0.2, 3),  # c_root
+        (0.2, 3),  # c_tip
+    ],
 )
