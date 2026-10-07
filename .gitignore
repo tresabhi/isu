@@ -248,3 +248,5 @@ __marimo__/
 # html
 *.html
 !coms-106/**/*.html
+
+/main_out
