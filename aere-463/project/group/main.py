@@ -41,41 +41,14 @@ V0 = 0.2488
 
 
 def Dispatch(U):
-    i = 0
-
-    print("Design variables this iteration:")
-    for name, description in design_space_descriptions:
-        print(f"  {name} = {U[i]} {description}")
-        i += 1
-
-    print("\nInvariants of the wing:")
-    for name, description, value in wing_invariant_descriptions:
-        print(f"  {name} = {value} {description}")
-
-    print("\nInvariants of the environment:")
-    for name, description, value in environment_invariant_descriptions:
-        print(f"  {name} = {value} {description}")
-
-    print("\nPlease find the following:")
-    for name, description in solution_descriptions:
-        print(f"  {name} = ? {description}")
+    return "god help us"
 
 
 r_max = 1e-20
 
 
 def Solver(U):
-    for existing_U, existing_Y in zip(Us, Ys):
-        r = math.sqrt(sum((u - eu) ** 2 for u, eu in zip(U, existing_U)))
-
-        if r < r_max:
-            print(f"{U} -> {existing_U}")
-            return existing_Y
-
-    print(f"{U} didn't match a documented solution. Dispatching humans...\n")
-
-    Dispatch(U)
-    exit(0)
+    return Dispatch(U)
 
 
 def objective_function(U):
