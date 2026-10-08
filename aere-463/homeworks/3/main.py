@@ -94,7 +94,6 @@ prob.setup()
 
 prob.set_val("theta", [0.1, 0.1])
 prob.set_val("t", [1.0, 1.0])
-
 prob.set_val("Gamma", [0.1, 0.1])
 prob.set_val("d", [0.1, 0.1])
 
@@ -105,3 +104,5 @@ print("d =", prob.get_val("d"))
 print("L =", prob.get_val("L"))
 print("D =", prob.get_val("D"))
 print("sigma =", prob.get_val("sigma"))
+
+om.n2(prob, outfile="mdf.html", show_browser=True)
