@@ -16,3 +16,16 @@ $$
 $$
 
 Structural solver:
+
+$$
+\begin{bmatrix}
+  10 t_0 - \theta_0 & 1 \\
+  1 & 10 t_1 - \theta_1
+\end{bmatrix} \begin{bmatrix}
+  d_0 \\
+  d_1
+\end{bmatrix} = \begin{bmatrix}
+  \Gamma_0^2 \\
+  \Gamma_1^2
+\end{bmatrix}
+$$
