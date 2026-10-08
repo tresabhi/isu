@@ -126,7 +126,7 @@ class StructuralSolver(om.ImplicitComponent):
 
 And for the other functions, I realized there's no real good reason to create a solver for each one so I combined them into the `Forces` class:
 
-````py
+```py
 class Forces(om.ExplicitComponent):
     def setup(self):
         self.add_input("theta", shape=2)
@@ -148,5 +148,34 @@ class Forces(om.ExplicitComponent):
         outputs["L"] = 10.0 * (Gamma[0] + Gamma[1])
         outputs["D"] = Gamma[0] * np.sin(theta[0]) + Gamma[1] * np.sin(theta[1])
         outputs["sigma"] = (d[0] + d[1]) * 10**4
-        ```
-````
+```
+
+Just like in-class, I created a problem and added the subsystems with promotions on all variables:
+
+```py
+prob = om.Problem()
+
+prob.model.add_subsystem("aero", AeroSolver(), promotes=["*"])
+prob.model.add_subsystem("struct", StructuralSolver(), promotes=["*"])
+prob.model.add_subsystem("forces", Forces(), promotes=["*"])
+```
+
+Then I set up the linear and non-linear solvers and the driver. I am not sure if I really need the linear solver since I only use define `apply_nonlinear` in the classes above, but I can't imagine it'd hurt to add them:
+
+```py
+prob.model.nonlinear_solver = om.NewtonSolver(solve_subsystems=False, iprint=2)
+prob.model.linear_solver = om.ScipyKrylov()
+prob.driver = om.ScipyOptimizeDriver()
+```
+
+The design variables and constraints went in easy peasy:
+
+```py
+prob.model.add_design_var("theta")
+prob.model.add_design_var("t")
+
+prob.model.add_objective("D")
+
+prob.model.add_constraint("L", equals=1.0)
+prob.model.add_constraint("sigma", upper=1.0)
+```
