@@ -309,6 +309,34 @@ tresabhi@treslaptop:~/Projects/isu$ Opening in existing browser session.
 [23:23:0100/000000.841593:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
 ```
 
+Thus, the values are:
+
+$$
+\Gamma = \begin{bmatrix}
+  0.06619126 \\
+  0.0338087
+\end{bmatrix}
+$$
+
+$$
+d = \begin{bmatrix}
+  7.78753175 \times 10^{-5} \\
+  2.14643713 \times 10^{-5}
+\end{bmatrix}
+$$
+
+$$
+L = 0.99999968
+$$
+
+$$
+D = 0.02341774
+$$
+
+$$
+\sigma = 0.99339689
+$$
+
 The MDF diagram with the "variable-specific arrows" is a good visualizer for the direction of data-flow:
 
 ![](https://i.imgur.com/3NjuxKO.png)
