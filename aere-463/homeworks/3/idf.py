@@ -101,9 +101,9 @@ prob.set_val("d", [0.1, 0.1])
 prob.run_driver()
 
 print("Gamma =", prob.get_val("Gamma"))
-print("d     =", prob.get_val("d"))
-print("L     =", prob.get_val("L"))
-print("D     =", prob.get_val("D"))
+print("d =", prob.get_val("d"))
+print("L =", prob.get_val("L"))
+print("D =", prob.get_val("D"))
 print("sigma =", prob.get_val("sigma"))
 
 om.n2(prob, outfile="idf.html", show_browser=True)
