@@ -9,4 +9,5 @@ class AeroSolver(om.ImplicitComponent):
 
         self.add_output("Gamma", shape=2)
 
+    def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
