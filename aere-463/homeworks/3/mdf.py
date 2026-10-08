@@ -94,7 +94,7 @@ prob.set_val("t", [1.0, 1.0])
 prob.set_val("Gamma", [0.1, 0.1])
 prob.set_val("d", [0.1, 0.1])
 
-prob.run_model()
+prob.run_driver()
 
 print("Gamma =", prob.get_val("Gamma"))
 print("d =", prob.get_val("d"))

@@ -180,7 +180,7 @@ prob.model.add_constraint("L", equals=1.0)
 prob.model.add_constraint("sigma", upper=1.0)
 ```
 
-Through trial and error, I found out that the `set_vals` must happen after the `setup` which I find counter-intuitive?
+Through trial and error, I found out that the `set_vals` must happen after the `setup` which I find counter-intuitive? Also, for the longest time, I was using `prob.run_model()` and was confused why it converged so far. That's just one evaluation! I had to switch to `prob.run_driver()`:
 
 ```py
 prob.setup()
@@ -190,7 +190,7 @@ prob.set_val("t", [1.0, 1.0])
 prob.set_val("Gamma", [0.1, 0.1])
 prob.set_val("d", [0.1, 0.1])
 
-prob.run_model()
+prob.run_driver()
 ```
 
 The results are then logged and the MDF diagram is displayed:
@@ -215,14 +215,98 @@ NL: Newton 1 ; 0.01003237 5.0186915e-06
 NL: Newton 2 ; 6.07293442e-07 3.03798449e-10
 NL: Newton 3 ; 3.5917437e-14 1.79676922e-17
 NL: Newton Converged
-Gamma = [0.02850763 0.0142724 ]
-d = [8.08357954e-05 1.24106787e-05]
-L = [0.42780035]
-D = [0.00427088]
-sigma = [0.93246474]
-Opening in existing browser session.
-[25 zypak-sandbox] Failed to wait for supervisor exit reply: Connection reset by peer (errno 104)
-[23:23:0100/000000.183690:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+NL: Newton 0 ; 3.5917437e-14 1
+NL: Newton Converged
+NL: Newton 0 ; 0.498254204 1
+NL: Newton 1 ; 0.0107031147 0.0214812331
+NL: Newton 2 ; 3.57332044e-07 7.17168146e-07
+NL: Newton 3 ; 7.93829816e-14 1.59322251e-13
+NL: Newton Converged
+NL: Newton 0 ; 0.406027953 1
+NL: Newton 1 ; 0.00814154187 0.0200516783
+NL: Newton 2 ; 5.82414364e-08 1.43441938e-07
+NL: Newton 3 ; 1.18085129e-14 2.90830048e-14
+NL: Newton Converged
+NL: Newton 0 ; 0.384777448 1
+NL: Newton 1 ; 0.0146365099 0.0380388976
+NL: Newton 2 ; 1.37152564e-07 3.56446472e-07
+NL: Newton 3 ; 4.84684694e-14 1.25964943e-13
+NL: Newton Converged
+NL: Newton 0 ; 0.323283713 1
+NL: Newton 1 ; 0.0108049608 0.0334225337
+NL: Newton 2 ; 1.11992943e-07 3.4642309e-07
+NL: Newton 3 ; 3.04785607e-14 9.42780583e-14
+NL: Newton Converged
+NL: Newton 0 ; 0.0264549816 1
+NL: Newton 1 ; 7.59153248e-05 0.00286960414
+NL: Newton 2 ; 4.87265673e-12 1.84186737e-10
+NL: Newton Converged
+NL: Newton 0 ; 0.169548379 1
+NL: Newton 1 ; 0.000758892577 0.0044759648
+NL: Newton 2 ; 5.23516906e-11 3.08771401e-10
+NL: Newton Converged
+NL: Newton 0 ; 0.0129095486 1
+NL: Newton 1 ; 9.68304386e-06 0.000750068355
+NL: Newton 2 ; 3.7891009e-14 2.93511495e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.00448273186 1
+NL: Newton 1 ; 1.34837341e-06 0.000300792786
+NL: Newton 2 ; 5.53826976e-15 1.23546755e-12
+NL: Newton Converged
+NL: Newton 0 ; 7.38810879e-05 1
+NL: Newton 1 ; 2.8019147e-10 3.79246541e-06
+NL: Newton 2 ; 2.48259855e-16 3.36026258e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.000408367565 1
+NL: Newton 1 ; 1.12852712e-08 2.7635082e-05
+NL: Newton 2 ; 1.36195818e-16 3.33512819e-13
+NL: Newton Converged
+NL: Newton 0 ; 0.0020348644 1
+NL: Newton 1 ; 2.80239344e-07 0.000137718928
+NL: Newton 2 ; 1.25051546e-15 6.14544861e-13
+NL: Newton Converged
+NL: Newton 0 ; 0.00988415847 1
+NL: Newton 1 ; 6.6170369e-06 0.000669458803
+NL: Newton 2 ; 2.76560507e-14 2.79801774e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.0417469552 1
+NL: Newton 1 ; 0.000118367664 0.0028353604
+NL: Newton 2 ; 5.18470366e-13 1.24193576e-11
+NL: Newton Converged
+NL: Newton 0 ; 0.0194375632 1
+NL: Newton 1 ; 2.55192665e-05 0.00131288404
+NL: Newton 2 ; 9.42549807e-14 4.84911508e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.029581831 1
+NL: Newton 1 ; 5.97472608e-05 0.00201972828
+NL: Newton 2 ; 2.02768397e-13 6.8544911e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.00384120798 1
+NL: Newton 1 ; 1.03838982e-06 0.000270328976
+NL: Newton 2 ; 4.1940252e-15 1.09185059e-12
+NL: Newton Converged
+NL: Newton 0 ; 0.00330833438 1
+NL: Newton 1 ; 7.48907119e-07 0.000226369838
+NL: Newton 2 ; 2.88875469e-15 8.73174944e-13
+NL: Newton Converged
+NL: Newton 0 ; 0.000961956933 1
+NL: Newton 1 ; 6.33961917e-08 6.59033576e-05
+NL: Newton 2 ; 2.4572528e-16 2.55443119e-13
+NL: Newton Converged
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: 0.023417738818650977
+            Iterations: 14
+            Function evaluations: 19
+            Gradient evaluations: 14
+Optimization Complete
+-----------------------------------
+Gamma = [0.06619126 0.0338087 ]
+d = [7.78753175e-05 2.14643713e-05]
+L = [0.99999968]
+D = [0.02341774]
+sigma = [0.99339689]
+tresabhi@treslaptop:~/Projects/isu$ Opening in existing browser session.
+[23:23:0100/000000.841593:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
 ```
 
 The MDF diagram with the "variable-specific arrows" is a good visualizer for the direction of data-flow:
