@@ -77,21 +77,26 @@ prob.model.add_subsystem("struct", StructuralSolver(), promotes=["*"])
 prob.model.add_subsystem("forces", Forces(), promotes=["*"])
 
 prob.model.nonlinear_solver = om.NewtonSolver(solve_subsystems=False, iprint=2)
+
 prob.model.linear_solver = om.ScipyKrylov()
+
+prob.driver = om.ScipyOptimizeDriver()
+
+prob.model.add_design_var("theta")
+prob.model.add_design_var("t")
+
+prob.model.add_objective("D")
+
+prob.model.add_constraint("L", equals=1.0)
+prob.model.add_constraint("sigma", upper=1.0)
 
 prob.setup()
 
 prob.set_val("theta", [0.1, 0.1])
 prob.set_val("t", [1.0, 1.0])
 
-prob.driver = om.ScipyOptimizeDriver()
-
-prob.model.add_design_var("theta")
-prob.model.add_design_var("t")
-prob.model.add_objective("D")
-
-prob.model.add_constraint("L", equals=1.0)
-prob.model.add_constraint("sigma", upper=1.0)
+prob.set_val("Gamma", [0.1, 0.1])
+prob.set_val("d", [0.1, 0.1])
 
 prob.run_model()
 
