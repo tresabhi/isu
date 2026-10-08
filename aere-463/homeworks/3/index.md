@@ -204,3 +204,31 @@ print("sigma =", prob.get_val("sigma"))
 
 om.n2(prob, outfile="mdf.html", show_browser=True)
 ```
+
+The output is a little concerning but I trust the library using the entire model isn't detrimental:
+
+```
+tresabhi@treslaptop:~/Projects/isu$ python aere-463/homeworks/3/mdf.py
+/home/tresabhi/.local/lib/python3.14/site-packages/openmdao/utils/relevance.py:1234: OpenMDAOWarning:The top level group has a nonlinear solver that computes gradients, so the entire model will be included in the optimization iteration.
+NL: Newton 0 ; 1999.00113 1
+NL: Newton 1 ; 0.01003237 5.0186915e-06
+NL: Newton 2 ; 6.07293442e-07 3.03798449e-10
+NL: Newton 3 ; 3.5917437e-14 1.79676922e-17
+NL: Newton Converged
+Gamma = [0.02850763 0.0142724 ]
+d = [8.08357954e-05 1.24106787e-05]
+L = [0.42780035]
+D = [0.00427088]
+sigma = [0.93246474]
+Opening in existing browser session.
+[25 zypak-sandbox] Failed to wait for supervisor exit reply: Connection reset by peer (errno 104)
+[23:23:0100/000000.183690:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+```
+
+The MDF diagram with the "variable-specific arrows" is a good visualizer for the direction of data-flow:
+
+![](https://i.imgur.com/3NjuxKO.png)
+
+However, I did find looking at the "level 2" diagram (down from "level 3") to be easier to parse visually since it disregards the specific variables:
+
+![](https://i.imgur.com/uND1qEI.png)
