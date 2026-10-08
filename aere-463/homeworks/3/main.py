@@ -26,6 +26,7 @@ class AeroSolver(om.ImplicitComponent):
 
 class StructuralSolver(om.ImplicitComponent):
     def setup(self):
+        self.add_input("theta", shape=2)
         self.add_input("t", shape=2)
         self.add_input("Gamma", shape=2)
 
