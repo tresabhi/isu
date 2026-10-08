@@ -47,6 +47,29 @@ class StructuralSolver(om.ImplicitComponent):
         residuals["d"] = A @ d - b
 
 
+class Forces(om.ExplicitComponent):
+    def setup(self):
+        self.add_input("theta", shape=2)
+        self.add_input("Gamma", shape=2)
+        self.add_input("d", shape=2)
+
+        self.add_output("L")
+        self.add_output("D")
+        self.add_output("sigma")
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        theta = inputs["theta"]
+        Gamma = inputs["Gamma"]
+        d = inputs["d"]
+
+        outputs["L"] = 10.0 * (Gamma[0] + Gamma[1])
+        outputs["D"] = Gamma[0] * np.sin(theta[0]) + Gamma[1] * np.sin(theta[1])
+        outputs["sigma"] = (d[0] + d[1]) * 10**4
+
+
 prob = om.Problem()
 
 prob.model.add_subsystem("aero", AeroSolver(), promotes=["*"])
