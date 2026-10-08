@@ -81,3 +81,29 @@ prob.model.add_design_var("theta")
 prob.model.add_design_var("t")
 prob.model.add_design_var("Gamma")
 prob.model.add_design_var("d")
+
+prob.model.add_objective("D")
+
+prob.model.add_constraint("L", equals=1.0)
+prob.model.add_constraint("sigma", upper=1.0)
+prob.model.add_constraint("aero_residual", equals=0.0)
+prob.model.add_constraint("struct_residual", equals=0.0)
+
+prob.driver = om.ScipyOptimizeDriver()
+
+prob.setup()
+
+prob.set_val("theta", [0.1, 0.1])
+prob.set_val("t", [1.0, 1.0])
+prob.set_val("Gamma", [0.1, 0.1])
+prob.set_val("d", [0.1, 0.1])
+
+prob.run_driver()
+
+print("Gamma =", prob.get_val("Gamma"))
+print("d     =", prob.get_val("d"))
+print("L     =", prob.get_val("L"))
+print("D     =", prob.get_val("D"))
+print("sigma =", prob.get_val("sigma"))
+
+om.n2(prob, outfile="idf.html", show_browser=True)
