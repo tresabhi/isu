@@ -344,3 +344,5 @@ The MDF diagram with the "variable-specific arrows" is a good visualizer for the
 However, I did find looking at the "level 2" diagram (down from "level 3") to be easier to parse visually since it disregards the specific variables:
 
 ![](https://i.imgur.com/uND1qEI.png)
+
+To make the problem an IDF, all I really have to do is make the residuals the difference between the solver's outputs and the passed estimate from the IDF loop.
