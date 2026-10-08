@@ -45,3 +45,12 @@ class StructuralSolver(om.ImplicitComponent):
         b = Gamma**2
 
         residuals["d"] = A @ d - b
+
+
+prob = om.Problem()
+
+prob.model.add_subsystem("aero", AeroSolver(), promotes=["*"])
+prob.model.add_subsystem("struct", StructuralSolver(), promotes=["*"])
+
+prob.model.nonlinear_solver = om.NewtonSolver(solve_subsystems=False, iprint=2)
+prob.model.linear_solver = om.ScipyKrylov()
