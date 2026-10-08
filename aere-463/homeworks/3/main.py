@@ -74,6 +74,20 @@ prob = om.Problem()
 
 prob.model.add_subsystem("aero", AeroSolver(), promotes=["*"])
 prob.model.add_subsystem("struct", StructuralSolver(), promotes=["*"])
+prob.model.add_subsystem("forces", Forces(), promotes=["*"])
 
 prob.model.nonlinear_solver = om.NewtonSolver(solve_subsystems=False, iprint=2)
 prob.model.linear_solver = om.ScipyKrylov()
+
+prob.setup()
+
+prob.set_val("theta", [0.1, 0.1])
+prob.set_val("t", [1.0, 1.0])
+
+prob.run_model()
+
+print("Gamma =", prob.get_val("Gamma"))
+print("d =", prob.get_val("d"))
+print("L =", prob.get_val("L"))
+print("D =", prob.get_val("D"))
+print("sigma =", prob.get_val("sigma"))
