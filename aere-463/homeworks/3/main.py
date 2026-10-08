@@ -13,14 +13,15 @@ class AeroSolver(om.ImplicitComponent):
         self.declare_partials("*", "*", method="fd")
 
     def apply_nonlinear(self, inputs, outputs, residuals):
-        theta = inputs["theta"][0]
-        t = inputs["t"][0]
-        Gamma = inputs["Gamma"][0]
-        d = outputs["d"][0]
 
-        A = np.array([[10 * t[0] - theta[0], 1], [1, 10 * t[1] - theta[1]]])
+        theta = inputs["theta"]
+        d = inputs["d"]
+        Gamma = outputs["Gamma"]
 
-        residuals["d"] = A @ d - Gamma**2
+        A = np.array([[(theta[0] + d[0]) ** 2 + 3, 1], [1, (theta[1] + d[1]) ** 2 + 5]])
+        b = np.array([theta[0] + d[0], theta[1] + d[1]])
+
+        residuals["Gamma"] = A @ Gamma - b
 
 
 class StructuralSolver(om.ImplicitComponent):
