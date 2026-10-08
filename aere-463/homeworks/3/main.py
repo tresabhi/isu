@@ -13,7 +13,6 @@ class AeroSolver(om.ImplicitComponent):
         self.declare_partials("*", "*", method="fd")
 
     def apply_nonlinear(self, inputs, outputs, residuals):
-
         theta = inputs["theta"]
         d = inputs["d"]
         Gamma = outputs["Gamma"]
