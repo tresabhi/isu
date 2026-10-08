@@ -35,10 +35,10 @@ class StructuralSolver(om.ImplicitComponent):
         self.declare_partials("*", "*", method="fd")
 
     def apply_nonlinear(self, inputs, outputs, residuals):
-        theta = inputs["theta"][0]
-        t = inputs["t"][0]
-        Gamma = inputs["Gamma"][0]
-        d = outputs["d"][0]
+        theta = inputs["theta"]
+        t = inputs["t"]
+        Gamma = inputs["Gamma"]
+        d = outputs["d"]
 
         A = np.array([[10.0 * t[0] - theta[0], 1.0], [1.0, 10.0 * t[1] - theta[1]]])
         b = Gamma**2
