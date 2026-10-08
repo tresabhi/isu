@@ -1,6 +1,6 @@
 # AERE 463 Homework 3
 
-Aero solver:
+I am going to transcribe things into here so I can transform them into Python easier. Aero solver:
 
 $$
 \begin{bmatrix}
@@ -28,4 +28,46 @@ $$
   \Gamma_0^2 \\
   \Gamma_1^2
 \end{bmatrix}
+$$
+
+Forces:
+
+$$
+L = 10 (\Gamma_0 + \Gamma_1)
+$$
+
+$$
+D = \Gamma_0 \sin \theta_0 + \Gamma_1 \sin \theta_1
+$$
+
+Stress:
+
+$$
+\sigma = (d_0 + d_1) * 10^4
+$$
+
+Objective function:
+
+$$
+f = D
+$$
+
+Constraints:
+
+$$
+L - 1 = 0
+$$
+
+$$
+\sigma - 1 \le 0
+$$
+
+Initial design variables:
+
+$$
+\theta = [0.1, 0.1]^T
+$$
+
+$$
+t = [1, 1]^T
 $$
