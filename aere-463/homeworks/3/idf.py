@@ -69,3 +69,15 @@ class Forces(om.ExplicitComponent):
         outputs["L"] = 10.0 * (Gamma[0] + Gamma[1])
         outputs["D"] = Gamma[0] * np.sin(theta[0]) + Gamma[1] * np.sin(theta[1])
         outputs["sigma"] = (d[0] + d[1]) * 10**4
+
+
+prob = om.Problem()
+
+prob.model.add_subsystem("aero", AeroSolver(), promotes=["*"])
+prob.model.add_subsystem("struct", StructuralSolver(), promotes=["*"])
+prob.model.add_subsystem("forces", Forces(), promotes=["*"])
+
+prob.model.add_design_var("theta")
+prob.model.add_design_var("t")
+prob.model.add_design_var("Gamma")
+prob.model.add_design_var("d")
