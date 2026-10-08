@@ -11,3 +11,13 @@ class AeroSolver(om.ImplicitComponent):
 
     def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
+
+    def apply_nonlinear(self, inputs, outputs, residuals):
+        theta = inputs["theta"][0]
+        t = inputs["t"][0]
+        Gamma = inputs["Gamma"][0]
+        d = outputs["d"][0]
+
+        A = np.array([[10 * t[0] - theta[0], 1], [1, 10 * t[1] - theta[1]]])
+
+        residuals["d"] = A @ d - Gamma**2
