@@ -84,6 +84,15 @@ prob.setup()
 prob.set_val("theta", [0.1, 0.1])
 prob.set_val("t", [1.0, 1.0])
 
+prob.driver = om.ScipyOptimizeDriver()
+
+prob.model.add_design_var("theta")
+prob.model.add_design_var("t")
+prob.model.add_objective("D")
+
+prob.model.add_constraint("L", equals=1.0)
+prob.model.add_constraint("sigma", upper=1.0)
+
 prob.run_model()
 
 print("Gamma =", prob.get_val("Gamma"))
