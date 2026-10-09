@@ -250,3 +250,5 @@ __marimo__/
 !coms-106/**/*.html
 
 *_out
+
+*.aux
