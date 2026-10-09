@@ -23,3 +23,17 @@ v_r_0 = 0
 
 y_0 = [theta_0, r_0, v_theta_0, v_r_0]
 t_span = [0, 3]
+
+solution = solve_ivp(dynamic_eqn, t_span, y_0, max_step=0.1)
+
+theta = solution.y[0]
+r = solution.y[1]
+
+fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+
+ax.plot(theta, r)
+plt.plot(theta_0, r_0, "bo")
+
+ax.set_rmax(3)
+
+plt.show()
