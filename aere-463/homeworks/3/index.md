@@ -322,11 +322,11 @@ $$
 d = \begin{bmatrix}
   7.78753175 \times 10^{-5} \\
   2.14643713 \times 10^{-5}
-\end{bmatrix}
+\end{bmatrix} \approx 0
 $$
 
 $$
-L = 0.99999968
+L = 0.99999968 \approx 1
 $$
 
 $$
@@ -334,7 +334,7 @@ D = 0.02341774
 $$
 
 $$
-\sigma = 0.99339689
+\sigma = 0.99339689 \approx 1
 $$
 
 The MDF diagram with the "variable-specific arrows" is a good visualizer for the direction of data-flow:
@@ -450,3 +450,52 @@ prob.set_val("d", [0.1, 0.1])
 ```
 
 Everything else is the same as the MDF. Here's the output:
+
+```
+tresabhi@treslaptop:~/Projects/isu$ python aere-463/homeworks/3/idf.py
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: 0.023415628067910657
+            Iterations: 20
+            Function evaluations: 27
+            Gradient evaluations: 20
+Optimization Complete
+-----------------------------------
+Gamma = [0.06621923 0.03378077]
+d = [ 0.00019174 -0.00013714]
+L = [1.]
+D = [0.02341563]
+sigma = [0.5460045]
+tresabhi@treslaptop:~/Projects/isu$ Opening in existing browser session.
+[25 zypak-sandbox] Failed to wait for supervisor exit reply: Connection reset by peer (errno 104)
+[23:23:0100/000000.486529:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+```
+
+The values are:
+
+$$
+\Gamma = \begin{bmatrix}
+  0.06621923 \\
+  0.03378077
+\end{bmatrix}
+$$
+
+$$
+d = \begin{bmatrix}
+  0.00019174 \\
+  -0.00013714
+\end{bmatrix} \approx 0
+$$
+
+$$
+L = 1
+$$
+
+$$
+D = 0.02341563
+$$
+
+$$
+\sigma = 0.5460045
+$$
+
+This solution is identical to what we had before except for the $\sigma$ which was $\approx 1$ in the MDF. I can't quite explain why this happens.
