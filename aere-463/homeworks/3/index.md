@@ -499,3 +499,11 @@ $$
 $$
 
 This solution is identical to what we had before except for the $\sigma$ which was $\approx 1$ in the MDF. I can't quite explain why this happens.
+
+The base diagram shows how no solver feeds into any other solver. I.e., every solver only reports to the IDF loop and no one else:
+
+![](https://i.imgur.com/elDrfMV.png)
+
+And the solver-level diagram:
+
+![](https://i.imgur.com/cyvOssj.png)
