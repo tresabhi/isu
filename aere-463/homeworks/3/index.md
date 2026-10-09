@@ -346,3 +346,107 @@ However, I did find looking at the "level 2" diagram (down from "level 3") to be
 ![](https://i.imgur.com/uND1qEI.png)
 
 To make the problem an IDF, all I really have to do is make the residuals the difference between the solver's outputs and the passed estimate from the IDF loop.
+
+Starting with the `AeroSolver`, all inputs stay the same but the outputs from before also get included in the inputs now. For the output, I had declared `aero_residual`. I call it `aero_residual`, not `Gamma_residual` because there can definitely be more than one solver that computes residuals with `Gamma` so I think it's better to name then as residuals of the solvers themselves.
+
+```py
+class AeroSolver(om.ExplicitComponent):
+    def setup(self):
+        self.add_input("theta", shape=2)
+        self.add_input("d", shape=2)
+        self.add_input("Gamma", shape=2)
+
+        self.add_output("aero_residual", shape=2)
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        theta = inputs["theta"]
+        d = inputs["d"]
+        Gamma = inputs["Gamma"]
+
+        A = np.array([[(theta[0] + d[0]) ** 2 + 3, 1], [1, (theta[1] + d[1]) ** 2 + 5]])
+        b = np.array([theta[0] + d[0], theta[1] + d[1]])
+
+        outputs["aero_residual"] = A @ Gamma - b
+```
+
+The story's the same for the other two solvers:
+
+```py
+class StructuralSolver(om.ExplicitComponent):
+    def setup(self):
+        self.add_input("theta", shape=2)
+        self.add_input("t", shape=2)
+        self.add_input("Gamma", shape=2)
+        self.add_input("d", shape=2)
+
+        self.add_output("struct_residual", shape=2)
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        theta = inputs["theta"]
+        t = inputs["t"]
+        Gamma = inputs["Gamma"]
+        d = inputs["d"]
+
+        A = np.array([[10.0 * t[0] - theta[0], 1.0], [1.0, 10.0 * t[1] - theta[1]]])
+        b = Gamma**2
+
+        outputs["struct_residual"] = A @ d - b
+
+
+class Forces(om.ExplicitComponent):
+    def setup(self):
+        self.add_input("theta", shape=2)
+        self.add_input("Gamma", shape=2)
+        self.add_input("d", shape=2)
+
+        self.add_output("L")
+        self.add_output("D")
+        self.add_output("sigma")
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        theta = inputs["theta"]
+        Gamma = inputs["Gamma"]
+        d = inputs["d"]
+
+        outputs["L"] = 10.0 * (Gamma[0] + Gamma[1])
+        outputs["D"] = Gamma[0] * np.sin(theta[0]) + Gamma[1] * np.sin(theta[1])
+        outputs["sigma"] = (d[0] + d[1]) * 10**4
+```
+
+For the design variables, I of course now include Gamma and d:
+
+```py
+prob.model.add_design_var("theta")
+prob.model.add_design_var("t")
+prob.model.add_design_var("Gamma")
+prob.model.add_design_var("d")
+```
+
+And the constraint gets the residuals:
+
+```py
+prob.model.add_constraint("L", equals=1.0)
+prob.model.add_constraint("sigma", upper=1.0)
+prob.model.add_constraint("aero_residual", equals=0.0)
+prob.model.add_constraint("struct_residual", equals=0.0)
+```
+
+These are the initial values I used:
+
+```py
+prob.set_val("theta", [0.1, 0.1])
+prob.set_val("t", [1.0, 1.0])
+prob.set_val("Gamma", [0.1, 0.1])
+prob.set_val("d", [0.1, 0.1])
+```
+
+Everything else is the same as the MDF. Here's the output:
