@@ -73,16 +73,19 @@ prob.run_driver()
 prob.model.list_inputs()
 prob.model.list_outputs()
 
+dv_theta = prob.get_val("dv_theta")[0]
+dv_r = prob.get_val("dv_r")[0]
+tof = prob.get_val("tof")[0]
 
 theta_0 = 0
-        r_0 = 1
-        v_theta_0 = 1 + dv_theta
-        v_r_0 = 0 + dv_r
+r_0 = 1
+v_theta_0 = 1 + dv_theta
+v_r_0 = 0 + dv_r
 
-        y_0 = [theta_0, r_0, v_theta_0, v_r_0]
-        t_span = [0, tof]
+y_0 = [theta_0, r_0, v_theta_0, v_r_0]
+t_span = [0, tof]
 
-        solution = solve_ivp(self.dynamic_eqn, t_span, y_0, max_step=0.1)
+solution = solve_ivp(prob.dynamic_eqn, t_span, y_0, max_step=0.1)
 
-        theta = solution.y[0]
-        r = solution.y[1]
+theta = solution.y[0]
+r = solution.y[1]
