@@ -1,111 +1,257 @@
-from skopt import gp_minimize
-from skopt.space import Real
 import math
+from pathlib import Path
+import numpy as np
+import aerosandbox as asb
+import openmdao.api as om
 
-design_space_descriptions = [
-    ("alpha", "[deg] angle of attack"),
-    ("Lambda", "[deg] sweep angle"),
-    ("theta_tip", "[deg] twist angle, linearly interpolated from root to tip"),
-    ("c_root", "[m] chord length at root"),
-    ("c_tip", "[m] length at tip"),
-]
-wing_invariant_descriptions = [
-    ("p_root", "[1] cross-sectional airfoil at the root", "NACA 64-212"),
-    ("p_tip", "[1] cross-sectional airfoil at the tip", "NACA 64-212"),
-    ("theta_root", "[deg] twist angle at the root", 0),
-    ("b/2", "[m] wing semi-span", 3),
-]
-environment_invariant_descriptions = [
-    ("a_inf", "[m/s] speed of sound", 340),
-    ("U_inf", "[m/s] free stream velocity", 102),
-    ("rho_inf", "[kg/m^3] air density", 1.20),
-    ("mu_inf", "[Pa s] dynamic viscosity", 2.448e-5),
-    ("p_inf", "[Pa] free stream pressure", 101325),
-    ("c_ref", "[m] reference chord (used for Re; ignore)", 1.00),
-    ("A_ref", "[m^2] reference area (used for C_L and C_D)", 3.00),
-]
-solution_descriptions = [
-    ("C_L", "[1] coefficient of lift"),
-    ("C_D", "[1] coefficient of drag"),
-    ("V", "[m^3] internal wing volume"),
-]
+A_INF = 340.0
+U_INF = 102.0
+RHO_INF = 1.20
+MU_INF = 2.448e-5
+P_INF = 101325.0
 
-Us = [
-    (0, 0, 0, 1, 1),
-]
-Ys = [
-    (0.1211, 0.01100, 0.2339),
-]
+C_REF = 1.0
+A_REF = 3.0
+B_SEMI = 3.0
+
+THETA_ROOT = 0.0
 
 V0 = 0.2488
+CL_MIN = 0.4
+
+INITIAL_ALPHA = 0.0
+INITIAL_SWEEP = 0.0
+INITIAL_THETA_TIP = 0.0
+INITIAL_C_ROOT = 1.0
+INITIAL_C_TIP = 1.0
+
+# https://m-selig.ae.illinois.edu/ads/coord/n64212.dat
+SCRIPT_DIR = Path(__file__).resolve().parent
+AIRFOIL_FILE = SCRIPT_DIR / "n64212.dat"
 
 
-def Dispatch(U):
-    i = 0
+def read_coordinate_file(filename):
+    points = []
+    found_first_coordinate = False
 
-    print("Design variables this iteration:")
-    for name, description in design_space_descriptions:
-        print(f"  {name} = {U[i]} {description}")
-        i += 1
+    with open(filename, "r", encoding="utf-8-sig") as file:
+        for line in file:
+            line = line.strip()
 
-    print("\nInvariants of the wing:")
-    for name, description, value in wing_invariant_descriptions:
-        print(f"  {name} = {value} {description}")
+            if not line or line.startswith("#"):
+                continue
 
-    print("\nInvariants of the environment:")
-    for name, description, value in environment_invariant_descriptions:
-        print(f"  {name} = {value} {description}")
+            fields = line.replace(",", " ").split()
 
-    print("\nPlease find the following:")
-    for name, description in solution_descriptions:
-        print(f"  {name} = ? {description}")
+            if len(fields) < 2:
+                continue
 
+            try:
+                x = float(fields[0])
+                y = float(fields[1])
+            except ValueError:
+                continue
 
-r_max = 1e-20
+            if not (math.isfinite(x) and math.isfinite(y)):
+                continue
 
+            if not found_first_coordinate:
+                if abs(x) > 2.0 or abs(y) > 0.5:
+                    continue
 
-def Solver(U):
-    for existing_U, existing_Y in zip(Us, Ys):
-        r = math.sqrt(sum((u - eu) ** 2 for u, eu in zip(U, existing_U)))
+                if abs(x) > 0.05:
+                    continue
 
-        if r < r_max:
-            print(f"{U} -> {existing_U}")
-            return existing_Y
+                found_first_coordinate = True
 
-    print(f"{U} didn't match a documented solution. Dispatching humans...\n")
+            points.append([x, y])
 
-    Dispatch(U)
-    exit(0)
-
-
-def objective_function(U):
-    Y = Solver(U)
-    return f(Y)
+    return np.asarray(points, dtype=float)
 
 
-# C_D is what's being minimized
-def f(Y):
-    _, C_D, _ = Y
-    return C_D
+def load_airfoil():
+    coords = read_coordinate_file(AIRFOIL_FILE)
+
+    x_min = float(np.min(coords[:, 0]))
+    x_max = float(np.max(coords[:, 0]))
+    chord_range = x_max - x_min
+
+    coords[:, 0] = (coords[:, 0] - x_min) / chord_range
+    coords[:, 1] = coords[:, 1] / chord_range
+
+    leading_edge_indices = np.flatnonzero(
+        np.isclose(coords[:, 0], 0.0, rtol=0.0, atol=1e-8)
+    )
+
+    if len(leading_edge_indices) == 2 and leading_edge_indices[0] == 0:
+        split = int(leading_edge_indices[1])
+        first_surface = coords[:split]
+        second_surface = coords[split:]
+
+        surfaces_are_le_to_te = (
+            len(first_surface) >= 2
+            and len(second_surface) >= 2
+            and np.all(np.diff(first_surface[:, 0]) >= -1e-8)
+            and np.all(np.diff(second_surface[:, 0]) >= -1e-8)
+            and np.isclose(first_surface[-1, 0], 1.0, atol=1e-8)
+            and np.isclose(second_surface[-1, 0], 1.0, atol=1e-8)
+        )
+
+        if surfaces_are_le_to_te:
+            if np.mean(first_surface[:, 1]) >= np.mean(second_surface[:, 1]):
+                upper_surface, lower_surface = first_surface, second_surface
+            else:
+                upper_surface, lower_surface = second_surface, first_surface
+            coords = np.concatenate((upper_surface, lower_surface[::-1]))
+
+    airfoil = asb.Airfoil(
+        name="NACA 64(1)-212",
+        coordinates=coords,
+    )
+
+    return airfoil
 
 
-space = [
-    Real(0, 10, name="alpha"),
-    Real(-10, 10, name="Lambda"),
-    Real(-10, 10, name="theta_tip"),
-    Real(0.2, 3, name="c_root"),
-    Real(0.2, 3, name="c_tip"),
-]
+AIRFOIL = load_airfoil()
 
 
-result = gp_minimize(
-    objective_function,
-    space,
-    x0=Us,
-    y0=[f(Y) for Y in Ys],
-    n_calls=20,
-    n_initial_points=0,
-    random_state=42,
+def get_airfoil_area(airfoil):
+    coords = np.asarray(airfoil.coordinates, dtype=float)
+
+    x = coords[:, 0]
+    y = coords[:, 1]
+
+    area = 0.5 * abs(np.sum(x * np.roll(y, -1) - y * np.roll(x, -1)))
+
+    return float(area)
+
+
+A_AIRFOIL = get_airfoil_area(AIRFOIL)
+
+
+def wing_volume(c_root, c_tip):
+    return 2.0 * B_SEMI * A_AIRFOIL / 3.0 * (c_root**2 + c_root * c_tip + c_tip**2)
+
+
+def Solver(alpha, sweep, theta_tip, c_root, c_tip):
+    wing = asb.Wing(
+        name="OptimizedWing",
+        symmetric=True,
+        xsecs=[
+            asb.WingXSec(
+                xyz_le=[0.0, 0.0, 0.0],
+                chord=c_root,
+                twist=THETA_ROOT,
+                airfoil=AIRFOIL,
+            ),
+            asb.WingXSec(
+                xyz_le=[
+                    B_SEMI * math.tan(math.radians(sweep)),
+                    B_SEMI,
+                    0.0,
+                ],
+                chord=c_tip,
+                twist=theta_tip,
+                airfoil=AIRFOIL,
+            ),
+        ],
+    )
+
+    airplane = asb.Airplane(
+        name="OptimizedWing",
+        wings=[wing],
+        s_ref=A_REF,
+        c_ref=C_REF,
+        b_ref=2.0 * B_SEMI,
+    )
+
+    op_point = asb.OperatingPoint(
+        velocity=U_INF,
+        alpha=alpha,
+    )
+
+    analysis = asb.VortexLatticeMethod(
+        airplane=airplane,
+        op_point=op_point,
+        spanwise_resolution=20,
+        chordwise_resolution=8,
+    )
+
+    aero = analysis.run()
+
+    C_L = float(aero["CL"])
+    C_D = float(aero["CD"])
+    V = wing_volume(c_root, c_tip)
+
+    return C_L, C_D, V
+
+
+class WingOptimization(om.ExplicitComponent):
+
+    def setup(self):
+        self.add_input("alpha", val=INITIAL_ALPHA)
+        self.add_input("sweep", val=INITIAL_SWEEP)
+        self.add_input("theta_tip", val=INITIAL_THETA_TIP)
+        self.add_input("c_root", val=INITIAL_C_ROOT)
+        self.add_input("c_tip", val=INITIAL_C_TIP)
+
+        self.add_output("C_L", val=0.0)
+        self.add_output("C_D", val=0.0)
+        self.add_output("V", val=0.0)
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        C_L, C_D, V = Solver(
+            alpha=float(inputs["alpha"][0]),
+            sweep=float(inputs["sweep"][0]),
+            theta_tip=float(inputs["theta_tip"][0]),
+            c_root=float(inputs["c_root"][0]),
+            c_tip=float(inputs["c_tip"][0]),
+        )
+
+        outputs["C_L"] = C_L
+        outputs["C_D"] = C_D
+        outputs["V"] = V
+
+
+prob = om.Problem()
+
+prob.model.add_subsystem(
+    "wing",
+    WingOptimization(),
+    promotes=["*"],
 )
 
-print(result)
+prob.driver = om.ScipyOptimizeDriver()
+prob.driver.options["optimizer"] = "SLSQP"
+prob.driver.options["maxiter"] = 200
+prob.driver.options["tol"] = 1e-8
+prob.driver.options["disp"] = True
+
+
+prob.model.add_design_var("alpha", lower=0.0, upper=10.0)
+prob.model.add_design_var("sweep", lower=-10.0, upper=10.0)
+prob.model.add_design_var("theta_tip", lower=-10.0, upper=10.0)
+prob.model.add_design_var("c_root", lower=0.2, upper=3.0)
+prob.model.add_design_var("c_tip", lower=0.2, upper=3.0)
+
+
+prob.model.add_objective("C_D")
+prob.model.add_constraint("C_L", lower=CL_MIN)
+prob.model.add_constraint("V", equals=V0)
+
+equal_chord = math.sqrt(V0 / (2.0 * B_SEMI * A_AIRFOIL))
+
+prob.setup()
+
+prob.set_val("alpha", INITIAL_ALPHA)
+prob.set_val("sweep", INITIAL_SWEEP)
+prob.set_val("theta_tip", INITIAL_THETA_TIP)
+prob.set_val("c_root", equal_chord)
+prob.set_val("c_tip", equal_chord)
+
+prob.run_driver()
+prob.model.list_inputs()
+prob.model.list_outputs()
