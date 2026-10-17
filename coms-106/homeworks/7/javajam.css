@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FCEBB6;
+  background-image: url(fadedroad50.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #221811;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+#wrapper {
+  width: 80%;
+  min-width: 900px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background-color: #231814;
+  box-shadow: 10px 10px saddlebrown;
+}
+
+header {
+  height: 150px;
+  padding-left: 240px;
+  background-color: #D2B48C;
+  background-image: url(coffeelogo.jpg);
+  background-repeat: no-repeat;
+  color: #231814;
+}
+
+h1 {
+  margin: 0;
+  font-size: 3em;
+  line-height: 150px;
+}
+
+header a {
+  text-decoration: none;
+}
+
+header a:link,
+header a:visited {
+  color: #231814;
+}
+
+header a:hover {
+  color: #FEF6C2;
+}
+
+nav {
+  float: left;
+  width: 200px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a:link {
+  color: #FEF6C2;
+}
+
+nav a:visited {
+  color: #D2B48C;
+}
+
+nav a:hover {
+  color: #CC9933;
+}
+
+main {
+  display: block;
+  margin-left: 200px;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 2em;
+  padding-left: 0;
+  overflow: auto;
+  background-color: #FEF6C2;
+}
+
+main h2,
+main h3,
+main h4,
+main p,
+main div,
+main ul,
+main dl {
+  padding-left: 3em;
+  padding-right: 2em;
+}
+
+h2,
+h3 {
+  color: #8C3826;
+}
+
+h4 {
+  padding-bottom: 0;
+  border-bottom: 2px solid #231814;
+  background-color: #D2B48C;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  clear: left;
+}
+
+#homehero,
+#heromugs,
+#heroguitar {
+  height: 300px;
+  padding: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+#homehero {
+  background-image: url(hero.jpg);
+}
+
+#heromugs {
+  background-image: url(heromugs.jpg);
+}
+
+#heroguitar {
+  background-image: url(heroguitar.jpg);
+}
+
+.details {
+  padding-left: 20%;
+  padding-right: 20%;
+  overflow: auto;
+}
+
+.floatleft {
+  box-sizing: content-box;
+  float: left;
+  padding-right: 2em;
+  padding-bottom: 2em;
+}
+
+.onethird {
+  float: left;
+  width: 33%;
+}
+
+img {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+footer {
+  clear: both;
+  padding: 1em;
+  border-top: 2px solid #8C3826;
+  background-color: #D2B48C;
+  font-size: 0.60em;
+  font-style: italic;
+  text-align: center;
+}
