@@ -20,7 +20,7 @@ V0 = 0.2488
 CL_MIN = 0.4
 
 INITIAL_ALPHA = 0.0
-INITIAL_SWEEP = 0.0
+INITIAL_SWEEP = 3.0
 INITIAL_THETA_TIP = 0.0
 INITIAL_C_ROOT = 1.0
 INITIAL_C_TIP = 1.0
@@ -200,7 +200,7 @@ class WingOptimization(om.ExplicitComponent):
         self.add_output("V", val=0.0)
 
     def setup_partials(self):
-        self.declare_partials("*", "*", method="fd")
+        self.declare_partials("*", "*", method="fd", form="central", step=1e-3)
 
     def compute(self, inputs, outputs):
         C_L, C_D, V = Solver(
@@ -252,6 +252,12 @@ prob.set_val("theta_tip", INITIAL_THETA_TIP)
 prob.set_val("c_root", equal_chord)
 prob.set_val("c_tip", equal_chord)
 
+prob.run_model()
+print("initial C_L, C_D:", prob.get_val("C_L"), prob.get_val("C_D"))
+print(prob.compute_totals(["C_D", "C_L"], ["alpha", "sweep"]))
+
 prob.run_driver()
+prob.check_totals(compact_print=True)
+
 prob.model.list_inputs()
 prob.model.list_outputs()
