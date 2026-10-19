@@ -19,8 +19,8 @@ THETA_ROOT = 0.0
 V0 = 0.2488
 CL_MIN = 0.4
 
-INITIAL_ALPHA = 0.0
-INITIAL_SWEEP = 3.0
+INITIAL_ALPHA = 2.0
+INITIAL_SWEEP = 0.0
 INITIAL_THETA_TIP = 0.0
 INITIAL_C_ROOT = 1.0
 INITIAL_C_TIP = 1.0
@@ -102,7 +102,7 @@ def load_airfoil():
                 upper_surface, lower_surface = first_surface, second_surface
             else:
                 upper_surface, lower_surface = second_surface, first_surface
-            coords = np.concatenate((upper_surface, lower_surface[::-1]))
+            coords = np.concatenate((upper_surface[::-1], lower_surface[1:]))
 
     airfoil = asb.Airfoil(
         name="NACA 64(1)-212",
@@ -113,6 +113,9 @@ def load_airfoil():
 
 
 AIRFOIL = load_airfoil()
+
+print(AIRFOIL.coordinates[:3], AIRFOIL.coordinates[24:28])
+print(AIRFOIL.local_camber(0.4))
 
 
 def get_airfoil_area(airfoil):
@@ -173,8 +176,8 @@ def Solver(alpha, sweep, theta_tip, c_root, c_tip):
     analysis = asb.VortexLatticeMethod(
         airplane=airplane,
         op_point=op_point,
-        spanwise_resolution=20,
-        chordwise_resolution=8,
+        spanwise_resolution=40,
+        chordwise_resolution=16,
     )
 
     aero = analysis.run()
