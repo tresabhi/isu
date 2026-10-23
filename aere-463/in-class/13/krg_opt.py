@@ -36,3 +36,5 @@ class SMTExample(om.ExplicitComponent):
 
         x_in = np.array([[x1, x2]])
         y_out = sm.predict_values(x_in)
+
+        outputs["y"] = y_out
