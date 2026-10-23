@@ -11,13 +11,15 @@ sampling = LHS(xlimits=x_limits, criterion="maximin", seed=0)
 xt = sampling(10)
 yt = (xt[:, 0] - 3) ** 2 + (xt[:, 1] - 2) ** 2
 
-# print(xt)
-# print(yt)
+gt = xt[:, 0] + 2 * xt[:, 1]
 
 sm = KRG(theta0=[1e-2])
-
 sm.set_training_values(xt, yt)
 sm.train()
+
+sm_g = KRG(theta0=[1e-2])
+sm_g.set_training_values(xt, gt)
+sm_g.train()
 
 
 class SMTExample(om.ExplicitComponent):
@@ -26,6 +28,7 @@ class SMTExample(om.ExplicitComponent):
         self.add_input("x2", val=0)
 
         self.add_output("y", val=0)
+        self.add_output("g", val=0)
 
     def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
@@ -39,6 +42,9 @@ class SMTExample(om.ExplicitComponent):
 
         outputs["y"] = y_out
 
+        g_out = sm_g.predict_values(x_in)
+        outputs["g"] = g_out
+
     def compute_partials(self, inputs, J):
         x1 = inputs["x1"][0]
         x2 = inputs["x2"][0]
@@ -50,6 +56,12 @@ class SMTExample(om.ExplicitComponent):
         J["y", "x1"] = dy_dx1
         J["y", "x2"] = dy_dx2
 
+        dg_dx1 = sm_g.predict_derivatives(x_in, 0)
+        dg_dx2 = sm_g.predict_derivatives(x_in, 1)
+
+        J["g", "x1"] = dg_dx1
+        J["g", "x2"] = dg_dx2
+
 
 model = om.Group()
 model.add_subsystem("SMTTest", SMTExample(), promotes=["*"])
@@ -60,6 +72,7 @@ problem.driver.options["optimizer"] = "SLSQP"
 problem.model.add_design_var("x1", lower=-10, upper=10)
 problem.model.add_design_var("x2", lower=-10, upper=10)
 
+problem.model.add_constraint("g", upper=0)
 problem.model.add_objective("y")
 
 problem.setup()
