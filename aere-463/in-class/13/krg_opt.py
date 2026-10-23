@@ -81,6 +81,5 @@ problem.run_driver()
 x10pt = problem.get_val("x1")
 x20pt = problem.get_val("x2")
 
-
 print("Optimized x1:", x10pt)
 print("Optimized x2:", x20pt)
