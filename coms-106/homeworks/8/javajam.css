@@ -179,7 +179,7 @@ table {
     padding: 10px;
   }
 
-  tr:nth-child(2n) {
+  tr:nth-child(odd) {
     background-color: #d2b48e;
   }
 }
