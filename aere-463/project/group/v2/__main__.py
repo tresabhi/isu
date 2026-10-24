@@ -5,14 +5,22 @@ import airfoils
 
 last_method = None
 
+X_initial = [
+    10,  # alpha [deg]
+    0,  # Gamma [deg]
+    0,  # theta_tip [deg]
+    1,  # c_root [m]
+    1,  # c_tip [m]
+]
+
 
 class AeroOptimization(om.ExplicitComponent):
     def setup(self):
-        self.add_input("alpha", val=0.0)
-        self.add_input("Gamma", val=0.0)
-        self.add_input("theta_tip", val=0.0)
-        self.add_input("c_root", val=1.0)
-        self.add_input("c_tip", val=1.0)
+        self.add_input("alpha", val=X_initial[0])
+        self.add_input("Gamma", val=X_initial[1])
+        self.add_input("theta_tip", val=X_initial[2])
+        self.add_input("c_root", val=X_initial[3])
+        self.add_input("c_tip", val=X_initial[4])
 
         self.add_output("C_L", val=0.0)
         self.add_output("C_D", val=0.0)
@@ -39,17 +47,9 @@ class AeroOptimization(om.ExplicitComponent):
         outputs["V"] = V
 
 
-X_initial = [
-    0,  # alpha [deg]
-    0,  # Gamma [deg]
-    0,  # theta_tip [deg]
-    1,  # c_root [m]
-    1,  # c_tip [m]
-]
-
 _, _, V0, base_model = solver.Solve(airfoils.naca0012, X_initial)
 
-debug.render_wing(base_model)
+# debug.render_wing(base_model)
 
 model = om.Group()
 model.add_subsystem("aero_opt", AeroOptimization(), promotes=["*"])
