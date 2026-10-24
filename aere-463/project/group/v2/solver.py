@@ -1,14 +1,20 @@
 import aerosandbox as asb
+import numpy as np
 
 
-def Solver(airfoil, X):
-    alpha = X[0]
+def Solve(airfoil, X):
+    airfoil.normalize()
+
+    alpha, Gamma, theta_tip, c_root, c_tip = X
+
+    b_2 = 3
+    x_tip = b_2 * np.tan(np.radians(Gamma))
 
     root_cross_section = asb.WingXSec(
-        xyz_le=[0, 0, 0], chord=1.0, twist=0.0, airfoil=airfoil
+        xyz_le=[0, 0, 0], chord=c_root, twist=0.0, airfoil=airfoil
     )
     tip_cross_section = asb.WingXSec(
-        xyz_le=[0, 3.0, 0], chord=1.0, twist=0.0, airfoil=airfoil
+        xyz_le=[x_tip, b_2, 0], chord=c_tip, twist=theta_tip, airfoil=airfoil
     )
     wing = asb.Wing(
         name="Wing", symmetric=True, xsecs=[root_cross_section, tip_cross_section]
