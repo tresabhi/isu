@@ -14,5 +14,5 @@ def render_airfoil(airfoil):
     plt.show()
 
 
-def render_airplane(method):
+def render_wing(method):
     method.airplane.draw()
