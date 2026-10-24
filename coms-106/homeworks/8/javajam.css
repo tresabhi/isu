@@ -1,14 +1,10 @@
-/* JavaJam Coffee Bar — Chapter 7 responsive case study.
-   Built on the supplied Week 5 / Chapter 6 stylesheet.
-   Mobile-first layout; medium >=600px; large >=1024px.
-   EXTRAS: modest typography/nav adjustments are documented in SOURCE_NOTES.md. */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background-color: #D2B48C;
+  background-color: #d2b48c;
   color: #221811;
   font-family: Tahoma, Arial, sans-serif;
 }
@@ -21,18 +17,18 @@ body {
 header {
   height: 128px;
   padding-left: 105px;
-  background-color: #D2B48C;
+  background-color: #d2b48c;
   background-image: url(cup.jpg);
   background-repeat: no-repeat;
   color: #231814;
-  display: flex;              /* Readability adjustment for narrow heading. */
-  align-items: center;        /* Original h1 had line-height: 150px. */
+  display: flex; /* Readability adjustment for narrow heading. */
+  align-items: center; /* Original h1 had line-height: 150px. */
 }
 
 h1 {
   margin: 0;
   font-size: 2em;
-  line-height: 1.14;          /* Makes wrapping title fit in 128px header. */
+  line-height: 1.14; /* Makes wrapping title fit in 128px header. */
 }
 
 header a {
@@ -45,7 +41,7 @@ header a:visited {
 }
 
 header a:hover {
-  color: #FEF6C2;
+  color: #fef6c2;
 }
 
 nav {
@@ -65,7 +61,7 @@ nav ul {
 nav li {
   padding: 0.5em 1em;
   width: 100%;
-  border-bottom: 1px solid #D2B48C;
+  border-bottom: 1px solid #d2b48c;
 }
 
 nav a {
@@ -73,15 +69,15 @@ nav a {
 }
 
 nav a:link {
-  color: #FEF6C2;
+  color: #fef6c2;
 }
 
 nav a:visited {
-  color: #D2B48C;
+  color: #d2b48c;
 }
 
 nav a:hover {
-  color: #CC9933;
+  color: #cc9933;
 }
 
 main {
@@ -90,7 +86,7 @@ main {
   padding-right: 0;
   padding-bottom: 2em;
   padding-left: 0;
-  background-color: #FEF6C2;
+  background-color: #fef6c2;
 }
 
 main h2,
@@ -110,13 +106,13 @@ main ul {
 
 h2,
 h3 {
-  color: #8C3826;
+  color: #8c3826;
 }
 
 h4 {
   padding-bottom: 0;
   border-bottom: 2px solid #231814;
-  background-color: #D2B48C;
+  background-color: #d2b48c;
   font-size: 1.2em;
   text-transform: uppercase;
   clear: left;
@@ -165,11 +161,27 @@ img {
 footer {
   clear: both;
   padding: 1em;
-  border-top: 2px solid #8C3826;
-  background-color: #D2B48C;
-  font-size: 0.60em;
+  border-top: 2px solid #8c3826;
+  background-color: #d2b48c;
+  font-size: 0.6em;
   font-style: italic;
   text-align: center;
+}
+
+table {
+  margin: auto;
+  border-spacing: 0;
+
+  width: 90%;
+
+  td,
+  th {
+    padding: 10px;
+  }
+
+  tr:nth-child(2n) {
+    background-color: #d2b48e;
+  }
 }
 
 /* TASK 3: medium viewport (600px and above). */
@@ -177,7 +189,7 @@ footer {
   header {
     text-align: center;
     padding-left: 0;
-    justify-content: center;     /* Align linked title in its flex header. */
+    justify-content: center; /* Align linked title in its flex header. */
   }
 
   h1 {
@@ -185,7 +197,7 @@ footer {
   }
 
   nav {
-    font-size: 1.1em;          /* Keep four links on one line at 600px. */
+    font-size: 1.1em; /* Keep four links on one line at 600px. */
   }
 
   nav ul {
@@ -195,8 +207,8 @@ footer {
   }
 
   nav li {
-    width: auto;              /* Supplement: avoid 4 × 100%-width items. */
-    padding: 0.5em 0.45em;     /* Supplement: prevent overflow near 600px. */
+    width: auto; /* Supplement: avoid 4 × 100%-width items. */
+    padding: 0.5em 0.45em; /* Supplement: prevent overflow near 600px. */
     border-bottom: none;
   }
 
