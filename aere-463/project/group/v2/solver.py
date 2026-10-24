@@ -34,9 +34,9 @@ def Solve(airfoil, X):
         atmosphere=asb.Atmosphere(altitude=0),
     )
 
-    method = asb.VortexLatticeMethod(airplane=airplane, op_point=operating_point)
+    method = asb.AeroBuildup(airplane=airplane, op_point=operating_point)
     data = method.run()
 
     V = wing.volume() / 2
 
-    return float(data["CL"]), float(data["CD"]), float(V)
+    return float(data["CL"][0]), float(data["CD"][0]), float(V), method

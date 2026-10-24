@@ -12,3 +12,7 @@ def render_airfoil(airfoil):
     plt.grid(True)
     plt.legend()
     plt.show()
+
+
+def render_airplane(method):
+    method.airplane.draw()
