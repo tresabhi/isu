@@ -23,9 +23,6 @@ def Solve(airfoil, X):
     airplane = asb.Airplane(
         name="Airplane",
         wings=[wing],
-        c_ref=1.0,
-        s_ref=3.0,
-        b_ref=6.0,
     )
 
     operating_point = asb.OperatingPoint(
@@ -39,4 +36,16 @@ def Solve(airfoil, X):
 
     V = wing.volume() / 2
 
-    return float(data["CL"][0]), float(data["CD"][0]), float(V), method
+    rho_inf = 1.20
+    U_inf = 102.0
+    A_ref = 3.0
+
+    q_inf = 0.5 * rho_inf * (U_inf**2)
+
+    L = data["L"][0]
+    D = data["D"][0]
+
+    C_L = L / (q_inf * A_ref)
+    C_D = D / (q_inf * A_ref)
+
+    return float(C_L), float(C_D), float(V), method
