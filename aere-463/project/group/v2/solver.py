@@ -3,6 +3,8 @@ import numpy as np
 
 
 def Solve(airfoil, X):
+    print(*X)
+
     airfoil.normalize()
 
     alpha, Gamma, theta_tip, c_root, c_tip = X

@@ -5,26 +5,19 @@ import airfoils
 
 last_method = None
 
-X_initial = [
-    10,  # alpha [deg]
-    0,  # Gamma [deg]
-    0,  # theta_tip [deg]
-    1,  # c_root [m]
-    1,  # c_tip [m]
-]
-
 
 class AeroOptimization(om.ExplicitComponent):
     def setup(self):
-        self.add_input("alpha", val=X_initial[0])
-        self.add_input("Gamma", val=X_initial[1])
-        self.add_input("theta_tip", val=X_initial[2])
-        self.add_input("c_root", val=X_initial[3])
-        self.add_input("c_tip", val=X_initial[4])
+        self.add_input("alpha", val=0.0)
+        self.add_input("Gamma", val=10.0)
+        self.add_input("theta_tip", val=0.0)
+        self.add_input("c_root", val=1.0)
+        self.add_input("c_tip", val=1.0)
 
         self.add_output("C_L", val=0.0)
         self.add_output("C_D", val=0.0)
         self.add_output("V", val=0.0)
+        self.add_output("lambda", val=1.0)
 
     def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
@@ -41,13 +34,24 @@ class AeroOptimization(om.ExplicitComponent):
         X = [alpha, Gamma, theta_tip, c_root, c_tip]
 
         C_L, C_D, V, last_method = solver.Solve(airfoils.naca641212, X)
+        _lambda = c_tip / c_root
 
         outputs["C_L"] = C_L
         outputs["C_D"] = C_D
         outputs["V"] = V
+        outputs["lambda"] = _lambda
 
 
-_, _, V0, base_model = solver.Solve(airfoils.naca0012, X_initial)
+_, _, V0, base_model = solver.Solve(
+    airfoils.naca0012,
+    [
+        0.0,  # alpha [deg]
+        0.0,  # Gamma [deg]
+        0.0,  # theta_tip [deg]
+        1.0,  # c_root [m]
+        1.0,  # c_tip [m]
+    ],
+)
 
 # debug.render_wing(base_model)
 
@@ -69,6 +73,7 @@ prob.model.add_objective("C_D")
 
 prob.model.add_constraint("C_L", lower=0.4)
 prob.model.add_constraint("V", lower=V0)
+prob.model.add_constraint("lambda", lower=0, upper=1.0)
 
 prob.setup()
 prob.run_driver()
