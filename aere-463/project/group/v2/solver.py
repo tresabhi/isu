@@ -3,7 +3,6 @@ import numpy as np
 
 
 def Solve(airfoil, X):
-    print(*X)
 
     airfoil.normalize()
 
@@ -49,5 +48,7 @@ def Solve(airfoil, X):
 
     C_L = L / (q_inf * A_ref)
     C_D = D / (q_inf * A_ref)
+
+    print(*X, "->", float(C_L), float(C_D), float(V))
 
     return float(C_L), float(C_D), float(V), method
