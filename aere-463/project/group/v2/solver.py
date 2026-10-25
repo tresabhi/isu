@@ -17,9 +17,7 @@ def Solve(airfoil, X):
     tip_cross_section = asb.WingXSec(
         xyz_le=[x_tip, b_2, 0], chord=c_tip, twist=theta_tip, airfoil=airfoil
     )
-    wing = asb.Wing(
-        name="Wing", symmetric=True, xsecs=[root_cross_section, tip_cross_section]
-    )
+    wing = asb.Wing(name="Wing", xsecs=[root_cross_section, tip_cross_section])
 
     airplane = asb.Airplane(
         name="Airplane",

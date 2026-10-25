@@ -60,19 +60,18 @@ model.add_subsystem("aero_opt", AeroOptimization(), promotes=["*"])
 
 prob = om.Problem(model)
 
-prob.driver = om.ScipyOptimizeDriver()
-prob.driver.options["optimizer"] = "SLSQP"
+prob.driver = om.ScipyOptimizeDriver(optimizer="SLSQP", tol=1e-9, maxiter=200)
 
-prob.model.add_design_var("alpha", lower=0.0, upper=10.0)
-prob.model.add_design_var("Gamma", lower=-10, upper=10.0)
-prob.model.add_design_var("theta_tip", lower=-10.0, upper=10.0)
+prob.model.add_design_var("alpha", lower=0.0, upper=10.0, ref=5.0)
+prob.model.add_design_var("Gamma", lower=-10, upper=10.0, ref=10.0)
+prob.model.add_design_var("theta_tip", lower=-10.0, upper=10.0, ref=10.0)
 prob.model.add_design_var("c_root", lower=0.2, upper=3.0)
 prob.model.add_design_var("c_tip", lower=0.2, upper=3.0)
 
-prob.model.add_objective("C_D")
+prob.model.add_objective("C_D", ref=0.01)
 
-prob.model.add_constraint("C_L", lower=0.4)
-prob.model.add_constraint("V", lower=V0)
+prob.model.add_constraint("C_L", lower=0.4, ref=0.4)
+prob.model.add_constraint("V", lower=V0, ref=V0)
 prob.model.add_constraint("lambda", lower=0, upper=1.0)
 
 prob.setup()
