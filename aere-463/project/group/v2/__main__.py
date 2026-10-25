@@ -9,7 +9,7 @@ last_method = None
 class AeroOptimization(om.ExplicitComponent):
     def setup(self):
         self.add_input("alpha", val=0.0)
-        self.add_input("Gamma", val=10.0)
+        self.add_input("Gamma", val=0.0)
         self.add_input("theta_tip", val=0.0)
         self.add_input("c_root", val=1.0)
         self.add_input("c_tip", val=1.0)
