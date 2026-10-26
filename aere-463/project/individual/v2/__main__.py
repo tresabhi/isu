@@ -1,11 +1,12 @@
 import openmdao.api as om
 import config
+import mass
 
 
 class MassComponent(om.ExplicitComponent):
     def setup(self):
-        self.add_input("v", shape=config.N_v)
-        self.add_input("t", shape=config.N_t)
+        self.add_input("v", shape=config.n_v)
+        self.add_input("t", shape=config.n_t)
 
         self.add_output("m", shape=1)
         self.add_output("gamma", shape=1)
@@ -18,6 +19,9 @@ class MassComponent(om.ExplicitComponent):
         t = inputs["t"]
 
         m = 0
+
+        m += mass.plate_mass(v, t)
+        m += mass.wall_mass(v)
 
         outputs["m"] = m
         outputs["gamma"] = 0
