@@ -36,31 +36,51 @@ def plate_mass(v, t):
     return m
 
 
+def wall_segment_mass(v0, v1):
+    return 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+
+
 def wall_mass(v):
     m = 0
 
-    # bottom walls
-    for i in range(config.N):
-        i_left = i
-        i_right = i + 1
+    # bottom wall
+    for x in range(config.N):
+        i_left = x
+        i_right = i_left + 1
 
         v0 = v[i_left]
         v1 = v[i_right]
 
-        m_j = 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+        m += wall_segment_mass(v0, v1)
 
-        m += m_j
-
-    # top walls
-    for i in range(config.N):
-        i_left = config.M * (config.N + 1) + i
-        i_right = config.M * (config.N + 1) + i + 1
+    # top wall
+    for x in range(config.N):
+        i_left = config.M * (config.N + 1) + x
+        i_right = i_left + 1
 
         v0 = v[i_left]
         v1 = v[i_right]
 
-        m_j = 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+        m += wall_segment_mass(v0, v1)
 
-        m += m_j
+    # left wall
+    for y in range(config.M):
+        i_bottom = y * (config.N + 1)
+        i_top = i_bottom + config.N + 1
+
+        v0 = v[i_bottom]
+        v1 = v[i_top]
+
+        m += wall_segment_mass(v0, v1)
+
+    # right wall
+    for y in range(config.M):
+        i_bottom = y * (config.N + 1) + config.N
+        i_top = i_bottom + config.N + 1
+
+        v0 = v[i_bottom]
+        v1 = v[i_top]
+
+        m += wall_segment_mass(v0, v1)
 
     return m
