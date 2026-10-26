@@ -7,7 +7,20 @@ def plate_mass(v, t):
 
     for y in range(config.M):
         for x in range(config.N):
+            i_bottom_right = y * (config.N + 1) + x + 1
+            i_top_left = (y + 1) * (config.N + 1) + x
+
+            v1 = v[i_bottom_right]
+            v2 = v[i_top_left]
+
             for j in range(2):
+                if j == 0:
+                    # bottom left corner
+                    v0 = v[i_bottom_right - 1]
+                else:
+                    # top right corner
+                    v0 = v[i_top_left + 1]
+
                 i = 2 * (y * config.N + x) + j
 
                 abs_n_i = config.Delta * math.sqrt(

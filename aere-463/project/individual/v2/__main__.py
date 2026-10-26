@@ -40,5 +40,8 @@ problem.model.add_objective("m")
 problem.setup()
 problem.run_driver()
 
-problem.model.list_inputs()
-problem.model.list_outputs()
+print("m", problem.get_val("m")[0])
+print("v", problem.get_val("v"))
+
+# problem.model.list_inputs()
+# problem.model.list_outputs()
