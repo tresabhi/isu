@@ -10,3 +10,5 @@ n_t = 2 * n_q  # triangle count
 n_v = (N + 1) * (M + 1)  # vertex count
 
 rho = 7850  # metal density [kg/m^3]
+
+t_w = 80 / 1000  # side wall thickness [m]

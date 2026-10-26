@@ -37,4 +37,30 @@ def plate_mass(v, t):
 
 
 def wall_mass(v):
-    return 0
+    m = 0
+
+    # bottom walls
+    for i in range(config.N):
+        i_left = i
+        i_right = i + 1
+
+        v0 = v[i_left]
+        v1 = v[i_right]
+
+        m_j = 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+
+        m += m_j
+
+    # top walls
+    for i in range(config.N):
+        i_left = config.M * (config.N + 1) + i
+        i_right = config.M * (config.N + 1) + i + 1
+
+        v0 = v[i_left]
+        v1 = v[i_right]
+
+        m_j = 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+
+        m += m_j
+
+    return m

@@ -34,14 +34,20 @@ problem = om.Problem(model)
 problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
 
 problem.model.add_design_var("v", lower=0.0)
+problem.model.add_design_var("t", lower=0.0)
 
 problem.model.add_objective("m")
 
 problem.setup()
+
+problem.set_val("v", 10.0)
+problem.set_val("t", 10.0)
+
 problem.run_driver()
 
 print("m", problem.get_val("m")[0])
 print("v", problem.get_val("v"))
+print("t", problem.get_val("t"))
 
 # problem.model.list_inputs()
 # problem.model.list_outputs()
