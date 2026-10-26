@@ -5,4 +5,6 @@ w = 3  # width [m]
 Delta = w / N  # node spacing [m]
 h = Delta * M  # height [m]
 
-print(h)
+N_q = N * M  # quad count
+N_t = 2 * N_q  # triangle count
+N_v = (N + 1) * (M + 1)  # vertex count
