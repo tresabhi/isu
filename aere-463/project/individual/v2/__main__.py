@@ -10,7 +10,7 @@ class MassComponent(om.ExplicitComponent):
 
         self.add_output("m", shape=1)
         self.add_output("gamma", shape=1)
-        self.add_output("t_e", shape=config.n_triangles)
+        self.add_output("t_prime", shape=config.n_triangles)
 
     def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
@@ -26,7 +26,7 @@ class MassComponent(om.ExplicitComponent):
 
         outputs["m"] = m
         outputs["gamma"] = 0
-        outputs["t_e"] = methods.
+        outputs["t_prime"] = methods.effective_thickness(v, t)
 
 
 model = om.Group()
@@ -35,17 +35,19 @@ model.add_subsystem("mass_component", MassComponent(), promotes=["*"])
 problem = om.Problem(model)
 problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
 
-problem.model.add_design_var("v", lower=0.0)
-problem.model.add_design_var("t", lower=0.0, upper=config.t_effective)
+problem.model.add_design_var("v", lower=0.0, ref=1.0)
+problem.model.add_design_var("t", lower=0.0, ref=config.t_effective)
 
-problem.model.add_constraint("t_e", lower=config.t_effective)
+problem.model.add_constraint(
+    "t_prime", lower=config.t_effective, ref=config.t_effective
+)
 
 problem.model.add_objective("m")
 
 problem.setup()
 
-problem.set_val("v", 10000.0)
-# problem.set_val("t", 10000.0)
+problem.set_val("v", 100 / 1000)
+problem.set_val("t", config.t_effective)
 
 problem.run_driver()
 
