@@ -1,5 +1,6 @@
 import config
 import math
+import numpy as np
 
 
 def plate_mass(v, t):
@@ -7,31 +8,25 @@ def plate_mass(v, t):
 
     for y in range(config.M):
         for x in range(config.N):
-            i_bottom_right = y * (config.N + 1) + x + 1
-            i_top_left = (y + 1) * (config.N + 1) + x
-
-            v1 = v[i_bottom_right]
-            v2 = v[i_top_left]
+            v1 = v[x + 1, y]  # bottom right
+            v2 = v[x, y + 1]  # top left
 
             for j in range(2):
                 if j == 0:
                     # bottom left corner
-                    v0 = v[i_bottom_right - 1]
+                    v0 = v[x, y]
                 else:
                     # top right corner
-                    v0 = v[i_top_left + 1]
-
-                i = 2 * (y * config.N + x) + j
+                    v0 = v[x + 1, y + 1]
 
                 abs_n_i = config.Delta * math.sqrt(
                     (v0 - v1) ** 2 + (v0 - v2) ** 2 + config.Delta**2
                 )
                 A_i = abs_n_i / 2
 
-                t_i = t[i]
+                t_i = t[x, y, j]
 
-                m_i = config.rho * A_i * t_i
-                m += m_i
+                m += config.rho * A_i * t_i
 
     return m
 
@@ -45,76 +40,45 @@ def wall_mass(v):
 
     # bottom wall
     for x in range(config.N):
-        i_left = x
-        i_right = i_left + 1
-
-        v0 = v[i_left]
-        v1 = v[i_right]
-
-        m += wall_segment_mass(v0, v1)
+        m += wall_segment_mass(v[x, 0], v[x + 1, 0])
 
     # top wall
     for x in range(config.N):
-        i_left = config.M * (config.N + 1) + x
-        i_right = i_left + 1
-
-        v0 = v[i_left]
-        v1 = v[i_right]
-
-        m += wall_segment_mass(v0, v1)
+        m += wall_segment_mass(v[x, config.M], v[x + 1, config.M])
 
     # left wall
     for y in range(config.M):
-        i_bottom = y * (config.N + 1)
-        i_top = i_bottom + config.N + 1
-
-        v0 = v[i_bottom]
-        v1 = v[i_top]
-
-        m += wall_segment_mass(v0, v1)
+        m += wall_segment_mass(v[0, y], v[0, y + 1])
 
     # right wall
     for y in range(config.M):
-        i_bottom = y * (config.N + 1) + config.N
-        i_top = i_bottom + config.N + 1
-
-        v0 = v[i_bottom]
-        v1 = v[i_top]
-
-        m += wall_segment_mass(v0, v1)
+        m += wall_segment_mass(v[config.N, y], v[config.N, y + 1])
 
     return m
 
 
 def effective_thickness(v, t):
-    t_prime = [0] * config.n_triangles
+    t_prime = np.zeros((config.N, config.M, 2))
 
     for y in range(config.M):
         for x in range(config.N):
-            i_bottom_right = y * (config.N + 1) + x + 1
-            i_top_left = (y + 1) * (config.N + 1) + x
-
-            v1 = v[i_bottom_right]
-            v2 = v[i_top_left]
+            v1 = v[x + 1, y]  # bottom right
+            v2 = v[x, y + 1]  # top left
 
             for j in range(2):
                 if j == 0:
                     # bottom left corner
-                    v0 = v[i_bottom_right - 1]
+                    v0 = v[x, y]
                 else:
                     # top right corner
-                    v0 = v[i_top_left + 1]
-
-                i = 2 * (y * config.N + x) + j
+                    v0 = v[x + 1, y + 1]
 
                 abs_n_i = config.Delta * math.sqrt(
                     (v0 - v1) ** 2 + (v0 - v2) ** 2 + config.Delta**2
                 )
 
-                t_i = t[i]
-
                 cos_theta_i = (config.Delta**2) / abs_n_i
 
-                t_prime[i] = t_i / cos_theta_i
+                t_prime[x, y, j] = t[x, y, j] / cos_theta_i
 
     return t_prime

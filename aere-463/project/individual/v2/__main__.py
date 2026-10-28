@@ -1,16 +1,17 @@
 import openmdao.api as om
 import config
 import methods
+import meshes
 
 
 class MassComponent(om.ExplicitComponent):
     def setup(self):
-        self.add_input("v", shape=config.n_vertices)
-        self.add_input("t", shape=config.n_triangles)
+        self.add_input("v", shape=(config.N + 1, config.M + 1))
+        self.add_input("t", shape=(config.N, config.M, 2))
 
         self.add_output("m", shape=1)
         self.add_output("gamma", shape=1)
-        self.add_output("t_prime", shape=config.n_triangles)
+        self.add_output("t_prime", shape=(config.N, config.M, 2))
 
     def setup_partials(self):
         self.declare_partials("*", "*", method="fd")
@@ -35,7 +36,7 @@ model.add_subsystem("mass_component", MassComponent(), promotes=["*"])
 problem = om.Problem(model)
 problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
 
-problem.model.add_design_var("v", lower=0.0, ref=1.0)
+problem.model.add_design_var("v", lower=meshes.min_v, ref=1.0)
 problem.model.add_design_var("t", lower=0.0, ref=config.t_effective)
 
 problem.model.add_constraint(
@@ -46,7 +47,7 @@ problem.model.add_objective("m")
 
 problem.setup()
 
-problem.set_val("v", 100 / 1000)
+problem.set_val("v", 0.020)
 problem.set_val("t", config.t_effective)
 
 problem.run_driver()
