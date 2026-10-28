@@ -37,7 +37,7 @@ def plate_mass(v, t):
 
 
 def wall_segment_mass(v0, v1):
-    return 0.5 * config.t_w * config.rho * (v0 + v1) * config.Delta
+    return 0.5 * config.t_wall * config.rho * (v0 + v1) * config.Delta
 
 
 def wall_mass(v):
