@@ -1,7 +1,7 @@
 import openmdao.api as om
 import config
 import methods
-import meshes
+import plot
 
 
 class MassComponent(om.ExplicitComponent):
@@ -36,7 +36,8 @@ model.add_subsystem("mass_component", MassComponent(), promotes=["*"])
 problem = om.Problem(model)
 problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
 
-problem.model.add_design_var("v", lower=meshes.min_v, ref=1.0)
+
+problem.model.add_design_var("v", lower=0.0, ref=1.0)
 problem.model.add_design_var("t", lower=0.0, ref=config.t_effective)
 
 problem.model.add_constraint(
@@ -47,14 +48,9 @@ problem.model.add_objective("m")
 
 problem.setup()
 
-problem.set_val("v", 0.020)
-problem.set_val("t", config.t_effective)
+problem.set_val("v", 1)
+problem.set_val("t", config.t_effective * 2)
 
 problem.run_driver()
 
-print("m", problem.get_val("m")[0])
-print("v", problem.get_val("v"))
-print("t", problem.get_val("t"))
-
-# problem.model.list_inputs()
-# problem.model.list_outputs()
+plot.plot_mesh(problem.get_val("v"), problem.get_val("t"))
