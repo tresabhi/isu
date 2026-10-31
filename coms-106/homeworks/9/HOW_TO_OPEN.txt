@@ -1,0 +1,21 @@
+JavaJam Coffee Bar — Chapter 8 Solution
+=======================================
+
+HOW TO OPEN
+1. Extract/unzip JavaJam_Chapter_8_Solution.zip.
+2. Open the JavaJam_Chapter_8_Solution folder.
+3. Double-click menu.html to view the completed Chapter 8 Menu page.
+4. For the Home page, double-click index.html.
+
+Do not move individual HTML files outside this folder, as they use relative paths
+to JavaJam's stylesheet and images.
+
+WHAT CHANGED FROM THE UPLOADED CHAPTER 7 STARTER
+- javajam.css: Added table, td/th, and odd-row styles ABOVE @media blocks.
+- menu.html: Replaced the three menu sections with a three-row, two-column table.
+- Removed the now-unneeded #flow wrapper from menu.html so the table's
+  90% width and centered margin behave normally at both screen widths.
+- All other HTML, images, and the existing Chapter 7 stylesheet preserved.
+
+The source starter's SOURCE_NOTES.md documents preexisting image substitutions
+and a Jobs-page placeholder; those are carried over unchanged.

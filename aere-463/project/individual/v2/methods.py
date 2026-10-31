@@ -82,3 +82,40 @@ def effective_thickness(v, t):
                 t_prime[x, y, j] = t[x, y, j] / cos_theta_i
 
     return t_prime
+
+
+def concavity(v):
+    d_xx = v[2:, 1:-1] - 2 * v[1:-1, 1:-1] + v[:-2, 1:-1]
+    d_yy = v[1:-1, 2:] - 2 * v[1:-1, 1:-1] + v[1:-1, :-2]
+
+    is_convex = (d_xx >= 0) & (d_yy >= 0)
+    is_concave = (d_xx <= 0) & (d_yy <= 0)
+
+    print(is_concave)
+
+    return -0.1
+
+
+def _concavity(v):
+    c = 0
+
+    for _x in range(config.N - 1):
+        x = _x + 1
+
+        for _y in range(config.M - 1):
+            y = _y + 1
+
+            v0 = v[x, y]
+
+            d_left = v[x - 1, y] - v0
+            d_right = v[x + 1, y] - v0
+            d_bottom = v[x, y - 1] - v0
+            d_top = v[x, y + 1] - v0
+
+            if d_left > 0 and d_right > 0:
+                c += d_left + d_right
+
+            if d_bottom > 0 and d_top > 0:
+                c += d_bottom + d_top
+
+    return c
