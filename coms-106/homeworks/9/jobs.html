@@ -31,8 +31,32 @@
           application. All information is required.
         </p>
 
-        <form></form>
+        <form
+          method="post"
+          action="https://webdevbasics.net/scripts/javajam8.php"
+        >
+          <label for="myName">Name:</label>
+          <input type="text" name="myName" id="myName" required />
+
+          <label for="myEmail">E-mail:</label>
+          <input type="email" name="myEmail" id="myEmail" required />
+
+          <label for="myStart">Start Date:</label>
+          <input type="date" name="myStart" id="myStart" required />
+
+          <label for="myExperience">Experience:</label>
+          <textarea
+            name="myExperience"
+            id="myExperience"
+            rows="2"
+            cols="20"
+            required
+          ></textarea>
+
+          <input type="submit" id="mySubmit" value="Apply Now" />
+        </form>
       </main>
+
       <footer>Copyright &copy; 2020 JavaJam Coffee Bar</footer>
     </div>
   </body>
