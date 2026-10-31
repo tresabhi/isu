@@ -188,6 +188,26 @@ tr:nth-of-type(odd) {
   background-color: #d2b48e;
 }
 
+#herojobs {
+  height: 300px;
+
+  background-image: url(coffeecup.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1em;
+  width: 80%;
+}
+
+input,
+textarea {
+  margin-bottom: 0.5em;
+}
+
 /* TASK 3: medium viewport (600px and above). */
 @media (min-width: 600px) {
   header {
