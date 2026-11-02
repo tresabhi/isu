@@ -10,7 +10,7 @@ class MassComponent(om.ExplicitComponent):
         self.add_input("t", shape=(config.N, config.M, 2))
 
         self.add_output("m", shape=1)
-        self.add_output("concavity", shape=1)
+        self.add_output("gamma", shape=1)
         self.add_output("t_prime", shape=(config.N, config.M, 2))
 
     def setup_partials(self):
@@ -26,7 +26,7 @@ class MassComponent(om.ExplicitComponent):
         m += methods.wall_mass(v)
 
         outputs["m"] = m
-        outputs["concavity"] = methods.concavity(v)
+        outputs["gamma"] = methods.concavity(v)
         outputs["t_prime"] = methods.effective_thickness(v, t)
 
 
@@ -40,7 +40,7 @@ problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
 problem.model.add_design_var("v", lower=0.0, ref=1.0)
 problem.model.add_design_var("t", lower=0.0, ref=config.t_effective)
 
-problem.model.add_constraint("concavity", upper=0.0)
+problem.model.add_constraint("gamma", upper=0.0)
 problem.model.add_constraint(
     "t_prime", lower=config.t_effective, ref=config.t_effective
 )
