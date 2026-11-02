@@ -16,9 +16,17 @@ Constants:
 
 Design variables:
 
-| Variable | Description                                                                                                                                         |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| $v$      | A $(N+1) \times (M+1)$ matrix representing the depth of each vertex in the $z$ axis, constrained to a grid of fidelity $\Delta$ off the $xy$ plane. |
+| Variable          | Description                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| $v ~ [\text{m}]$  | A $(N+1) \times (M+1)$ matrix representing the depth of each vertex in the $z$ axis, constrained to a grid of fidelity $\Delta$ off the $xy$ plane.                                 |
+| $t ~ [\text{mm}]$ | A $N \times M \times 2$ tensor representing the thickness of every triangle in the armor mesh. Please see the formulation below to see why I am using a tensor instead of a matrix. |
+
+Outputs:
+
+| Variable          | Description                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------- |
+| $m ~ [\text{kg}]$ | A scalar representing the total mass of the plate of armor.                                        |
+| $\gamma$          | A sum of scalars measuring the concavity of the armor when viewed from the negative $z$ direction. |
 
 Constraints:
 
