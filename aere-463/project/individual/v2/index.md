@@ -14,13 +14,17 @@ Though I do not doubt computer-aided optimization has been performed on modern t
 
 Constants:
 
-
-
 Design variables:
 
-| Variable | Description | Constraints |
-| -------- | ----------- | ----------- |
-| $v$ | A $ | |
+| Variable | Description                                                                                                                                         |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| $v$      | A $(N+1) \times (M+1)$ matrix representing the depth of each vertex in the $z$ axis, constrained to a grid of fidelity $\Delta$ off the $xy$ plane. |
+
+Constraints:
+
+| Inequality                   | Description                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| $v_{i, j} \ge v_{i, j, min}$ | The depth for any given vertex of the plate of armor should match or exceed the depth of the internal layout. |
 
 ## Formulation
 
