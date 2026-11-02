@@ -8,16 +8,21 @@ Designing the frontal protection for tanks is not a trivial task, often requirin
 
 My goal is to optimize the armor for the frontal plate of a tank using empirical formulations from the early days of armored vehicles using the modern tools of the computer age.
 
-Though I do not doubt computer-aided optimization has been performed on modern tanks, I highly doubt it is common to combine the seemingly primitive formulations with OpenMDAO. My justification for why my project is unique is that my goal isn't to create the best armor mesh for a battle-ready tank, but to create a good enough, feasible design that a more granular solver could resume from, saving compute.
+Though I do not doubt computer-aided optimization has been performed on modern tanks, I highly doubt it is common to combine primitive WW1 formulations with OpenMDAO. My justification for why my project is unique is that my goal isn't to create the best armor mesh for a battle-ready tank, but to create a good enough, feasible design that a more granular solver could resume from, saving compute overall.
+
+## Literature Review
+
+TODO
 
 ## Nomenclature
 
-| Term  | Definition |
-| ----- | ---------- |
-| Shell |            |
-| Quad  |            |
+| Term     | Definition                                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------------------------- |
+| Shell    | The projectile that is fired from a tank.                                                                           |
+| Quad     | A pair of triangles in a mesh that form a rectangle. In my project, they always for a square. There's $NM$ of them. |
+| Triangle | In this context, a triangle is identical to the one from computer graphics. There's $2NM$ of them.                  |
 
-## Method
+## Technical Approach
 
 ### Constants
 
@@ -61,6 +66,36 @@ Though I do not doubt computer-aided optimization has been performed on modern t
 
 ### Objective Function
 
+The optimizer must minimize $m$, the total mass of the armor by perturbing $v$ and $t$, given constraints on their minimum depths and required effective thicknesses, using OpenMDAO. The optimizer will be aided with a $\gamma$ term to gently guide the solver towards a convex solution.
+
+Though it is common to use $\text{mm}$ and $\text{m}$ together in this field, everything in my work will be normalized to just $\text{m}$, with `ref` values passed into the solver to help it scale the values better.
+
 ## Formulation
 
+### Mesh Grid
+
+The plate of armor will be split into quads across a $N \times M$ grid, spaced apart by $\Delta$, split into triangles, all formed by vertices that can be perturbed in just the $z$ axis, normal to the screen. The total width and height of the plate of armor will be $w$ and $h$ respectively.
+
+![](https://i.imgur.com/cPmccMj.png)
+
+In my code, $N$, $M$, and $w$ are well defined. The rest must be recovered, starting off with the resolution $\Delta$:
+
+$$
+\Delta = \frac{w}{N}
+$$
+
+From this, the height can be calculated, assuming a perfectly square quad:
+
+$$
+h = M \Delta
+$$
+
+### Vertex Depths
+
+## Code
+
 ## Results
+
+## Discussion
+
+## Summary
