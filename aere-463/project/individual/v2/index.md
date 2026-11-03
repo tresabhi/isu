@@ -193,6 +193,22 @@ $$
 
 $A_i$ as shown here can be used up above for the masses, as discussed previously.
 
+### Concavity
+
+Usually, armor performs best if it is convex as a concave plate of armor would "trap" the shell, causing further damage even after a ricochet.
+
+![](https://i.imgur.com/WTnk0j6.png)
+
+However, the optimizer gets no input in what it means to have a bad ricochet that lands the shell right back into the tank, so it often had a hard time picking between the two designs when on a degenerate critical point.
+
+To nudge it into the right direction, I introduced $\gamma$ to keep track of the sum of the concavity at all points, with a constraint that it be negative:
+
+$$
+\gamma \le 0
+$$
+
+The formulation thus far has been my work. However, my formulation for the curvature always produced edge causes where it'd give the solver a hard time for infliction points. So, I look up a formulation on the internet, which resulted in a very robust equation, thanks to the simplicity of my grid distribution of vertices:
+
 ## Code
 
 ## Results
