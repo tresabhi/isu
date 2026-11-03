@@ -207,7 +207,25 @@ $$
 \gamma \le 0
 $$
 
-The formulation thus far has been my work. However, my formulation for the curvature always produced edge causes where it'd give the solver a hard time for infliction points. So, I look up a formulation on the internet, which resulted in a very robust equation, thanks to the simplicity of my grid distribution of vertices:
+The formulation thus far has been my work. However, my formulation for the curvature always produced edge causes where it'd give the solver a hard time for infliction points. So, I look up a formulation on the internet, which resulted in a very robust equation, thanks to the simplicity of my grid distribution of vertices.
+
+$$
+\frac{\partial^2 v}{\partial x^2} \approx \frac{v_{i+1,j} - 2 v_{i,j} + v_{i-1,j}}{\Delta^2} \qquad
+\frac{\partial^2 v}{\partial y^2} \approx \frac{v_{i,j+1} - 2 v_{i,j} + v_{i,j-1}}{\Delta^2}
+$$
+
+$$
+d_{xx,i,j} = v_{i+1,j} - 2 v_{i,j} + v_{i-1,j} \\
+d_{yy,i,j} = v_{i,j+1} - 2 v_{i,j} + v_{i,j-1}
+$$
+
+$$
+d_{xx,i,j} = 2\left(\frac{v_{i+1,j} + v_{i-1,j}}{2} - v_{i,j}\right)
+$$
+
+$$
+\gamma = \sum_{i=1}^{N-1} \sum_{j=1}^{M-1} \left[ \max(d_{xx,i,j}, 0) + \max(d_{yy,i,j}, 0) \right]
+$$
 
 ## Code
 
