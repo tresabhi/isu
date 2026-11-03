@@ -10,6 +10,8 @@ My goal is to optimize the armor for the frontal plate of a tank using empirical
 
 Though I do not doubt computer-aided optimization has been performed on modern tanks, I highly doubt it is common to combine primitive WW1 formulations with OpenMDAO. My justification for why my project is unique is that my goal isn't to create the best armor mesh for a battle-ready tank, but to create a good enough, feasible design that a more granular solver could resume from, saving compute overall.
 
+In the process, I have come up with a unique set of novel formulations that I don't believe have been combined together in this manner. The meat of this project is the formulation itself. I highly encourage giving it an earnest read as I am quite proud of the organic nature of the results that stem from it.
+
 ## Literature Review
 
 TODO
@@ -89,6 +91,8 @@ From this, the height can be calculated, assuming a perfectly square quad:
 $$
 h = M \Delta
 $$
+
+Each pair of triangles will be stored as 2 components of each element of a $N \times M$ matrix. So, really, it's a $N \times M \times 2$ tensor. In my experience, flattening this out made my code unnecessarily complex.
 
 ### Vertex Depths
 
