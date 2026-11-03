@@ -92,6 +92,42 @@ $$
 
 ### Vertex Depths
 
+Every vertex of the mesh is a controllable node. However, the axis of perturbation will be limited to just the $z$ axis while the $x$ and $y$ components of the vertices are determined by the resolution of the mesh, aligned to a uniform grid.
+
+![](https://i.imgur.com/lKGBVUQ.png)
+
+### Armor Mass
+
+For every triangle, a thickness will be computable. An increase in thickness improves the effectiveness of the armor, but at the expense of increasing the mass. The mass is given by a product of the area of the triangle and its thickness, giving us the volume, which is then multiplied to the density:
+
+$$
+m_i = \rho A_i t_i
+$$
+
+Computing $A_i$ for a triangle will be discussed later.
+
+![](https://i.imgur.com/mIjqAld.png)
+
+### Wall Mass
+
+To discourage the optimizer from infinitely expanding the armor forwards, away from the tank as it wrestles with optimization, the total mass will also include the mass of the walls.
+
+For every pair of vertices on the edge of the block of armor, a wall mass will be computed, using a thickness $t_w$. Similar to before, the volume of this trapezoid will be its area times its thickness times the density. The thickness of the side walls is constant:
+
+$$
+m_j = \rho \frac{v_0 + v_1}{2} t_\text{wall} \Delta = \frac{1}{2} \rho (v_0 + v_1) t_\text{wall} \Delta
+$$
+
+![](https://i.imgur.com/SdHspWx.png)
+
+### Total Mass
+
+The total mass is the sum of every triangle and trapezoid from the frontal armor and the side walls respectively:
+
+$$
+m = \sum m_i + \sum m_j
+$$
+
 ## Code
 
 ## Results
