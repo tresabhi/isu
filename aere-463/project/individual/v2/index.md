@@ -209,23 +209,39 @@ $$
 
 The formulation thus far has been my work. However, my formulation for the curvature always produced edge causes where it'd give the solver a hard time for infliction points. So, I look up a formulation on the internet, which resulted in a very robust equation, thanks to the simplicity of my grid distribution of vertices.
 
+For a smooth surface $z = v(x, y)$, concavity is described by the second derivatives $\partial^2 v / \partial x^2$ and $\partial^2 v / \partial y^2$. My surface is sampled on a uniform grid with spacing $\Delta$, so these are approximated with central finite differences. For an interior vertex $(i, j)$:
+
 $$
 \frac{\partial^2 v}{\partial x^2} \approx \frac{v_{i+1,j} - 2 v_{i,j} + v_{i-1,j}}{\Delta^2} \qquad
 \frac{\partial^2 v}{\partial y^2} \approx \frac{v_{i,j+1} - 2 v_{i,j} + v_{i,j-1}}{\Delta^2}
 $$
+
+Because $\Delta$ is constant across the whole mesh, it can be factored out and absorbed into the weighting of the term. I therefore define the unscaled second differences:
 
 $$
 d_{xx,i,j} = v_{i+1,j} - 2 v_{i,j} + v_{i-1,j} \\
 d_{yy,i,j} = v_{i,j+1} - 2 v_{i,j} + v_{i,j-1}
 $$
 
+These are only defined for interior vertices, $1 \le i \le N-1$ and $1 \le j \le M-1$, since boundary vertices lack a neighbor on one side. Boundary vertices are already controlled by the minimum depth constraint and the wall mass.
+
+Each second difference compares a vertex to the average of its two neighbors:
+
 $$
 d_{xx,i,j} = 2\left(\frac{v_{i+1,j} + v_{i-1,j}}{2} - v_{i,j}\right)
 $$
 
+- $d > 0$: the vertex sits behind the midpoint of its neighbors, forming a valley. This is concave, and it traps shells.
+- $d < 0$: the vertex sits in front of the midpoint of its neighbors, forming a ridge. This is convex, and it deflects shells.
+- $d = 0$: the vertex lies on the line between its neighbors, which is locally flat.
+
+Only concave (positive) contributions should be penalized, so convexity is not punished. Negative values are clipped with $\max(\cdot, 0)$, the same hinge used in a ReLU, and the results are summed over every interior vertex and both axes:
+
 $$
 \gamma = \sum_{i=1}^{N-1} \sum_{j=1}^{M-1} \left[ \max(d_{xx,i,j}, 0) + \max(d_{yy,i,j}, 0) \right]
 $$
+
+This did initially feel like a hack, but this "nudging" produced some seriously jaw-dropping results, so it is here to stay.
 
 ## Code
 
