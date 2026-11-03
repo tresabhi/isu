@@ -128,6 +128,71 @@ $$
 m = \sum m_i + \sum m_j
 $$
 
+### Effective Thickness
+
+The thickness of every plate of armor does not paint the full picture. The angle the plate lies with respect to the oncoming shell changes the "effective" thickness observed by the shell. In other words, the effective thickness of a plate of armor grows when it is angled. Mass can be saved by angling a plate of armor and reducing its nominal thickness to achieve the same effective thickness at a lower mass deficit:
+
+![](https://i.imgur.com/Raz5oHM.png)
+
+The effective thickness for an armor plate of thickness $t_i$ is:
+
+$$
+\cos \theta_i = \frac{t_i}{t_i'} \implies t_i' = \frac{t_i}{\cos \theta_i}
+$$
+
+An equation for $\theta_i$ is needed. Thankfully, this is a well known and solved problem in computer graphics. We define our vertices in a counter-clockwise fashion on the $xy$ plane with extrusion happening along the $z$ axis:
+
+![](https://i.imgur.com/A3DtI8M.png)
+
+This lets us define the positions of our vertices in the standard winding order in computer graphics:
+
+$$
+(0, 0, v_0) \\
+(\Delta, 0, v_1) \\
+(0, \Delta, v_2) \\
+$$
+
+We can use the edges of this triangle to get a normal vector. Those edges are:
+
+$$
+(0, 0, v_0) - (\Delta, 0, v_1) = (-\Delta, 0, v_0 - v_1) \\
+(0, \Delta, v_2) - (\Delta, 0, v_1) = (-\Delta, \Delta, v_2 - v_1)
+$$
+
+A straight forward cross product can be used to get a normal vector:
+
+$$
+\vec{n}
+= (-\Delta, \Delta, v_2 - v_1) \times (-\Delta, 0, v_0 - v_1)
+= \left( (v_0 - v_1) \Delta, ~ (v_0 - v_2) \Delta, ~ \Delta^2 \right)
+$$
+
+Since we're evaluating the performance for a head-on confrontation, the incoming shells will follow a path parallel to the $z$ axis. Thus our normal vector to use for the dot product when computing $\theta$ will be $\hat{k} = \left( 0, 0, 1 \right)$:
+
+$$
+\cos \theta = \frac{\vec{n}}{|\vec{n}|} \cdot \hat{k} = \frac{\vec{n} \cdot \hat{k}}{|\vec{n}|}
+$$
+
+The dot product with $\hat{k}$ in the numerator strips the everything but the $z$ component:
+
+$$
+\cos \theta_i = \frac{\Delta^2}{|\vec{n}_i|}
+$$
+
+And here, $|\vec{n}_i|$ of course is:
+
+$$
+|\vec{n}_i| = \sqrt{(v_0 - v_1)^2 \Delta^2 + (v_0 - v_2)^2 \Delta^2 + \Delta^4} = \Delta \sqrt{(v_0 - v_1)^2 + (v_0 - v_2)^2 + \Delta^2}
+$$
+
+Another property of the cross product is of course the area of the prism that it forms, half of which is the area of the triangle:
+
+$$
+A_i = \frac{|\vec{n}_i|}{2}
+$$
+
+$A_i$ as shown here can be used up above for the masses, as discussed previously.
+
 ## Code
 
 ## Results
