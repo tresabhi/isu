@@ -26,14 +26,14 @@ class AeroOptimization(om.ExplicitComponent):
         global last_method
 
         alpha = inputs["alpha"][0]
-        Gamma = 0
-        theta_tip = 0
-        c_root = 1
-        c_tip = 1
+        Gamma = inputs["Gamma"][0]
+        theta_tip = inputs["theta_tip"][0]
+        c_root = inputs["c_root"][0]
+        c_tip = inputs["c_tip"][0]
 
         X = [alpha, Gamma, theta_tip, c_root, c_tip]
 
-        C_L, C_D, V, last_method = solver.Solve(airfoils.naca0012, X)
+        C_L, C_D, V, last_method = solver.Solve(airfoils.naca641212, X)
         _lambda = c_tip / c_root
 
         outputs["C_L"] = C_L
