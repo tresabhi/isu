@@ -98,3 +98,6 @@
 	path = aere-361/labs/12
 	url = https://github.com/tresabhi/isu-aere-361-lab-12.git
 	branch = develop
+[submodule "aere-364/labs/5"]
+	path = aere-364/labs/5
+	url = https://github.com/tresabhi/isu-aere-364-lab-5
