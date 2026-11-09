@@ -205,7 +205,7 @@ Usually, armor performs best if it is convex as a concave plate of armor would "
 
 However, the optimizer gets no input in what it means to have a bad ricochet that lands the shell right back into the tank, so it often had a hard time picking between the two designs when on a degenerate critical point.
 
-To nudge it into the right direction, I introduced $\gamma$ to keep track of the sum of the concavity at all points, with a constraint that it be negative:
+To nudge it into the right direction, I introduced $\gamma$ to keep track of the sum of the concavity at all points, with a constraint that it be negative to encourage convexity:
 
 $$
 \gamma \le 0
@@ -245,9 +245,86 @@ $$
 \gamma = \sum_{i=1}^{N-1} \sum_{j=1}^{M-1} \left[ \max(d_{xx,i,j}, 0) + \max(d_{yy,i,j}, 0) \right]
 $$
 
-This did initially feel like a hack, but this "nudging" produced some seriously jaw-dropping results, so it is here to stay.
-
 ## Code
+
+I split up my code across many files to ensure ease of understanding. Starting with `__main__.py`, it handles the OpenMDAO optimization:
+
+```py
+import openmdao.api as om
+import config
+import methods
+import plot
+
+
+class MassComponent(om.ExplicitComponent):
+    def setup(self):
+        self.add_input("v", shape=(config.N + 1, config.M + 1))
+        self.add_input("t", shape=(config.N, config.M, 2))
+
+        self.add_output("m", shape=1)
+        self.add_output("gamma", shape=1)
+        self.add_output("t_prime", shape=(config.N, config.M, 2))
+
+    def setup_partials(self):
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs):
+        v = inputs["v"]
+        t = inputs["t"]
+
+        m = 0
+
+        m += methods.plate_mass(v, t)
+        m += methods.wall_mass(v)
+
+        outputs["m"] = m
+        outputs["gamma"] = methods.concavity(v)
+        outputs["t_prime"] = methods.effective_thickness(v, t)
+
+
+model = om.Group()
+model.add_subsystem("mass_component", MassComponent(), promotes=["*"])
+
+problem = om.Problem(model)
+problem.driver = om.ScipyOptimizeDriver(optimizer="SLSQP")
+
+
+problem.model.add_design_var("v", lower=0.0, ref=1.0)
+problem.model.add_design_var("t", lower=0.0, ref=config.t_effective)
+
+problem.model.add_constraint("gamma", upper=0.0)
+problem.model.add_constraint(
+    "t_prime", lower=config.t_effective, ref=config.t_effective
+)
+
+problem.model.add_objective("m")
+
+problem.setup()
+
+problem.set_val("v", 1)
+problem.set_val("t", config.t_effective * 2)
+
+problem.run_driver()
+
+plot.plot_mesh(problem.get_val("v"), problem.get_val("t"))
+x
+```
+
+Another fundamental file in this project is `config.py` which stores a lot of my constants, all stored as scalars or base-SI units:
+
+```py
+N = 15  # horizontal node count [1]
+M = 10  # vertical node count [1]
+
+w = 3  # width [m]
+Delta = w / N  # node spacing [m]
+h = Delta * M  # height [m]
+
+rho = 7850  # metal density [kg/m^3]
+
+t_effective = 120 / 1000  # frontal effective thickness
+t_wall = 5 / 1000  # side wall thickness [m]
+```
 
 ## Results
 
