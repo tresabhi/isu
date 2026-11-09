@@ -26,7 +26,7 @@ def plot_mesh(v, t, show_walls=True, z_exaggeration=1.0, v_decimals=4, t_decimal
             vals.append(t[ix, iy, 1])
 
     # fixed scale: 0 thickness = green, t_effective (or more) = red
-    norm = colors.Normalize(vmin=np.min(vals), vmax=config.t_effective, clip=True)
+    norm = colors.Normalize(vmin=0.0, vmax=config.t_effective, clip=True)
     cmap = cm.RdYlGn_r  # green -> yellow -> red
 
     fig = plt.figure(figsize=(9, 6))
@@ -38,7 +38,7 @@ def plot_mesh(v, t, show_walls=True, z_exaggeration=1.0, v_decimals=4, t_decimal
             facecolors=cmap(norm(vals)),
             edgecolors="k",
             linewidths=0.8,
-            alpha=0.95,
+            alpha=1.0,
         )
     )
 
