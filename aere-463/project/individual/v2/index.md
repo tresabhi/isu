@@ -510,6 +510,10 @@ def plot_mesh(v, t, show_walls=True, z_exaggeration=1.0, v_decimals=4, t_decimal
 
 ## Results
 
+The result of the optimization is displayed as a 3D plot of a mesh made of triangles. The depth in the $z$ axis for all vertices is displayed vertically, but in reality, the top surface of the mesh faces forwards, towards the shooting opponent.
+
+Every triangle is colored in from green to red, representing $0\text{mm}$ of armor to $t_\text{effective}$, respectively. The more angled a triangle of armor is, generally speaking, it will be thinner, making it more yellow.
+
 ### Baseline Design
 
 Initially, the optimizer is given a mesh with all depths at $1\text{m}$ and all thicknesses at $t_i = t_\text{effective}$. This is technically a feasible design since all triangles, normal to the $z$ axis, are effectively $t_\text{effective} \cos 0 = t_\text{effective}$ thick.
@@ -518,7 +522,13 @@ Initially, the optimizer is given a mesh with all depths at $1\text{m}$ and all 
 
 ### Optimized Design
 
-Running the script as is, generates
+Running the script, generates a very rounded design:
+
+![](https://i.imgur.com/nQxYTCP.png)
+
+A top view reveals the natural symmetry the optimizer found:
+
+![](https://i.imgur.com/OJC9cqW.png)
 
 ## Discussion
 
