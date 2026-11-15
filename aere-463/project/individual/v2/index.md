@@ -532,4 +532,6 @@ A top view reveals the natural symmetry the optimizer found:
 
 ## Discussion
 
+Expectedly, the optimizer has very aggressively minimized the vertex depths of all wall segments down to $0\text{m}$. 
+
 ## Summary
