@@ -208,6 +208,11 @@ textarea {
   margin-bottom: 0.5em;
 }
 
+audio {
+  display: block;
+  margin-top: 1em;
+}
+
 /* TASK 3: medium viewport (600px and above). */
 @media (min-width: 600px) {
   /* CHAPTER 9, TASK 2.3: wider-screen form and hero. */
