@@ -550,7 +550,7 @@ A top view reveals the natural symmetry the optimizer found:
 
 ![](https://i.imgur.com/OJC9cqW.png)
 
-We've brought down the mass to $m = 5652 \text{kg}$
+We've brought down the mass to $m = 5652 \text{kg}$, or $5.7\text{t}$. Compare that to the composite material based frontal armor mass of the M1 Abrams MBT, sitting at $2.6\text{t}$.
 
 ## Discussion
 
