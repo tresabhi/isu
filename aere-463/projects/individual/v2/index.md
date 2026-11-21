@@ -42,7 +42,7 @@ For the vertices on the edges, they form walls going down to $z = 0$. Modeled as
 
 Finally, a concavity value $\gamma$ is computed, the rationale for which is discussed in the **Concavity** section below.
 
-The OpenMDAO loop minimizes $m$ by perturbing $v_i$ and $t_i$, influenced by $\gamma$ to form a feasible design, while maintaining $t_i \ge t_\text{effective}$ for all triangles and $v_i \ge 0$ for all vertices. The optimizer can benefit from increasing the angle of the armor triangles, allowing their nominal thicknesses to be reduced while maintaining a greater effective thickness through the increased angling. But angling only gets you so much mass saving before it starts increasing mass again.
+The OpenMDAO loop minimizes $m$ by perturbing $v_i$ and $t_i$, influenced by $\gamma$ to form a feasible design, while maintaining $t'_i \ge t_\text{effective}$ for all triangles and $v_i \ge 0$ for all vertices. The effective thickness $t'$ may not be equal to $t$ as angling a plate of armor increases it by $1 / \cos \theta$. The optimizer can benefit from increasing the angle of the armor triangles, allowing their nominal thicknesses to be reduced while maintaining a greater effective thickness through the increased angling. But angling only gets you so much mass saving before it starts increasing mass again.
 
 ### Constants
 
@@ -64,11 +64,10 @@ The OpenMDAO loop minimizes $m$ by perturbing $v_i$ and $t_i$, influenced by $\g
 
 ### Design Variables
 
-| Variable           | Description                                                                                                                                                                         |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| $v ~ [\text{m}]$   | A $(N+1) \times (M+1)$ matrix representing the depth of each vertex in the $z$ axis, constrained to a grid of fidelity $\Delta$ off the $xy$ plane.                                 |
-| $t ~ [\text{mm}]$  | A $N \times M \times 2$ tensor representing the thickness of every triangle in the armor mesh. Please see the formulation below to see why I am using a tensor instead of a matrix. |
-| $t' ~ [\text{mm}]$ | A $N \times M \times 2$ tensor representing the effective thickness of every triangle in the armor mesh from the perspective of a shell traveling in the negative $z$ direction.    |
+| Variable          | Description                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| $v ~ [\text{m}]$  | A $(N+1) \times (M+1)$ matrix representing the depth of each vertex in the $z$ axis, constrained to a grid of fidelity $\Delta$ off the $xy$ plane.                                 |
+| $t ~ [\text{mm}]$ | A $N \times M \times 2$ tensor representing the thickness of every triangle in the armor mesh. Please see the formulation below to see why I am using a tensor instead of a matrix. |
 
 ### Outputs
 
@@ -82,6 +81,7 @@ The OpenMDAO loop minimizes $m$ by perturbing $v_i$ and $t_i$, influenced by $\g
 | Inequality                   | Description                                                                                                                                                                                         |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | $v_{i, j} \ge v_{i, j, min}$ | The depth for any given vertex of the plate of armor should match or exceed the depth of the internal layout.                                                                                       |
+| $t' \ge t_\text{effective}$  | A $N \times M \times 2$ tensor representing the effective thickness of every triangle in the armor mesh from the perspective of a shell traveling in the negative $z$ direction.                    |
 | $\gamma \le 0$               | Negative concavity encourages the solver to produce a convex design which is a desirable characteristic for the frontal armor of a tank. Please see formulation for more information on this topic. |
 
 ### Objective Function
