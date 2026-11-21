@@ -534,13 +534,15 @@ Every triangle is colored in from green to red, representing $0\text{mm}$ of arm
 
 ### Baseline Design
 
-Initially, the optimizer is given a mesh with all depths at $1\text{m}$ and all thicknesses at $t_i = t_\text{effective}$. This is technically a feasible design since all triangles, normal to the $z$ axis, are effectively $t_\text{effective} \cos 0 = t_\text{effective}$ thick.
+Initially, the optimizer is given a mesh with all depths at $1\text {m}$ and all thicknesses at $t_i = t_\text{effective}$. This is technically a feasible design since all triangles, normal to the $z$ axis, are effectively $t_\text{effective} \cos 0 = t_\text{effective}$ thick, but we can do _a lot better_.
+
+The mass here is $11697 \text{kg}$, or $11.7\text{t}$, for just the frontal armor of the hull! For perspective, the mass of the M1 Abrams MBT in _total_ is $66.8\text{t}$. Even for a tank with more of a comparable era and design like the B.U.G.I had a total mass of $29.2\text{t}$.
 
 ![](https://i.imgur.com/HoAQvKQ.png)
 
 ### Optimized Design
 
-Running the script, generates a very rounded design:
+Running the script, generates a very rounded design. However, the smoothness has nothing to do with the convexity constraint as that just stops it from being concave. The smoothness arrives from the need of the triangles to share a low variance of normal vectors across neighbors to reduce mass:
 
 ![](https://i.imgur.com/nQxYTCP.png)
 
@@ -548,8 +550,12 @@ A top view reveals the natural symmetry the optimizer found:
 
 ![](https://i.imgur.com/OJC9cqW.png)
 
+We've brought down the mass to $m = 5652 \text{kg}$
+
 ## Discussion
 
-Expectedly, the optimizer has very aggressively minimized the vertex depths of all wall segments down to $0\text{m}$.
+Expectedly, the optimizer has very aggressively minimized the vertex depths of all wall segments down to $0\text{m}$. That's a $51.68\%$ improvement!
+
+However, this is no reason to celebrate such a high number as the initial design was purely created as a basis for the optimizer. No intuition based design was utilized to create a compliant and _good_ initial design.
 
 ## Summary

@@ -25,6 +25,8 @@ class MassComponent(om.ExplicitComponent):
         m += methods.plate_mass(v, t)
         m += methods.wall_mass(v)
 
+        print(m)
+
         outputs["m"] = m
         outputs["gamma"] = methods.concavity(v)
         outputs["t_prime"] = methods.effective_thickness(v, t)
