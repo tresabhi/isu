@@ -8,13 +8,15 @@ Designing the frontal protection for tanks is not a trivial task, often requirin
 
 My goal is to optimize the armor for the frontal plate of a tank using empirical formulations from the early days of armored vehicles using the modern tools of the computer age.
 
-Though I do not doubt computer-aided optimization has been performed on modern tanks, I highly doubt it is common to combine primitive WW1 formulations with OpenMDAO. My justification for why my project is unique is that my goal isn't to create the best armor mesh for a battle-ready tank, but to create a good enough, feasible design that a more granular solver could resume from, saving compute overall.
+Though I do not doubt computer-aided optimization has been performed on modern tanks, I highly doubt it is common to combine empirical WW1 formulations with OpenMDAO. My justification for why my project is unique is that my goal isn't to create the best armor mesh for a battle-ready tank, but to create a good enough, feasible design that a more granular solver could resume from, saving compute overall.
 
 In the process, I have come up with a unique set of novel formulations that I don't believe have been combined together in this manner. The meat of this project is the formulation itself. I highly encourage giving it an earnest read as I am quite proud of the organic nature of the results that stem from it.
 
 ## Literature Review
 
 TODO
+
+> A “Literature Review” section of any relevant studies done in the past.
 
 ## Nomenclature
 
@@ -25,6 +27,22 @@ TODO
 | Triangle | In this context, a triangle is identical to the one from computer graphics. There's $2NM$ of them.                  |
 
 ## Technical Approach
+
+This project was optimized using a classic OpenMDAO script.
+
+The frontal armor of the hull of the tank has been simplified into a grid of vertices. On the $x$ and $y$ axis, the $(N + 1) \times (M + 1)$ vertices are spaced evenly by $\Delta$. That leaves their depths in the $z$ axis as the only design variable, denoted by $v_i$. These depths are stored in a $(N + 1) \times (M + 1)$ matrix.
+
+Every set of $4$ vertices forms a square (of which there are $NM$), but are called a quad in this project, stemming from the nomenclature of computer graphics, from which this project borrows a significant amount of inspiration. Each quad is split into $2$ triangles.
+
+Each of the $2NM$ triangles has a thickness associated with them, representing the thickness of the plate of armor normal to that triangle, called $t_i$. These design variable thicknesses, for convenience of compute, are stored in a $N \times M \times 2$ tensor where the first two dimensions fetch the quad, and the last dimension discriminates the bottom left and top right triangles.
+
+Given the vertex depths, the area of each triangle is computed and then multiplied to their thicknesses to get their volumes. The volumes, in combination with the density of steel, when all summed up together, gives us the mass $m$, our objective function to minimize.
+
+For the vertices on the edges, they form walls going down to $z = 0$. Modeled as trapezoids, they similarly have masses computed for them, added onto $m$, with a predetermined thickness $t_\text{wall}$.
+
+Finally, a concavity value $\gamma$ is computed, the rationale for which is discussed in the **Concavity** section below.
+
+The OpenMDAO loop minimizes $m$ by perturbing $v_i$ and $t_i$, influenced by $\gamma$ to form a feasible design, while maintaining $t_i \ge t_\text{effective}$ for all triangles and $v_i \ge 0$ for all vertices. The optimizer can benefit from increasing the angle of the armor triangles, allowing their nominal thicknesses to be reduced while maintaining a greater effective thickness through the increased angling. But angling only gets you so much mass saving before it starts increasing mass again.
 
 ### Constants
 
@@ -532,6 +550,6 @@ A top view reveals the natural symmetry the optimizer found:
 
 ## Discussion
 
-Expectedly, the optimizer has very aggressively minimized the vertex depths of all wall segments down to $0\text{m}$. 
+Expectedly, the optimizer has very aggressively minimized the vertex depths of all wall segments down to $0\text{m}$.
 
 ## Summary
